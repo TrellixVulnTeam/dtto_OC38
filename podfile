@@ -1,0 +1,31 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'Bounce' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Bounce
+  pod 'Firebase'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+
+  # Social Login
+  pod 'Google/SignIn'
+  pod 'FBSDKLoginKit'
+
+  # UI Tweaks
+  pod 'Koloda', :git => 'https://github.com/Yalantis/Koloda', :branch => 'swift-3'
+  pod 'SkyFloatingLabelTextField', :git => 'https://github.com/MLSDev/SkyFloatingLabelTextField', :branch => 'swift3'
+  
+  target 'BounceTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'BounceUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

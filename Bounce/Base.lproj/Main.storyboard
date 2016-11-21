@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="r6o-gq-yOg">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Home-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="Home" id="BYZ-38-t0r" customClass="Home" customModule="Mock" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EYY-4h-Y6a" customClass="KolodaView" customModule="Koloda">
+                                <rect key="frame" x="10" y="74" width="355" height="493"/>
+                                <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FWE-DC-cih">
+                                <rect key="frame" x="39.5" y="587" width="296" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naM-cK-5J7" customClass="CircleButton" customModule="Mock" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="6" width="48" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="naM-cK-5J7" secondAttribute="height" multiplier="1:1" id="wSF-Ba-L9d"/>
+                                        </constraints>
+                                        <state key="normal" image="undoNormal"/>
+                                        <connections>
+                                            <action selector="pressedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1HO-zg-qra"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lZE-TC-P0s" customClass="CircleButton" customModule="Mock" customModuleProvider="target">
+                                        <rect key="frame" x="78" y="0.0" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="1fs-Af-HbP"/>
+                                            <constraint firstAttribute="width" secondItem="lZE-TC-P0s" secondAttribute="height" multiplier="1:1" id="dbZ-lt-mKi"/>
+                                        </constraints>
+                                        <color key="tintColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="declineNormal"/>
+                                        <connections>
+                                            <action selector="pressedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IdQ-Di-CSt"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXc-Oc-Ytz" customClass="CircleButton" customModule="Mock" customModuleProvider="target">
+                                        <rect key="frame" x="158" y="0.0" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="QXc-Oc-Ytz" secondAttribute="height" multiplier="1:1" id="4ap-4l-ZGu"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.40784313729999999" green="0.63529411759999999" blue="0.51372549020000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="acceptNormal"/>
+                                        <connections>
+                                            <action selector="pressedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HPZ-mt-pmy"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VwL-1B-dvY" customClass="CircleButton" customModule="Mock" customModuleProvider="target">
+                                        <rect key="frame" x="248" y="6" width="48" height="48"/>
+                                        <state key="normal" title="?"/>
+                                        <connections>
+                                            <action selector="pressedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WmD-li-2Al"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="VwL-1B-dvY" firstAttribute="height" secondItem="naM-cK-5J7" secondAttribute="height" id="3px-ha-jhh"/>
+                                    <constraint firstItem="naM-cK-5J7" firstAttribute="width" secondItem="lZE-TC-P0s" secondAttribute="width" multiplier="0.8" id="DM8-zc-OZJ"/>
+                                    <constraint firstItem="lZE-TC-P0s" firstAttribute="leading" secondItem="naM-cK-5J7" secondAttribute="trailing" constant="30" id="IH0-MS-kDt"/>
+                                    <constraint firstItem="VwL-1B-dvY" firstAttribute="width" secondItem="naM-cK-5J7" secondAttribute="width" id="M4r-5E-wRI"/>
+                                    <constraint firstItem="QXc-Oc-Ytz" firstAttribute="height" secondItem="lZE-TC-P0s" secondAttribute="height" id="Ta9-NO-pXY"/>
+                                    <constraint firstAttribute="height" constant="60" id="dQ4-KG-CLD"/>
+                                    <constraint firstItem="VwL-1B-dvY" firstAttribute="leading" secondItem="QXc-Oc-Ytz" secondAttribute="trailing" constant="30" id="fmY-JA-FRA"/>
+                                    <constraint firstItem="QXc-Oc-Ytz" firstAttribute="leading" secondItem="lZE-TC-P0s" secondAttribute="trailing" constant="20" id="zlb-lb-fab"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="EYY-4h-Y6a" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="Mcd-3C-Q4H"/>
+                            <constraint firstItem="EYY-4h-Y6a" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="QFO-sJ-hCq"/>
+                            <constraint firstItem="FWE-DC-cih" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SaG-f3-Dub"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FWE-DC-cih" secondAttribute="bottom" constant="20" id="fLA-5T-ybn"/>
+                            <constraint firstAttribute="trailing" secondItem="EYY-4h-Y6a" secondAttribute="trailing" constant="10" id="jhA-2q-xhT"/>
+                            <constraint firstItem="FWE-DC-cih" firstAttribute="top" secondItem="EYY-4h-Y6a" secondAttribute="bottom" constant="20" id="n4U-Yq-Myd"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="bSh-rS-1QC"/>
+                    <connections>
+                        <outlet property="acceptButton" destination="QXc-Oc-Ytz" id="m4G-Zq-N3h"/>
+                        <outlet property="declineButton" destination="lZE-TC-P0s" id="FID-zF-ttc"/>
+                        <outlet property="kolodaView" destination="EYY-4h-Y6a" id="R7m-19-QSF"/>
+                        <outlet property="undoButton" destination="naM-cK-5J7" id="bd1-Ef-vAV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1020" y="-591.45427286356824"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="eE8-La-xIh">
+            <objects>
+                <navigationController storyboardIdentifier="HomeNav" automaticallyAdjustsScrollViewInsets="NO" id="r6o-gq-yOg" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ll0-M3-GCH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="BCw-OK-QhI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pSY-hE-fsX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="88.799999999999997" y="-591.45427286356824"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="acceptNormal" width="25" height="25"/>
+        <image name="declineNormal" width="25" height="25"/>
+        <image name="undoNormal" width="25" height="25"/>
+    </resources>
+</document>

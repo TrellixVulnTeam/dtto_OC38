@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Login Home-->
+        <scene sceneID="gv7-MP-GKa">
+            <objects>
+                <viewController storyboardIdentifier="LoginHome" id="Sic-Lf-TaJ" customClass="LoginHome" customModule="Mock" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cOd-UA-ROW"/>
+                        <viewControllerLayoutGuide type="bottom" id="ksQ-lY-1ao"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gq3-P0-4f2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gma-d8-DuJ" customClass="FloatingTextField" customModule="Mock" customModuleProvider="target">
+                                <rect key="frame" x="20" y="111" width="335" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="iconText" value="\u{f0e0}"/>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="abT-9m-RZ1" customClass="FloatingTextField" customModule="Mock" customModuleProvider="target">
+                                <rect key="frame" x="20" y="161" width="335" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bounce" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Os-Of-NG6">
+                                <rect key="frame" x="158" y="40" width="58" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ahO-iv-s2A" customClass="GIDSignInButton">
+                                <rect key="frame" x="20" y="567" width="335" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="g8P-y1-ZHM"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDG-s8-nFq" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="20" y="497" width="335" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="C0W-bF-44i"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="abT-9m-RZ1" secondAttribute="trailing" constant="20" id="4cg-NO-NAv"/>
+                            <constraint firstItem="abT-9m-RZ1" firstAttribute="centerX" secondItem="gq3-P0-4f2" secondAttribute="centerX" id="Btw-sL-Rlj"/>
+                            <constraint firstAttribute="trailing" secondItem="ahO-iv-s2A" secondAttribute="trailing" constant="20" id="PqA-2K-zXz"/>
+                            <constraint firstItem="XDG-s8-nFq" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="TBt-eQ-Eme"/>
+                            <constraint firstItem="Gma-d8-DuJ" firstAttribute="centerX" secondItem="gq3-P0-4f2" secondAttribute="centerX" id="UxK-SO-6XV"/>
+                            <constraint firstAttribute="trailing" secondItem="XDG-s8-nFq" secondAttribute="trailing" constant="20" id="XgT-q3-S1w"/>
+                            <constraint firstItem="ahO-iv-s2A" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="Xh2-uI-Qxq"/>
+                            <constraint firstItem="6Os-Of-NG6" firstAttribute="top" secondItem="cOd-UA-ROW" secondAttribute="bottom" constant="20" id="bdY-Bo-z80"/>
+                            <constraint firstItem="6Os-Of-NG6" firstAttribute="centerX" secondItem="gq3-P0-4f2" secondAttribute="centerX" id="dPo-aj-zYA"/>
+                            <constraint firstItem="ahO-iv-s2A" firstAttribute="top" secondItem="XDG-s8-nFq" secondAttribute="bottom" constant="20" id="gtm-MP-m8t"/>
+                            <constraint firstItem="Gma-d8-DuJ" firstAttribute="top" secondItem="6Os-Of-NG6" secondAttribute="bottom" constant="50" id="hAD-hp-F4l"/>
+                            <constraint firstItem="Gma-d8-DuJ" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="hcE-tA-KF8"/>
+                            <constraint firstItem="abT-9m-RZ1" firstAttribute="top" secondItem="Gma-d8-DuJ" secondAttribute="bottom" constant="20" id="klh-Rd-Fz4"/>
+                            <constraint firstItem="ksQ-lY-1ao" firstAttribute="top" secondItem="ahO-iv-s2A" secondAttribute="bottom" constant="50" id="rsv-qp-IfX"/>
+                            <constraint firstAttribute="trailing" secondItem="Gma-d8-DuJ" secondAttribute="trailing" constant="20" id="w1U-Vd-05C"/>
+                            <constraint firstItem="abT-9m-RZ1" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="xnm-8b-alw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="Gma-d8-DuJ" id="Y1e-BX-Dp5"/>
+                        <outlet property="facebookLoginButton" destination="XDG-s8-nFq" id="rBi-1t-ikg"/>
+                        <outlet property="passwordTextField" destination="abT-9m-RZ1" id="i39-sg-ZiP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hXR-y6-HRH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-324" y="-103"/>
+        </scene>
+    </scenes>
+</document>

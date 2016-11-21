@@ -30,11 +30,8 @@
 		04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459BD1DE15C3D006003DF /* LoginHome.swift */; };
 		04E459C01DE15C3D006003DF /* LoginHome.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BE1DE15C3D006003DF /* LoginHome.xib */; };
 		28DC166C665F928AA6088372 /* Pods_BounceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */; };
-		5DCE5175A310A50674AC17F3 /* Pods_MockTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F04D577368057AFDABDC5FB /* Pods_MockTests.framework */; };
-		6D3B73C7E6FC121E18D6ED91 /* Pods_Mock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C94DEE42930F0FD8201CADE /* Pods_Mock.framework */; };
 		A337F8F8F60A35207990BB24 /* Pods_BounceUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B733A0649D325DDC329C2D5 /* Pods_BounceUITests.framework */; };
 		ED1D2ECCA06C4E8622B19605 /* Pods_Bounce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */; };
-		F7147CA74CB6032CD165B766 /* Pods_MockUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9128D93DECDA2B5CEA997FA /* Pods_MockUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +52,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0326537097F4EA5151455784 /* Pods-MockUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MockUITests/Pods-MockUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		04045C211DDFA010002BBD07 /* Bounce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bounce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04045C241DDFA010002BBD07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04045C291DDFA010002BBD07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -86,21 +82,13 @@
 		04E459BE1DE15C3D006003DF /* LoginHome.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginHome.xib; sourceTree = "<group>"; };
 		04FAE7A11DE296650074CA39 /* Bounce-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bounce-Bridging-Header.h"; sourceTree = "<group>"; };
 		064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bounce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2F04D577368057AFDABDC5FB /* Pods_MockTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MockTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		43782959A3857E8ADF627CC4 /* Pods-MockTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MockTests/Pods-MockTests.debug.xcconfig"; sourceTree = "<group>"; };
 		46164DF9B25AAD27BCCFB351 /* Pods-Bounce.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bounce.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bounce/Pods-Bounce.debug.xcconfig"; sourceTree = "<group>"; };
-		53AF78711DEBF335F2F9784F /* Pods-MockUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MockUITests/Pods-MockUITests.release.xcconfig"; sourceTree = "<group>"; };
-		5D018D917F6A536B7D87A78F /* Pods-Mock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mock.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mock/Pods-Mock.release.xcconfig"; sourceTree = "<group>"; };
 		66A5655F5E418920AF2F3A50 /* Pods-BounceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BounceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BounceTests/Pods-BounceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7B733A0649D325DDC329C2D5 /* Pods_BounceUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BounceUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C94DEE42930F0FD8201CADE /* Pods_Mock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DFA1CE712DC73642348FE02 /* Pods-Bounce.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bounce.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bounce/Pods-Bounce.release.xcconfig"; sourceTree = "<group>"; };
-		8F6AF796637B92309533EB74 /* Pods-MockTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MockTests/Pods-MockTests.release.xcconfig"; sourceTree = "<group>"; };
 		8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BounceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95A82548479929CA98B707FD /* Pods-BounceUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BounceUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BounceUITests/Pods-BounceUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B6546A2000FAF0BC00D408A4 /* Pods-BounceUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BounceUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BounceUITests/Pods-BounceUITests.release.xcconfig"; sourceTree = "<group>"; };
-		C5B8CDACA187B0DC322647FB /* Pods-Mock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mock/Pods-Mock.debug.xcconfig"; sourceTree = "<group>"; };
-		E9128D93DECDA2B5CEA997FA /* Pods_MockUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MockUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBC428A3ECCB2E106C87BA33 /* Pods-BounceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BounceTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BounceTests/Pods-BounceTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,7 +97,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D3B73C7E6FC121E18D6ED91 /* Pods_Mock.framework in Frameworks */,
 				ED1D2ECCA06C4E8622B19605 /* Pods_Bounce.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,7 +105,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DCE5175A310A50674AC17F3 /* Pods_MockTests.framework in Frameworks */,
 				28DC166C665F928AA6088372 /* Pods_BounceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,7 +113,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7147CA74CB6032CD165B766 /* Pods_MockUITests.framework in Frameworks */,
 				A337F8F8F60A35207990BB24 /* Pods_BounceUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,12 +208,6 @@
 		376DC294C578D941E2838B84 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C5B8CDACA187B0DC322647FB /* Pods-Mock.debug.xcconfig */,
-				5D018D917F6A536B7D87A78F /* Pods-Mock.release.xcconfig */,
-				43782959A3857E8ADF627CC4 /* Pods-MockTests.debug.xcconfig */,
-				8F6AF796637B92309533EB74 /* Pods-MockTests.release.xcconfig */,
-				0326537097F4EA5151455784 /* Pods-MockUITests.debug.xcconfig */,
-				53AF78711DEBF335F2F9784F /* Pods-MockUITests.release.xcconfig */,
 				46164DF9B25AAD27BCCFB351 /* Pods-Bounce.debug.xcconfig */,
 				7DFA1CE712DC73642348FE02 /* Pods-Bounce.release.xcconfig */,
 				66A5655F5E418920AF2F3A50 /* Pods-BounceTests.debug.xcconfig */,
@@ -242,9 +221,6 @@
 		D6EA4565AC045B0E0DB5D5E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7C94DEE42930F0FD8201CADE /* Pods_Mock.framework */,
-				2F04D577368057AFDABDC5FB /* Pods_MockTests.framework */,
-				E9128D93DECDA2B5CEA997FA /* Pods_MockUITests.framework */,
 				064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */,
 				8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */,
 				7B733A0649D325DDC329C2D5 /* Pods_BounceUITests.framework */,
