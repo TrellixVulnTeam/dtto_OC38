@@ -17,7 +17,6 @@ class FirebaseService {
     private var FIREBASE_REF = FIRDatabase.database().reference()
     private var CARD_REF = FIRDatabase.database().reference().child("arcana")
 
-//    private var STORAGE_REF = FIRStorage.storage().reference()
     
     func downloadImage(uid: String, sender: AnyObject) {
         

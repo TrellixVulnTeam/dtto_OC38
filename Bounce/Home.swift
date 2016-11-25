@@ -25,6 +25,10 @@ class Home: UIViewController {
     @IBOutlet weak var declineButton: CircleButton!
     @IBOutlet weak var acceptButton: CircleButton!
 
+    @IBAction func logout(_ sender: Any) {
+        try! FIRAuth.auth()!.signOut()
+
+    }
     var people = [Person]()
     var images = [#imageLiteral(resourceName: "profile"), #imageLiteral(resourceName: "roksanaMain"), #imageLiteral(resourceName: "lilicemain")]
     
@@ -103,6 +107,8 @@ extension Home: KolodaViewDelegate {
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
         print("Selected card at index \(index)")
+        // push vc
+        
     }
 }
 

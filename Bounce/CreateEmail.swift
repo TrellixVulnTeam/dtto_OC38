@@ -10,12 +10,37 @@ import UIKit
 
 class CreateEmail: UIViewController {
 
+    @IBOutlet weak var myView: UIView! {
+        didSet {
+            myView.backgroundColor = .white
+            myView.layer.cornerRadius = 5
+        }
+    }
+    
+    @IBOutlet weak var emailTextField: FloatingTextField!
+    
+    @IBOutlet weak var passwordTextField: FloatingTextField!
+    
+    @IBOutlet weak var passwordConfirmTextField: FloatingTextField!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.backgroundColor = .gray
+        
         // Do any additional setup after loading the view.
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        myView.bounceAnimate(withDuration: 0.5)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

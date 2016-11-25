@@ -26,11 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = Color.lightGreen
         UINavigationBar.appearance().barTintColor = .white
         
+        // Login Providers
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        var configureError: NSError?
-        GGLContext.sharedInstance().configureWithError(&configureError)
-        assert(configureError == nil, "Error configuring Google services: \(configureError)")
-        
+        GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         
         let storyboard = UIStoryboard(name: "Login", bundle: nil)
         let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginHome")

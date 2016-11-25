@@ -45,15 +45,6 @@ extension UserDefaults {
         return bool(forKey: "edit")
     }
     
-    func setAbilityIndex(value: Int) {
-        set(value, forKey: "abilityIndex")
-        synchronize()
-    }
-    
-    func abilityIndex() -> Int {
-        return integer(forKey: "abilityIndex")
-    }
-    
     func setRecent(value: [String]) {
         set(value, forKey: "recent")
         synchronize()
@@ -80,15 +71,7 @@ extension UserDefaults {
     func getFavorites() -> [String] {
         return object(forKey: "favorites") as? [String] ?? [String]()
     }
-    
-    func setImagePermissions(value: Bool) {
-        set(value, forKey: "image")
-        synchronize()
-    }
-    
-    func getImagePermissions() -> Bool {
-        return bool(forKey: "image")
-    }
+
     
     func updateVersion() {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {

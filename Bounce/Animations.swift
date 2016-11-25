@@ -40,17 +40,20 @@ public extension UIView {
         }
     }
     
-    func bounceAnimate() {
+    func bounceAnimate(withDuration duration: TimeInterval = 0.5) {
         self.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         
-        UIView.animate(withDuration: 0.4,
+        UIView.animate(withDuration: duration,
                        delay: 0,
-                       usingSpringWithDamping: 0.3,
-                       initialSpringVelocity: 4.0,
+                       usingSpringWithDamping: 0.6,
+                       initialSpringVelocity: 1.0,
                        options: .allowUserInteraction,
                        animations: { [weak self] in
                         self?.transform = .identity
             },
                        completion: nil)
     }
+
+    
+
 }

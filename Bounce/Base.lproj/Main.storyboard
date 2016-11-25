@@ -13,7 +13,7 @@
         <!--Home-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="Home" id="BYZ-38-t0r" customClass="Home" customModule="Mock" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Home" id="BYZ-38-t0r" customClass="Home" customModule="Bounce" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -27,9 +27,9 @@
                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FWE-DC-cih">
-                                <rect key="frame" x="39.5" y="587" width="296" height="60"/>
+                                <rect key="frame" x="40" y="587" width="296" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naM-cK-5J7" customClass="CircleButton" customModule="Mock" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naM-cK-5J7" customClass="CircleButton" customModule="Bounce" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="6" width="48" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="naM-cK-5J7" secondAttribute="height" multiplier="1:1" id="wSF-Ba-L9d"/>
@@ -39,7 +39,7 @@
                                             <action selector="pressedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1HO-zg-qra"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lZE-TC-P0s" customClass="CircleButton" customModule="Mock" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lZE-TC-P0s" customClass="CircleButton" customModule="Bounce" customModuleProvider="target">
                                         <rect key="frame" x="78" y="0.0" width="60" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="1fs-Af-HbP"/>
@@ -51,7 +51,7 @@
                                             <action selector="pressedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IdQ-Di-CSt"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXc-Oc-Ytz" customClass="CircleButton" customModule="Mock" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXc-Oc-Ytz" customClass="CircleButton" customModule="Bounce" customModuleProvider="target">
                                         <rect key="frame" x="158" y="0.0" width="60" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="QXc-Oc-Ytz" secondAttribute="height" multiplier="1:1" id="4ap-4l-ZGu"/>
@@ -62,7 +62,7 @@
                                             <action selector="pressedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HPZ-mt-pmy"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VwL-1B-dvY" customClass="CircleButton" customModule="Mock" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VwL-1B-dvY" customClass="CircleButton" customModule="Bounce" customModuleProvider="target">
                                         <rect key="frame" x="248" y="6" width="48" height="48"/>
                                         <state key="normal" title="?"/>
                                         <connections>
@@ -92,7 +92,13 @@
                             <constraint firstItem="FWE-DC-cih" firstAttribute="top" secondItem="EYY-4h-Y6a" secondAttribute="bottom" constant="20" id="n4U-Yq-Myd"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="bSh-rS-1QC"/>
+                    <navigationItem key="navigationItem" id="bSh-rS-1QC">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="vtt-We-K6G">
+                            <connections>
+                                <action selector="logout:" destination="BYZ-38-t0r" id="GVm-3Z-aZX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="acceptButton" destination="QXc-Oc-Ytz" id="m4G-Zq-N3h"/>
                         <outlet property="declineButton" destination="lZE-TC-P0s" id="FID-zF-ttc"/>
@@ -109,7 +115,7 @@
             <objects>
                 <navigationController storyboardIdentifier="HomeNav" automaticallyAdjustsScrollViewInsets="NO" id="r6o-gq-yOg" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ll0-M3-GCH">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ll0-M3-GCH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
