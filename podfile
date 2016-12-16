@@ -15,7 +15,7 @@ target 'Bounce' do
   pod 'FBSDKLoginKit'
 
   # UI Tweaks
-  pod 'Koloda', :git => 'https://github.com/Yalantis/Koloda', :branch => 'swift-3'
+#  pod 'Koloda', :git => 'https://github.com/Yalantis/Koloda', :branch => 'swift-3'
   pod 'SkyFloatingLabelTextField', :git => 'https://github.com/MLSDev/SkyFloatingLabelTextField', :branch => 'swift3'
   pod 'JSQMessagesViewController'
   

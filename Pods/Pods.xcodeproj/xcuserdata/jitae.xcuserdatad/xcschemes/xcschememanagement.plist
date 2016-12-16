@@ -44,11 +44,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Koloda.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-Bounce.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -69,80 +64,65 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>pop.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1ED4DFAAD25E1999D0244868457A351E</key>
+		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2692A60CA9509B2E2A543556E170DCB4</key>
+		<key>30AAF9E1F05ED0641DED0C4851BA0B2C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>59CDDB315DD2B098E0CD9ED56B026F4B</key>
+		<key>44CAD6CE523055ED339E87154473A254</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>61AF977C23DFB1506EEC7FDC5AACAB7E</key>
+		<key>681BE6E3D02A43F9BA63777AC435C8FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6973D8CD4AF9143EACC512A49AEF82AB</key>
+		<key>948D6C4A248DF9DAB9F6A1867855A1F4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6C93DE13A9E39F5C57B693BE90DBB2D0</key>
+		<key>B1C4AAFAF49036C7007633DAA3C806AD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6EDC37F3FA92533C6AC3562458AA91F1</key>
+		<key>BC5000D645EEAF961C85907CDC796FE1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7D04535608058A2FABC0D16935868FB9</key>
+		<key>BEF7E6E85DB5CDE5D7A18F4F2EB8494B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9D0F2E5EA1B46A5D72FFD42B0B39DBBC</key>
+		<key>C30AC8BCB5FAF7EDD57B8ABC72079B6F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B7768C891115DA61FBA89804CB55F227</key>
+		<key>C61E9BBAC647C137CD43A9354FF2E7EE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C45290004E0078130C91A71711094467</key>
+		<key>C7DCF2B547F7871B9BFD74DE93B0E173</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D468777BEC2DE5127A16239373FFD11F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E0AC3F08E418DA51494A2DAA9D6E6F4F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FF06987D76CBE966D84A089F5B25BEE2</key>
+		<key>D0581AF7BF4A6DA140D280B19ECC7BFF</key>
 		<dict>
 			<key>primary</key>
 			<true/>

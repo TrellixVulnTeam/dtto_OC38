@@ -10,7 +10,7 @@ import UIKit
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
-    let tabTitles = ["Home", "Messages"]
+//    let tabTitles = ["Home", "Messages"]
     let tabIcons = [#imageLiteral(resourceName: "home"), #imageLiteral(resourceName: "plus"), #imageLiteral(resourceName: "user")]
 //    let storyboards = ["Main", "Ability", "Tavern", "Settings"]
 //    let childVCs = ["HomeNav", "AbilityNav", "TavernNav", "FavoritesNav"]
@@ -39,18 +39,20 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 let currentStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let child = currentStoryboard.instantiateViewController(withIdentifier: "HomeNav") as! UINavigationController
                 
-//                child.tabBarItem.title = tab
+                child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
+                child.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
                 child.tabBarItem.tag = index
                 views.append(child)
                 
             case 1:
                 
-                let currentStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                let child = currentStoryboard.instantiateViewController(withIdentifier: "HomeNav") as! UINavigationController
+//                let currentStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let child = UIViewController()//currentStoryboard.instantiateViewController(withIdentifier: "HomeNav") as! UINavigationController
                 
-                //                child.tabBarItem.title = tab
+                child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
+                child.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
                 child.tabBarItem.tag = index
                 views.append(child)
                 
@@ -60,8 +62,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 let vc = ChatList()
                 let child = UINavigationController(rootViewController: vc)
                 
-//                child.tabBarItem.title = tab
+                child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
+                child.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
                 child.tabBarItem.tag = index
                 views.append(child)
                 

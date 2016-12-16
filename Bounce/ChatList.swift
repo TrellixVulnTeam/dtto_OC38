@@ -32,7 +32,7 @@ class ChatList: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Messages"
+        self.navigationItem.title = "Messages"
         
         tableView.dataSource = self
         tableView.delegate = self
