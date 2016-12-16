@@ -31,18 +31,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         
-        let storyboard = UIStoryboard(name: "Login", bundle: nil)
-        let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginHome")
-        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
-            self.window!.rootViewController = initialViewController
-        }, completion: nil)
         
-        
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let initialViewController = storyboard.instantiateViewController(withIdentifier: "HomeNav")
-//        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
-//            self.window!.rootViewController = initialViewController
-//        }, completion: nil)
+        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
+            if let _ = user {
+                // User is signed in.
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                let initialViewController = storyboard.instantiateViewController(withIdentifier: "HomeNav")
+                let initialViewController = TabBarController()
+                UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
+                    self.window!.rootViewController = initialViewController
+                }, completion: nil)
+
+            } else {
+                // No user is signed in.
+                let storyboard = UIStoryboard(name: "Login", bundle: nil)
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginHome")
+                UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
+                    self.window!.rootViewController = initialViewController
+                }, completion: nil)
+            }
+        }
         
         return true
     }
