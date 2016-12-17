@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>FontAwesome.otf</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -35,6 +31,8 @@
 		</dict>
 		<dict/>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>1</string>
 	<key>FacebookAppID</key>
 	<string>229275287484658</string>
 	<key>FacebookDisplayName</key>
@@ -46,12 +44,14 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>{human-readable reason for photo access}</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>{human-readable reason for photo access}</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome.otf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

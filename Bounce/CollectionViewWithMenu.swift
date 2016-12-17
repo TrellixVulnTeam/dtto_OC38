@@ -11,6 +11,7 @@ import Firebase
 
 class CollectionViewWithMenu: UIViewController {
     
+    
     var menuBar = MenuBar()
     var selectedIndex: Int = 0
     var numberOfMenuTabs = 0
@@ -78,16 +79,9 @@ class CollectionViewWithMenu: UIViewController {
     }
     
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        let indexPath = IndexPath(item: 1, section: 0)
-        self.selectedIndex = 1
-        collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition(), animated: true)
-    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
 //        self.navigationController?.navigationBar.isHidden = true
 //        let selectedCV = IndexPath(item: selectedIndex, section: 0)
 //        guard let table = collectionView.cellForItem(at: selectedCV) as? BaseCollectionViewCell else { return }
@@ -95,11 +89,13 @@ class CollectionViewWithMenu: UIViewController {
 //        table.tableView.deselectRow(at: selectedIndexPath, animated: true)
 //
         
+        collectionView.contentOffset.x = SCREENWIDTH
         
     }
     
     var horizontalBarLeadingAnchorConstraint: NSLayoutConstraint?
     var horizontalBarWidthConstraint: NSLayoutConstraint?
+    var sliderBarCenterXAnchorConstraint: NSLayoutConstraint?
     
     func setupHorizontalBar() {
         
@@ -110,9 +106,11 @@ class CollectionViewWithMenu: UIViewController {
         horizontalBarView.translatesAutoresizingMaskIntoConstraints = false
         nav.view.addSubview(horizontalBarView)
         
-        horizontalBarLeadingAnchorConstraint = horizontalBarView.leadingAnchor.constraint(equalTo: nav.view.leadingAnchor)
-//        horizontalBarLeadingAnchorConstraint = horizontalBarView.leadingAnchor.constraint(equalTo: nav.view.leadingAnchor, constant: 10)
-        horizontalBarLeadingAnchorConstraint?.isActive = true
+//        horizontalBarLeadingAnchorConstraint = horizontalBarView.leadingAnchor.constraint(equalTo: nav.view.leadingAnchor)
+//        horizontalBarLeadingAnchorConstraint?.isActive = true
+        
+        sliderBarCenterXAnchorConstraint = horizontalBarView.centerXAnchor.constraint(equalTo: nav.view.leadingAnchor)
+        sliderBarCenterXAnchorConstraint?.isActive = true
         
         horizontalBarView.bottomAnchor.constraint(equalTo: nav.navigationBar.bottomAnchor).isActive = true
 
@@ -186,10 +184,10 @@ class CollectionViewWithMenu: UIViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(scrollView.contentOffset.x)
         let difference = scrollView.contentOffset.x - previousOffset
-        horizontalBarLeadingAnchorConstraint?.constant += (difference)/2
-        
+//        horizontalBarLeadingAnchorConstraint?.constant = scrollView.contentOffset.x/2
+        sliderBarCenterXAnchorConstraint?.constant = scrollView.contentOffset.x/2
         previousOffset = scrollView.contentOffset.x
-        
+      
     }
     
     
@@ -206,13 +204,13 @@ class CollectionViewWithMenu: UIViewController {
     func scrollToIndex() {
         switch self.selectedIndex {
         case 0:
-            self.horizontalBarLeadingAnchorConstraint?.constant = 0
+            self.sliderBarCenterXAnchorConstraint?.constant = 25
             
         case 1:
-            self.horizontalBarLeadingAnchorConstraint?.constant = SCREENWIDTH/2 - 25
+            self.sliderBarCenterXAnchorConstraint?.constant = SCREENWIDTH/2
             
         default:
-            self.horizontalBarLeadingAnchorConstraint?.constant = SCREENWIDTH - 50
+            self.sliderBarCenterXAnchorConstraint?.constant = SCREENWIDTH - 25
         }
         
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear, animations: {

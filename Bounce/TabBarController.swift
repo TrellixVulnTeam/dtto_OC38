@@ -38,7 +38,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 
 //                let child = NavigationController()
                 let child = UINavigationController(rootViewController: CollectionViewWithMenu())
-                
+//                let child = UINavigationController(rootViewController: HomePageViewController())
 //                child.isNavigationBarHidden = true
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
