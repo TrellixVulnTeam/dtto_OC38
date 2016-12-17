@@ -47,6 +47,8 @@
 		04E459BC1DE15C19006003DF /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BB1DE15C19006003DF /* Login.storyboard */; };
 		04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459BD1DE15C3D006003DF /* LoginHome.swift */; };
 		04E459C01DE15C3D006003DF /* LoginHome.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BE1DE15C3D006003DF /* LoginHome.xib */; };
+		04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6945C1E04D49600557833 /* QuestionCell.swift */; };
+		04F6945F1E04D49600557833 /* QuestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F6945D1E04D49600557833 /* QuestionCell.xib */; };
 		28DC166C665F928AA6088372 /* Pods_BounceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */; };
 		A337F8F8F60A35207990BB24 /* Pods_BounceUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B733A0649D325DDC329C2D5 /* Pods_BounceUITests.framework */; };
 		ED1D2ECCA06C4E8622B19605 /* Pods_Bounce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */; };
@@ -117,6 +119,8 @@
 		04E459BB1DE15C19006003DF /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		04E459BD1DE15C3D006003DF /* LoginHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHome.swift; sourceTree = "<group>"; };
 		04E459BE1DE15C3D006003DF /* LoginHome.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginHome.xib; sourceTree = "<group>"; };
+		04F6945C1E04D49600557833 /* QuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
+		04F6945D1E04D49600557833 /* QuestionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionCell.xib; sourceTree = "<group>"; };
 		04FAE7A11DE296650074CA39 /* Bounce-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bounce-Bridging-Header.h"; sourceTree = "<group>"; };
 		064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bounce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		46164DF9B25AAD27BCCFB351 /* Pods-Bounce.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bounce.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bounce/Pods-Bounce.debug.xcconfig"; sourceTree = "<group>"; };
@@ -242,6 +246,8 @@
 				041032A11E03A94F00B6BDE8 /* CollectionViewWithMenu.swift */,
 				041032A21E03A94F00B6BDE8 /* MenuBar.swift */,
 				041032A71E03B2E000B6BDE8 /* HomeCell.swift */,
+				04F6945C1E04D49600557833 /* QuestionCell.swift */,
+				04F6945D1E04D49600557833 /* QuestionCell.xib */,
 				045AB2951DFE7970009D9394 /* TransitioningObject.swift */,
 			);
 			name = Home;
@@ -439,6 +445,7 @@
 				049AB6B51DFE869700B45DC3 /* ChatListCell.xib in Resources */,
 				0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */,
 				041032A61E03AB6400B6BDE8 /* Main.storyboard in Resources */,
+				04F6945F1E04D49600557833 /* QuestionCell.xib in Resources */,
 				04D7D7021DDFF9EA0023338B /* GoogleService-Info.plist in Resources */,
 				0497C2C41DE4170D00485A92 /* Chat.storyboard in Resources */,
 			);
@@ -612,6 +619,7 @@
 				04A6C7D91DDFC548004EFE14 /* Animations.swift in Sources */,
 				041032A41E03A94F00B6BDE8 /* MenuBar.swift in Sources */,
 				041032A81E03B2E000B6BDE8 /* HomeCell.swift in Sources */,
+				04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */,
 				04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */,
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,
 				04E459B91DE15AD5006003DF /* LoginForm.swift in Sources */,

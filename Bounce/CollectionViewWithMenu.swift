@@ -11,8 +11,6 @@ import Firebase
 
 class CollectionViewWithMenu: UIViewController {
     
-    
-    
     var menuBar = MenuBar()
     var selectedIndex: Int = 0
     var numberOfMenuTabs = 0
@@ -74,12 +72,22 @@ class CollectionViewWithMenu: UIViewController {
         setupNavBar()
         setupHorizontalBar()
         setupCollectionView()
+        
 
         
     }
     
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let indexPath = IndexPath(item: 1, section: 0)
+        self.selectedIndex = 1
+        collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition(), animated: true)
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
 //        self.navigationController?.navigationBar.isHidden = true
 //        let selectedCV = IndexPath(item: selectedIndex, section: 0)
 //        guard let table = collectionView.cellForItem(at: selectedCV) as? BaseCollectionViewCell else { return }
@@ -87,12 +95,11 @@ class CollectionViewWithMenu: UIViewController {
 //        table.tableView.deselectRow(at: selectedIndexPath, animated: true)
 //
         
+        
     }
     
     var horizontalBarLeadingAnchorConstraint: NSLayoutConstraint?
-    
     var horizontalBarWidthConstraint: NSLayoutConstraint?
-
     
     func setupHorizontalBar() {
         
@@ -158,22 +165,20 @@ class CollectionViewWithMenu: UIViewController {
         self.view.addSubview(collectionView)
         self.automaticallyAdjustsScrollViewInsets = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: 50).isActive = true
+        collectionView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
         collectionView.register(HomeCell.self, forCellWithReuseIdentifier: "HomeCell")
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: "ImageCell")
-        
+
     }
     
     func scrollToMenuIndex(_ sender: AnyObject) {
         
-        
         let indexPath = IndexPath(item: sender.tag, section: 0)
         self.selectedIndex = sender.tag
         collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition(), animated: true)
-        
         
     }
     
