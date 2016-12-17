@@ -19,23 +19,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FIRApp.configure()
-        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         // Navigation Bar Setup
         
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : Color.lightGreen]
-        UINavigationBar.appearance().tintColor = Color.lightGreen
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : Color.darkNavy]
+        UINavigationBar.appearance().tintColor = Color.darkNavy
         UINavigationBar.appearance().barTintColor = .white
         
         // Login Providers
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
+        let initialViewController = TabBarController()
+        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
+            self.window!.rootViewController = initialViewController
+        }, completion: nil)
         
-        
+        /*
         FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if let _ = user {
                 // User is signed in.
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //                let initialViewController = storyboard.instantiateViewController(withIdentifier: "HomeNav")
                 let initialViewController = TabBarController()
                 UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
@@ -51,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }, completion: nil)
             }
         }
-        
+        */
         return true
     }
 

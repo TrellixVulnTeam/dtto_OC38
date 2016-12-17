@@ -21,7 +21,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         self.delegate = self
         setupTabBar()
-        self.tabBar.tintColor = Color.lightGreen
+        self.tabBar.tintColor = Color.darkNavy
         
     }
     
@@ -36,9 +36,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 
             case 0:
                 
-                let currentStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                let child = currentStoryboard.instantiateViewController(withIdentifier: "HomeNav") as! UINavigationController
+//                let child = NavigationController()
+                let child = UINavigationController(rootViewController: CollectionViewWithMenu())
                 
+//                child.isNavigationBarHidden = true
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
                 child.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)

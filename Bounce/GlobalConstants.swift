@@ -10,6 +10,25 @@ import UIKit
 
 let defaults = UserDefaults.standard
 
+var SCREENORIENTATION: UIInterfaceOrientation {
+    return UIApplication.shared.statusBarOrientation
+}
+
+var SCREENWIDTH: CGFloat {
+    if UIInterfaceOrientationIsPortrait(SCREENORIENTATION) {
+        return UIScreen.main.bounds.size.width
+    } else {
+        return UIScreen.main.bounds.size.height
+    }
+}
+var SCREENHEIGHT: CGFloat {
+    if UIInterfaceOrientationIsPortrait(SCREENORIENTATION) {
+        return UIScreen.main.bounds.size.height
+    } else {
+        return UIScreen.main.bounds.size.width
+    }
+}
+
 enum Color {
     
     static let salmon = UIColor(red:0.92, green:0.65, blue:0.63, alpha:1.0) // #EBA5A0
@@ -19,4 +38,5 @@ enum Color {
     static let textGray = UIColor(red:0.53, green:0.53, blue:0.53, alpha:1.0)
     static let gray247 = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)    // #f7f7f7
     static let red = UIColor(red:1.00, green:0.23, blue:0.19, alpha:1.0)
+    static let darkNavy = UIColor(red:0.18, green:0.22, blue:0.29, alpha:1.0) //#2D394B
 }
