@@ -8,20 +8,25 @@
 
 import UIKit
 
-class ChatListCell: UITableViewCell {
 
-    @IBOutlet weak var friendIcon: UIImageView!
-    @IBOutlet weak var friendName: UILabel!
+class ChatListCell: BaseCollectionViewCell {
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    let profile = UIImageView()
+    let lastMessage = UILabel()
+    let timeStamp = UILabel()
+    
+    override func setupViews() {
+        super.setupViews()
+        addSubview(profile)
+        profile.image = #imageLiteral(resourceName: "chat")
+        profile.translatesAutoresizingMaskIntoConstraints = false
+        profile.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        profile.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
+        profile.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        profile.widthAnchor.constraint(equalToConstant: 50).isActive = true
+    
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
+    
     
 }

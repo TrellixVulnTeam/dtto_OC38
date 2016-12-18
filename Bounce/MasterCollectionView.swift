@@ -9,16 +9,15 @@
 import UIKit
 import Firebase
 
-class CollectionViewWithMenu: UIViewController {
+class MasterCollectionView: UIViewController {
     
-    
-    var menuBar = MenuBar()
+    var horizontalBarView = UIView()
     var selectedIndex: Int = 0
     var numberOfMenuTabs = 0
     var abilityType = ""
     var abilityTitle = ""
     var collectionView: UICollectionView!
-
+    var initialLoad = true
     var reuseIdentifier = ""
     var abilityNames = [String]()
 
@@ -30,8 +29,7 @@ class CollectionViewWithMenu: UIViewController {
         self.numberOfMenuTabs = 3
 //        self.reuseIdentifier = "AbilityListTableCell"
         self.navigationItem.title = "Home"
-//        setupMenuBar()
-        setupNavBar()
+        
     }
     
     /*
@@ -74,22 +72,30 @@ class CollectionViewWithMenu: UIViewController {
         setupHorizontalBar()
         setupCollectionView()
         
-
-        
     }
     
 
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        self.navigationController?.navigationBar.isHidden = true
-//        let selectedCV = IndexPath(item: selectedIndex, section: 0)
-//        guard let table = collectionView.cellForItem(at: selectedCV) as? BaseCollectionViewCell else { return }
-//        guard let selectedIndexPath = table.tableView.indexPathForSelectedRow else { return }
-//        table.tableView.deselectRow(at: selectedIndexPath, animated: true)
-//
+
+        horizontalBarView.isHidden = false
+        if initialLoad {
+            collectionView.contentOffset.x = SCREENWIDTH
+            initialLoad = false
+        }
         
-        collectionView.contentOffset.x = SCREENWIDTH
+        let selectedCV = IndexPath(item: selectedIndex, section: 0)
+        guard let cv = collectionView.cellForItem(at: selectedCV) as? ChatList else { return }
+        guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
+        cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
+        
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        horizontalBarView.isHidden = true
         
     }
     
@@ -100,15 +106,12 @@ class CollectionViewWithMenu: UIViewController {
     func setupHorizontalBar() {
         
         guard let nav = self.navigationController else { return }
-        let horizontalBarView = UIView()
+        horizontalBarView = UIView()
         horizontalBarView.backgroundColor = Color.darkNavy
         
         horizontalBarView.translatesAutoresizingMaskIntoConstraints = false
         nav.view.addSubview(horizontalBarView)
-        
-//        horizontalBarLeadingAnchorConstraint = horizontalBarView.leadingAnchor.constraint(equalTo: nav.view.leadingAnchor)
-//        horizontalBarLeadingAnchorConstraint?.isActive = true
-        
+
         sliderBarCenterXAnchorConstraint = horizontalBarView.centerXAnchor.constraint(equalTo: nav.view.leadingAnchor)
         sliderBarCenterXAnchorConstraint?.isActive = true
         
@@ -167,9 +170,10 @@ class CollectionViewWithMenu: UIViewController {
         collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
-        collectionView.register(HomeCell.self, forCellWithReuseIdentifier: "HomeCell")
-        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: "ImageCell")
-
+        
+        collectionView.register(NotificationsPage.self, forCellWithReuseIdentifier: "NotificationsPage")
+        collectionView.register(HomePage.self, forCellWithReuseIdentifier: "HomePage")
+        collectionView.register(ChatList.self, forCellWithReuseIdentifier: "ChatList")
     }
     
     func scrollToMenuIndex(_ sender: AnyObject) {
@@ -230,9 +234,10 @@ class CollectionViewWithMenu: UIViewController {
     
 }
 
-extension CollectionViewWithMenu: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     private enum Section: Int {
+        
         case Notifications
         case Home
         case Chat
@@ -250,20 +255,17 @@ extension CollectionViewWithMenu: UICollectionViewDelegate, UICollectionViewDele
         switch row {
             
         case .Notifications:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
-//            cell.image.image = #imageLiteral(resourceName: "notification")
-            cell.backgroundColor = .black
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NotificationsPage", for: indexPath) as! NotificationsPage
             return cell
             
         case .Home:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCell", for: indexPath) as! HomeCell
-            cell.backgroundColor = .red
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomePage", for: indexPath) as! HomePage
             return cell
 
         case .Chat:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
-//            cell.image.image = #imageLiteral(resourceName: "chat")
-            cell.backgroundColor = .blue
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatList", for: indexPath) as! ChatList
+            
+            cell.masterViewDelegate = self
             return cell
         }
         

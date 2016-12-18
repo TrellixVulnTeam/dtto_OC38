@@ -10,9 +10,12 @@ import UIKit
 
 class BaseCollectionViewCell: UICollectionViewCell {
     
+    var masterViewDelegate: MasterCollectionView?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -20,6 +23,8 @@ class BaseCollectionViewCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = Color.gray247
+        self.selectedBackgroundView = backgroundView
     }
 }

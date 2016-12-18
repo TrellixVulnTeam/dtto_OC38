@@ -8,19 +8,18 @@
 
 import UIKit
 
-class HomeCell: UICollectionViewCell {
+class HomePage: BaseCollectionViewCell {
     
     var collectionView: UICollectionView!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func setupViews() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isPagingEnabled = true
-//        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -33,17 +32,12 @@ class HomeCell: UICollectionViewCell {
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
         collectionView.register(UINib(nibName: "QuestionCell", bundle: nil), forCellWithReuseIdentifier: "QuestionCell")
-
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     
 }
 
-extension HomeCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1

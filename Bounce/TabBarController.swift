@@ -37,7 +37,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             case 0:
                 
 //                let child = NavigationController()
-                let child = UINavigationController(rootViewController: CollectionViewWithMenu())
+                let child = UINavigationController(rootViewController: MasterCollectionView())
 //                let child = UINavigationController(rootViewController: HomePageViewController())
 //                child.isNavigationBarHidden = true
                 child.tabBarItem.title = ""
@@ -60,9 +60,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 
             default:
                 
-                let vc = ChatList()
-                let child = UINavigationController(rootViewController: vc)
                 
+//                let vc = ChatList()
+//                let child = UINavigationController(rootViewController: vc)
+                
+                let child = UIViewController()
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
                 child.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)

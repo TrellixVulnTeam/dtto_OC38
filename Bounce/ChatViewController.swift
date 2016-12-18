@@ -33,6 +33,7 @@ final class ChatViewController: JSQMessagesViewController {
         self.senderId = "123"
         self.senderDisplayName = "Jitae"
         self.title = "Jitae"
+        hideKeyboardWhenTappedAround()
         
     }
     

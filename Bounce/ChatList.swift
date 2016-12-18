@@ -8,73 +8,86 @@
 
 import UIKit
 
-class ChatList: UIViewController {
+class ChatList: BaseCollectionViewCell {
 
     var chats = [String]()
+    var collectionView: UICollectionView!
     
-    lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
-        self.view.addSubview(tableView)
+    override func setupViews() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 0
+        
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        collectionView.backgroundColor = .white
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        self.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        collectionView.register(ChatListCell.self, forCellWithReuseIdentifier: "ChatListCell")
+    }
 
-//        tableView.delegate = self
+    
+    
+
+    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        self.navigationItem.title = "Messages"
+//        
 //        tableView.dataSource = self
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        tableView.backgroundColor = .white
-        tableView.estimatedRowHeight = 90
-//        tableView.estimatedSectionHeaderHeight = 50
-        
-        return tableView
-    }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationItem.title = "Messages"
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UINib(nibName: "ChatListCell", bundle: nil), forCellReuseIdentifier: "ChatListCell")
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        guard let selectedIndexPath = tableView.indexPathForSelectedRow else { return }
-        tableView.deselectRow(at: selectedIndexPath, animated: true)
-        
-    }
+//        tableView.delegate = self
+//        tableView.register(UINib(nibName: "ChatListCell", bundle: nil), forCellReuseIdentifier: "ChatListCell")
+//        
+//    }
+//    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        
+//        guard let selectedIndexPath = tableView.indexPathForSelectedRow else { return }
+//        tableView.deselectRow(at: selectedIndexPath, animated: true)
+//        
+//    }
 
 }
 
-extension ChatList: UITableViewDelegate, UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatListCell") as! ChatListCell
-        cell.friendIcon.image = #imageLiteral(resourceName: "acceptNormal")
-        cell.friendName.text = "user" + "\(indexPath.row)"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatListCell", for: indexPath) as! ChatListCell
         return cell
+        
+        
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("selected \(indexPath.row)")
+        masterViewDelegate?.navigationController?.pushViewController(ChatViewController(), animated: true)
         
-//        let chat = self.chats[indexPath.row]
-        let vc = ChatViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        return CGSize(width: collectionView.frame.width, height: 70)
         
         
     }
     
 }
+
