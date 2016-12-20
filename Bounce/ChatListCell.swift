@@ -9,24 +9,19 @@
 import UIKit
 
 
-class ChatListCell: BaseCollectionViewCell {
-    
-    let profile = UIImageView()
-    let lastMessage = UILabel()
-    let timeStamp = UILabel()
-    
-    override func setupViews() {
-        super.setupViews()
-        addSubview(profile)
-        profile.image = #imageLiteral(resourceName: "chat")
-        profile.translatesAutoresizingMaskIntoConstraints = false
-        profile.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        profile.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        profile.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        profile.widthAnchor.constraint(equalToConstant: 50).isActive = true
-    
+class ChatListCell: UICollectionViewCell {
 
-    }
+    @IBOutlet weak var profile: RoundImageView!
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var lastMessage: UILabel!
+    @IBOutlet weak var timeStamp: UILabel!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = Color.lightGray
+        self.selectedBackgroundView = backgroundView
+    }
     
 }

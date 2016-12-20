@@ -11,6 +11,10 @@ import Firebase
 
 class MasterCollectionView: UIViewController {
     
+    private var chatRefHandle: FIRDatabaseHandle?
+    private lazy var chatRef: FIRDatabaseReference = FIRDatabase.database().reference().child("userMessages")
+    private var chats = [Chat]()
+    
     var horizontalBarView = UIView()
     var selectedIndex: Int = 0
     var numberOfMenuTabs = 0
@@ -62,23 +66,48 @@ class MasterCollectionView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        if let refHandle = chatRefHandle {
+            chatRef.removeObserver(withHandle: refHandle)
+            print("DEINITED")
+        }
+    }
+    
+    private func observeChannels() {
+        // We can use the observe method to listen for new
+        // channels being written to the Firebase DB
+        
+        let userID = "uid1"
+        chatRefHandle = chatRef.child(userID).observe(.childAdded, with: { (snapshot) -> Void in
+            let userChats = snapshot.value as! Dictionary<String, AnyObject>
+            let id = snapshot.key
+            if let name = userChats["lastMessage"] as! String!, let timeStamp = userChats["timeStamp"] as! String! {
+//                self.channels.append(Channel(id: id, name: name))
+//                self.tableView.reloadData()
+            } else {
+                print("Error! Could not decode channel data")
+            }
+        })
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = .white
 //        self.title = abilityType
+        
         setupNavBar()
         setupHorizontalBar()
         setupCollectionView()
+        observeChannels()
+        
         
     }
     
 
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+//        navigationController?.hidesBarsOnSwipe = true
         horizontalBarView.isHidden = false
         if initialLoad {
             collectionView.contentOffset.x = SCREENWIDTH
@@ -130,13 +159,11 @@ class MasterCollectionView: UIViewController {
         let notificationsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "notification"), style: .plain, target: self, action: #selector(scrollToMenuIndex(_:)))
         notificationsButton.tag = 0
         
-        let chatButton = UIBarButtonItem(image: #imageLiteral(resourceName: "chat"), style: .plain, target: self, action: #selector(scrollToMenuIndex(_:)))
+        let chatButton = UIBarButtonItem(image: #imageLiteral(resourceName: "chatNormal"), style: .plain, target: self, action: #selector(scrollToMenuIndex(_:)))
         chatButton.tag = 2
         
         self.navigationItem.leftBarButtonItem = notificationsButton
         self.navigationItem.rightBarButtonItem = chatButton
-        
-
         
         let homeButton =  UIButton(type: .custom)
         homeButton.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
@@ -186,7 +213,6 @@ class MasterCollectionView: UIViewController {
     
     var previousOffset: CGFloat = 0
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.x)
         let difference = scrollView.contentOffset.x - previousOffset
 //        horizontalBarLeadingAnchorConstraint?.constant = scrollView.contentOffset.x/2
         sliderBarCenterXAnchorConstraint?.constant = scrollView.contentOffset.x/2
@@ -260,6 +286,7 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
             
         case .Home:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomePage", for: indexPath) as! HomePage
+
             return cell
 
         case .Chat:
@@ -280,5 +307,9 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
 
     
     
+    
+}
+
+extension MasterCollectionView: UIGestureRecognizerDelegate {
     
 }

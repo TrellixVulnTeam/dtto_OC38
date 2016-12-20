@@ -27,6 +27,18 @@ final class ChatViewController: JSQMessagesViewController {
     }
 //    var messages = [Message]()
     
+    private func setupNavBar() {
+        let chatSettingsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(showChatSettings))
+        
+        self.navigationItem.rightBarButtonItem = chatSettingsButton
+
+    }
+    
+    func showChatSettings() {
+        // push with nav bar.
+        let chatSettings = ChatSettings(nibName: "ChatSettings", bundle: nil)
+        navigationController?.pushViewController(chatSettings, animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +46,7 @@ final class ChatViewController: JSQMessagesViewController {
         self.senderDisplayName = "Jitae"
         self.title = "Jitae"
         hideKeyboardWhenTappedAround()
+        setupNavBar()
         
     }
     

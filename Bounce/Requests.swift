@@ -22,7 +22,7 @@ class Requests: BaseCollectionViewCell {
 //        guard let collectionView = collectionView else { return }
 //        collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = Color.gray247
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -54,7 +54,7 @@ extension Requests: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RequestsCell", for: indexPath) as! RequestsCell
-        cell.backgroundColor = .white
+        cell.backgroundColor = .clear
         return cell
         
     }
@@ -69,15 +69,16 @@ extension Requests: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 
 class RequestsCell: BaseCollectionViewCell {
     
-    let profile = UIImageView()
+    let profile = RoundImageView()
     
     override func setupViews() {
         super.setupViews()
-        profile.image = #imageLiteral(resourceName: "acceptNormal")
+        profile.contentMode = .scaleAspectFill
+        profile.image = #imageLiteral(resourceName: "profile")
         addSubview(profile)
         profile.translatesAutoresizingMaskIntoConstraints = false
-        profile.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        profile.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        profile.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        profile.widthAnchor.constraint(equalToConstant: 50).isActive = true
         profile.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         profile.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         

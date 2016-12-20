@@ -65,21 +65,25 @@ extension Notifications: UICollectionViewDelegate, UICollectionViewDataSource, U
 
 class NotificationsCell: BaseCollectionViewCell {
     
-    let profile = UIImageView()
+    let profile = RoundImageView()
     let desc = UILabel()
     
     override func setupViews() {
         super.setupViews()
-        profile.image = #imageLiteral(resourceName: "acceptNormal")
+        profile.contentMode = .scaleAspectFill
+        profile.image = #imageLiteral(resourceName: "profile")
+        desc.text = "57 people related with your question."
+        desc.adjustsFontSizeToFitWidth = true
+        desc.sizeToFit()
         addSubview(desc)
         addSubview(profile)
         profile.translatesAutoresizingMaskIntoConstraints = false
         desc.translatesAutoresizingMaskIntoConstraints = false
-        profile.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        profile.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        profile.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        profile.widthAnchor.constraint(equalToConstant: 50).isActive = true
         profile.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         profile.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        profile.trailingAnchor.constraint(equalTo: desc.leadingAnchor, constant: 10).isActive = true
+        profile.trailingAnchor.constraint(equalTo: desc.leadingAnchor, constant: -10).isActive = true
         desc.centerYAnchor.constraint(equalTo: profile.centerYAnchor).isActive = true
         desc.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
         

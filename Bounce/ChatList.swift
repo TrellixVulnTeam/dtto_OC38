@@ -30,8 +30,8 @@ class ChatList: BaseCollectionViewCell {
         collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
-        collectionView.register(ChatListCell.self, forCellWithReuseIdentifier: "ChatListCell")
+        collectionView.register(UINib(nibName: "ChatListCell", bundle: nil), forCellWithReuseIdentifier: "ChatListCell")
+//        collectionView.register(ChatListCell.self, forCellWithReuseIdentifier: "ChatListCell")
     }
 
     
@@ -71,6 +71,10 @@ extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatListCell", for: indexPath) as! ChatListCell
+        
+        cell.profile.image = #imageLiteral(resourceName: "profile")
+        
+        
         return cell
         
         

@@ -48,8 +48,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 
             case 1:
                 
-//                let currentStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                let child = UIViewController()//currentStoryboard.instantiateViewController(withIdentifier: "HomeNav") as! UINavigationController
+                let child = AskQuestion()
                 
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
@@ -109,6 +108,19 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         imageViews[item.tag].bounceAnimate()
         
         
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        if let viewController = viewController as? AskQuestion {
+
+            
+            tabBarController.present(AskQuestion(), animated: true)
+            return false
+            
+        }
+        
+        return true
     }
     
     func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
