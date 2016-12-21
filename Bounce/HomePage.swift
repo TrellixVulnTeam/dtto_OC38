@@ -85,7 +85,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let row = Row(rawValue: indexPath.row) else { return UICollectionViewCell() }
+        guard let _ = Row(rawValue: indexPath.row) else { return UICollectionViewCell() }
         
 //        switch row {
 //        case .Name:

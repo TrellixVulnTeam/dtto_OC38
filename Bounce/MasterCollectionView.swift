@@ -13,54 +13,23 @@ class MasterCollectionView: UIViewController {
     
     private var chatRefHandle: FIRDatabaseHandle?
     private lazy var chatRef: FIRDatabaseReference = FIRDatabase.database().reference().child("userMessages")
-    private var chats = [Chat]()
+    private lazy var userRef: FIRDatabaseReference = FIRDatabase.database().reference().child("users")
+    var chats = [Chat]()
     
     var horizontalBarView = UIView()
     var selectedIndex: Int = 0
-    var numberOfMenuTabs = 0
-    var abilityType = ""
-    var abilityTitle = ""
     var collectionView: UICollectionView!
     var initialLoad = true
-    var reuseIdentifier = ""
-    var abilityNames = [String]()
-
+    var numberOfMenuTabs = 0
     
     var group = DispatchGroup()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         self.numberOfMenuTabs = 3
-//        self.reuseIdentifier = "AbilityListTableCell"
         self.navigationItem.title = "Home"
         
     }
-    
-    /*
-    init(abilityType: (String, String), selectedIndex: Int) {
-        super.init(nibName: nil, bundle: nil)
-        menuType = .AbilityView
-        self.abilityType = abilityType.1
-        self.selectedIndex = selectedIndex
-        downloadArray()
-        self.numberOfMenuTabs = 5
-        self.reuseIdentifier = "AbilityViewTableCell"
-        self.title = abilityType.0
-        setupMenuBar()
-        
-    }
-    
-    init(menuType: menuType) {
-        super.init(nibName: nil, bundle: nil)
-        
-        // should be tavernView
-        self.numberOfMenuTabs = 3
-        self.menuType = menuType
-        self.reuseIdentifier = "TavernListTableCell"
-        self.title = "주점"
-        setupMenuBar()
-    }
-    */
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -74,19 +43,28 @@ class MasterCollectionView: UIViewController {
     }
     
     private func observeChannels() {
-        // We can use the observe method to listen for new
-        // channels being written to the Firebase DB
         
         let userID = "uid1"
-        chatRefHandle = chatRef.child(userID).observe(.childAdded, with: { (snapshot) -> Void in
-            let userChats = snapshot.value as! Dictionary<String, AnyObject>
-            let id = snapshot.key
-            if let name = userChats["lastMessage"] as! String!, let timeStamp = userChats["timeStamp"] as! String! {
-//                self.channels.append(Channel(id: id, name: name))
-//                self.tableView.reloadData()
-            } else {
-                print("Error! Could not decode channel data")
+
+        chatRef.child(userID).observe(.childAdded, with: { (snapshot) -> Void in
+
+            guard let userChat = snapshot.value as? Dictionary<String, AnyObject> else { return }
+
+            guard let senderID = userChat["senderID"] as? String, let name = userChat["name"] as? String, let lastMessage = userChat["lastMessage"] as? String!, let timeStamp = userChat["timeStamp"] as? String else { return }
+            
+            let chat = Chat()
+            chat.senderID = senderID
+            chat.name = name
+            chat.lastMessage = lastMessage
+            chat.timeStamp = timeStamp
+            
+            if let profileImageURL = userChat["profileImageURL"] as? String {
+                chat.profileImageURL = profileImageURL
             }
+            
+            self.chats.append(chat)
+            self.collectionView.reloadData()
+            
         })
     }
     
@@ -94,7 +72,6 @@ class MasterCollectionView: UIViewController {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = .white
-//        self.title = abilityType
         
         setupNavBar()
         setupHorizontalBar()
@@ -211,12 +188,10 @@ class MasterCollectionView: UIViewController {
         
     }
     
-    var previousOffset: CGFloat = 0
+//    var previousOffset: CGFloat = 0
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let difference = scrollView.contentOffset.x - previousOffset
-//        horizontalBarLeadingAnchorConstraint?.constant = scrollView.contentOffset.x/2
         sliderBarCenterXAnchorConstraint?.constant = scrollView.contentOffset.x/2
-        previousOffset = scrollView.contentOffset.x
+//        previousOffset = scrollView.contentOffset.x
       
     }
     
@@ -291,7 +266,7 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
 
         case .Chat:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatList", for: indexPath) as! ChatList
-            
+            cell.chats = chats
             cell.masterViewDelegate = self
             return cell
         }

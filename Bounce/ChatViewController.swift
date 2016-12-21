@@ -40,14 +40,20 @@ final class ChatViewController: JSQMessagesViewController {
         navigationController?.pushViewController(chatSettings, animated: true)
     }
     
+    private func getMessages() {
+        
+        
+        
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.senderId = "123"
         self.senderDisplayName = "Jitae"
-        self.title = "Jitae"
         hideKeyboardWhenTappedAround()
         setupNavBar()
-        
+        getMessages()
     }
     
     override func viewWillAppear(_ animated: Bool) {

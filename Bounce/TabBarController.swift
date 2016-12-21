@@ -112,7 +112,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
-        if let viewController = viewController as? AskQuestion {
+        if let _ = viewController as? AskQuestion {
 
             
             tabBarController.present(AskQuestion(), animated: true)

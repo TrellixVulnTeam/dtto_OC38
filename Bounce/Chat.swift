@@ -8,11 +8,14 @@
 
 import Foundation
 
-struct Chat {
+class Chat: NSObject {
     
-    var uid: String
-    var name: String
-    var lastMessage: String
-    var profileImage: UIImage
+    var senderID: String?
+    var name: String?
+    var lastMessage: String?
+    var timeStamp: String?
+    var profileImageURL: String?
+    
+
     
 }

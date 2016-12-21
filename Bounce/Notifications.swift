@@ -30,7 +30,6 @@ class Notifications: BaseCollectionViewCell {
         collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        print("Collectionviewheight \(collectionView.frame.height)")
         collectionView.register(NotificationsCell.self, forCellWithReuseIdentifier: "NotificationsCell")
     }
     
