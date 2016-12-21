@@ -12,20 +12,19 @@ import Firebase
 
 final class ChatViewController: JSQMessagesViewController {
 
-    
     var messages = [JSQMessage]()
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
 //    private lazy var messageRef: FIRDatabaseReference = self.channelRef!.child("messages")
     private var newMessageRefHandle: FIRDatabaseHandle?
-
+    var chatRef: FIRDatabaseReference?
+    
     var user: User? {
         didSet {
             self.title = user?.name
             // observeMessages
         }
     }
-//    var messages = [Message]()
     
     private func setupNavBar() {
         let chatSettingsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(showChatSettings))
@@ -41,9 +40,6 @@ final class ChatViewController: JSQMessagesViewController {
     }
     
     private func getMessages() {
-        
-        
-        
         
     }
     
