@@ -47,6 +47,7 @@
 		04A6C7DF1DDFCAC5004EFE14 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6C7DE1DDFCAC5004EFE14 /* Person.swift */; };
 		04AF68511DFF748600216652 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AF68501DFF748600216652 /* Message.swift */; };
 		04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B159E81DDFFBE200B6C74C /* FirebaseService.swift */; };
+		04BD6EC01E0C986C00036DC7 /* RequestsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */; };
 		04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */; };
 		04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D84FDB1DE3B61800023195 /* CreateEmail.swift */; };
 		04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */; };
@@ -61,8 +62,10 @@
 		04F6945F1E04D49600557833 /* QuestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F6945D1E04D49600557833 /* QuestionCell.xib */; };
 		04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6EFBD1E0B6C1D0055015F /* Notification.swift */; };
 		28DC166C665F928AA6088372 /* Pods_BounceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */; };
+		5DAE27372C9348101770911C /* Pods_dtto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6D31459ECB2325DB96E01AC /* Pods_dtto.framework */; };
 		A337F8F8F60A35207990BB24 /* Pods_BounceUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B733A0649D325DDC329C2D5 /* Pods_BounceUITests.framework */; };
-		ED1D2ECCA06C4E8622B19605 /* Pods_Bounce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */; };
+		F687C9F5D36DAA9DFEF4FA7F /* Pods_dttoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9C994C354F59F95DF6588A /* Pods_dttoTests.framework */; };
+		FCD96CA255EA5EB63A76171E /* Pods_dttoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 879AAA5584D989B2E0A55122 /* Pods_dttoUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,10 +145,11 @@
 		04A6C7DE1DDFCAC5004EFE14 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		04AF68501DFF748600216652 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		04B159E81DDFFBE200B6C74C /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsPreview.swift; sourceTree = "<group>"; };
 		04CFA1791E0C633E00ACD064 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		04CFA17B1E0C634700ACD064 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeRootVC.swift; sourceTree = "<group>"; };
-		04D45ABC1DE2DA1F00A6B317 /* Bounce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bounce.entitlements; sourceTree = "<group>"; };
+		04D45ABC1DE2DA1F00A6B317 /* dtto.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dtto.entitlements; sourceTree = "<group>"; };
 		04D84FDB1DE3B61800023195 /* CreateEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEmail.swift; sourceTree = "<group>"; };
 		04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
 		04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
@@ -158,15 +162,24 @@
 		04F6945C1E04D49600557833 /* QuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		04F6945D1E04D49600557833 /* QuestionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionCell.xib; sourceTree = "<group>"; };
 		04F6EFBD1E0B6C1D0055015F /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
-		04FAE7A11DE296650074CA39 /* Bounce-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bounce-Bridging-Header.h"; sourceTree = "<group>"; };
+		04FAE7A11DE296650074CA39 /* dtto-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dtto-Bridging-Header.h"; sourceTree = "<group>"; };
 		064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bounce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C26BB6A592EA727E6A2DC6D /* Pods-dttoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dttoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-dttoTests/Pods-dttoTests.release.xcconfig"; sourceTree = "<group>"; };
+		1B7E1DF596BFBA293A65580E /* Pods-dtto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dtto.release.xcconfig"; path = "Pods/Target Support Files/Pods-dtto/Pods-dtto.release.xcconfig"; sourceTree = "<group>"; };
+		2EB6FAD829CE81C2E01327C2 /* Pods-dttoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dttoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-dttoUITests/Pods-dttoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		46164DF9B25AAD27BCCFB351 /* Pods-Bounce.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bounce.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bounce/Pods-Bounce.debug.xcconfig"; sourceTree = "<group>"; };
+		5E9C994C354F59F95DF6588A /* Pods_dttoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dttoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66A5655F5E418920AF2F3A50 /* Pods-BounceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BounceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BounceTests/Pods-BounceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7B1D6066402798F9B8D3D601 /* Pods-dtto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dtto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-dtto/Pods-dtto.debug.xcconfig"; sourceTree = "<group>"; };
 		7B733A0649D325DDC329C2D5 /* Pods_BounceUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BounceUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DFA1CE712DC73642348FE02 /* Pods-Bounce.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bounce.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bounce/Pods-Bounce.release.xcconfig"; sourceTree = "<group>"; };
+		879AAA5584D989B2E0A55122 /* Pods_dttoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dttoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BounceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94B8B8F88F30DE6B06EF97EC /* Pods-dttoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dttoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-dttoUITests/Pods-dttoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		95A82548479929CA98B707FD /* Pods-BounceUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BounceUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BounceUITests/Pods-BounceUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		AA8979D0ED762035586264AF /* Pods-dttoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dttoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-dttoTests/Pods-dttoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B6546A2000FAF0BC00D408A4 /* Pods-BounceUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BounceUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BounceUITests/Pods-BounceUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D6D31459ECB2325DB96E01AC /* Pods_dtto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dtto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBC428A3ECCB2E106C87BA33 /* Pods-BounceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BounceTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BounceTests/Pods-BounceTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,7 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED1D2ECCA06C4E8622B19605 /* Pods_Bounce.framework in Frameworks */,
+				5DAE27372C9348101770911C /* Pods_dtto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28DC166C665F928AA6088372 /* Pods_BounceTests.framework in Frameworks */,
+				F687C9F5D36DAA9DFEF4FA7F /* Pods_dttoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A337F8F8F60A35207990BB24 /* Pods_BounceUITests.framework in Frameworks */,
+				FCD96CA255EA5EB63A76171E /* Pods_dttoUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,9 +216,9 @@
 		04045C181DDFA010002BBD07 = {
 			isa = PBXGroup;
 			children = (
-				04045C231DDFA010002BBD07 /* Bounce */,
-				04045C381DDFA010002BBD07 /* BounceTests */,
-				04045C431DDFA010002BBD07 /* BounceUITests */,
+				04045C231DDFA010002BBD07 /* dtto */,
+				04045C381DDFA010002BBD07 /* dttoTests */,
+				04045C431DDFA010002BBD07 /* dttoUITests */,
 				04045C221DDFA010002BBD07 /* Products */,
 				376DC294C578D941E2838B84 /* Pods */,
 				D6EA4565AC045B0E0DB5D5E2 /* Frameworks */,
@@ -220,10 +235,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		04045C231DDFA010002BBD07 /* Bounce */ = {
+		04045C231DDFA010002BBD07 /* dtto */ = {
 			isa = PBXGroup;
 			children = (
-				04D45ABC1DE2DA1F00A6B317 /* Bounce.entitlements */,
+				04D45ABC1DE2DA1F00A6B317 /* dtto.entitlements */,
 				04045C241DDFA010002BBD07 /* AppDelegate.swift */,
 				04A6C7D61DDFB154004EFE14 /* GlobalConstants.swift */,
 				04051CC41E06714D00A3FDD6 /* Custom Views */,
@@ -237,27 +252,27 @@
 				0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */,
 				04045C301DDFA010002BBD07 /* Info.plist */,
 				0453572D1DE2E8BF006668BF /* FontAwesome.otf */,
-				04FAE7A11DE296650074CA39 /* Bounce-Bridging-Header.h */,
+				04FAE7A11DE296650074CA39 /* dtto-Bridging-Header.h */,
 			);
-			path = Bounce;
+			path = dtto;
 			sourceTree = "<group>";
 		};
-		04045C381DDFA010002BBD07 /* BounceTests */ = {
+		04045C381DDFA010002BBD07 /* dttoTests */ = {
 			isa = PBXGroup;
 			children = (
 				04045C391DDFA010002BBD07 /* BounceTests.swift */,
 				04045C3B1DDFA010002BBD07 /* Info.plist */,
 			);
-			path = BounceTests;
+			path = dttoTests;
 			sourceTree = "<group>";
 		};
-		04045C431DDFA010002BBD07 /* BounceUITests */ = {
+		04045C431DDFA010002BBD07 /* dttoUITests */ = {
 			isa = PBXGroup;
 			children = (
 				04045C441DDFA010002BBD07 /* BounceUITests.swift */,
 				04045C461DDFA010002BBD07 /* Info.plist */,
 			);
-			path = BounceUITests;
+			path = dttoUITests;
 			sourceTree = "<group>";
 		};
 		04051CC41E06714D00A3FDD6 /* Custom Views */ = {
@@ -312,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				041F542F1E050FE600D1C767 /* NotificationsPage.swift */,
+				04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */,
 				047079091E060BA10059C360 /* Requests.swift */,
 				0470790B1E0612E90059C360 /* Notifications.swift */,
 			);
@@ -380,6 +396,12 @@
 				EBC428A3ECCB2E106C87BA33 /* Pods-BounceTests.release.xcconfig */,
 				95A82548479929CA98B707FD /* Pods-BounceUITests.debug.xcconfig */,
 				B6546A2000FAF0BC00D408A4 /* Pods-BounceUITests.release.xcconfig */,
+				7B1D6066402798F9B8D3D601 /* Pods-dtto.debug.xcconfig */,
+				1B7E1DF596BFBA293A65580E /* Pods-dtto.release.xcconfig */,
+				AA8979D0ED762035586264AF /* Pods-dttoTests.debug.xcconfig */,
+				0C26BB6A592EA727E6A2DC6D /* Pods-dttoTests.release.xcconfig */,
+				2EB6FAD829CE81C2E01327C2 /* Pods-dttoUITests.debug.xcconfig */,
+				94B8B8F88F30DE6B06EF97EC /* Pods-dttoUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -392,6 +414,9 @@
 				064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */,
 				8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */,
 				7B733A0649D325DDC329C2D5 /* Pods_BounceUITests.framework */,
+				D6D31459ECB2325DB96E01AC /* Pods_dtto.framework */,
+				5E9C994C354F59F95DF6588A /* Pods_dttoTests.framework */,
+				879AAA5584D989B2E0A55122 /* Pods_dttoUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -572,7 +597,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BounceUITests/Pods-BounceUITests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-dttoUITests/Pods-dttoUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3394F3B172F8F2CC15E6F051 /* [CP] Embed Pods Frameworks */ = {
@@ -587,7 +612,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bounce/Pods-Bounce-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-dtto/Pods-dtto-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5919F9881AB69749CCDA317B /* [CP] Check Pods Manifest.lock */ = {
@@ -647,7 +672,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bounce/Pods-Bounce-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-dtto/Pods-dtto-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C31B8C40A7E773E85E1077CA /* [CP] Copy Pods Resources */ = {
@@ -662,7 +687,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BounceUITests/Pods-BounceUITests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-dttoUITests/Pods-dttoUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D9AB312B8B3FCCD307E4759C /* [CP] Embed Pods Frameworks */ = {
@@ -677,7 +702,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BounceTests/Pods-BounceTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-dttoTests/Pods-dttoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FB7033DBAE2B99C9319841FD /* [CP] Copy Pods Resources */ = {
@@ -692,7 +717,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BounceTests/Pods-BounceTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-dttoTests/Pods-dttoTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -710,6 +735,7 @@
 				041032AA1E03B76600B6BDE8 /* MenuCell.swift in Sources */,
 				04A6C7D91DDFC548004EFE14 /* Animations.swift in Sources */,
 				041032A81E03B2E000B6BDE8 /* HomePage.swift in Sources */,
+				04BD6EC01E0C986C00036DC7 /* RequestsPreview.swift in Sources */,
 				04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */,
 				04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */,
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,
@@ -887,57 +913,49 @@
 		};
 		04045C4A1DDFA010002BBD07 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 46164DF9B25AAD27BCCFB351 /* Pods-Bounce.debug.xcconfig */;
+			baseConfigurationReference = 7B1D6066402798F9B8D3D601 /* Pods-dtto.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APP_DISPLAY_NAME = "Dtto Debug";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Bounce/Bounce.entitlements;
+				CODE_SIGN_ENTITLEMENTS = dtto/dtto.entitlements;
 				DEVELOPMENT_TEAM = 3NP653TDUD;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Bounce/Sdk/Aws",
-					"$(PROJECT_DIR)/Bounce/AmazonAws",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Bounce/Info.plist";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/dtto/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Bounce/Bounce-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "dtto/dtto-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		04045C4B1DDFA010002BBD07 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7DFA1CE712DC73642348FE02 /* Pods-Bounce.release.xcconfig */;
+			baseConfigurationReference = 1B7E1DF596BFBA293A65580E /* Pods-dtto.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APP_DISPLAY_NAME = Dtto;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Bounce/Bounce.entitlements;
+				CODE_SIGN_ENTITLEMENTS = dtto/dtto.entitlements;
 				DEVELOPMENT_TEAM = 3NP653TDUD;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Bounce/Sdk/Aws",
-					"$(PROJECT_DIR)/Bounce/AmazonAws",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Bounce/Info.plist";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/dtto/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Bounce/Bounce-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "dtto/dtto-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		04045C4D1DDFA010002BBD07 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 66A5655F5E418920AF2F3A50 /* Pods-BounceTests.debug.xcconfig */;
+			baseConfigurationReference = AA8979D0ED762035586264AF /* Pods-dttoTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -953,7 +971,7 @@
 		};
 		04045C4E1DDFA010002BBD07 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EBC428A3ECCB2E106C87BA33 /* Pods-BounceTests.release.xcconfig */;
+			baseConfigurationReference = 0C26BB6A592EA727E6A2DC6D /* Pods-dttoTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -969,7 +987,7 @@
 		};
 		04045C501DDFA010002BBD07 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95A82548479929CA98B707FD /* Pods-BounceUITests.debug.xcconfig */;
+			baseConfigurationReference = 2EB6FAD829CE81C2E01327C2 /* Pods-dttoUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				DEVELOPMENT_TEAM = 3NP653TDUD;
@@ -984,7 +1002,7 @@
 		};
 		04045C511DDFA010002BBD07 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B6546A2000FAF0BC00D408A4 /* Pods-BounceUITests.release.xcconfig */;
+			baseConfigurationReference = 94B8B8F88F30DE6B06EF97EC /* Pods-dttoUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				DEVELOPMENT_TEAM = 3NP653TDUD;

@@ -77,7 +77,7 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - OneSignal (2.3.0)
+  - MIBadgeButton-Swift (0.5)
   - SkyFloatingLabelTextField (1.2.1)
 
 DEPENDENCIES:
@@ -88,15 +88,21 @@ DEPENDENCIES:
   - Firebase/Storage
   - Google/SignIn
   - JSQMessagesViewController
-  - OneSignal
+  - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
   - SkyFloatingLabelTextField (from `https://github.com/MLSDev/SkyFloatingLabelTextField`, branch `swift3`)
 
 EXTERNAL SOURCES:
+  MIBadgeButton-Swift:
+    :branch: master
+    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
   SkyFloatingLabelTextField:
     :branch: swift3
     :git: https://github.com/MLSDev/SkyFloatingLabelTextField
 
 CHECKOUT OPTIONS:
+  MIBadgeButton-Swift:
+    :commit: 44b28fd7c9071439861f9b0c366c84a55ffd7e53
+    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
   SkyFloatingLabelTextField:
     :commit: 03177934f990c794060765f33c408268ce8afee0
     :git: https://github.com/MLSDev/SkyFloatingLabelTextField
@@ -122,9 +128,9 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: a1f8ed39e4fe21c68957daed472c7afbcdf29166
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
-  OneSignal: 4c015191ce3ead559394e98eae351f90714e9429
+  MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
   SkyFloatingLabelTextField: 3f6610aded18e778df5cfab3b9e12a11b3e014e9
 
-PODFILE CHECKSUM: d2908adcfc539472ee9ea4e755c52804807fe8cd
+PODFILE CHECKSUM: 43c10d5b63d80f80e7620ac67c3fb5f518b4f8b1
 
 COCOAPODS: 1.2.0.beta.1
