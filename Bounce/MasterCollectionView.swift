@@ -14,7 +14,10 @@ class MasterCollectionView: UIViewController {
     private var chatRefHandle: FIRDatabaseHandle?
     private lazy var chatRef: FIRDatabaseReference = FIRDatabase.database().reference().child("chats")
     private lazy var userRef: FIRDatabaseReference = FIRDatabase.database().reference().child("users")
+    
     var chats = [Chat]()
+    var requests = [Notification]()
+    var relates = [Notification]()
     
     var horizontalBarView = UIView()
     var selectedIndex: Int = 0
@@ -42,7 +45,7 @@ class MasterCollectionView: UIViewController {
         }
     }
     
-    private func observeChannels() {
+    private func observeChats() {
         
         let userID = "uid1"
 
@@ -83,6 +86,42 @@ class MasterCollectionView: UIViewController {
         })
     }
     
+    private func observeNotifications() {
+        
+        let notificationsRef = FIREBASE_REF.child("relatesNotifications/uid1")
+        notificationsRef.observe(.childAdded, with: { snapshot in
+            
+            guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            
+            guard let uid = userNotifications["uid"] as? String, let name = userNotifications["name"] as? String, let questionID = userNotifications["questionID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
+            
+            let notification = Notification()
+            
+            notification.name = name
+            notification.questionID = questionID
+            notification.userID = uid
+            // process timestamp
+            notification.timestamp = timestamp
+            if let profileImageURL = userNotifications["profileImageURL"] as? String {
+                notification.profileImageURL = profileImageURL
+            }
+            
+            // Check if person wants to chat with user, or only related.
+            if let _ = userNotifications["request"] {
+                self.requests.append(notification)
+            }
+            
+            else {
+                self.relates.append(notification)
+            }
+            
+            
+            
+        })
+    }
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false
@@ -91,7 +130,8 @@ class MasterCollectionView: UIViewController {
         setupNavBar()
         setupHorizontalBar()
         setupCollectionView()
-        observeChannels()
+//        observeChats()
+//        observeNotifications()
         
         
     }

@@ -11,6 +11,7 @@ import UIKit
 class Notifications: BaseCollectionViewCell {
     
     var collectionView: UICollectionView!
+    var relates = [Notification]()
     
     override func setupViews() {
         
@@ -31,6 +32,7 @@ class Notifications: BaseCollectionViewCell {
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         collectionView.register(NotificationsCell.self, forCellWithReuseIdentifier: "NotificationsCell")
+
     }
     
     
@@ -44,12 +46,14 @@ extension Notifications: UICollectionViewDelegate, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // return # of requests
-        return 10
+        return relates.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
+        print("reloaded")
+        cell.desc.text = "\(relates[indexPath.item].name) related to you."
         return cell
         
     }
@@ -71,7 +75,7 @@ class NotificationsCell: BaseCollectionViewCell {
         super.setupViews()
         profile.contentMode = .scaleAspectFill
         profile.image = #imageLiteral(resourceName: "profile")
-        desc.text = "57 people related with your question."
+//        desc.text = "This person related to you."
         desc.adjustsFontSizeToFitWidth = true
         desc.sizeToFit()
         addSubview(desc)

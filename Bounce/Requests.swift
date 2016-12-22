@@ -11,7 +11,12 @@ import UIKit
 class Requests: BaseCollectionViewCell {
 
     var collectionView: UICollectionView!
-
+    var requests = [Notification]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     override func setupViews() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -19,8 +24,6 @@ class Requests: BaseCollectionViewCell {
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-//        guard let collectionView = collectionView else { return }
-//        collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = Color.gray247
         collectionView.delegate = self
@@ -33,6 +36,7 @@ class Requests: BaseCollectionViewCell {
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         collectionView.register(RequestsCell.self, forCellWithReuseIdentifier: "RequestsCell")
+
     }
     
 
@@ -47,13 +51,16 @@ extension Requests: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // return # of requests
-        return 5
+        return requests.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RequestsCell", for: indexPath) as! RequestsCell
         cell.backgroundColor = .clear
+        cell.name.text = requests[indexPath.item].name
+        
+        
         return cell
         
     }
@@ -69,17 +76,21 @@ extension Requests: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 class RequestsCell: BaseCollectionViewCell {
     
     let profile = RoundImageView()
+    let name = UILabel()
     
     override func setupViews() {
         super.setupViews()
         profile.contentMode = .scaleAspectFill
         profile.image = #imageLiteral(resourceName: "profile")
+        addSubview(name)
         addSubview(profile)
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.heightAnchor.constraint(equalToConstant: 50).isActive = true
         profile.widthAnchor.constraint(equalToConstant: 50).isActive = true
         profile.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         profile.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        name.topAnchor.constraint(equalTo: profile.bottomAnchor, constant: 10).isActive = true
+        name.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
     }
     

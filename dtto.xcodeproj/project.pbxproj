@@ -59,6 +59,7 @@
 		04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4EFA21E0A5DE700F1DDFA /* Date.swift */; };
 		04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6945C1E04D49600557833 /* QuestionCell.swift */; };
 		04F6945F1E04D49600557833 /* QuestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F6945D1E04D49600557833 /* QuestionCell.xib */; };
+		04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6EFBD1E0B6C1D0055015F /* Notification.swift */; };
 		28DC166C665F928AA6088372 /* Pods_BounceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */; };
 		A337F8F8F60A35207990BB24 /* Pods_BounceUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B733A0649D325DDC329C2D5 /* Pods_BounceUITests.framework */; };
 		ED1D2ECCA06C4E8622B19605 /* Pods_Bounce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */; };
@@ -80,6 +81,19 @@
 			remoteInfo = Mock;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04CFA1721E0C5E0F00ACD064 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		04045C211DDFA010002BBD07 /* dtto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dtto.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +142,8 @@
 		04A6C7DE1DDFCAC5004EFE14 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		04AF68501DFF748600216652 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		04B159E81DDFFBE200B6C74C /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		04CFA1791E0C633E00ACD064 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		04CFA17B1E0C634700ACD064 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeRootVC.swift; sourceTree = "<group>"; };
 		04D45ABC1DE2DA1F00A6B317 /* Bounce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bounce.entitlements; sourceTree = "<group>"; };
 		04D84FDB1DE3B61800023195 /* CreateEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEmail.swift; sourceTree = "<group>"; };
@@ -141,6 +157,7 @@
 		04F4EFA21E0A5DE700F1DDFA /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		04F6945C1E04D49600557833 /* QuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		04F6945D1E04D49600557833 /* QuestionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionCell.xib; sourceTree = "<group>"; };
+		04F6EFBD1E0B6C1D0055015F /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		04FAE7A11DE296650074CA39 /* Bounce-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bounce-Bridging-Header.h"; sourceTree = "<group>"; };
 		064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bounce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		46164DF9B25AAD27BCCFB351 /* Pods-Bounce.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bounce.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bounce/Pods-Bounce.debug.xcconfig"; sourceTree = "<group>"; };
@@ -267,6 +284,7 @@
 			children = (
 				04A6C7DE1DDFCAC5004EFE14 /* Person.swift */,
 				045AB28E1DFE70EB009D9394 /* User.swift */,
+				04F6EFBD1E0B6C1D0055015F /* Notification.swift */,
 				04AF68501DFF748600216652 /* Message.swift */,
 				049AB6B61DFE8E5000B45DC3 /* Chat.swift */,
 				045AB2911DFE71B1009D9394 /* Question.swift */,
@@ -369,6 +387,8 @@
 		D6EA4565AC045B0E0DB5D5E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04CFA17B1E0C634700ACD064 /* libz.tbd */,
+				04CFA1791E0C633E00ACD064 /* libsqlite3.tbd */,
 				064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */,
 				8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */,
 				7B733A0649D325DDC329C2D5 /* Pods_BounceUITests.framework */,
@@ -389,6 +409,7 @@
 				04045C1F1DDFA010002BBD07 /* Resources */,
 				3394F3B172F8F2CC15E6F051 /* [CP] Embed Pods Frameworks */,
 				9BBF88578A2B2932EC18B82A /* [CP] Copy Pods Resources */,
+				04CFA1721E0C5E0F00ACD064 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -693,6 +714,7 @@
 				04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */,
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,
 				04E459B91DE15AD5006003DF /* LoginForm.swift in Sources */,
+				04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */,
 				04051CC01E065D4400A3FDD6 /* AskQuestion.swift in Sources */,
 				045AB28F1DFE70EB009D9394 /* User.swift in Sources */,
 				04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */,
@@ -872,9 +894,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Bounce/Bounce.entitlements;
 				DEVELOPMENT_TEAM = 3NP653TDUD;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Bounce/Sdk/Aws",
+					"$(PROJECT_DIR)/Bounce/AmazonAws",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Bounce/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bounce/Bounce-Bridging-Header.h";
@@ -891,9 +919,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Bounce/Bounce.entitlements;
 				DEVELOPMENT_TEAM = 3NP653TDUD;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Bounce/Sdk/Aws",
+					"$(PROJECT_DIR)/Bounce/AmazonAws",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Bounce/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bounce/Bounce-Bridging-Header.h";
