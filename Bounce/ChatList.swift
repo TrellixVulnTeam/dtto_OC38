@@ -16,11 +16,11 @@ class ChatList: BaseCollectionViewCell {
     override func setupViews() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
+        layout.minimumLineSpacing = 1
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = Color.gray247
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -30,6 +30,7 @@ class ChatList: BaseCollectionViewCell {
         collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
         collectionView.register(UINib(nibName: "ChatListCell", bundle: nil), forCellWithReuseIdentifier: "ChatListCell")
     }
 
@@ -51,34 +52,29 @@ extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         
         cell.lastMessage.text = chats[indexPath.row].lastMessage
         cell.name.text = chats[indexPath.row].name
-        cell.timeStamp.text = chats[indexPath.row].timeStamp
-        
+        cell.timestamp.text = chats[indexPath.row].timestamp
         cell.profile.image = #imageLiteral(resourceName: "profile")
         
-        
         return cell
-        
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        let user = User()
-        user.uid = chats[indexPath.row].senderID
-        user.name = chats[indexPath.row].name
+        let chat = chats[indexPath.row]
+        let name = chat.name ?? "Anonymous"
+        guard let messagesRef = chat.chatID else { return }
         
-        let chatViewController = ChatViewController()
-        chatViewController.user = user
+        let messagesViewController = MessagesViewController()
+        messagesViewController.title = name
+        messagesViewController.messagesRef = FIREBASE_REF.child("messages/\(messagesRef)")
         
-        masterViewDelegate?.navigationController?.pushViewController(chatViewController, animated: true)
+        masterViewDelegate?.navigationController?.pushViewController(messagesViewController, animated: true)
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
         return CGSize(width: collectionView.frame.width, height: 70)
-        
-        
     }
     
 }

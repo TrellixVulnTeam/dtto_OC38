@@ -41,7 +41,7 @@
 		049AB6B11DFE841F00B45DC3 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB6B01DFE841F00B45DC3 /* ChatList.swift */; };
 		049AB6B41DFE869700B45DC3 /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB6B21DFE869700B45DC3 /* ChatListCell.swift */; };
 		049AB6B71DFE8E5000B45DC3 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB6B61DFE8E5000B45DC3 /* Chat.swift */; };
-		04A66B901DE68F0100D7EC91 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A66B8F1DE68F0100D7EC91 /* ChatViewController.swift */; };
+		04A66B901DE68F0100D7EC91 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A66B8F1DE68F0100D7EC91 /* MessagesViewController.swift */; };
 		04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6C7D61DDFB154004EFE14 /* GlobalConstants.swift */; };
 		04A6C7D91DDFC548004EFE14 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6C7D81DDFC548004EFE14 /* Animations.swift */; };
 		04A6C7DF1DDFCAC5004EFE14 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6C7DE1DDFCAC5004EFE14 /* Person.swift */; };
@@ -56,6 +56,7 @@
 		04E459BC1DE15C19006003DF /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BB1DE15C19006003DF /* Login.storyboard */; };
 		04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459BD1DE15C3D006003DF /* LoginHome.swift */; };
 		04E459C01DE15C3D006003DF /* LoginHome.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BE1DE15C3D006003DF /* LoginHome.xib */; };
+		04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4EFA21E0A5DE700F1DDFA /* Date.swift */; };
 		04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6945C1E04D49600557833 /* QuestionCell.swift */; };
 		04F6945F1E04D49600557833 /* QuestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F6945D1E04D49600557833 /* QuestionCell.xib */; };
 		28DC166C665F928AA6088372 /* Pods_BounceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */; };
@@ -81,15 +82,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04045C211DDFA010002BBD07 /* Bounce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bounce.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04045C211DDFA010002BBD07 /* dtto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dtto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04045C241DDFA010002BBD07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04045C2B1DDFA010002BBD07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04045C2E1DDFA010002BBD07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04045C301DDFA010002BBD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04045C351DDFA010002BBD07 /* BounceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BounceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04045C351DDFA010002BBD07 /* dttoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dttoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04045C391DDFA010002BBD07 /* BounceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceTests.swift; sourceTree = "<group>"; };
 		04045C3B1DDFA010002BBD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04045C401DDFA010002BBD07 /* BounceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BounceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04045C401DDFA010002BBD07 /* dttoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dttoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04045C441DDFA010002BBD07 /* BounceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceUITests.swift; sourceTree = "<group>"; };
 		04045C461DDFA010002BBD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04051CBE1E065D4400A3FDD6 /* AskQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskQuestion.swift; sourceTree = "<group>"; };
@@ -121,7 +122,7 @@
 		049AB6B01DFE841F00B45DC3 /* ChatList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
 		049AB6B21DFE869700B45DC3 /* ChatListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		049AB6B61DFE8E5000B45DC3 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
-		04A66B8F1DE68F0100D7EC91 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		04A66B8F1DE68F0100D7EC91 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		04A6C7D61DDFB154004EFE14 /* GlobalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		04A6C7D81DDFC548004EFE14 /* Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		04A6C7DE1DDFCAC5004EFE14 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -137,6 +138,7 @@
 		04E459BB1DE15C19006003DF /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		04E459BD1DE15C3D006003DF /* LoginHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHome.swift; sourceTree = "<group>"; };
 		04E459BE1DE15C3D006003DF /* LoginHome.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginHome.xib; sourceTree = "<group>"; };
+		04F4EFA21E0A5DE700F1DDFA /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		04F6945C1E04D49600557833 /* QuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		04F6945D1E04D49600557833 /* QuestionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionCell.xib; sourceTree = "<group>"; };
 		04FAE7A11DE296650074CA39 /* Bounce-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bounce-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -194,9 +196,9 @@
 		04045C221DDFA010002BBD07 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				04045C211DDFA010002BBD07 /* Bounce.app */,
-				04045C351DDFA010002BBD07 /* BounceTests.xctest */,
-				04045C401DDFA010002BBD07 /* BounceUITests.xctest */,
+				04045C211DDFA010002BBD07 /* dtto.app */,
+				04045C351DDFA010002BBD07 /* dttoTests.xctest */,
+				04045C401DDFA010002BBD07 /* dttoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -317,7 +319,7 @@
 				049AB6B01DFE841F00B45DC3 /* ChatList.swift */,
 				049AB6B21DFE869700B45DC3 /* ChatListCell.swift */,
 				045248041E089F2F007D6C3E /* ChatListCell.xib */,
-				04A66B8F1DE68F0100D7EC91 /* ChatViewController.swift */,
+				04A66B8F1DE68F0100D7EC91 /* MessagesViewController.swift */,
 				0497C2C81DE417D500485A92 /* Channel.swift */,
 				045248061E08A1F5007D6C3E /* ChatSettings.swift */,
 				045248071E08A1F5007D6C3E /* ChatSettings.xib */,
@@ -329,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				04A6C7D81DDFC548004EFE14 /* Animations.swift */,
+				04F4EFA21E0A5DE700F1DDFA /* Date.swift */,
 				04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */,
 				04B159E81DDFFBE200B6C74C /* FirebaseService.swift */,
 				04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */,
@@ -376,9 +379,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		04045C201DDFA010002BBD07 /* Bounce */ = {
+		04045C201DDFA010002BBD07 /* dtto */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04045C491DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "Bounce" */;
+			buildConfigurationList = 04045C491DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "dtto" */;
 			buildPhases = (
 				94AF2B9275217E0BA83DBF2D /* [CP] Check Pods Manifest.lock */,
 				04045C1D1DDFA010002BBD07 /* Sources */,
@@ -391,14 +394,14 @@
 			);
 			dependencies = (
 			);
-			name = Bounce;
+			name = dtto;
 			productName = Mock;
-			productReference = 04045C211DDFA010002BBD07 /* Bounce.app */;
+			productReference = 04045C211DDFA010002BBD07 /* dtto.app */;
 			productType = "com.apple.product-type.application";
 		};
-		04045C341DDFA010002BBD07 /* BounceTests */ = {
+		04045C341DDFA010002BBD07 /* dttoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04045C4C1DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "BounceTests" */;
+			buildConfigurationList = 04045C4C1DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "dttoTests" */;
 			buildPhases = (
 				875D11E67CC7AFDDBFD94362 /* [CP] Check Pods Manifest.lock */,
 				04045C311DDFA010002BBD07 /* Sources */,
@@ -412,14 +415,14 @@
 			dependencies = (
 				04045C371DDFA010002BBD07 /* PBXTargetDependency */,
 			);
-			name = BounceTests;
+			name = dttoTests;
 			productName = MockTests;
-			productReference = 04045C351DDFA010002BBD07 /* BounceTests.xctest */;
+			productReference = 04045C351DDFA010002BBD07 /* dttoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		04045C3F1DDFA010002BBD07 /* BounceUITests */ = {
+		04045C3F1DDFA010002BBD07 /* dttoUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04045C4F1DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "BounceUITests" */;
+			buildConfigurationList = 04045C4F1DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "dttoUITests" */;
 			buildPhases = (
 				5919F9881AB69749CCDA317B /* [CP] Check Pods Manifest.lock */,
 				04045C3C1DDFA010002BBD07 /* Sources */,
@@ -433,9 +436,9 @@
 			dependencies = (
 				04045C421DDFA010002BBD07 /* PBXTargetDependency */,
 			);
-			name = BounceUITests;
+			name = dttoUITests;
 			productName = MockUITests;
-			productReference = 04045C401DDFA010002BBD07 /* BounceUITests.xctest */;
+			productReference = 04045C401DDFA010002BBD07 /* dttoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -453,7 +456,13 @@
 						DevelopmentTeam = 3NP653TDUD;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -472,7 +481,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 04045C1C1DDFA010002BBD07 /* Build configuration list for PBXProject "Bounce" */;
+			buildConfigurationList = 04045C1C1DDFA010002BBD07 /* Build configuration list for PBXProject "dtto" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -485,9 +494,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				04045C201DDFA010002BBD07 /* Bounce */,
-				04045C341DDFA010002BBD07 /* BounceTests */,
-				04045C3F1DDFA010002BBD07 /* BounceUITests */,
+				04045C201DDFA010002BBD07 /* dtto */,
+				04045C341DDFA010002BBD07 /* dttoTests */,
+				04045C3F1DDFA010002BBD07 /* dttoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -703,11 +712,12 @@
 				045AB2921DFE71B1009D9394 /* Question.swift in Sources */,
 				04045C251DDFA010002BBD07 /* AppDelegate.swift in Sources */,
 				0470790C1E0612E90059C360 /* Notifications.swift in Sources */,
+				04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */,
 				049AB6B71DFE8E5000B45DC3 /* Chat.swift in Sources */,
 				045AB2961DFE7970009D9394 /* TransitioningObject.swift in Sources */,
 				04051CC71E0679A300A3FDD6 /* NameCell.swift in Sources */,
 				045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */,
-				04A66B901DE68F0100D7EC91 /* ChatViewController.swift in Sources */,
+				04A66B901DE68F0100D7EC91 /* MessagesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,12 +742,12 @@
 /* Begin PBXTargetDependency section */
 		04045C371DDFA010002BBD07 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04045C201DDFA010002BBD07 /* Bounce */;
+			target = 04045C201DDFA010002BBD07 /* dtto */;
 			targetProxy = 04045C361DDFA010002BBD07 /* PBXContainerItemProxy */;
 		};
 		04045C421DDFA010002BBD07 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04045C201DDFA010002BBD07 /* Bounce */;
+			target = 04045C201DDFA010002BBD07 /* dtto */;
 			targetProxy = 04045C411DDFA010002BBD07 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -858,14 +868,14 @@
 			baseConfigurationReference = 46164DF9B25AAD27BCCFB351 /* Pods-Bounce.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				APP_DISPLAY_NAME = "Bounce Debug";
+				APP_DISPLAY_NAME = "Dtto Debug";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Bounce/Bounce.entitlements;
 				DEVELOPMENT_TEAM = 3NP653TDUD;
 				INFOPLIST_FILE = "$(SRCROOT)/Bounce/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jk.bounce;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bounce/Bounce-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -877,14 +887,14 @@
 			baseConfigurationReference = 7DFA1CE712DC73642348FE02 /* Pods-Bounce.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				APP_DISPLAY_NAME = Bounce;
+				APP_DISPLAY_NAME = Dtto;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Bounce/Bounce.entitlements;
 				DEVELOPMENT_TEAM = 3NP653TDUD;
 				INFOPLIST_FILE = "$(SRCROOT)/Bounce/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jk.bounce;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bounce/Bounce-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -903,7 +913,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jk.BounceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bounce.app/Bounce";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dtto.app/dtto";
 			};
 			name = Debug;
 		};
@@ -919,7 +929,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jk.BounceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bounce.app/Bounce";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dtto.app/dtto";
 			};
 			name = Release;
 		};
@@ -956,7 +966,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		04045C1C1DDFA010002BBD07 /* Build configuration list for PBXProject "Bounce" */ = {
+		04045C1C1DDFA010002BBD07 /* Build configuration list for PBXProject "dtto" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04045C471DDFA010002BBD07 /* Debug */,
@@ -965,7 +975,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04045C491DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "Bounce" */ = {
+		04045C491DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "dtto" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04045C4A1DDFA010002BBD07 /* Debug */,
@@ -974,7 +984,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04045C4C1DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "BounceTests" */ = {
+		04045C4C1DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "dttoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04045C4D1DDFA010002BBD07 /* Debug */,
@@ -983,7 +993,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04045C4F1DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "BounceUITests" */ = {
+		04045C4F1DDFA010002BBD07 /* Build configuration list for PBXNativeTarget "dttoUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04045C501DDFA010002BBD07 /* Debug */,

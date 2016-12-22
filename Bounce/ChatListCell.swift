@@ -14,7 +14,7 @@ class ChatListCell: UICollectionViewCell {
     @IBOutlet weak var profile: RoundImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var lastMessage: UILabel!
-    @IBOutlet weak var timeStamp: UILabel!
+    @IBOutlet weak var timestamp: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

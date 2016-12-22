@@ -12,7 +12,7 @@ import Firebase
 class MasterCollectionView: UIViewController {
     
     private var chatRefHandle: FIRDatabaseHandle?
-    private lazy var chatRef: FIRDatabaseReference = FIRDatabase.database().reference().child("userMessages")
+    private lazy var chatRef: FIRDatabaseReference = FIRDatabase.database().reference().child("chats")
     private lazy var userRef: FIRDatabaseReference = FIRDatabase.database().reference().child("users")
     var chats = [Chat]()
     
@@ -47,16 +47,31 @@ class MasterCollectionView: UIViewController {
         let userID = "uid1"
 
         chatRef.child(userID).observe(.childAdded, with: { (snapshot) -> Void in
-
+            
+            let chatID = snapshot.key
+            
             guard let userChat = snapshot.value as? Dictionary<String, AnyObject> else { return }
-
-            guard let senderID = userChat["senderID"] as? String, let name = userChat["name"] as? String, let lastMessage = userChat["lastMessage"] as? String!, let timeStamp = userChat["timeStamp"] as? String else { return }
+            
+            guard let senderID = userChat["senderID"] as? String, let name = userChat["name"] as? String, let lastMessage = userChat["lastMessage"] as? String!, let timestamp = userChat["timestamp"] as? String else { return }
             
             let chat = Chat()
+            chat.chatID = chatID
             chat.senderID = senderID
             chat.name = name
             chat.lastMessage = lastMessage
-            chat.timeStamp = timeStamp
+            
+//            let cal = Calendar(identifier: .gregorian)
+//            let c = Calendar.current
+//            let current = c.startOfDay(for: Date())
+            let currentDate = Date()
+            let timestampDate = stringToDate(timestamp)
+            
+            
+            
+            
+                // just show hours and minutes.
+            
+            chat.timestamp = timestamp
             
             if let profileImageURL = userChat["profileImageURL"] as? String {
                 chat.profileImageURL = profileImageURL
@@ -88,6 +103,9 @@ class MasterCollectionView: UIViewController {
         horizontalBarView.isHidden = false
         if initialLoad {
             collectionView.contentOffset.x = SCREENWIDTH
+            UIView.animate(withDuration: 0.2, animations: {
+                self.collectionView.alpha = 1
+            })
             initialLoad = false
         }
         
@@ -165,8 +183,8 @@ class MasterCollectionView: UIViewController {
         collectionView.dataSource = self
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .white
-        
+        collectionView.backgroundColor = Color.gray247
+        collectionView.alpha = 0
         self.view.addSubview(collectionView)
         self.automaticallyAdjustsScrollViewInsets = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false

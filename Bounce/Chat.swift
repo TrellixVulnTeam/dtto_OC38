@@ -10,11 +10,13 @@ import Foundation
 
 class Chat: NSObject {
     
+    var chatID: String?
     var senderID: String?
     var name: String?
     var lastMessage: String?
-    var timeStamp: String?
+    var timestamp: String?
     var profileImageURL: String?
+    
     
 
     

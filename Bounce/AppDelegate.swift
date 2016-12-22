@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FBSDKLoginKit
+import OneSignal
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,19 +18,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        // Third Party Providers
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
+        
         FIRApp.configure()
-        self.window = UIWindow(frame: UIScreen.main.bounds)
+        OneSignal.initWithLaunchOptions(launchOptions, appId: "f3e8ea68-ce71-4b93-be78-afc94998b4fe")
+        
+        
+        
         // Navigation Bar Setup
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : Color.darkNavy]
         UINavigationBar.appearance().tintColor = Color.darkNavy
         UINavigationBar.appearance().barTintColor = .white
         
-        // Login Providers
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         let initialViewController = TabBarController()
         UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
             self.window!.rootViewController = initialViewController

@@ -10,19 +10,17 @@ import UIKit
 import JSQMessagesViewController
 import Firebase
 
-final class ChatViewController: JSQMessagesViewController {
+final class MessagesViewController: JSQMessagesViewController {
 
     var messages = [JSQMessage]()
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
 //    private lazy var messageRef: FIRDatabaseReference = self.channelRef!.child("messages")
     private var newMessageRefHandle: FIRDatabaseHandle?
-    var chatRef: FIRDatabaseReference?
     
-    var user: User? {
+    var messagesRef: FIRDatabaseReference? {
         didSet {
-            self.title = user?.name
-            // observeMessages
+            getMessages()
         }
     }
     
@@ -33,6 +31,11 @@ final class ChatViewController: JSQMessagesViewController {
 
     }
     
+    private func setupCollectionView() {
+        
+        collectionView.collectionViewLayout = AnimatedFlowLayout()
+        
+    }
     func showChatSettings() {
         // push with nav bar.
         let chatSettings = ChatSettings(nibName: "ChatSettings", bundle: nil)
@@ -41,15 +44,27 @@ final class ChatViewController: JSQMessagesViewController {
     
     private func getMessages() {
         
+        guard let messagesRef = messagesRef else { return }
+        messagesRef.observe(.childAdded, with: { snapshot in
+            
+            guard let messageData = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            
+            if let senderID = messageData["senderID"] as? String, let name = messageData["name"] as? String, let text = messageData["text"] as? String {
+                self.addMessage(withId: senderID, name: name, text: text)
+                self.finishReceivingMessage()
+            }
+            
+        })
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.senderId = "123"
+        
+        self.senderId = "uid1"
         self.senderDisplayName = "Jitae"
         hideKeyboardWhenTappedAround()
         setupNavBar()
-        getMessages()
+        setupCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,18 +82,26 @@ final class ChatViewController: JSQMessagesViewController {
     // MARK: JSQMessages Delegate Methods
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
-//        let itemRef = messageRef.childByAutoId() // 1
-        let messageItem = [ // 2
-            "senderId": senderId!,
-            "senderName": senderDisplayName!,
+        
+        guard let messagesRef = messagesRef, let date = date else { return }
+        
+        let messageRef = messagesRef.childByAutoId()
+        
+        let messageItem = [
+            "senderID": senderId!,
+            "name": senderDisplayName!,
             "text": text!,
+            "timestamp": "\(date)",
             ]
         
-//        itemRef.setValue(messageItem) // 3
+        messageRef.setValue(messageItem)
         
-        JSQSystemSoundPlayer.jsq_playMessageSentSound() // 4
+        JSQSystemSoundPlayer.jsq_playMessageSentSound()
         
-        finishSendingMessage() // 5
+        finishSendingMessage(animated: true)
+
+
+        
     }
 
     private func addMessage(withId id: String, name: String, text: String) {
@@ -88,7 +111,9 @@ final class ChatViewController: JSQMessagesViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
-        return nil
+        let a = JSQMessagesAvatarImage(placeholder: #imageLiteral(resourceName: "acceptNormal"))
+        a?.avatarImage = #imageLiteral(resourceName: "profile")
+        return a
     }
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
@@ -100,12 +125,25 @@ final class ChatViewController: JSQMessagesViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
-        let message = messages[indexPath.item] // 1
-        if message.senderId == senderId { // 2
+        let message = messages[indexPath.item]
+        if message.senderId == senderId {
             return outgoingBubbleImageView
-        } else { // 3
+        } else {
             return incomingBubbleImageView
         }
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAt indexPath: IndexPath!) -> CGFloat {
+        return 20
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+        
+        let timestamp = messages[indexPath.item].date
+        
+        let timeLabel = NSAttributedString(string: "\(timestamp)")
+        return timeLabel
+        
     }
 
 
@@ -119,4 +157,8 @@ final class ChatViewController: JSQMessagesViewController {
         return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
     }
 
+}
+
+class AnimatedFlowLayout: JSQMessagesCollectionViewFlowLayout {
+    
 }
