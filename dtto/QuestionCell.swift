@@ -17,6 +17,7 @@ class QuestionCell: UICollectionViewCell {
     @IBOutlet weak var chatButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     
+    weak var requestChatDelegate: RequestChat?
     @IBAction func selectButton(_ sender: UIButton!) {
         if sender.isSelected {
             sender.isSelected = false

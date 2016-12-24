@@ -54,13 +54,12 @@ class MasterCollectionView: UIViewController {
         let userChatsRef = FIREBASE_REF.child("users/\(userID)/chats")
         
         userChatsRef.observe(.childAdded, with: { snapshot in
-            print(snapshot)
         
             let chatID = snapshot.key
             
             let chatRoomRef = FIREBASE_REF.child("chats/\(chatID)")
             chatRoomRef.observe(.value, with: { snapshot in
-                print(snapshot)
+
                 guard let userChat = snapshot.value as? NSDictionary else { return }
                 
                 guard let users = userChat["users"] as? Dictionary<String, AnyObject>, let questionID = userChat["questionID"] as? String else { return }
@@ -244,6 +243,7 @@ class MasterCollectionView: UIViewController {
         homeButton.addTarget(self, action: #selector(scrollToMenuIndex(_:)), for: UIControlEvents.touchUpInside)
         homeButton.tag = 1
         self.navigationItem.titleView = homeButton
+        self.navigationController?.navigationBar.isTranslucent = false
 
     }
     
@@ -361,7 +361,6 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
             
         case .Home:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomePage", for: indexPath) as! HomePage
-
             return cell
 
         case .Chat:

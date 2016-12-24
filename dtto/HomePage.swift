@@ -8,12 +8,18 @@
 
 import UIKit
 
-class HomePage: BaseCollectionViewCell {
+protocol RequestChat : class {
+    func requestChat(row: Int)
+}
+
+class HomePage: BaseCollectionViewCell, RequestChat {
     
+    var questions = [Question]()
     var collectionView: UICollectionView!
     
-    
     override func setupViews() {
+        
+        observeQuestions()
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -42,7 +48,51 @@ class HomePage: BaseCollectionViewCell {
         
     }
     
+    private func observeQuestions() {
+        
+        let questionsRef = FIREBASE_REF.child("questions")
+        
+        questionsRef.observe(.childAdded, with: { snapshot in
+            
+            if let questionData = snapshot.value as? Dictionary<String, AnyObject> {
+                
+                guard let questionID = questionData["questionID"] as? String, let text = questionData["text"] as? String else { return }
+                
+                let question = Question()
+                question.questionID = questionID
+                question.text = text
+                
+                let name = questionData["name"] as? String ?? "Anonymous"
+                question.name = name
+                
+                if let chatCount = questionData["chatCount"] as? Int {
+                    question.chatCount = chatCount
+                }
+                
+                if let relateCount = questionData["relateCount"] as? Int {
+                    question.relateCount = relateCount
+                }
+                
+                if let tags = questionData["tags"] as? Dictionary<String, AnyObject> {
+                    for tag in tags {
+                        question.tags = "\(question.tags), \(tag.key)"
+                    }
+                }
+                
+                self.questions.append(question)
+                self.collectionView.reloadData()
+                
+            }
+            
+            
+        })
+    }
     
+    func requestChat(row: Int) {
+        
+        guard let questionID = questions[row].questionID else { return }
+        
+    }
     func doubleTapped(_ gestureReconizer: UITapGestureRecognizer) {
         
         let p = gestureReconizer.location(in: self.collectionView)
@@ -79,8 +129,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        
-        return 4
+        return questions.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -95,6 +144,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 //            
 //        }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuestionCell", for: indexPath) as! QuestionCell
+        cell.requestChatDelegate = self
         
         cell.upvoteButton.setImage(#imageLiteral(resourceName: "upvote"), for: .normal)
         cell.upvoteButton.setImage(#imageLiteral(resourceName: "upvote"), for: .selected)

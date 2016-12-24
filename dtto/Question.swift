@@ -8,10 +8,15 @@
 
 class Question: NSObject {
     
-    var id: String?
+    var questionID: String?
     var name: String?
+    var displayName: String?
+    var text: String?
     var profileImageURL: String?
-    var question: String?
     var category: String?
+    var chatCount: Int?
+    var relateCount: Int?
+    var tags: String?
+    
     
 }

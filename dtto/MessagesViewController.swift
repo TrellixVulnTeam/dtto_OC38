@@ -62,7 +62,7 @@ final class MessagesViewController: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = .clear
         self.senderId = "uid1"
         self.senderDisplayName = "Jitae"
         hideKeyboardWhenTappedAround()
@@ -108,8 +108,6 @@ final class MessagesViewController: JSQMessagesViewController {
         
         finishSendingMessage(animated: true)
 
-
-        
     }
 
     private func addMessage(withId id: String, name: String, text: String) {

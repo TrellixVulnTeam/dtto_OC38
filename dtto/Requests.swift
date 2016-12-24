@@ -11,7 +11,7 @@ import MIBadgeButton_Swift
 
 class Requests: BaseCollectionViewCell {
     
-    let profile = RoundImageView()
+    let profile = UIImageView()
     let requestsLabel = UILabel()
     let badge = MIBadgeButton()
     
@@ -37,11 +37,10 @@ class Requests: BaseCollectionViewCell {
     
     override func setupViews() {
         super.setupViews()
-        
+        backgroundColor = .white
         badge.badgeBackgroundColor = .red
         badge.badgeTextColor = .white
         
-        profile.contentMode = .scaleAspectFill
         profile.image = #imageLiteral(resourceName: "user")
         
         addSubview(requestsLabel)

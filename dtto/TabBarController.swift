@@ -11,7 +11,7 @@ import UIKit
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
 //    let tabTitles = ["Home", "Messages"]
-    let tabIcons = [#imageLiteral(resourceName: "home"), #imageLiteral(resourceName: "plus"), #imageLiteral(resourceName: "user")]
+    let tabIcons = [#imageLiteral(resourceName: "home"), #imageLiteral(resourceName: "plus"), #imageLiteral(resourceName: "userTab")]
 //    let storyboards = ["Main", "Ability", "Tavern", "Settings"]
 //    let childVCs = ["HomeNav", "AbilityNav", "TavernNav", "FavoritesNav"]
     
@@ -22,7 +22,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
         setupTabBar()
         self.tabBar.tintColor = Color.darkNavy
-        
+        self.view.backgroundColor = .clear
     }
     
     func setupTabBar() {
@@ -58,11 +58,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 
                 
             default:
-                
-                
-//                let vc = ChatList()
-//                let child = UINavigationController(rootViewController: vc)
-                
+
                 let child = UIViewController()
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
