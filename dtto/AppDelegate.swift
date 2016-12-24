@@ -25,7 +25,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FIRApp.configure()
         
-        
+        FIRAuth.auth()?.signIn(withEmail: "test@gmail.com", password: "test123") { (user, error) in
+            if error != nil {
+                print("could not login")
+            }
+            else {
+                print("logged in!")
+                
+            }
+        }
         
         // Navigation Bar Setup
         

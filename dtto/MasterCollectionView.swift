@@ -38,52 +38,77 @@ class MasterCollectionView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        if let refHandle = chatRefHandle {
-            chatRef.removeObserver(withHandle: refHandle)
-            print("DEINITED")
-        }
-    }
+//    deinit {
+//        if let refHandle = chatRefHandle {
+//            chatRef.removeObserver(withHandle: refHandle)
+//            print("DEINITED")
+//        }
+//    }
     
-    private func observeChats() {
+    func observeChats() {
         
-        let userID = "uid1"
+        // Check user path for list of chat IDs.
+        
+        guard let userID = FIRAuth.auth()?.currentUser?.uid else { return }
 
-        chatRef.child(userID).observe(.childAdded, with: { (snapshot) -> Void in
-            
+        let userChatsRef = FIREBASE_REF.child("users/\(userID)/chats")
+        
+        userChatsRef.observe(.childAdded, with: { snapshot in
+            print(snapshot)
+        
             let chatID = snapshot.key
             
-            guard let userChat = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            let chatRoomRef = FIREBASE_REF.child("chats/\(chatID)")
+            chatRoomRef.observe(.value, with: { snapshot in
+                
+                guard let userChat = snapshot.value as? NSDictionary else { return }
+                
+                guard let users = userChat["users"] as? Dictionary<String, AnyObject>, let questionID = userChat["questionID"] as? String else { return }
+                
+                let chat = Chat()
+                
+                for user in users {
+                    // get the other user's information
+                    if user.key != userID {
+                        
+                        guard let friendName = user.value as? String else { return }
+                        chat.name = friendName
+                    }
+                }
+                
+                chat.chatID = chatID
+                chat.questionID = questionID
+                
+                if let senderID = userChat["senderID"] as? String, let lastMessage = userChat["lastMessage"] as? String!, let timestamp = userChat["timestamp"] as? String {
+                    
+                    chat.senderID = senderID
+                    chat.lastMessage = lastMessage
+                    
+//                    let cal = Calendar(identifier: .gregorian)
+//                    let c = Calendar.current
+//                    let current = c.startOfDay(for: Date())
+                    let currentDate = Date()
+                    let timestampDate = stringToDate(timestamp)
+                    
+                    
+                    // just show hours and minutes.
+                    
+                    chat.timestamp = timestamp
+                    
+                }
+
+                if let profileImageURL = userChat["profileImageURL"] as? String {
+                    chat.profileImageURL = profileImageURL
+                }
+                
+                self.chats.append(chat)
+                self.collectionView.reloadData()
+                
+                
+            })
             
-            guard let senderID = userChat["senderID"] as? String, let name = userChat["name"] as? String, let lastMessage = userChat["lastMessage"] as? String!, let timestamp = userChat["timestamp"] as? String else { return }
-            
-            let chat = Chat()
-            chat.chatID = chatID
-            chat.senderID = senderID
-            chat.name = name
-            chat.lastMessage = lastMessage
-            
-//            let cal = Calendar(identifier: .gregorian)
-//            let c = Calendar.current
-//            let current = c.startOfDay(for: Date())
-            let currentDate = Date()
-            let timestampDate = stringToDate(timestamp)
-            
-            
-            
-            
-                // just show hours and minutes.
-            
-            chat.timestamp = timestamp
-            
-            if let profileImageURL = userChat["profileImageURL"] as? String {
-                chat.profileImageURL = profileImageURL
-            }
-            
-            self.chats.append(chat)
-            self.collectionView.reloadData()
-            
-        })
+        })  
+        
     }
     
     private func observeNotifications() {
@@ -130,7 +155,7 @@ class MasterCollectionView: UIViewController {
         setupNavBar()
         setupHorizontalBar()
         setupCollectionView()
-//        observeChats()
+        observeChats()
 //        observeNotifications()
         
         
@@ -140,7 +165,10 @@ class MasterCollectionView: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        navigationController?.hidesBarsOnSwipe = true
-        horizontalBarView.isHidden = false
+        UIView.animate(withDuration: 0.2, animations: {
+            self.horizontalBarView.alpha = 1
+        })
+        
         if initialLoad {
             collectionView.contentOffset.x = SCREENWIDTH
             UIView.animate(withDuration: 0.2, animations: {
@@ -150,16 +178,22 @@ class MasterCollectionView: UIViewController {
         }
         
         let selectedCV = IndexPath(item: selectedIndex, section: 0)
-        guard let cv = collectionView.cellForItem(at: selectedCV) as? ChatList else { return }
-        guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
-        cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
         
+        if let cv = collectionView.cellForItem(at: selectedCV) as? ChatList {
+            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
+            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
+        }
+        
+        else if let cv = collectionView.cellForItem(at: selectedCV) as? NotificationsPage {
+            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
+            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
+        }
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        horizontalBarView.isHidden = true
+        horizontalBarView.alpha = 0
         
     }
     
@@ -315,6 +349,7 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
             
         case .Notifications:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NotificationsPage", for: indexPath) as! NotificationsPage
+            cell.masterViewDelegate = self
             return cell
             
         case .Home:

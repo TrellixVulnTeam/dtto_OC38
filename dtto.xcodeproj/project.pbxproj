@@ -23,6 +23,9 @@
 		041032AA1E03B76600B6BDE8 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041032A91E03B76600B6BDE8 /* MenuCell.swift */; };
 		041032AC1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041032AB1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift */; };
 		0412EB831DE28382000203E6 /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412EB821DE28382000203E6 /* FloatingTextField.swift */; };
+		041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */; };
+		041E5BFA1E0CB6CE002533EF /* RequestsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */; };
+		041E5BFB1E0CB6CE002533EF /* RequestsViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */; };
 		041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F542F1E050FE600D1C767 /* NotificationsPage.swift */; };
 		045248051E089F2F007D6C3E /* ChatListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045248041E089F2F007D6C3E /* ChatListCell.xib */; };
 		045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045248061E08A1F5007D6C3E /* ChatSettings.swift */; };
@@ -121,6 +124,9 @@
 		041032A91E03B76600B6BDE8 /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		041032AB1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		0412EB821DE28382000203E6 /* FloatingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
+		041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewController.swift; sourceTree = "<group>"; };
+		041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewCell.swift; sourceTree = "<group>"; };
+		041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestsViewCell.xib; sourceTree = "<group>"; };
 		041F542F1E050FE600D1C767 /* NotificationsPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
 		045248041E089F2F007D6C3E /* ChatListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatListCell.xib; sourceTree = "<group>"; };
 		045248061E08A1F5007D6C3E /* ChatSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSettings.swift; sourceTree = "<group>"; };
@@ -330,6 +336,9 @@
 				04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */,
 				047079091E060BA10059C360 /* Requests.swift */,
 				0470790B1E0612E90059C360 /* Notifications.swift */,
+				041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */,
+				041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */,
+				041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */,
 			);
 			name = NotificationsPage;
 			sourceTree = "<group>";
@@ -560,6 +569,7 @@
 				04045C2C1DDFA010002BBD07 /* Assets.xcassets in Resources */,
 				045248051E089F2F007D6C3E /* ChatListCell.xib in Resources */,
 				0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */,
+				041E5BFB1E0CB6CE002533EF /* RequestsViewCell.xib in Resources */,
 				041032A61E03AB6400B6BDE8 /* Main.storyboard in Resources */,
 				04F6945F1E04D49600557833 /* QuestionCell.xib in Resources */,
 				04051CC81E0679A300A3FDD6 /* NameCell.xib in Resources */,
@@ -737,6 +747,7 @@
 				041032A81E03B2E000B6BDE8 /* HomePage.swift in Sources */,
 				04BD6EC01E0C986C00036DC7 /* RequestsPreview.swift in Sources */,
 				04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */,
+				041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */,
 				04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */,
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,
 				04E459B91DE15AD5006003DF /* LoginForm.swift in Sources */,
@@ -746,6 +757,7 @@
 				04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */,
 				04051CC31E06708800A3FDD6 /* RoundImageView.swift in Sources */,
 				04A6C7DF1DDFCAC5004EFE14 /* Person.swift in Sources */,
+				041E5BFA1E0CB6CE002533EF /* RequestsViewCell.swift in Sources */,
 				04AF68511DFF748600216652 /* Message.swift in Sources */,
 				04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */,
 				0412EB831DE28382000203E6 /* FloatingTextField.swift in Sources */,
@@ -859,7 +871,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = "Bounce/Bounce-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "dtto/dtto-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -904,7 +916,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "Bounce/Bounce-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "dtto/dtto-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -996,7 +1008,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jk.BounceUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Bounce;
+				TEST_TARGET_NAME = dtto;
 			};
 			name = Debug;
 		};
@@ -1011,7 +1023,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jk.BounceUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Bounce;
+				TEST_TARGET_NAME = dtto;
 			};
 			name = Release;
 		};

@@ -7,93 +7,63 @@
 //
 
 import UIKit
+import MIBadgeButton_Swift
 
 class Requests: BaseCollectionViewCell {
-
-    var collectionView: UICollectionView!
-    var requests = [Notification]() {
+    
+    let profile = RoundImageView()
+    let requestsLabel = UILabel()
+    let badge = MIBadgeButton()
+    
+    var requestsCount: Int? {
+        willSet {
+            requestsLabel.fadeOut(withDuration: 0.2)
+        }
         didSet {
-            collectionView.reloadData()
+            requestsLabel.fadeIn(withDuration: 0.2)
+            // maybe in willset, fadeout, then in.
+            guard let requestsCount = requestsCount else { return }
+            
+            if requestsCount == 1 {
+                requestsLabel.text = "\(requestsCount) chat request"
+            }
+            else {
+                requestsLabel.text = "\(requestsCount) chat requests"
+            }
+            
+            badge.badgeString = "\(requestsCount)"
         }
     }
     
     override func setupViews() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = Color.gray247
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        self.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        collectionView.register(RequestsCell.self, forCellWithReuseIdentifier: "RequestsCell")
-
-    }
-    
-
-}
-
-
-extension Requests: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // return # of requests
-        return requests.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RequestsCell", for: indexPath) as! RequestsCell
-        cell.backgroundColor = .clear
-        cell.name.text = requests[indexPath.item].name
-        
-        
-        return cell
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        return CGSize(width: 70, height: collectionView.frame.height)
-    }
-    
-}
-
-
-class RequestsCell: BaseCollectionViewCell {
-    
-    let profile = RoundImageView()
-    let name = UILabel()
-    
-    override func setupViews() {
         super.setupViews()
+        
+        badge.badgeBackgroundColor = .red
+        badge.badgeTextColor = .white
+        
         profile.contentMode = .scaleAspectFill
-        profile.image = #imageLiteral(resourceName: "profile")
-        addSubview(name)
+        profile.image = #imageLiteral(resourceName: "user")
+        
+        addSubview(requestsLabel)
         addSubview(profile)
+        addSubview(badge)
+        
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.heightAnchor.constraint(equalToConstant: 50).isActive = true
         profile.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        profile.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        profile.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
         profile.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        name.topAnchor.constraint(equalTo: profile.bottomAnchor, constant: 10).isActive = true
-        name.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        
+        badge.translatesAutoresizingMaskIntoConstraints = false
+        badge.topAnchor.constraint(equalTo: profile.topAnchor, constant: 10).isActive = true
+        badge.trailingAnchor.constraint(equalTo: profile.trailingAnchor, constant: -10).isActive = true
+        
+        requestsLabel.translatesAutoresizingMaskIntoConstraints = false
+        requestsLabel.leadingAnchor.constraint(equalTo: profile.trailingAnchor, constant: 10).isActive = true
+        requestsLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        requestsLabel.textColor = .black
         
     }
-    
+
     
 }
-

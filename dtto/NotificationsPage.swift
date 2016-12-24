@@ -29,27 +29,13 @@ class NotificationsPage:  BaseCollectionViewCell {
         
         // Initialize Views
         
-        let requestsPreview = UIView()
-        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        self.addSubview(requestsPreview)
         self.addSubview(collectionView)
-        
-        // Setup Requests
-        
-        requestsPreview.backgroundColor = .black
-        
-        requestsPreview.translatesAutoresizingMaskIntoConstraints = false
-        requestsPreview.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        requestsPreview.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        requestsPreview.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        requestsPreview.bottomAnchor.constraint(equalTo: collectionView.topAnchor).isActive = true
-        requestsPreview.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        
+
         // Setup Relate Notifications
     
         collectionView.backgroundColor = .white
@@ -57,6 +43,7 @@ class NotificationsPage:  BaseCollectionViewCell {
         collectionView.dataSource = self
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
@@ -117,52 +104,83 @@ class NotificationsPage:  BaseCollectionViewCell {
 
 extension NotificationsPage: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-//    private enum Section: Int {
-//        
-//        case Requests
-//        case Notifications
-//        
-//    }
+    private enum Section: Int {
+        
+        case Requests
+        case Notifications
+        
+    }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        
+        guard let section = Section(rawValue: section) else { return 0 }
+        
+        switch section {
+            
+        case .Requests:
+            return 1
+        case .Notifications:
+            return relates.count
+            
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-//        guard let section = Section(rawValue: indexPath.section) else { return UICollectionViewCell() }
+        guard let section = Section(rawValue: indexPath.section) else { return UICollectionViewCell() }
         
-//        switch section {
-//            
-//        case .Requests:
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Requests", for: indexPath) as! Requests
-////            cell.requests = requests
-//            return cell
-//        case .Notifications:
+        switch section {
+            
+        case .Requests:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Requests", for: indexPath) as! Requests
+            cell.requestsCount = requests.count
+            return cell
+        case .Notifications:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Notifications", for: indexPath) as! Notifications
             cell.relates = relates
             return cell
-//        }
+        }
 
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let section = Section(rawValue: indexPath.section) else { return }
+        
+        switch section {
+            
+        case .Requests:
+            // go to requestsView
+            let requestsView = RequestsViewController(requests: requests)
+            masterViewDelegate?.navigationController?.pushViewController(requestsView, animated: true)
+            
+            break
+        case .Notifications:
+            // go to question, or do nothing
+            break
+        }
+
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-//        guard let section = Section(rawValue: indexPath.section) else { return CGSize() }
-//        
-//        switch section {
-//            
-//        case .Requests:
-//            return CGSize(width: collectionView.frame.width, height: 70)
-//        case .Notifications:
+        guard let section = Section(rawValue: indexPath.section) else { return CGSize() }
+        
+        switch section {
+            
+        case .Requests:
+            return CGSize(width: collectionView.frame.width, height: 70)
+        case .Notifications:
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height - 70)
             
-//        }
+        }
         
     }
+    
     
 }
 

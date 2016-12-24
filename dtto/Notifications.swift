@@ -53,7 +53,7 @@ extension Notifications: UICollectionViewDelegate, UICollectionViewDataSource, U
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
         print("reloaded")
-        cell.desc.text = "\(relates[indexPath.item].name) related to you."
+        cell.desc.text = "\(relates[indexPath.item].name!) related to you."
         return cell
         
     }

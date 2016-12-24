@@ -18,7 +18,7 @@ final class MessagesViewController: JSQMessagesViewController {
 //    private lazy var messageRef: FIRDatabaseReference = self.channelRef!.child("messages")
     private var newMessageRefHandle: FIRDatabaseHandle?
     
-    var messagesRef: FIRDatabaseReference? {
+    var messagesRef: String? {
         didSet {
             getMessages()
         }
@@ -45,7 +45,10 @@ final class MessagesViewController: JSQMessagesViewController {
     private func getMessages() {
         
         guard let messagesRef = messagesRef else { return }
-        messagesRef.observe(.childAdded, with: { snapshot in
+        
+        let ref = FIREBASE_REF.child("messages/\(messagesRef)")
+        
+        ref.observe(.childAdded, with: { snapshot in
             
             guard let messageData = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
@@ -84,8 +87,7 @@ final class MessagesViewController: JSQMessagesViewController {
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         
         guard let messagesRef = messagesRef, let date = date else { return }
-        
-        let messageRef = messagesRef.childByAutoId()
+        let messageRef = FIREBASE_REF.child("messages/\(messagesRef)")
         
         let messageItem = [
             "senderID": senderId!,
@@ -94,7 +96,14 @@ final class MessagesViewController: JSQMessagesViewController {
             "timestamp": "\(date)",
             ]
         
-        messageRef.setValue(messageItem)
+        messageRef.childByAutoId().setValue(messageItem)
+        
+        
+        // Also update the chat room's last message path.
+        
+        let chatRef = FIREBASE_REF.child("chats/")
+        chatRef.updateChildValues([messagesRef : messageItem])
+        
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         

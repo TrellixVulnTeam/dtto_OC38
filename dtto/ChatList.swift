@@ -67,7 +67,7 @@ extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         
         let messagesViewController = MessagesViewController()
         messagesViewController.title = name
-        messagesViewController.messagesRef = FIREBASE_REF.child("messages/\(messagesRef)")
+        messagesViewController.messagesRef = messagesRef
         
         masterViewDelegate?.navigationController?.pushViewController(messagesViewController, animated: true)
         

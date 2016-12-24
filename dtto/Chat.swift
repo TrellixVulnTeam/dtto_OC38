@@ -16,6 +16,7 @@ class Chat: NSObject {
     var lastMessage: String?
     var timestamp: String?
     var profileImageURL: String?
+    var questionID: String?
     
     
 
