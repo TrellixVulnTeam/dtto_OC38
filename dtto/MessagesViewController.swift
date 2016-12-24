@@ -100,9 +100,8 @@ final class MessagesViewController: JSQMessagesViewController {
         
         
         // Also update the chat room's last message path.
-        
-        let chatRef = FIREBASE_REF.child("chats/")
-        chatRef.updateChildValues([messagesRef : messageItem])
+        let chatRef = FIREBASE_REF.child("chats/\(messagesRef)")
+        chatRef.updateChildValues(messageItem)
         
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound()

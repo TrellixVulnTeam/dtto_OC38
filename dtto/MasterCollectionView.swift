@@ -60,7 +60,7 @@ class MasterCollectionView: UIViewController {
             
             let chatRoomRef = FIREBASE_REF.child("chats/\(chatID)")
             chatRoomRef.observe(.value, with: { snapshot in
-                
+                print(snapshot)
                 guard let userChat = snapshot.value as? NSDictionary else { return }
                 
                 guard let users = userChat["users"] as? Dictionary<String, AnyObject>, let questionID = userChat["questionID"] as? String else { return }
@@ -102,8 +102,11 @@ class MasterCollectionView: UIViewController {
                 }
                 
                 self.chats.append(chat)
-                self.collectionView.reloadData()
                 
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    print("Reloaded master")
+                }
                 
             })
             
@@ -336,6 +339,10 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
         case Chat
     }
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+        
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return numberOfMenuTabs

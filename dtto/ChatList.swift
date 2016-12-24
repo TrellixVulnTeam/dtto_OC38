@@ -10,7 +10,11 @@ import UIKit
 
 class ChatList: BaseCollectionViewCell {
 
-    var chats = [Chat]()
+    var chats = [Chat]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     var collectionView: UICollectionView!
     
     override func setupViews() {
@@ -30,7 +34,7 @@ class ChatList: BaseCollectionViewCell {
         collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
+
         collectionView.register(UINib(nibName: "ChatListCell", bundle: nil), forCellWithReuseIdentifier: "ChatListCell")
     }
 
@@ -43,6 +47,7 @@ extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return chats.count
     }
     

@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         
         FIRApp.configure()
+        FIRDatabase.database().persistenceEnabled = true
         
         FIRAuth.auth()?.signIn(withEmail: "test@gmail.com", password: "test123") { (user, error) in
             if error != nil {
