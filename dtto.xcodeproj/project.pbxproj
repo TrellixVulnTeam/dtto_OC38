@@ -60,6 +60,8 @@
 		04E459BC1DE15C19006003DF /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BB1DE15C19006003DF /* Login.storyboard */; };
 		04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459BD1DE15C3D006003DF /* LoginHome.swift */; };
 		04E459C01DE15C3D006003DF /* LoginHome.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BE1DE15C3D006003DF /* LoginHome.xib */; };
+		04E7545F1E0F6E3100883B38 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E7545E1E0F6E3100883B38 /* Account.storyboard */; };
+		04E754611E0F6E5E00883B38 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E754601E0F6E5E00883B38 /* AccountViewController.swift */; };
 		04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4EFA21E0A5DE700F1DDFA /* Date.swift */; };
 		04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6945C1E04D49600557833 /* QuestionCell.swift */; };
 		04F6945F1E04D49600557833 /* QuestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F6945D1E04D49600557833 /* QuestionCell.xib */; };
@@ -164,6 +166,8 @@
 		04E459BB1DE15C19006003DF /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		04E459BD1DE15C3D006003DF /* LoginHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHome.swift; sourceTree = "<group>"; };
 		04E459BE1DE15C3D006003DF /* LoginHome.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginHome.xib; sourceTree = "<group>"; };
+		04E7545E1E0F6E3100883B38 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
+		04E754601E0F6E5E00883B38 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		04F4EFA21E0A5DE700F1DDFA /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		04F6945C1E04D49600557833 /* QuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		04F6945D1E04D49600557833 /* QuestionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionCell.xib; sourceTree = "<group>"; };
@@ -252,6 +256,7 @@
 				04E459BA1DE15AE1006003DF /* Login */,
 				045DAC391DDFA10100BF3939 /* Home */,
 				045248031E089C7F007D6C3E /* AskQuestion */,
+				04E754571E0F6CEA00883B38 /* Profile */,
 				045AB2901DFE70F2009D9394 /* Model */,
 				04045C2B1DDFA010002BBD07 /* Assets.xcassets */,
 				04045C2D1DDFA010002BBD07 /* LaunchScreen.storyboard */,
@@ -394,6 +399,15 @@
 				04D84FDB1DE3B61800023195 /* CreateEmail.swift */,
 			);
 			name = Login;
+			sourceTree = "<group>";
+		};
+		04E754571E0F6CEA00883B38 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				04E7545E1E0F6E3100883B38 /* Account.storyboard */,
+				04E754601E0F6E5E00883B38 /* AccountViewController.swift */,
+			);
+			name = Profile;
 			sourceTree = "<group>";
 		};
 		376DC294C578D941E2838B84 /* Pods */ = {
@@ -568,6 +582,7 @@
 				04051CC11E065D4400A3FDD6 /* AskQuestion.xib in Resources */,
 				04045C2C1DDFA010002BBD07 /* Assets.xcassets in Resources */,
 				045248051E089F2F007D6C3E /* ChatListCell.xib in Resources */,
+				04E7545F1E0F6E3100883B38 /* Account.storyboard in Resources */,
 				0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */,
 				041E5BFB1E0CB6CE002533EF /* RequestsViewCell.xib in Resources */,
 				041032A61E03AB6400B6BDE8 /* Main.storyboard in Resources */,
@@ -739,6 +754,7 @@
 			files = (
 				04DF31101DE2EEFB0068E59B /* RoundButton.swift in Sources */,
 				041032A31E03A94F00B6BDE8 /* MasterCollectionView.swift in Sources */,
+				04E754611E0F6E5E00883B38 /* AccountViewController.swift in Sources */,
 				04DF310E1DE2EE4B0068E59B /* UserDefaultsHelper.swift in Sources */,
 				0497C2C91DE417D500485A92 /* Channel.swift in Sources */,
 				045DAC3D1DDFB08A00BF3939 /* CircleButton.swift in Sources */,

@@ -67,12 +67,8 @@ extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         let chat = chats[indexPath.row]
-        let name = chat.name ?? "Anonymous"
-        guard let messagesRef = chat.chatID else { return }
-        
-        let messagesViewController = MessagesViewController()
-        messagesViewController.title = name
-        messagesViewController.messagesRef = messagesRef
+
+        let messagesViewController = MessagesViewController(chat: chat)
         
         masterViewDelegate?.navigationController?.pushViewController(messagesViewController, animated: true)
         

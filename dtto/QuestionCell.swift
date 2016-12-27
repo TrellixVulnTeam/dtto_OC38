@@ -16,8 +16,9 @@ class QuestionCell: UICollectionViewCell {
     @IBOutlet weak var upvoteButton: UIButton!
     @IBOutlet weak var chatButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var moreButton: UIButton!
     
-    weak var requestChatDelegate: RequestChat?
+    weak var requestChatDelegate: QuestionProtocol?
     @IBAction func selectButton(_ sender: UIButton!) {
         if sender.isSelected {
             sender.isSelected = false
@@ -29,6 +30,10 @@ class QuestionCell: UICollectionViewCell {
         }
     }
 
+    @IBAction func showMore(_ sender: UIButton!) {
+        
+        requestChatDelegate?.showMore(row: sender.tag, sender: sender)
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

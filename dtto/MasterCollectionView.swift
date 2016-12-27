@@ -361,6 +361,7 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
             
         case .Home:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomePage", for: indexPath) as! HomePage
+            cell.masterViewDelegate = self
             return cell
 
         case .Chat:

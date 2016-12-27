@@ -11,6 +11,7 @@ import Firebase
 let defaults = UserDefaults.standard
 
 let FIREBASE_REF = FIRDatabase.database().reference()
+let STORAGE_REF = FIRStorage.storage().reference()
 var SCREENORIENTATION: UIInterfaceOrientation {
     return UIApplication.shared.statusBarOrientation
 }

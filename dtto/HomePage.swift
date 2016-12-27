@@ -8,11 +8,12 @@
 
 import UIKit
 
-protocol RequestChat : class {
+protocol QuestionProtocol : class {
     func requestChat(row: Int)
+    func showMore(row: Int, sender: AnyObject)
 }
 
-class HomePage: BaseCollectionViewCell, RequestChat {
+class HomePage: BaseCollectionViewCell, QuestionProtocol {
     
     var questions = [Question]()
     var collectionView: UICollectionView!
@@ -93,6 +94,46 @@ class HomePage: BaseCollectionViewCell, RequestChat {
         guard let questionID = questions[row].questionID else { return }
         
     }
+    
+    func showMore(row: Int, sender: AnyObject) {
+        
+        guard let button = sender as? UIView else {
+            return
+        }
+        
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        ac.view.tintColor = Color.darkNavy
+
+        let question = questions[row]
+        
+        let hide = UIAlertAction(title: "Hide", style: .default, handler: { (action:UIAlertAction) in
+            
+            
+        })
+        ac.addAction(hide)
+        
+        let report = UIAlertAction(title: "Report", style: .destructive, handler: { (action:UIAlertAction) in
+            
+            
+        })
+        ac.addAction(report)
+        
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {
+            (alertAction: UIAlertAction!) in
+            ac.dismiss(animated: true, completion: nil)
+        }))
+        
+        if let presenter = ac.popoverPresentationController {
+            presenter.sourceView = button
+            presenter.sourceRect = button.bounds
+        }
+        
+        masterViewDelegate?.present(ac, animated: true, completion: { () -> () in
+            ac.view.tintColor = Color.darkNavy
+        })
+        
+    }
+    
     func doubleTapped(_ gestureReconizer: UITapGestureRecognizer) {
         
         let p = gestureReconizer.location(in: self.collectionView)
@@ -146,6 +187,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuestionCell", for: indexPath) as! QuestionCell
         cell.requestChatDelegate = self
         
+        cell.moreButton.tag = indexPath.row
         cell.upvoteButton.setImage(#imageLiteral(resourceName: "upvote"), for: .normal)
         cell.upvoteButton.setImage(#imageLiteral(resourceName: "upvote"), for: .selected)
         cell.chatButton.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
