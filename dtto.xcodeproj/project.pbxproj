@@ -62,6 +62,12 @@
 		04E459C01DE15C3D006003DF /* LoginHome.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BE1DE15C3D006003DF /* LoginHome.xib */; };
 		04E7545F1E0F6E3100883B38 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E7545E1E0F6E3100883B38 /* Account.storyboard */; };
 		04E754611E0F6E5E00883B38 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E754601E0F6E5E00883B38 /* AccountViewController.swift */; };
+		04EA04781E12078C00B0A984 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA04771E12078C00B0A984 /* ProfileViewController.swift */; };
+		04EA047B1E12096300B0A984 /* ProfileImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA047A1E12096300B0A984 /* ProfileImageCell.swift */; };
+		04EA04801E121C1C00B0A984 /* ProfileExpertiseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA047E1E121C1C00B0A984 /* ProfileExpertiseCell.swift */; };
+		04EA04811E121C1C00B0A984 /* ProfileExpertiseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EA047F1E121C1C00B0A984 /* ProfileExpertiseCell.xib */; };
+		04EA04841E121D3600B0A984 /* ProfileSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA04821E121D3600B0A984 /* ProfileSummaryCell.swift */; };
+		04EA04851E121D3600B0A984 /* ProfileSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EA04831E121D3600B0A984 /* ProfileSummaryCell.xib */; };
 		04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4EFA21E0A5DE700F1DDFA /* Date.swift */; };
 		04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6945C1E04D49600557833 /* QuestionCell.swift */; };
 		04F6945F1E04D49600557833 /* QuestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F6945D1E04D49600557833 /* QuestionCell.xib */; };
@@ -168,6 +174,12 @@
 		04E459BE1DE15C3D006003DF /* LoginHome.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginHome.xib; sourceTree = "<group>"; };
 		04E7545E1E0F6E3100883B38 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		04E754601E0F6E5E00883B38 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		04EA04771E12078C00B0A984 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		04EA047A1E12096300B0A984 /* ProfileImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageCell.swift; sourceTree = "<group>"; };
+		04EA047E1E121C1C00B0A984 /* ProfileExpertiseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileExpertiseCell.swift; sourceTree = "<group>"; };
+		04EA047F1E121C1C00B0A984 /* ProfileExpertiseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileExpertiseCell.xib; sourceTree = "<group>"; };
+		04EA04821E121D3600B0A984 /* ProfileSummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSummaryCell.swift; sourceTree = "<group>"; };
+		04EA04831E121D3600B0A984 /* ProfileSummaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSummaryCell.xib; sourceTree = "<group>"; };
 		04F4EFA21E0A5DE700F1DDFA /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		04F6945C1E04D49600557833 /* QuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		04F6945D1E04D49600557833 /* QuestionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionCell.xib; sourceTree = "<group>"; };
@@ -406,6 +418,20 @@
 			children = (
 				04E7545E1E0F6E3100883B38 /* Account.storyboard */,
 				04E754601E0F6E5E00883B38 /* AccountViewController.swift */,
+				04EA04791E12094400B0A984 /* Profile */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		04EA04791E12094400B0A984 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				04EA04771E12078C00B0A984 /* ProfileViewController.swift */,
+				04EA047A1E12096300B0A984 /* ProfileImageCell.swift */,
+				04EA047E1E121C1C00B0A984 /* ProfileExpertiseCell.swift */,
+				04EA047F1E121C1C00B0A984 /* ProfileExpertiseCell.xib */,
+				04EA04821E121D3600B0A984 /* ProfileSummaryCell.swift */,
+				04EA04831E121D3600B0A984 /* ProfileSummaryCell.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -578,6 +604,7 @@
 				0452480B1E08FB45007D6C3E /* GoogleService-Info.plist in Resources */,
 				04E459C01DE15C3D006003DF /* LoginHome.xib in Resources */,
 				04045C2F1DDFA010002BBD07 /* LaunchScreen.storyboard in Resources */,
+				04EA04811E121C1C00B0A984 /* ProfileExpertiseCell.xib in Resources */,
 				04E459BC1DE15C19006003DF /* Login.storyboard in Resources */,
 				04051CC11E065D4400A3FDD6 /* AskQuestion.xib in Resources */,
 				04045C2C1DDFA010002BBD07 /* Assets.xcassets in Resources */,
@@ -585,6 +612,7 @@
 				04E7545F1E0F6E3100883B38 /* Account.storyboard in Resources */,
 				0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */,
 				041E5BFB1E0CB6CE002533EF /* RequestsViewCell.xib in Resources */,
+				04EA04851E121D3600B0A984 /* ProfileSummaryCell.xib in Resources */,
 				041032A61E03AB6400B6BDE8 /* Main.storyboard in Resources */,
 				04F6945F1E04D49600557833 /* QuestionCell.xib in Resources */,
 				04051CC81E0679A300A3FDD6 /* NameCell.xib in Resources */,
@@ -759,6 +787,7 @@
 				0497C2C91DE417D500485A92 /* Channel.swift in Sources */,
 				045DAC3D1DDFB08A00BF3939 /* CircleButton.swift in Sources */,
 				041032AA1E03B76600B6BDE8 /* MenuCell.swift in Sources */,
+				04EA04801E121C1C00B0A984 /* ProfileExpertiseCell.swift in Sources */,
 				04A6C7D91DDFC548004EFE14 /* Animations.swift in Sources */,
 				041032A81E03B2E000B6BDE8 /* HomePage.swift in Sources */,
 				04BD6EC01E0C986C00036DC7 /* RequestsPreview.swift in Sources */,
@@ -777,6 +806,7 @@
 				04AF68511DFF748600216652 /* Message.swift in Sources */,
 				04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */,
 				0412EB831DE28382000203E6 /* FloatingTextField.swift in Sources */,
+				04EA04841E121D3600B0A984 /* ProfileSummaryCell.swift in Sources */,
 				04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */,
 				04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */,
 				049AB6B41DFE869700B45DC3 /* ChatListCell.swift in Sources */,
@@ -792,6 +822,8 @@
 				049AB6B71DFE8E5000B45DC3 /* Chat.swift in Sources */,
 				045AB2961DFE7970009D9394 /* TransitioningObject.swift in Sources */,
 				04051CC71E0679A300A3FDD6 /* NameCell.swift in Sources */,
+				04EA04781E12078C00B0A984 /* ProfileViewController.swift in Sources */,
+				04EA047B1E12096300B0A984 /* ProfileImageCell.swift in Sources */,
 				045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */,
 				04A66B901DE68F0100D7EC91 /* MessagesViewController.swift in Sources */,
 			);
