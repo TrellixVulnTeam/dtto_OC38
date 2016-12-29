@@ -1,5 +1,5 @@
 //
-//  ProfileImageCell.swift
+//  ProfileInfoCell.swift
 //  dtto
 //
 //  Created by Jitae Kim on 12/27/16.
@@ -8,12 +8,10 @@
 
 import UIKit
 
-class ProfileImageCell: UITableViewCell {
+class ProfileInfoCell: UITableViewCell {
 
-    @IBOutlet weak var profileImage: RoundImageView!
-    
-    @IBOutlet weak var endorses: UILabel!
-    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var icon: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -147,7 +147,7 @@ class MasterCollectionView: UIViewController {
         })
     }
     
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

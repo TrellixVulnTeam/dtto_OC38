@@ -57,8 +57,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 
             default:
 
-                let currentStoryboard = UIStoryboard(name: "Account", bundle:nil)
-                let child = currentStoryboard.instantiateViewController(withIdentifier: "AccountNav") as! UINavigationController
+//                let currentStoryboard = UIStoryboard(name: "Account", bundle:nil)
+//                let child = currentStoryboard.instantiateViewController(withIdentifier: "AccountNav") as! UINavigationController
+                let user = User()
+                user.name = "Jae"
+                user.displayName = "@jae"
+                
+                let profileVC = ProfileViewController(user: user)
+                let child = UINavigationController(rootViewController: profileVC)
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
                 child.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)

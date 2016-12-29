@@ -10,6 +10,8 @@ import UIKit
 
 class ProfileExpertiseCell: UITableViewCell {
 
+    @IBOutlet weak var icon: UIImageView!
+    @IBOutlet weak var tagsLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

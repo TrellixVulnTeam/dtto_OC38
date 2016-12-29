@@ -31,6 +31,7 @@ var SCREENHEIGHT: CGFloat {
     }
 }
 
+
 enum Color {
     
     static let salmon = UIColor(red:0.92, green:0.65, blue:0.63, alpha:1.0) // #EBA5A0

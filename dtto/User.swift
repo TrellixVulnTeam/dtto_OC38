@@ -11,7 +11,17 @@ class User: NSObject {
     
     var uid: String?
     var name: String?
-//    var email: String?
-    var profileImageURL: String?
+    var displayName: String?
+    var gender: String?
     
+    var education: [String: AnyObject]?
+    var profession: String?
+    var expertise: [String: AnyObject]?
+    var summary: String?
+    
+    var answerCount: Int?
+    var ongoingChatCount: Int?
+    var totalChatCount: Int?
+    var relateCount: Int?
+
 }

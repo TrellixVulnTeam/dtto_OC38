@@ -54,7 +54,7 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZmU-7k-yAD" customClass="RoundButton" customModule="dtto" customModuleProvider="target">
                                 <rect key="frame" x="20" y="211" width="335" height="44"/>
-                                <color key="backgroundColor" red="0.92156862745098034" green="0.6470588235294118" blue="0.62745098039215685" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.1764705882352941" green="0.22352941176470587" blue="0.29411764705882354" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ZnZ-bn-Fgh"/>
                                 </constraints>

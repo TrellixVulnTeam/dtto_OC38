@@ -44,32 +44,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        let initialViewController = TabBarController()
-        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
-            self.window!.rootViewController = initialViewController
-        }, completion: nil)
-        
-        /*
-        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
-            if let _ = user {
-                // User is signed in.
-//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                let initialViewController = storyboard.instantiateViewController(withIdentifier: "HomeNav")
-                let initialViewController = TabBarController()
-                UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
-                    self.window!.rootViewController = initialViewController
-                }, completion: nil)
+//        let initialViewController = TabBarController()
+//        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
+//            self.window!.rootViewController = initialViewController
+//        }, completion: nil)
 
-            } else {
-                // No user is signed in.
-                let storyboard = UIStoryboard(name: "Login", bundle: nil)
-                let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginHome")
-                UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
-                    self.window!.rootViewController = initialViewController
-                }, completion: nil)
-            }
+        if defaults.isLoggedIn() {
+            let initialViewController = TabBarController()
+            UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
+                self.window!.rootViewController = initialViewController
+            }, completion: nil)
+
+        } else {
+            // No user is signed in.
+            let storyboard = UIStoryboard(name: "Login", bundle: nil)
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginHome")
+            UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
+                self.window!.rootViewController = initialViewController
+            }, completion: nil)
         }
- */
+    
+ 
         return true
     }
 

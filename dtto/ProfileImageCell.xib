@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="162" id="KGk-i7-Jjw" customClass="ProfileImageCell" customModule="dtto" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="309" height="162"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="309" height="161"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UFt-3L-2ga" customClass="RoundImageView" customModule="dtto" customModuleProvider="target">
+                        <rect key="frame" x="105" y="10" width="100" height="100"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="2Rf-bt-la1"/>
+                            <constraint firstAttribute="height" constant="100" id="O3R-Qo-Dm2"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="BLf-aZ-wIM">
+                        <rect key="frame" x="132.5" y="120" width="44.5" height="31"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q3G-YP-wQa">
+                                <rect key="frame" x="0.0" y="0.0" width="44.5" height="10.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="U5j-e0-fcZ">
+                                <rect key="frame" x="0.0" y="10.5" width="44.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="BLf-aZ-wIM" firstAttribute="top" secondItem="UFt-3L-2ga" secondAttribute="bottom" constant="10" id="8ok-G8-NDR"/>
+                    <constraint firstItem="UFt-3L-2ga" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Arx-ch-5Dr"/>
+                    <constraint firstItem="BLf-aZ-wIM" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="OcD-Sn-QMN"/>
+                    <constraint firstAttribute="bottom" secondItem="BLf-aZ-wIM" secondAttribute="bottom" constant="10" id="Y4M-nW-VlC"/>
+                    <constraint firstItem="UFt-3L-2ga" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="kQX-Ih-XLn"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="endorses" destination="Q3G-YP-wQa" id="ko4-dg-r8C"/>
+                <outlet property="name" destination="U5j-e0-fcZ" id="71G-RI-0K5"/>
+                <outlet property="profileImage" destination="UFt-3L-2ga" id="NMI-1G-xJy"/>
+            </connections>
+            <point key="canvasLocation" x="54.5" y="173"/>
+        </tableViewCell>
+    </objects>
+</document>

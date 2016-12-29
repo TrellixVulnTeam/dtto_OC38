@@ -7,39 +7,81 @@
 //
 
 import UIKit
-
+import Firebase
 
 class ProfileViewController: UIViewController {
 
     var user: User?
     
-    @IBOutlet weak var tableView: UITableView!
+    lazy var tableView: UITableView = {
+
+        let tv = UITableView(frame: .zero, style: .plain)
+        tv.dataSource = self
+        tv.delegate = self
+        
+        tv.estimatedRowHeight = 50
+        tv.separatorInset = .zero
+        tv.layoutMargins = .zero
+        
+        tv.register(UINib(nibName: "ProfileImageCell", bundle: nil), forCellReuseIdentifier: "ProfileImageCell")
+        tv.register(UINib(nibName: "ProfileInfoCell", bundle: nil), forCellReuseIdentifier: "ProfileInfoCell")
+        tv.register(UINib(nibName: "ProfileExpertiseCell", bundle: nil), forCellReuseIdentifier: "ProfileExpertiseCell")
+        tv.register(UINib(nibName: "ProfileSummaryCell", bundle: nil), forCellReuseIdentifier: "ProfileSummaryCell")
+        return tv
+    }()
     
-//    init?(user: User) {
-//        super.init(nibName: nil, bundle: nil)
-//        self.user = user
-//        self.title = user.name ?? "Anonymous"
-//        
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+    init(user: User) {
+        super.init(nibName: nil, bundle: nil)
+        self.user = user
+        self.title = user.displayName ?? "Anonymous"
+        print("TITLE IS \(title!)")
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func logout() {
+        defaults.setValue(nil, forKey: "uid")
+        
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
+        defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+        
+        
+        self.changeRootVC(vc: .logout)
+    }
+    
+    private func setupNavBar() {
+        
+        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+
+        self.navigationItem.rightBarButtonItem = logoutButton
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
-    
+        setupNavBar()
+        self.view.backgroundColor = .white
+        automaticallyAdjustsScrollViewInsets = false
+        setupViews()
     }
 
-    func setupTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.estimatedRowHeight = 50
-        tableView.separatorInset = .zero
-        tableView.layoutMargins = .zero
-        
-        tableView.register(UINib(nibName: "ProfileExpertiseCell", bundle: nil), forCellReuseIdentifier: "ProfileExpertiseCell")
-        tableView.register(UINib(nibName: "ProfileSummaryCell", bundle: nil), forCellReuseIdentifier: "ProfileSummaryCell")
+
+    func setupViews() {
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
 
 }
@@ -101,25 +143,27 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         switch section {
         case .Profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell") as! ProfileImageCell
-            cell.endorse.text = "17 people found Jae helpful."
+            cell.endorses.text = "17 people found Jae helpful."
             cell.name.text = "Jae, 24"
+            cell.profileImage.image = #imageLiteral(resourceName: "profile")
             return cell
             
         case .Education:
-            let cell = UITableViewCell(style: .default, reuseIdentifier: "BasicInfoCell")
-            cell.imageView?.image = #imageLiteral(resourceName: "education")
-            cell.textLabel?.text = "UCLA"
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileInfoCell") as! ProfileInfoCell
+            cell.icon.image = #imageLiteral(resourceName: "education")
+            cell.titleLabel.text = "UCLA"
             return cell
             
         case .Profession:
-            let cell = UITableViewCell(style: .default, reuseIdentifier: "BasicInfoCell")
-            cell.imageView?.image = #imageLiteral(resourceName: "education")
-            cell.textLabel?.text = "Financial Analyst"
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileInfoCell") as! ProfileInfoCell
+            cell.icon.image = #imageLiteral(resourceName: "suitcase")
+            cell.titleLabel.text = "Financial Analyst"
             return cell
             
         case .Expertise:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileExpertiseCell") as! ProfileExpertiseCell
-    
+            cell.icon.image = #imageLiteral(resourceName: "relate")
+            cell.tagsLabel.text = "Some tags here Some tags here Some tags here Some tags here"
             return cell
             
         case .Summary:
@@ -127,7 +171,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         }
-        return UITableViewCell()
         
         
     }
