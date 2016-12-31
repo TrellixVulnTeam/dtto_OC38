@@ -21,13 +21,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gma-d8-DuJ" customClass="FloatingTextField" customModule="dtto" customModuleProvider="target">
-                                <rect key="frame" x="20" y="111" width="335" height="30"/>
+                                <rect key="frame" x="20" y="181" width="335" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="abT-9m-RZ1" customClass="FloatingTextField" customModule="dtto" customModuleProvider="target">
-                                <rect key="frame" x="20" y="161" width="335" height="30"/>
+                                <rect key="frame" x="20" y="231" width="335" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -38,7 +38,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ahO-iv-s2A" customClass="GIDSignInButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ahO-iv-s2A" userLabel="Google Sign In Button" customClass="GIDSignInButton">
                                 <rect key="frame" x="20" y="547" width="335" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -53,7 +53,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZmU-7k-yAD" customClass="RoundButton" customModule="dtto" customModuleProvider="target">
-                                <rect key="frame" x="20" y="211" width="335" height="44"/>
+                                <rect key="frame" x="20" y="281" width="335" height="44"/>
                                 <color key="backgroundColor" red="0.1764705882352941" green="0.22352941176470587" blue="0.29411764705882354" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ZnZ-bn-Fgh"/>
@@ -73,6 +73,13 @@
                                     <action selector="createAccount:" destination="Sic-Lf-TaJ" eventType="touchUpInside" id="gZe-TS-FZX"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="rQY-I8-wXW">
+                                <rect key="frame" x="137" y="71" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="nV8-Rd-1k1"/>
+                                    <constraint firstAttribute="height" constant="100" id="sm6-DR-DD4"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -91,11 +98,13 @@
                             <constraint firstItem="ILM-kj-JXT" firstAttribute="top" secondItem="ahO-iv-s2A" secondAttribute="bottom" constant="20" id="dP0-dW-xt6"/>
                             <constraint firstItem="6Os-Of-NG6" firstAttribute="centerX" secondItem="gq3-P0-4f2" secondAttribute="centerX" id="dPo-aj-zYA"/>
                             <constraint firstItem="ahO-iv-s2A" firstAttribute="top" secondItem="XDG-s8-nFq" secondAttribute="bottom" constant="20" id="gtm-MP-m8t"/>
-                            <constraint firstItem="Gma-d8-DuJ" firstAttribute="top" secondItem="6Os-Of-NG6" secondAttribute="bottom" constant="50" id="hAD-hp-F4l"/>
                             <constraint firstItem="Gma-d8-DuJ" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="hcE-tA-KF8"/>
                             <constraint firstItem="ZmU-7k-yAD" firstAttribute="top" secondItem="abT-9m-RZ1" secondAttribute="bottom" constant="20" id="iKm-eg-Qpx"/>
                             <constraint firstAttribute="trailing" secondItem="ZmU-7k-yAD" secondAttribute="trailing" constant="20" id="j0r-eY-U1E"/>
                             <constraint firstItem="abT-9m-RZ1" firstAttribute="top" secondItem="Gma-d8-DuJ" secondAttribute="bottom" constant="20" id="klh-Rd-Fz4"/>
+                            <constraint firstItem="Gma-d8-DuJ" firstAttribute="top" secondItem="rQY-I8-wXW" secondAttribute="bottom" constant="10" id="qNq-iQ-0dZ"/>
+                            <constraint firstItem="rQY-I8-wXW" firstAttribute="centerX" secondItem="gq3-P0-4f2" secondAttribute="centerX" id="qr8-ry-vSD"/>
+                            <constraint firstItem="rQY-I8-wXW" firstAttribute="top" secondItem="6Os-Of-NG6" secondAttribute="bottom" constant="10" id="tbc-dN-g2U"/>
                             <constraint firstAttribute="trailing" secondItem="Gma-d8-DuJ" secondAttribute="trailing" constant="20" id="w1U-Vd-05C"/>
                             <constraint firstItem="abT-9m-RZ1" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="xnm-8b-alw"/>
                         </constraints>
@@ -105,12 +114,12 @@
                         <outlet property="emailTextField" destination="Gma-d8-DuJ" id="Y1e-BX-Dp5"/>
                         <outlet property="facebookLoginButton" destination="XDG-s8-nFq" id="rBi-1t-ikg"/>
                         <outlet property="passwordTextField" destination="abT-9m-RZ1" id="i39-sg-ZiP"/>
-                        <outlet property="topConstraint" destination="hAD-hp-F4l" id="SRy-ND-Lfv"/>
+                        <outlet property="topConstraint" destination="tbc-dN-g2U" id="Pfe-c8-jEs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hXR-y6-HRH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-324" y="-103"/>
+            <point key="canvasLocation" x="-324" y="-103.89805097451276"/>
         </scene>
         <!--Create Email-->
         <scene sceneID="nOy-AV-S6Y">
@@ -203,4 +212,7 @@
             <point key="canvasLocation" x="806" y="-104"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logoPlaceholder" width="48" height="48"/>
+    </resources>
 </document>

@@ -11,8 +11,9 @@ import SkyFloatingLabelTextField
 import FBSDKLoginKit
 import Firebase
 
-class LoginHome: UIViewController {
+class LoginHome: UIViewController, UIGestureRecognizerDelegate {
 
+    var initialLoad = true
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
@@ -37,6 +38,7 @@ class LoginHome: UIViewController {
             facebookLoginButton.readPermissions = ["email", "public_profile"]
         }
     }
+    @IBOutlet weak var googleLoginButton: GIDSignInButton!
     
     @IBAction func emailLogin(_ sender: Any) {
         self.view.endEditing(true)
@@ -103,46 +105,72 @@ class LoginHome: UIViewController {
         
         
     }
+
+    // MARK: Tap Gesture to dismiss keyboard when not tapped on login button.
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view is GIDSignInButton {
+            return false
+        }
+        return true
+    }
+    
+    override func dismissKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        tap.delegate = self
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround()
+        dismissKeyboard()
+        
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
         facebookLoginButton.delegate = self
-        // Do any additional setup after loading the view.
     }
 
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        topConstraint.constant -= self.view.bounds.size.height
-        bottomConstraint.constant -= self.view.bounds.size.height
-//        emailTextField.center.y -= self.view.bounds.size.height
-//        facebookLoginButton.center.y += self.view.bounds.size.height
-        self.view.layoutIfNeeded()
+        
+        if initialLoad {
+            topConstraint.constant -= self.view.bounds.size.height
+            bottomConstraint.constant -= self.view.bounds.size.height
+            //        emailTextField.center.y -= self.view.bounds.size.height
+            //        facebookLoginButton.center.y += self.view.bounds.size.height
+            self.view.layoutIfNeeded()
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        topConstraint.constant = 50
-        bottomConstraint.constant = 50
         
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: .curveEaseOut, animations: {
+        if initialLoad {
+            topConstraint.constant = 10
+            bottomConstraint.constant = 50
             
-            self.view.layoutIfNeeded()
-            
-        }, completion: nil)
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: .curveEaseOut, animations: {
+                
+                self.view.layoutIfNeeded()
+                self.initialLoad = false
+            }, completion: nil)
+        }
+        
         
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func animateUserLogin() {
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            let whiteView = UIView()
+            whiteView.backgroundColor = UIColor(white: 1, alpha: 0.7)
+            
+            self.view.addSubview(whiteView)
+            whiteView.frame = self.view.frame
+            
+        })
     }
-    */
 
 }
 
@@ -198,6 +226,7 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
             return
         }
         
+        animateUserLogin()
         print("Successfully logged into Google", user)
         
         guard let idToken = user.authentication.idToken else { return }
@@ -212,7 +241,8 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
             
             guard let uid = user?.uid else { return }
             print("Successfully logged into Firebase with Google", uid)
-            
+            defaults.setLogin(value: true)
+            defaults.setUID(value: uid)
             self.changeRootVC(vc: .login)
         })
     }
@@ -229,6 +259,7 @@ extension LoginHome: FBSDKLoginButtonDelegate {
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         
+        
         let accessToken = FBSDKAccessToken.current()
         guard let accessTokenString = accessToken?.tokenString else { return }
         
@@ -240,6 +271,12 @@ extension LoginHome: FBSDKLoginButtonDelegate {
             }
             
             print("Successfully logged in with our user: ", user ?? "")
+            guard let user = user else {
+                return
+            }
+            
+            defaults.setLogin(value: true)
+            defaults.setUID(value: user.uid)
             self.changeRootVC(vc: .login)
             
         })

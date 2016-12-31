@@ -26,15 +26,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         FIRDatabase.database().persistenceEnabled = true
         
-        FIRAuth.auth()?.signIn(withEmail: "test@gmail.com", password: "test123") { (user, error) in
-            if error != nil {
-                print("could not login")
-            }
-            else {
-                print("logged in!")
-                
-            }
-        }
+//        FIRAuth.auth()?.signIn(withEmail: "test@gmail.com", password: "test123") { (user, error) in
+//            if error != nil {
+//                print("could not login")
+//            }
+//            else {
+//                print("logged in!")
+//                
+//            }
+//        }
         
         // Navigation Bar Setup
         

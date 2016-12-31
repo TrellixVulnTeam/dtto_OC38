@@ -21,8 +21,7 @@ extension UIViewController {
         if vc == RootVC.login {
             
             let snapshot:UIView = (self.view.window?.snapshotView(afterScreenUpdates: true))!
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let initialViewController = storyboard.instantiateViewController(withIdentifier: "HomeNav")
+            let initialViewController = TabBarController()
             initialViewController.view.addSubview(snapshot)
             
             self.view.window?.rootViewController = initialViewController
