@@ -57,6 +57,7 @@
 		04BD6EC01E0C986C00036DC7 /* RequestsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */; };
 		04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */; };
 		04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D84FDB1DE3B61800023195 /* CreateEmail.swift */; };
+		04D9949A1E19F6BF00A46700 /* TextWithHorizontalBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */; };
 		04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */; };
 		04DF310E1DE2EE4B0068E59B /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */; };
 		04DF31101DE2EEFB0068E59B /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310F1DE2EEFB0068E59B /* RoundButton.swift */; };
@@ -172,6 +173,7 @@
 		04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeRootVC.swift; sourceTree = "<group>"; };
 		04D45ABC1DE2DA1F00A6B317 /* dtto.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dtto.entitlements; sourceTree = "<group>"; };
 		04D84FDB1DE3B61800023195 /* CreateEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEmail.swift; sourceTree = "<group>"; };
+		04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextWithHorizontalBars.swift; sourceTree = "<group>"; };
 		04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
 		04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		04DF310F1DE2EEFB0068E59B /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				045DAC3C1DDFB08A00BF3939 /* CircleButton.swift */,
+				04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */,
 				04051CC21E06708800A3FDD6 /* RoundImageView.swift */,
 				04DF310F1DE2EEFB0068E59B /* RoundButton.swift */,
 			);
@@ -817,6 +820,7 @@
 				041E5BFA1E0CB6CE002533EF /* RequestsViewCell.swift in Sources */,
 				04AF68511DFF748600216652 /* Message.swift in Sources */,
 				04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */,
+				04D9949A1E19F6BF00A46700 /* TextWithHorizontalBars.swift in Sources */,
 				0412EB831DE28382000203E6 /* FloatingTextField.swift in Sources */,
 				04BBE56D1E13698800D4559E /* ProfileInfoCell.swift in Sources */,
 				04EA04841E121D3600B0A984 /* ProfileSummaryCell.swift in Sources */,

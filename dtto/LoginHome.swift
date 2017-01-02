@@ -24,7 +24,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate {
             emailTextField.delegate = self
         }
     }
-    
+
     @IBOutlet weak var passwordTextField: FloatingTextField! {
         didSet {
             passwordTextField.iconText = "\u{f023}"
@@ -120,10 +120,22 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate {
         tap.delegate = self
     }
     
+    func setupHorizontalBar() {
+        
+        let bar = TextWithHorizontalBars(string: "OR")
+        self.view.addSubview(bar)
+        
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        bar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        bar.topAnchor.constraint(equalTo: googleLoginButton.bottomAnchor, constant: 30).isActive = true
+        bar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
+        bar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         dismissKeyboard()
-        
+        setupHorizontalBar()
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
         facebookLoginButton.delegate = self
@@ -134,8 +146,8 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
         
         if initialLoad {
-            topConstraint.constant -= self.view.bounds.size.height
-            bottomConstraint.constant -= self.view.bounds.size.height
+            topConstraint.constant += self.view.bounds.size.height
+//            bottomConstraint.constant -= self.view.bounds.size.height
             //        emailTextField.center.y -= self.view.bounds.size.height
             //        facebookLoginButton.center.y += self.view.bounds.size.height
             self.view.layoutIfNeeded()
@@ -147,8 +159,8 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidAppear(animated)
         
         if initialLoad {
-            topConstraint.constant = 10
-            bottomConstraint.constant = 50
+            topConstraint.constant = 20
+//            bottomConstraint.constant = 10
             
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: .curveEaseOut, animations: {
                 
@@ -264,9 +276,14 @@ extension LoginHome: FBSDKLoginButtonDelegate {
         guard let accessTokenString = accessToken?.tokenString else { return }
         
         let credentials = FIRFacebookAuthProvider.credential(withAccessToken: accessTokenString)
+        
+        // check if user logged in with another provider
+        
+        
         FIRAuth.auth()?.signIn(with: credentials, completion: { (user, error) in
             if error != nil {
                 print("Something went wrong with our FB user: ", error ?? "")
+                
                 return
             }
             
