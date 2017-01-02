@@ -37,6 +37,7 @@ class Requests: BaseCollectionViewCell {
     
     override func setupViews() {
         super.setupViews()
+        getRequestsCount()
         backgroundColor = .white
         badge.badgeBackgroundColor = .red
         badge.badgeTextColor = .white
@@ -61,6 +62,19 @@ class Requests: BaseCollectionViewCell {
         requestsLabel.leadingAnchor.constraint(equalTo: profile.trailingAnchor, constant: 10).isActive = true
         requestsLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         requestsLabel.textColor = .black
+        
+    }
+    
+    
+    
+    func getRequestsCount() {
+        guard let userID = defaults.getUID() else { return }
+        let requestsCountRef = FIREBASE_REF.child("users/\(userID)/requestsCount")
+        requestsCountRef.observe(.value, with: { snapshot in 
+            
+            self.requestsCount = snapshot.value as? Int ?? 0
+            
+        })
         
     }
 

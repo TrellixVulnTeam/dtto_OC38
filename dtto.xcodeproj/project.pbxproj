@@ -402,10 +402,10 @@
 		04DF310A1DE2EC090068E59B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				04B159E81DDFFBE200B6C74C /* FirebaseService.swift */,
 				04A6C7D81DDFC548004EFE14 /* Animations.swift */,
 				04F4EFA21E0A5DE700F1DDFA /* Date.swift */,
 				04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */,
-				04B159E81DDFFBE200B6C74C /* FirebaseService.swift */,
 				04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */,
 				04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */,
 			);

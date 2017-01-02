@@ -120,29 +120,22 @@ class MasterCollectionView: UIViewController {
             
             guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
-            guard let uid = userNotifications["uid"] as? String, let name = userNotifications["name"] as? String, let questionID = userNotifications["questionID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
+            guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let questionID = userNotifications["questionID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
             
             let notification = Notification()
             
             notification.name = name
             notification.questionID = questionID
             notification.userID = uid
+            notification.notificationID = notificationID
             // process timestamp
             notification.timestamp = timestamp
             if let profileImageURL = userNotifications["profileImageURL"] as? String {
                 notification.profileImageURL = profileImageURL
             }
-            
-            // Check if person wants to chat with user, or only related.
-            if let _ = userNotifications["request"] {
-                self.requests.append(notification)
-            }
-            
-            else {
-                self.relates.append(notification)
-            }
-            
-            
+
+            self.relates.append(notification)
+
             
         })
     }
@@ -159,7 +152,6 @@ class MasterCollectionView: UIViewController {
         setupCollectionView()
         observeChats()
 //        observeNotifications()
-        
         
     }
     

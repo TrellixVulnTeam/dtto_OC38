@@ -75,12 +75,7 @@ class NotificationsPage:  BaseCollectionViewCell {
                 notification.profileImageURL = profileImageURL
             }
             
-            // Check if person wants to chat with user, or only related.
-            if let _ = userNotifications["request"] {
-                self.requests.insert(notification, at: 0)
-            }
             self.relates.insert(notification, at: 0)
-        
             
             // Wait until all notifications are downloaded, then reload.
             if self.initialLoad == false {
@@ -137,7 +132,6 @@ extension NotificationsPage: UICollectionViewDelegate, UICollectionViewDataSourc
             
         case .Requests:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Requests", for: indexPath) as! Requests
-            cell.requestsCount = requests.count
             return cell
         case .Notifications:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Notifications", for: indexPath) as! Notifications

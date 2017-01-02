@@ -51,6 +51,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        observeRequests()
 
     }
     
@@ -69,19 +70,36 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
     }
     
-//    private func getRequests() {
-//        requestsRef.observeSingleEvent(of: .childAdded, with: { snapshot in
-//            
-//            guard let userRequests = snapshot.value as? Dictionary<String, AnyObject> else { return }
-//            
-//            let request = Notification()
-//            
-//            
-//            
-//            
-//        })
-//        
-//    }
+
+    private func observeRequests() {
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        let requestsRef = FIREBASE_REF.child("requests/\(userID)")
+        requestsRef.observe(.childAdded, with: { snapshot in
+            
+            guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            
+            guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let questionID = userNotifications["questionID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
+            
+            let notification = Notification()
+            
+            notification.name = name
+            notification.questionID = questionID
+            notification.userID = uid
+            notification.notificationID = notificationID
+            // process timestamp
+            notification.timestamp = timestamp
+            if let profileImageURL = userNotifications["profileImageURL"] as? String {
+                notification.profileImageURL = profileImageURL
+            }
+            
+            self.requests.append(notification)
+            self.tableView.reloadData()
+        })
+        
+    }
+
     
     func chatToDictionary(chat: Chat) -> [String : String]? {
         
@@ -108,7 +126,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
         let request = requests[row]
         
-        guard let userID = FIRAuth.auth()?.currentUser?.uid, let friendID = request.userID, let friendName = request.name, let questionID = request.questionID else { return }
+        guard let userID = defaults.getUID(), let friendID = request.userID, let friendName = request.name, let questionID = request.questionID, let requestID = request.notificationID else { return }
         
         let userName = FIRAuth.auth()?.currentUser?.displayName ?? "Anonymous"
         switch action {
@@ -141,6 +159,10 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             // increment user's and friend's number of total chats.
             dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(userID)/totalChatCount"))
             dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(friendID)/totalChatCount"))
+
+            // remove this request.
+            dataRequest.removeRequest(requestID: requestID)
+            dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
 
         case .decline:
             print("declined chat request!")

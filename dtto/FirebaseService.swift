@@ -27,7 +27,28 @@ class FirebaseService {
         })
         
     }
+    
+    func decrementCount(ref: FIRDatabaseReference) {
+        
+        ref.runTransactionBlock({ data -> FIRTransactionResult in
+            
+            if let chatCount = data.value as? Int {
+                if chatCount > 0 {
+                    data.value = chatCount - 1
+                }
+            }
+            return FIRTransactionResult.success(withValue: data)
+            
+        })
+        
+    }
 
+    func removeRequest(requestID: String) {
+        guard let userID = defaults.getUID() else { return }
+        let requestsRef = FIREBASE_REF.child("requests/\(userID)/\(requestID)")
+        requestsRef.removeValue()
+        
+    }
     func startChat(ref: FIRDatabaseReference) {
         
         ref.setValue(true)

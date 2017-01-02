@@ -13,5 +13,6 @@ class Notification: NSObject {
     var name: String?
     var profileImageURL: String?
     var timestamp: String?
+    var notificationID: String?
     
 }
