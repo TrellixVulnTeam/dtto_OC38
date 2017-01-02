@@ -11,7 +11,7 @@ import SkyFloatingLabelTextField
 import FBSDKLoginKit
 import Firebase
 
-class LoginHome: UIViewController, UIGestureRecognizerDelegate {
+class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
 
     var initialLoad = true
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
@@ -40,6 +40,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate {
     }
     @IBOutlet weak var googleLoginButton: GIDSignInButton!
     
+    @IBOutlet weak var registerEmailButton: UIButton!
     @IBAction func emailLogin(_ sender: Any) {
         self.view.endEditing(true)
         let email = emailTextField.text
@@ -130,6 +131,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate {
         bar.topAnchor.constraint(equalTo: googleLoginButton.bottomAnchor, constant: 30).isActive = true
         bar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
         bar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
+        bar.bottomAnchor.constraint(equalTo: registerEmailButton.topAnchor, constant: -20).isActive = true
         
     }
     override func viewDidLoad() {
@@ -283,7 +285,16 @@ extension LoginHome: FBSDKLoginButtonDelegate {
         FIRAuth.auth()?.signIn(with: credentials, completion: { (user, error) in
             if error != nil {
                 print("Something went wrong with our FB user: ", error ?? "")
-                
+                if let errorCode = FIRAuthErrorCode(rawValue: error!._code) {
+                    
+                    switch errorCode {
+                    case .errorCodeEmailAlreadyInUse:
+                        self.displayBanner(desc: "This email is already in use by gmail.")
+                    default:
+                        print("this error needs to be fixed")
+                    }
+                    
+                }
                 return
             }
             

@@ -22,16 +22,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJi-bo-wbT">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="157"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="156.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dtto" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Os-Of-NG6">
-                                        <rect key="frame" x="161" y="50" width="54" height="36"/>
+                                        <rect key="frame" x="161.5" y="50" width="53.5" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover and relate with others" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ELs-6G-icc">
-                                        <rect key="frame" x="64" y="106" width="248" height="21"/>
+                                        <rect key="frame" x="64" y="106" width="248" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -47,48 +47,70 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ahO-iv-s2A" userLabel="Google Sign In Button" customClass="GIDSignInButton">
-                                <rect key="frame" x="20" y="247" width="335" height="50"/>
+                                <rect key="frame" x="20" y="246.5" width="335" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="g8P-y1-ZHM"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDG-s8-nFq" customClass="FBSDKLoginButton">
-                                <rect key="frame" x="20" y="177" width="335" height="50"/>
+                                <rect key="frame" x="20" y="176.5" width="335" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="C0W-bF-44i"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILM-kj-JXT">
-                                <rect key="frame" x="77" y="617" width="222" height="30"/>
-                                <state key="normal" title="Already have an account? Login.">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="createAccount:" destination="Sic-Lf-TaJ" eventType="touchUpInside" id="gZe-TS-FZX"/>
-                                </connections>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PAC-nX-1lf">
+                                <rect key="frame" x="20" y="316.5" width="335" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Sign Up With Email"/>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="UWb-xv-2Qa">
+                                <rect key="frame" x="89.5" y="629" width="197.5" height="28"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxc-Oh-CX6">
+                                        <rect key="frame" x="0.0" y="0.0" width="155.5" height="28"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKY-0W-dGY">
+                                        <rect key="frame" x="160.5" y="0.0" width="37" height="28"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="Login."/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PdY-tZ-38H">
+                                <rect key="frame" x="20" y="366.5" width="335" height="30"/>
+                                <state key="normal" title="Sign In Anonymously"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="PdY-tZ-38H" firstAttribute="top" secondItem="PAC-nX-1lf" secondAttribute="bottom" constant="20" id="0cf-DB-Z1x"/>
+                            <constraint firstItem="PAC-nX-1lf" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="5JN-8S-6lG"/>
+                            <constraint firstAttribute="trailing" secondItem="PAC-nX-1lf" secondAttribute="trailing" constant="20" id="750-cr-3Qk"/>
                             <constraint firstAttribute="trailing" secondItem="dJi-bo-wbT" secondAttribute="trailing" id="7o7-q0-iEf"/>
-                            <constraint firstItem="ILM-kj-JXT" firstAttribute="centerX" secondItem="gq3-P0-4f2" secondAttribute="centerX" id="8Ww-sm-Wbg"/>
-                            <constraint firstItem="ksQ-lY-1ao" firstAttribute="top" secondItem="ILM-kj-JXT" secondAttribute="bottom" constant="20" id="8kx-3e-tJT"/>
+                            <constraint firstItem="UWb-xv-2Qa" firstAttribute="centerX" secondItem="gq3-P0-4f2" secondAttribute="centerX" id="7vC-4G-kVQ"/>
                             <constraint firstItem="XDG-s8-nFq" firstAttribute="top" secondItem="dJi-bo-wbT" secondAttribute="bottom" constant="20" id="Axv-mA-Y09"/>
                             <constraint firstItem="dJi-bo-wbT" firstAttribute="top" secondItem="gq3-P0-4f2" secondAttribute="topMargin" id="EFH-kY-gfV"/>
                             <constraint firstItem="dJi-bo-wbT" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" id="HRE-4J-ENq"/>
+                            <constraint firstItem="PdY-tZ-38H" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="JG2-N2-09R"/>
+                            <constraint firstAttribute="trailing" secondItem="PdY-tZ-38H" secondAttribute="trailing" constant="20" id="L1a-Js-uHh"/>
                             <constraint firstAttribute="trailing" secondItem="ahO-iv-s2A" secondAttribute="trailing" constant="20" id="PqA-2K-zXz"/>
                             <constraint firstItem="XDG-s8-nFq" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="TBt-eQ-Eme"/>
                             <constraint firstAttribute="trailing" secondItem="XDG-s8-nFq" secondAttribute="trailing" constant="20" id="XgT-q3-S1w"/>
                             <constraint firstItem="ahO-iv-s2A" firstAttribute="leading" secondItem="gq3-P0-4f2" secondAttribute="leading" constant="20" id="Xh2-uI-Qxq"/>
+                            <constraint firstItem="ksQ-lY-1ao" firstAttribute="top" secondItem="UWb-xv-2Qa" secondAttribute="bottom" constant="10" id="cvx-Xr-4Dg"/>
                             <constraint firstItem="ahO-iv-s2A" firstAttribute="top" secondItem="XDG-s8-nFq" secondAttribute="bottom" constant="20" id="gtm-MP-m8t"/>
+                            <constraint firstItem="PAC-nX-1lf" firstAttribute="top" secondItem="ahO-iv-s2A" secondAttribute="bottom" constant="20" placeholder="YES" id="vBc-dQ-iq8"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bottomConstraint" destination="8kx-3e-tJT" id="PyD-e5-Guq"/>
                         <outlet property="facebookLoginButton" destination="XDG-s8-nFq" id="rBi-1t-ikg"/>
                         <outlet property="googleLoginButton" destination="ahO-iv-s2A" id="D8s-EL-Pev"/>
+                        <outlet property="registerEmailButton" destination="PAC-nX-1lf" id="lz9-uR-2dg"/>
                         <outlet property="topConstraint" destination="Axv-mA-Y09" id="OFr-mp-n8r"/>
                     </connections>
                 </viewController>

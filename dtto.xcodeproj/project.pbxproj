@@ -27,6 +27,7 @@
 		041E5BFA1E0CB6CE002533EF /* RequestsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */; };
 		041E5BFB1E0CB6CE002533EF /* RequestsViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */; };
 		041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F542F1E050FE600D1C767 /* NotificationsPage.swift */; };
+		0432D8A81E1AE21E00A74754 /* BannerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0432D8A71E1AE21E00A74754 /* BannerAlert.swift */; };
 		045248051E089F2F007D6C3E /* ChatListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045248041E089F2F007D6C3E /* ChatListCell.xib */; };
 		045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045248061E08A1F5007D6C3E /* ChatSettings.swift */; };
 		045248091E08A1F5007D6C3E /* ChatSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045248071E08A1F5007D6C3E /* ChatSettings.xib */; };
@@ -140,6 +141,7 @@
 		041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewCell.swift; sourceTree = "<group>"; };
 		041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestsViewCell.xib; sourceTree = "<group>"; };
 		041F542F1E050FE600D1C767 /* NotificationsPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
+		0432D8A71E1AE21E00A74754 /* BannerAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerAlert.swift; path = ../../Chain/Chain/CustomViews/BannerAlert.swift; sourceTree = "<group>"; };
 		045248041E089F2F007D6C3E /* ChatListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatListCell.xib; sourceTree = "<group>"; };
 		045248061E08A1F5007D6C3E /* ChatSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSettings.swift; sourceTree = "<group>"; };
 		045248071E08A1F5007D6C3E /* ChatSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatSettings.xib; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 				04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */,
 				04051CC21E06708800A3FDD6 /* RoundImageView.swift */,
 				04DF310F1DE2EEFB0068E59B /* RoundButton.swift */,
+				0432D8A71E1AE21E00A74754 /* BannerAlert.swift */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -842,6 +845,7 @@
 				04EA04781E12078C00B0A984 /* ProfileViewController.swift in Sources */,
 				045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */,
 				04A66B901DE68F0100D7EC91 /* MessagesViewController.swift in Sources */,
+				0432D8A81E1AE21E00A74754 /* BannerAlert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
