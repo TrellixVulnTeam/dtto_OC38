@@ -9,6 +9,7 @@
 class Question: NSObject {
     
     var questionID: String?
+    var userID: String?
     var name: String?
     var displayName: String?
     var text: String?

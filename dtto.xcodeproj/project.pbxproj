@@ -68,6 +68,7 @@
 		04E459C01DE15C3D006003DF /* LoginHome.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BE1DE15C3D006003DF /* LoginHome.xib */; };
 		04E7545F1E0F6E3100883B38 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E7545E1E0F6E3100883B38 /* Account.storyboard */; };
 		04E754611E0F6E5E00883B38 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E754601E0F6E5E00883B38 /* AccountViewController.swift */; };
+		04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9D9151E1B605F00B29986 /* HorizontalBar.swift */; };
 		04EA04781E12078C00B0A984 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA04771E12078C00B0A984 /* ProfileViewController.swift */; };
 		04EA04801E121C1C00B0A984 /* ProfileExpertiseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA047E1E121C1C00B0A984 /* ProfileExpertiseCell.swift */; };
 		04EA04811E121C1C00B0A984 /* ProfileExpertiseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EA047F1E121C1C00B0A984 /* ProfileExpertiseCell.xib */; };
@@ -185,6 +186,7 @@
 		04E459BE1DE15C3D006003DF /* LoginHome.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginHome.xib; sourceTree = "<group>"; };
 		04E7545E1E0F6E3100883B38 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		04E754601E0F6E5E00883B38 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		04E9D9151E1B605F00B29986 /* HorizontalBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
 		04EA04771E12078C00B0A984 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		04EA047E1E121C1C00B0A984 /* ProfileExpertiseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileExpertiseCell.swift; sourceTree = "<group>"; };
 		04EA047F1E121C1C00B0A984 /* ProfileExpertiseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileExpertiseCell.xib; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				045DAC3C1DDFB08A00BF3939 /* CircleButton.swift */,
+				04E9D9151E1B605F00B29986 /* HorizontalBar.swift */,
 				04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */,
 				04051CC21E06708800A3FDD6 /* RoundImageView.swift */,
 				04DF310F1DE2EEFB0068E59B /* RoundButton.swift */,
@@ -814,6 +817,7 @@
 				04BBE5711E13706D00D4559E /* ProfileImageCell.swift in Sources */,
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,
 				04E459B91DE15AD5006003DF /* LoginForm.swift in Sources */,
+				04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */,
 				04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */,
 				04051CC01E065D4400A3FDD6 /* AskQuestion.swift in Sources */,
 				045AB28F1DFE70EB009D9394 /* User.swift in Sources */,

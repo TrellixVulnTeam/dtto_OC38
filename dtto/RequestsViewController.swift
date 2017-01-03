@@ -98,6 +98,22 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             self.tableView.reloadData()
         })
         
+        requestsRef.observe(.childRemoved, with: { snapshot in
+            
+            let requestToRemove = snapshot.key
+            
+            for (index, request) in self.requests.enumerated() {
+                if let notificationID = request.notificationID {
+                    if requestToRemove == notificationID {
+                        self.requests.remove(at: index)
+                        let indexPath = IndexPath(row: index, section: 0)
+                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
+                }
+            }
+            
+        })
+        
     }
 
     
@@ -129,6 +145,9 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         guard let userID = defaults.getUID(), let friendID = request.userID, let friendName = request.name, let questionID = request.questionID, let requestID = request.notificationID else { return }
         
         let userName = FIRAuth.auth()?.currentUser?.displayName ?? "Anonymous"
+        
+        let dataRequest = FirebaseService.dataRequest
+        
         switch action {
             
         case .accept:
@@ -143,7 +162,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             let baseChat: [String : Any] = ["users" : users, "questionID" : questionID]
             chatsRef.updateChildValues([autoID : baseChat])
 
-            let dataRequest = FirebaseService.dataRequest
+
             
             // update chat list for both users, with the chat ID
             dataRequest.startChat(ref: FIREBASE_REF.child("users/\(userID)/chats/\(autoID)"))
@@ -160,14 +179,18 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(userID)/totalChatCount"))
             dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(friendID)/totalChatCount"))
 
-            // remove this request.
-            dataRequest.removeRequest(requestID: requestID)
-            dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
-
+            
         case .decline:
             print("declined chat request!")
+
+
             break
         }
+        
+        // remove this request.
+        dataRequest.removeRequest(requestID: requestID)
+        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
+
         
     }
 

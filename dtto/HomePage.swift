@@ -57,11 +57,12 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
             
             if let questionData = snapshot.value as? Dictionary<String, AnyObject> {
                 
-                guard let questionID = questionData["questionID"] as? String, let text = questionData["text"] as? String else { return }
+                guard let questionID = questionData["questionID"] as? String, let text = questionData["text"] as? String, let userID = questionData["uid"] as? String else { return }
                 
                 let question = Question()
                 question.questionID = questionID
                 question.text = text
+                question.userID = userID
                 
                 let name = questionData["name"] as? String ?? "Anonymous"
                 question.name = name
@@ -91,8 +92,46 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
     
     func requestChat(row: Int) {
         
-        guard let questionID = questions[row].questionID else { return }
+        let question = questions[row]
         
+        guard let questionID = question.questionID, let friendID = question.userID, let userID = defaults.getUID() else { return }
+        
+        // check if this questionID is one that the user already requested.
+        var outgoingRequests = [String : String]()
+        outgoingRequests = defaults.getOutgoingRequests()
+        print(outgoingRequests.count)
+        let dataRequest = FirebaseService.dataRequest
+        
+        if let value = outgoingRequests[questionID] {
+            // cancel chat request
+            print("Cancel chat request")
+            dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
+            outgoingRequests.removeValue(forKey: questionID)
+            FIREBASE_REF.child("requests").child(friendID).child(value).removeValue()
+        }
+        
+        else {
+            print("Send chat request")
+            dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
+            
+            let friendRequestsRef = FIREBASE_REF.child("requests/\(friendID)")
+            let autoID = friendRequestsRef.childByAutoId().key
+            
+            
+            let request: [String: Any] = [
+                "name": "Jae",
+                "notificationID" : autoID,
+                "questionID" : questionID,
+                "timestamp" : "11-11",
+                "uid" : "uid2"
+            ]
+            
+            outgoingRequests.updateValue(autoID, forKey: questionID)
+            friendRequestsRef.updateChildValues([autoID : request])
+
+        }
+    
+        defaults.setOutgoingRequests(value: outgoingRequests)
     }
     
     func showMore(row: Int, sender: AnyObject) {
@@ -104,7 +143,7 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.view.tintColor = Color.darkNavy
 
-        let question = questions[row]
+//        let question = questions[row]
         
         let hide = UIAlertAction(title: "Hide", style: .default, handler: { (action:UIAlertAction) in
             
@@ -142,9 +181,9 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         if let index = indexPath {
             guard let cell = self.collectionView.cellForItem(at: index) as? QuestionCell else { return }
             cell.selectButton(cell.chatButton)
-            // do stuff with your cell, for example print the indexPath
-            
-            print(index.row)
+            // request chat to this user
+            requestChat(row: index.row)
+        
         } else {
             print("Could not find index path")
         }
@@ -177,6 +216,8 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         
         guard let _ = Row(rawValue: indexPath.row) else { return UICollectionViewCell() }
         
+        let question = questions[indexPath.row]
+
 //        switch row {
 //        case .Name:
 //        case .Question:
@@ -186,6 +227,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 //        }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuestionCell", for: indexPath) as! QuestionCell
         cell.requestChatDelegate = self
+        
         
         cell.moreButton.tag = indexPath.row
         cell.upvoteButton.setImage(#imageLiteral(resourceName: "upvote"), for: .normal)
@@ -198,6 +240,16 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         cell.chatButton.setTitleColor(Color.darkSalmon, for: .selected)
         cell.shareButton.setImage(#imageLiteral(resourceName: "share"), for: .normal)
         cell.shareButton.setImage(#imageLiteral(resourceName: "share"), for: .selected)
+        
+        // check if user already requested chat.
+        let outgoingRequests = defaults.getOutgoingRequests()
+        print(outgoingRequests.count)
+        if let _ = outgoingRequests[question.questionID!] {
+            cell.chatButton.isSelected = true
+        }
+        else {
+            cell.chatButton.isSelected = false
+        }
         
         return cell
     }

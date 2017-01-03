@@ -98,6 +98,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
         
     }
     
+    @IBOutlet weak var loginButton: UIButton!
     @IBAction func createAccount(_ sender: Any) {
         
         let registerPage = self.storyboard?.instantiateViewController(withIdentifier: "CreateEmail") as! CreateEmail
@@ -123,6 +124,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     
     func setupHorizontalBar() {
         
+        // Middle Bar with "OR"
         let bar = TextWithHorizontalBars(string: "OR")
         self.view.addSubview(bar)
         
@@ -132,6 +134,14 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
         bar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
         bar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
         bar.bottomAnchor.constraint(equalTo: registerEmailButton.topAnchor, constant: -20).isActive = true
+        
+        let bottomBar = HorizontalBar()
+        self.view.addSubview(bottomBar)
+        bottomBar.translatesAutoresizingMaskIntoConstraints = false
+        bottomBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
+        bottomBar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
+        bottomBar.heightAnchor.constraint(equalToConstant: 1.0/UIScreen.main.scale).isActive = true
+        bottomBar.topAnchor.constraint(equalTo: loginButton.topAnchor, constant: -10).isActive = true
         
     }
     override func viewDidLoad() {

@@ -108,6 +108,7 @@
                                             <color key="titleColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
+                                            <action selector="requestChat:" destination="gTV-IL-0wX" eventType="touchUpInside" id="pC4-kP-EXt"/>
                                             <action selector="selectButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="jBe-ed-jEq"/>
                                         </connections>
                                     </button>

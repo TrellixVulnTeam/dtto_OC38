@@ -30,6 +30,9 @@ class QuestionCell: UICollectionViewCell {
         }
     }
 
+    @IBAction func requestChat(_ sender: UIButton) {
+        requestChatDelegate?.requestChat(row: sender.tag)
+    }
     @IBAction func showMore(_ sender: UIButton!) {
         
         requestChatDelegate?.showMore(row: sender.tag, sender: sender)

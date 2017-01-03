@@ -30,8 +30,8 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover and relate with others" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ELs-6G-icc">
-                                        <rect key="frame" x="64" y="106" width="248" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Relate with people" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ELs-6G-icc">
+                                        <rect key="frame" x="114" y="106" width="147.5" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -110,6 +110,7 @@
                     <connections>
                         <outlet property="facebookLoginButton" destination="XDG-s8-nFq" id="rBi-1t-ikg"/>
                         <outlet property="googleLoginButton" destination="ahO-iv-s2A" id="D8s-EL-Pev"/>
+                        <outlet property="loginButton" destination="aKY-0W-dGY" id="PVg-Ig-SvM"/>
                         <outlet property="registerEmailButton" destination="PAC-nX-1lf" id="lz9-uR-2dg"/>
                         <outlet property="topConstraint" destination="Axv-mA-Y09" id="OFr-mp-n8r"/>
                     </connections>
