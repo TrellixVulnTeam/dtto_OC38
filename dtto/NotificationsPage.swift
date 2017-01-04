@@ -14,6 +14,7 @@ class NotificationsPage:  BaseCollectionViewCell {
     var relates = [Notification]()
     var requests = [Notification]()
     var initialLoad = true
+    var requestsCount: Int = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,6 +52,8 @@ class NotificationsPage:  BaseCollectionViewCell {
         
         collectionView.register(Requests.self, forCellWithReuseIdentifier: "Requests")
         collectionView.register(Notifications.self, forCellWithReuseIdentifier: "Notifications")
+        
+        observeChatRequestsCount()
     }
     
 
@@ -94,6 +97,18 @@ class NotificationsPage:  BaseCollectionViewCell {
         
     }
 
+    func observeChatRequestsCount() {
+        
+        guard let userID = defaults.getUID() else { return }
+        let chatRequestsCountRef = FIREBASE_REF.child("users/\(userID)/requestsCount")
+        chatRequestsCountRef.observe(.value, with: { snapshot in
+            
+            self.requestsCount = snapshot.value as? Int ?? 0
+            self.collectionView.reloadData()
+            
+        })
+        
+    }
     
     
 }
@@ -132,6 +147,8 @@ extension NotificationsPage: UICollectionViewDelegate, UICollectionViewDataSourc
             
         case .Requests:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Requests", for: indexPath) as! Requests
+            cell.requestsCount = requestsCount
+
             return cell
         case .Notifications:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Notifications", for: indexPath) as! Notifications

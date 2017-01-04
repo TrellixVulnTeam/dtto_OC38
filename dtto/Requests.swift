@@ -14,6 +14,7 @@ class Requests: BaseCollectionViewCell {
     let profile = UIImageView()
     let requestsLabel = UILabel()
     let badge = MIBadgeButton()
+    weak var notificationsPageDelegate: NotificationsPage?
     
     var requestsCount: Int? {
         willSet {
@@ -37,7 +38,7 @@ class Requests: BaseCollectionViewCell {
     
     override func setupViews() {
         super.setupViews()
-        getRequestsCount()
+//        getRequestsCount()
         backgroundColor = .white
         badge.badgeBackgroundColor = .red
         badge.badgeTextColor = .white

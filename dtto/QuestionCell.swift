@@ -8,6 +8,13 @@
 
 import UIKit
 
+enum ChatState {
+    
+    case normal
+    case requested
+    case ongoing
+}
+
 class QuestionCell: UICollectionViewCell {
 
     @IBOutlet weak var question: UILabel!
@@ -19,6 +26,23 @@ class QuestionCell: UICollectionViewCell {
     @IBOutlet weak var moreButton: UIButton!
     
     weak var requestChatDelegate: QuestionProtocol?
+    
+    var chatState: ChatState = .normal {
+        didSet {
+            switch chatState {
+            case .normal:
+                chatButton.setTitle("Request Chat", for: .normal)
+                print("NORMAL")
+            case .requested:
+                chatButton.setTitle("Chat requested", for: .normal)
+                print("REQUESTED")
+            case .ongoing:
+                chatButton.setTitle("Chat ongoing", for: .normal)
+                print("ONGOING")
+            }
+        }
+    }
+    
     @IBAction func selectButton(_ sender: UIButton!) {
         if sender.isSelected {
             sender.isSelected = false
@@ -31,7 +55,7 @@ class QuestionCell: UICollectionViewCell {
     }
 
     @IBAction func requestChat(_ sender: UIButton) {
-        requestChatDelegate?.requestChat(row: sender.tag)
+        requestChatDelegate?.requestChat(row: sender.tag, chatState: chatState)
     }
     @IBAction func showMore(_ sender: UIButton!) {
         

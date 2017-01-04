@@ -9,7 +9,7 @@
 import UIKit
 
 protocol QuestionProtocol : class {
-    func requestChat(row: Int)
+    func requestChat(row: Int, chatState: ChatState)
     func showMore(row: Int, sender: AnyObject)
 }
 
@@ -90,48 +90,62 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         })
     }
     
-    func requestChat(row: Int) {
+    func requestChat(row: Int, chatState: ChatState) {
+        
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? QuestionCell else { return }
         
         let question = questions[row]
-        
         guard let questionID = question.questionID, let friendID = question.userID, let userID = defaults.getUID() else { return }
         
-        // check if this questionID is one that the user already requested.
-        var outgoingRequests = [String : String]()
-        outgoingRequests = defaults.getOutgoingRequests()
-        print(outgoingRequests.count)
         let dataRequest = FirebaseService.dataRequest
+        let chatRequestRef = FIREBASE_REF.child("requests").child(friendID).child(questionID).child(userID)
         
-        if let value = outgoingRequests[questionID] {
-            // cancel chat request
-            print("Cancel chat request")
-            dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
-            outgoingRequests.removeValue(forKey: questionID)
-            FIREBASE_REF.child("requests").child(friendID).child(value).removeValue()
-        }
-        
-        else {
-            print("Send chat request")
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
+        switch chatState {
             
-            let friendRequestsRef = FIREBASE_REF.child("requests/\(friendID)")
-            let autoID = friendRequestsRef.childByAutoId().key
-            
-            
-            let request: [String: Any] = [
-                "name": "Jae",
-                "notificationID" : autoID,
-                "questionID" : questionID,
-                "timestamp" : "11-11",
-                "uid" : "uid2"
-            ]
-            
-            outgoingRequests.updateValue(autoID, forKey: questionID)
-            friendRequestsRef.updateChildValues([autoID : request])
+        case .normal:
 
+            cell.chatState = .requested
+            chatRequestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
+                
+                // if poster ignored this user, do nothing on server.
+                if !snapshot.exists() {
+                    
+                    dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
+
+                    let request: [String: Any] = [
+                        "name": "Jae",
+                        "questionID" : questionID,
+                        "timestamp" : "11-11",
+                        "uid" : "uid2",
+                        "pending" : true
+                    ]
+                    
+                    chatRequestRef.setValue(request)
+                }
+
+            })
+            
+        case .requested:
+
+            cell.chatState = .normal
+            
+            chatRequestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
+                
+                // if poster has not ignored yet, cancel the request.
+                if snapshot.value as! Bool == true {
+                    
+                    dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
+                    chatRequestRef.removeValue()
+                    
+                }
+                
+            })
+
+        case .ongoing:
+            print("Already in chat, doing nothing...")
+            break
         }
     
-        defaults.setOutgoingRequests(value: outgoingRequests)
     }
     
     func showMore(row: Int, sender: AnyObject) {
@@ -182,7 +196,7 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
             guard let cell = self.collectionView.cellForItem(at: index) as? QuestionCell else { return }
             cell.selectButton(cell.chatButton)
             // request chat to this user
-            requestChat(row: index.row)
+            requestChat(row: index.row, chatState: cell.chatState)
         
         } else {
             print("Could not find index path")
