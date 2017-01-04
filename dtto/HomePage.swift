@@ -16,7 +16,9 @@ protocol QuestionProtocol : class {
 
 class HomePage: BaseCollectionViewCell, QuestionProtocol {
     
-    var questions = [Question]()
+    var posts = [Question]()
+    var fullPosts = [Question]()
+    
     var collectionView: UICollectionView!
     
     override func setupViews() {
@@ -82,7 +84,14 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
                     }
                 }
                 
-                self.questions.append(question)
+                let hiddenPosts = defaults.getHiddenPosts()
+                if hiddenPosts.count == 0 || hiddenPosts[questionID] == nil {
+                    print("question is not hidden")
+                    self.posts.insert(question, at: 0)
+
+                }
+
+                self.fullPosts.insert(question, at: 0)
                 self.collectionView.reloadData()
                 
             }
@@ -95,7 +104,7 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         
         guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? QuestionCell else { return }
         
-        let question = questions[row]
+        let question = posts[row]
         guard let questionID = question.questionID, let friendID = question.userID, let userID = defaults.getUID() else { return }
         
         let dataRequest = FirebaseService.dataRequest
@@ -150,7 +159,7 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
     
     func relatePost(row: Int) {
         
-        let question = questions[row]
+        let question = posts[row]
         guard let questionID = question.questionID, let friendID = question.userID, let userID = defaults.getUID() else { return }
         
         let dataRequest = FirebaseService.dataRequest
@@ -182,9 +191,11 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.view.tintColor = Color.darkNavy
 
-//        let question = questions[row]
+        let question = posts[row]
         
         let hide = UIAlertAction(title: "Hide", style: .default, handler: { (action:UIAlertAction) in
+            
+            self.hidePost(row: row, questionID: question.questionID)
             
             
         })
@@ -209,6 +220,21 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         masterViewDelegate?.present(ac, animated: true, completion: { () -> () in
             ac.view.tintColor = Color.darkNavy
         })
+        
+    }
+    
+    func hidePost(row: Int, questionID: String?) {
+        
+        if let questionID = questionID {
+            
+            defaults.hidePost(postID: questionID)
+            let index = IndexPath(row: row, section: 0)
+            self.collectionView.performBatchUpdates({
+                self.posts.remove(at: row)
+                self.collectionView.deleteItems(at: [index])
+            }, completion: nil)
+            
+        }
         
     }
     
@@ -248,14 +274,14 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return questions.count
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let _ = Row(rawValue: indexPath.row) else { return UICollectionViewCell() }
         
-        let question = questions[indexPath.row]
+        let question = posts[indexPath.row]
 
 //        switch row {
 //        case .Name:

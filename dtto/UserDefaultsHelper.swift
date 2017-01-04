@@ -42,12 +42,14 @@ extension UserDefaults {
         return object(forKey: "outgoingRequests") as? [String : String] ?? [String : String]()
     }
     
-    func setEditPermissions(value: Bool) {
-        set(value, forKey: "edit")
+    func hidePost(postID: String) {
+        var hiddenPosts = getHiddenPosts() ?? [String: Bool]()
+        hiddenPosts.updateValue(true, forKey: postID)
+        set(hiddenPosts, forKey: "hiddenPosts")
     }
     
-    func canEdit() -> Bool {
-        return bool(forKey: "edit")
+    func getHiddenPosts() -> [String : Bool] {
+        return object(forKey: "hiddenPosts") as? [String : Bool] ?? [String : Bool]()
     }
     
     func setRecent(value: [String]) {
