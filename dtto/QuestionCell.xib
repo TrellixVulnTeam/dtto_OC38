@@ -93,10 +93,11 @@
                             <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="255" verticalCompressionResistancePriority="755" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="xCk-Na-jIt">
                                 <rect key="frame" x="0.0" y="419" width="362" height="26"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iv1-wU-FUe" userLabel="Upvote">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iv1-wU-FUe" userLabel="Relate">
                                         <rect key="frame" x="0.0" y="0.0" width="88" height="26"/>
                                         <state key="normal" image="upvote"/>
                                         <connections>
+                                            <action selector="relate:" destination="gTV-IL-0wX" eventType="touchUpInside" id="71w-lF-7Lj"/>
                                             <action selector="selectButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="HMb-Wo-DGV"/>
                                         </connections>
                                     </button>
@@ -164,8 +165,8 @@
                 <outlet property="hashTags" destination="4XB-bb-uf2" id="rgt-CO-b4Q"/>
                 <outlet property="moreButton" destination="h1A-8q-tKj" id="xPa-L3-6Wd"/>
                 <outlet property="question" destination="t9s-aF-lWc" id="cEt-6v-XwP"/>
+                <outlet property="relateButton" destination="Iv1-wU-FUe" id="nLj-NT-kMW"/>
                 <outlet property="shareButton" destination="sAQ-Ah-tf7" id="DoN-Je-GMT"/>
-                <outlet property="upvoteButton" destination="Iv1-wU-FUe" id="3Gx-xa-44j"/>
             </connections>
             <point key="canvasLocation" x="-128" y="349"/>
         </collectionViewCell>

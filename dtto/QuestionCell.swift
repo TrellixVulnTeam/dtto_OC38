@@ -20,7 +20,7 @@ class QuestionCell: UICollectionViewCell {
     @IBOutlet weak var question: UILabel!
     @IBOutlet weak var hashTags: UILabel!
 
-    @IBOutlet weak var upvoteButton: UIButton!
+    @IBOutlet weak var relateButton: UIButton!
     @IBOutlet weak var chatButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
@@ -54,7 +54,11 @@ class QuestionCell: UICollectionViewCell {
         }
     }
 
-    @IBAction func requestChat(_ sender: UIButton) {
+    @IBAction func relate(_ sender: UIButton!) {
+        requestChatDelegate?.relatePost(row: sender.tag)
+    }
+
+    @IBAction func requestChat(_ sender: UIButton!) {
         requestChatDelegate?.requestChat(row: sender.tag, chatState: chatState)
     }
     @IBAction func showMore(_ sender: UIButton!) {

@@ -10,6 +10,7 @@ import UIKit
 
 protocol QuestionProtocol : class {
     func requestChat(row: Int, chatState: ChatState)
+    func relatePost(row: Int)
     func showMore(row: Int, sender: AnyObject)
 }
 
@@ -128,7 +129,6 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         case .requested:
 
             cell.chatState = .normal
-            
             chatRequestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
                 
                 // if poster has not ignored yet, cancel the request.
@@ -146,6 +146,31 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
             break
         }
     
+    }
+    
+    func relatePost(row: Int) {
+        
+        let question = questions[row]
+        guard let questionID = question.questionID, let friendID = question.userID, let userID = defaults.getUID() else { return }
+        
+        let dataRequest = FirebaseService.dataRequest
+        let userRelatesRef = FIREBASE_REF.child("users/\(userID)/relatedPosts").child(questionID)
+        userRelatesRef.observeSingleEvent(of: .value, with: { snapshot in
+            
+            if snapshot.exists() {
+                userRelatesRef.removeValue()
+                dataRequest.decrementCount(ref: FIREBASE_REF.child("questions").child(questionID).child("relatesCount"))
+                dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("relatesReceivedCount"))
+                dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(userID).child("relatesGivenCount"))
+            }
+            else {
+                userRelatesRef.setValue(true)
+                dataRequest.incrementCount(ref: FIREBASE_REF.child("questions").child(questionID).child("relatesCount"))
+                dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("relatesReceivedCount"))
+                dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("relatesGivenCount"))
+            }
+        })
+        
     }
     
     func showMore(row: Int, sender: AnyObject) {
@@ -244,8 +269,12 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         
         
         cell.moreButton.tag = indexPath.row
-        cell.upvoteButton.setImage(#imageLiteral(resourceName: "upvote"), for: .normal)
-        cell.upvoteButton.setImage(#imageLiteral(resourceName: "upvote"), for: .selected)
+        cell.relateButton.tag = indexPath.row
+        cell.chatButton.tag = indexPath.row
+        cell.shareButton.tag = indexPath.row
+        
+        cell.relateButton.setImage(#imageLiteral(resourceName: "upvote"), for: .normal)
+        cell.relateButton.setImage(#imageLiteral(resourceName: "upvote"), for: .selected)
         cell.chatButton.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
         cell.chatButton.setImage(#imageLiteral(resourceName: "chatSelected"), for: .selected)
         cell.chatButton.setTitle("Chat", for: .normal)
