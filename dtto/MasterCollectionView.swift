@@ -49,7 +49,7 @@ class MasterCollectionView: UIViewController {
         
         // Check user path for list of chat IDs.
         
-        guard let userID = FIRAuth.auth()?.currentUser?.uid else { return }
+        guard let userID = defaults.getUID() else { return }
 
         let userChatsRef = FIREBASE_REF.child("users/\(userID)/chats")
         
@@ -100,7 +100,7 @@ class MasterCollectionView: UIViewController {
                     chat.profileImageURL = profileImageURL
                 }
                 
-                self.chats.append(chat)
+                self.chats.insert(chat, at: 0)
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
@@ -151,7 +151,7 @@ class MasterCollectionView: UIViewController {
         setupHorizontalBar()
         setupCollectionView()
         observeChats()
-//        observeNotifications()
+        observeNotifications()
         
     }
     

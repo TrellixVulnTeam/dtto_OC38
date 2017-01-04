@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController {
         tv.delegate = self
         
         tv.estimatedRowHeight = 50
+        tv.estimatedSectionHeaderHeight = 20
         tv.separatorInset = .zero
         tv.layoutMargins = .zero
         
@@ -134,6 +135,35 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return 1
         }
 
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        guard let section = Section(rawValue: section) else { return 0 }
+        
+        switch section {
+        case .Education, .Profession, .Expertise:
+            return UITableViewAutomaticDimension
+        default:
+            return 0
+        }
+        
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        guard let section = Section(rawValue: section) else { return nil }
+        
+        switch section {
+        case .Education:
+            return ProfileSectionHeader(sectionTitle: "Education")
+        case .Profession:
+            return ProfileSectionHeader(sectionTitle: "Profession")
+        case .Expertise:
+            return ProfileSectionHeader(sectionTitle: "Expertise")
+        default:
+            return nil
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
