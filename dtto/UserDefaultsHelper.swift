@@ -43,7 +43,7 @@ extension UserDefaults {
     }
     
     func hidePost(postID: String) {
-        var hiddenPosts = getHiddenPosts() ?? [String: Bool]()
+        var hiddenPosts = getHiddenPosts()
         hiddenPosts.updateValue(true, forKey: postID)
         set(hiddenPosts, forKey: "hiddenPosts")
     }

@@ -24,6 +24,11 @@
 		041032AC1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041032AB1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift */; };
 		0412EB831DE28382000203E6 /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412EB821DE28382000203E6 /* FloatingTextField.swift */; };
 		0413CECD1E1C6D0800DF9E3C /* ProfileSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413CECC1E1C6D0800DF9E3C /* ProfileSectionHeader.swift */; };
+		041B39321E1DCA80003E130E /* PostProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39311E1DCA80003E130E /* PostProfileCell.swift */; };
+		041B39361E1DD24E003E130E /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39351E1DD24E003E130E /* UIViewConstraints.swift */; };
+		041B39381E1DD73C003E130E /* PostTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39371E1DD73C003E130E /* PostTextCell.swift */; };
+		041B393A1E1DDAAA003E130E /* PostButtonsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39391E1DDAAA003E130E /* PostButtonsCell.swift */; };
+		041B393C1E1DEA9C003E130E /* PostTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B393B1E1DEA9C003E130E /* PostTagsCell.swift */; };
 		041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */; };
 		041E5BFA1E0CB6CE002533EF /* RequestsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */; };
 		041E5BFB1E0CB6CE002533EF /* RequestsViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */; };
@@ -140,6 +145,11 @@
 		041032AB1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		0412EB821DE28382000203E6 /* FloatingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
 		0413CECC1E1C6D0800DF9E3C /* ProfileSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSectionHeader.swift; sourceTree = "<group>"; };
+		041B39311E1DCA80003E130E /* PostProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProfileCell.swift; sourceTree = "<group>"; };
+		041B39351E1DD24E003E130E /* UIViewConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewConstraints.swift; sourceTree = "<group>"; };
+		041B39371E1DD73C003E130E /* PostTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTextCell.swift; sourceTree = "<group>"; };
+		041B39391E1DDAAA003E130E /* PostButtonsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostButtonsCell.swift; sourceTree = "<group>"; };
+		041B393B1E1DEA9C003E130E /* PostTagsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTagsCell.swift; sourceTree = "<group>"; };
 		041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewController.swift; sourceTree = "<group>"; };
 		041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewCell.swift; sourceTree = "<group>"; };
 		041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestsViewCell.xib; sourceTree = "<group>"; };
@@ -381,6 +391,10 @@
 			isa = PBXGroup;
 			children = (
 				041032A71E03B2E000B6BDE8 /* HomePage.swift */,
+				041B39311E1DCA80003E130E /* PostProfileCell.swift */,
+				041B39371E1DD73C003E130E /* PostTextCell.swift */,
+				041B39391E1DDAAA003E130E /* PostButtonsCell.swift */,
+				041B393B1E1DEA9C003E130E /* PostTagsCell.swift */,
 				04051CC51E0679A300A3FDD6 /* NameCell.swift */,
 				04051CC61E0679A300A3FDD6 /* NameCell.xib */,
 				04F6945C1E04D49600557833 /* QuestionCell.swift */,
@@ -413,6 +427,7 @@
 				04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */,
 				04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */,
 				04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */,
+				041B39351E1DD24E003E130E /* UIViewConstraints.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -806,6 +821,7 @@
 				04DF31101DE2EEFB0068E59B /* RoundButton.swift in Sources */,
 				041032A31E03A94F00B6BDE8 /* MasterCollectionView.swift in Sources */,
 				04E754611E0F6E5E00883B38 /* AccountViewController.swift in Sources */,
+				041B39361E1DD24E003E130E /* UIViewConstraints.swift in Sources */,
 				04DF310E1DE2EE4B0068E59B /* UserDefaultsHelper.swift in Sources */,
 				0497C2C91DE417D500485A92 /* Channel.swift in Sources */,
 				045DAC3D1DDFB08A00BF3939 /* CircleButton.swift in Sources */,
@@ -819,6 +835,8 @@
 				041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */,
 				04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */,
 				04BBE5711E13706D00D4559E /* ProfileImageCell.swift in Sources */,
+				041B393A1E1DDAAA003E130E /* PostButtonsCell.swift in Sources */,
+				041B393C1E1DEA9C003E130E /* PostTagsCell.swift in Sources */,
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,
 				04E459B91DE15AD5006003DF /* LoginForm.swift in Sources */,
 				04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */,
@@ -830,6 +848,7 @@
 				04A6C7DF1DDFCAC5004EFE14 /* Person.swift in Sources */,
 				041E5BFA1E0CB6CE002533EF /* RequestsViewCell.swift in Sources */,
 				04AF68511DFF748600216652 /* Message.swift in Sources */,
+				041B39321E1DCA80003E130E /* PostProfileCell.swift in Sources */,
 				04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */,
 				04D9949A1E19F6BF00A46700 /* TextWithHorizontalBars.swift in Sources */,
 				0412EB831DE28382000203E6 /* FloatingTextField.swift in Sources */,
@@ -839,6 +858,7 @@
 				04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */,
 				049AB6B41DFE869700B45DC3 /* ChatListCell.swift in Sources */,
 				041032AC1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift in Sources */,
+				041B39381E1DD73C003E130E /* PostTextCell.swift in Sources */,
 				0470790A1E060BA10059C360 /* Requests.swift in Sources */,
 				041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */,
 				04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */,

@@ -25,7 +25,7 @@ class QuestionCell: UICollectionViewCell {
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
     
-    weak var requestChatDelegate: QuestionProtocol?
+    weak var requestChatDelegate: PostProtocol?
     
     var chatState: ChatState = .normal {
         didSet {
@@ -63,7 +63,7 @@ class QuestionCell: UICollectionViewCell {
     }
     @IBAction func showMore(_ sender: UIButton!) {
         
-        requestChatDelegate?.showMore(row: sender.tag, sender: sender)
+        requestChatDelegate?.showMore(section: sender.tag, sender: sender)
     }
     override func awakeFromNib() {
         super.awakeFromNib()

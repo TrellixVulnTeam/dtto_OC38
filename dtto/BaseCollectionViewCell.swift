@@ -23,6 +23,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
     }
     
     func setupViews() {
+        backgroundColor = .white
         let backgroundView = UIView()
         backgroundView.backgroundColor = Color.gray247
         self.selectedBackgroundView = backgroundView

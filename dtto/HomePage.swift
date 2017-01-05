@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol QuestionProtocol : class {
+protocol PostProtocol : class {
     func requestChat(row: Int, chatState: ChatState)
     func relatePost(row: Int)
-    func showMore(row: Int, sender: AnyObject)
+    func showMore(section: Int, sender: AnyObject)
 }
 
-class HomePage: BaseCollectionViewCell, QuestionProtocol {
+class HomePage: BaseCollectionViewCell, PostProtocol {
     
     var posts = [Question]()
     var fullPosts = [Question]()
@@ -28,7 +28,7 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
-//        layout.estimatedItemSize = CGSize(width: 50, height: 100)
+
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
         collectionView.backgroundColor = Color.gray247
@@ -42,6 +42,10 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
+        collectionView.register(PostProfileCell.self, forCellWithReuseIdentifier: "PostProfileCell")
+        collectionView.register(PostTextCell.self, forCellWithReuseIdentifier: "PostTextCell")
+        collectionView.register(PostButtonsCell.self, forCellWithReuseIdentifier: "PostButtonsCell")
+        collectionView.register(PostTagsCell.self, forCellWithReuseIdentifier: "PostTagsCell")
         collectionView.register(UINib(nibName: "NameCell", bundle: nil), forCellWithReuseIdentifier: "NameCell")
         collectionView.register(UINib(nibName: "QuestionCell", bundle: nil), forCellWithReuseIdentifier: "QuestionCell")
         
@@ -83,14 +87,14 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
                         question.tags = "\(question.tags), \(tag.key)"
                     }
                 }
-                
-                let hiddenPosts = defaults.getHiddenPosts()
-                if hiddenPosts.count == 0 || hiddenPosts[questionID] == nil {
-                    print("question is not hidden")
-                    self.posts.insert(question, at: 0)
-
-                }
-
+//                
+//                let hiddenPosts = defaults.getHiddenPosts()
+//                if hiddenPosts.count == 0 || hiddenPosts[questionID] == nil {
+//                    print("question is not hidden")
+//                    self.posts.insert(question, at: 0)
+//
+//                }
+                self.posts.insert(question, at: 0)
                 self.fullPosts.insert(question, at: 0)
                 self.collectionView.reloadData()
                 
@@ -182,7 +186,7 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         
     }
     
-    func showMore(row: Int, sender: AnyObject) {
+    func showMore(section: Int, sender: AnyObject) {
         
         guard let button = sender as? UIView else {
             return
@@ -191,18 +195,18 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.view.tintColor = Color.darkNavy
 
-        let question = posts[row]
+        let question = posts[section]
         
         let hide = UIAlertAction(title: "Hide", style: .default, handler: { (action:UIAlertAction) in
             
-            self.hidePost(row: row, questionID: question.questionID)
-            
+            self.hidePost(section: section, questionID: question.questionID)
             
         })
         ac.addAction(hide)
         
         let report = UIAlertAction(title: "Report", style: .destructive, handler: { (action:UIAlertAction) in
             
+            self.reportPost(questionID: question.questionID)
             
         })
         ac.addAction(report)
@@ -223,19 +227,31 @@ class HomePage: BaseCollectionViewCell, QuestionProtocol {
         
     }
     
-    func hidePost(row: Int, questionID: String?) {
+    func hidePost(section: Int, questionID: String?) {
         
         if let questionID = questionID {
             
             defaults.hidePost(postID: questionID)
-            let index = IndexPath(row: row, section: 0)
+
             self.collectionView.performBatchUpdates({
-                self.posts.remove(at: row)
-                self.collectionView.deleteItems(at: [index])
+                self.posts.remove(at: section)
+//                self.collectionView.deleteItems(at: indexPaths)
+                self.collectionView.deleteSections(IndexSet(integer: section))
             }, completion: nil)
             
         }
         
+    }
+    
+    func reportPost(questionID: String?) {
+        
+        if let questionID = questionID {
+            
+            let dataRequest = FirebaseService.dataRequest
+            let reportsRef = FIREBASE_REF.child("reports").child(questionID)
+            dataRequest.incrementCount(ref: reportsRef.child("reportsCount"))
+ 
+        }
     }
     
     func doubleTapped(_ gestureReconizer: UITapGestureRecognizer) {
@@ -261,35 +277,56 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 
     private enum Row: Int {
         
-        case Name
-        case Question
+        case Profile
+        case Post
         case Buttons
         case Relates
         
     }
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        
-        return 1
-    }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         
         return posts.count
     }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return 4
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let _ = Row(rawValue: indexPath.row) else { return UICollectionViewCell() }
+        guard let row = Row(rawValue: indexPath.row) else { return UICollectionViewCell() }
         
-        let question = posts[indexPath.row]
+//        let question = posts[indexPath.section]
 
-//        switch row {
-//        case .Name:
-//        case .Question:
-//        case .Buttons:
-//        case .Relates:
-//            
-//        }
+        
+        switch row {
+            
+        case .Profile:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostProfileCell", for: indexPath) as! PostProfileCell
+            cell.nameLabel.text = "Jitae Kim"
+            cell.usernameLabel.text = "@jitae"
+            cell.profileImage.image = #imageLiteral(resourceName: "profile")
+            cell.postDelegate = self
+            cell.moreButton.tag = indexPath.section
+            return cell
+            
+        case .Post:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostTextCell", for: indexPath) as! PostTextCell
+            cell.postLabel.text = "text up to 200 characters here. text up to 200 characters here. text up to 200 characters here. text up to 200 characters here."
+            return cell
+            
+        case .Buttons:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostButtonsCell", for: indexPath) as! PostButtonsCell
+            return cell
+            
+        case .Relates:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostTagsCell", for: indexPath) as! PostTagsCell
+            return cell
+        default:
+            
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuestionCell", for: indexPath) as! QuestionCell
         cell.requestChatDelegate = self
         
@@ -311,24 +348,42 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         cell.shareButton.setImage(#imageLiteral(resourceName: "share"), for: .selected)
         
         // check if user already requested chat.
-        let outgoingRequests = defaults.getOutgoingRequests()
-        print(outgoingRequests.count)
-        if let _ = outgoingRequests[question.questionID!] {
-            cell.chatButton.isSelected = true
-        }
-        else {
-            cell.chatButton.isSelected = false
-        }
-        
+//        let outgoingRequests = defaults.getOutgoingRequests()
+//        print(outgoingRequests.count)
+//        if let _ = outgoingRequests[question.questionID!] {
+//            cell.chatButton.isSelected = true
+//        }
+//        else {
+//            cell.chatButton.isSelected = false
+//        }
+//        
         return cell
+            
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("selected \(indexPath.row)")
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
 //        let cell = collectionView.cellForItem(at: indexPath)
 //        let height = cell!.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        guard let row = Row(rawValue: indexPath.row) else { return CGSize() }
         
-        return CGSize(width: collectionView.frame.width, height: 250)
+        switch row {
+        case .Profile:
+            return CGSize(width: collectionView.frame.width, height: 70)
+        case .Post:
+            return CGSize(width: collectionView.frame.width, height: 100)
+        case .Buttons:
+            return CGSize(width: collectionView.frame.width, height: 50)
+        case .Relates:
+            return CGSize(width: collectionView.frame.width, height: 50)
+            
+        }
+        
     }
     
 
