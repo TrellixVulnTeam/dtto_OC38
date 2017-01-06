@@ -73,6 +73,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 
                 let name = questionData["name"] as? String ?? "Anonymous"
                 question.name = name
+                if let displayName = questionData["displayName"] as? String {
+                    question.displayName = displayName
+                }
                 
                 if let chatCount = questionData["chatCount"] as? Int {
                     question.chatCount = chatCount
@@ -232,10 +235,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         if let questionID = questionID {
             
             defaults.hidePost(postID: questionID)
-
             self.collectionView.performBatchUpdates({
                 self.posts.remove(at: section)
-//                self.collectionView.deleteItems(at: indexPaths)
                 self.collectionView.deleteSections(IndexSet(integer: section))
             }, completion: nil)
             
@@ -260,14 +261,29 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         let indexPath = self.collectionView.indexPathForItem(at: p)
         
         if let index = indexPath {
-            guard let cell = self.collectionView.cellForItem(at: index) as? QuestionCell else { return }
-            cell.selectButton(cell.chatButton)
+            guard let _ = self.collectionView.cellForItem(at: index) as? PostTextCell else { return }
+            guard let cell = self.collectionView.cellForItem(at: IndexPath(row: 2, section: index.section)) as? PostButtonsCell else { return }
             // request chat to this user
-            requestChat(row: index.row, chatState: cell.chatState)
+            cell.selectButton(cell.chatButton)
+//            requestChat(row: index.row, chatState: cell.chatState)
         
         } else {
             print("Could not find index path")
         }
+    }
+    
+    func showProfile(section: Int) {
+        
+        let post = posts[section]
+        
+        let user = User()
+        user.name = post.name
+        user.displayName = post.displayName
+        user.uid = post.userID
+        
+        let profileVC = ProfileViewController(user: user)
+        masterViewDelegate?.navigationController?.pushViewController(profileVC, animated: true)
+        
     }
     
     
@@ -298,8 +314,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         
         guard let row = Row(rawValue: indexPath.row) else { return UICollectionViewCell() }
         
-//        let question = posts[indexPath.section]
-
+        let question = posts[indexPath.section]
         
         switch row {
             
@@ -323,47 +338,30 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
         case .Relates:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostTagsCell", for: indexPath) as! PostTagsCell
+            cell.relatesCount = 2
             return cell
-        default:
-            
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "QuestionCell", for: indexPath) as! QuestionCell
-        cell.requestChatDelegate = self
-        
-        
-        cell.moreButton.tag = indexPath.row
-        cell.relateButton.tag = indexPath.row
-        cell.chatButton.tag = indexPath.row
-        cell.shareButton.tag = indexPath.row
-        
-        cell.relateButton.setImage(#imageLiteral(resourceName: "upvote"), for: .normal)
-        cell.relateButton.setImage(#imageLiteral(resourceName: "upvote"), for: .selected)
-        cell.chatButton.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
-        cell.chatButton.setImage(#imageLiteral(resourceName: "chatSelected"), for: .selected)
-        cell.chatButton.setTitle("Chat", for: .normal)
-        cell.chatButton.setTitleColor(Color.textGray, for: .normal)
-        cell.chatButton.setTitle("Chat Requested!", for: .selected)
-        cell.chatButton.setTitleColor(Color.darkSalmon, for: .selected)
-        cell.shareButton.setImage(#imageLiteral(resourceName: "share"), for: .normal)
-        cell.shareButton.setImage(#imageLiteral(resourceName: "share"), for: .selected)
-        
-        // check if user already requested chat.
-//        let outgoingRequests = defaults.getOutgoingRequests()
-//        print(outgoingRequests.count)
-//        if let _ = outgoingRequests[question.questionID!] {
-//            cell.chatButton.isSelected = true
-//        }
-//        else {
-//            cell.chatButton.isSelected = false
-//        }
-//        
-        return cell
-            
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("selected \(indexPath.row)")
+        guard let row = Row(rawValue: indexPath.row) else { return }
+        
+        switch row {
+        case .Profile:
+            let post = posts[indexPath.section]
+            if !post.isAnonymous {
+                showProfile(section: indexPath.section)
+            }
+            
+            print("push profile")
+        case .Relates:
+            print("push people related")
+        default:
+            break
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

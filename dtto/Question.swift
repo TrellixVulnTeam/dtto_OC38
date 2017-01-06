@@ -18,6 +18,6 @@ class Question: NSObject {
     var chatCount: Int?
     var relateCount: Int?
     var tags: String?
-    
+    var isAnonymous: Bool = false
     
 }

@@ -65,6 +65,7 @@
 		04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */; };
 		04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D84FDB1DE3B61800023195 /* CreateEmail.swift */; };
 		04D9949A1E19F6BF00A46700 /* TextWithHorizontalBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */; };
+		04DDD87B1E1F286E0023EE70 /* SortDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DDD87A1E1F286E0023EE70 /* SortDictionary.swift */; };
 		04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */; };
 		04DF310E1DE2EE4B0068E59B /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */; };
 		04DF31101DE2EEFB0068E59B /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310F1DE2EEFB0068E59B /* RoundButton.swift */; };
@@ -189,6 +190,7 @@
 		04D45ABC1DE2DA1F00A6B317 /* dtto.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dtto.entitlements; sourceTree = "<group>"; };
 		04D84FDB1DE3B61800023195 /* CreateEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEmail.swift; sourceTree = "<group>"; };
 		04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextWithHorizontalBars.swift; sourceTree = "<group>"; };
+		04DDD87A1E1F286E0023EE70 /* SortDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortDictionary.swift; sourceTree = "<group>"; };
 		04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
 		04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		04DF310F1DE2EEFB0068E59B /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
@@ -428,6 +430,7 @@
 				04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */,
 				04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */,
 				041B39351E1DD24E003E130E /* UIViewConstraints.swift */,
+				04DDD87A1E1F286E0023EE70 /* SortDictionary.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -841,6 +844,7 @@
 				04E459B91DE15AD5006003DF /* LoginForm.swift in Sources */,
 				04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */,
 				04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */,
+				04DDD87B1E1F286E0023EE70 /* SortDictionary.swift in Sources */,
 				04051CC01E065D4400A3FDD6 /* AskQuestion.swift in Sources */,
 				045AB28F1DFE70EB009D9394 /* User.swift in Sources */,
 				04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */,

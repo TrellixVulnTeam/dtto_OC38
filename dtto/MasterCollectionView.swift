@@ -183,6 +183,10 @@ class MasterCollectionView: UIViewController {
             cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
         }
         
+        else if let cv = collectionView.cellForItem(at: selectedCV) as? HomePage {
+            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
+            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

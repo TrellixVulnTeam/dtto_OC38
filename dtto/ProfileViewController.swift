@@ -11,7 +11,7 @@ import Firebase
 
 class ProfileViewController: UIViewController {
 
-    var user: User?
+    var user = User()
     
     lazy var tableView: UITableView = {
 
@@ -34,11 +34,11 @@ class ProfileViewController: UIViewController {
     init(user: User) {
         super.init(nibName: nil, bundle: nil)
         self.user = user
-        self.title = user.displayName ?? "Anonymous"
+        self.title = user.displayName ?? ""
         print("TITLE IS \(title!)")
         
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -69,12 +69,12 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        observeUser()
         setupNavBar()
         self.view.backgroundColor = .white
         automaticallyAdjustsScrollViewInsets = false
         setupViews()
     }
-
 
     func setupViews() {
         view.addSubview(tableView)
@@ -83,6 +83,58 @@ class ProfileViewController: UIViewController {
         tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    }
+    
+    func observeUser() {
+        
+//        guard let user = user else { return }
+        guard let userID = user.uid else { return }
+        let userRef = FIREBASE_REF.child("users").child(userID)
+        userRef.observeSingleEvent(of: .value, with: { snapshot in
+            
+            // get all user attributes, then add to tableview
+            guard let userSnapshot = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            
+            guard let name = userSnapshot["name"] as? String, let displayName = userSnapshot["displayName"] as? String else { return }
+            
+            let user = User()
+            user.name = name
+            user.displayName = displayName
+            
+            if let age = userSnapshot["age"] as? Int {
+                user.age = age
+            }
+            
+            if let education = userSnapshot["education"] as? Dictionary<String, Int> {
+                
+                user.education = sortByValue(dict: education)
+                
+            }
+            
+            if let profession = userSnapshot["profession"] as? Dictionary<String, Int> {
+                
+                user.profession = sortByValue(dict: profession)
+                
+            }
+            
+            if let expertise = userSnapshot["expertise"] as? Dictionary<String, Int> {
+
+                user.expertise = sortByValue(dict: expertise)
+                
+            }
+            
+            if let summary = userSnapshot["summary"] as? String {
+                user.summary = summary
+            }
+            
+            if let relatesReceivedCount = userSnapshot["relatesReceivedCount"] as? Int {
+                user.relatesReceivedCount = relatesReceivedCount
+            }
+            
+            self.user = user
+            self.tableView.reloadData()
+            
+        })
     }
 
 }
@@ -106,30 +158,15 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         guard let section = Section(rawValue: section) else { return 0 }
         
         switch section {
+            
         case .Profile:
             return 1
         case .Education:
-//            if let education = user.education {
-//                return education.count
-//            }
-//            else {
-//                return 0
-//            }
-            return 1
-            
+            return user.education.count
         case .Profession:
-            //            if let profession = user.profession {
-            //                return 1
-            //            }
-            //            else {
-            //                return 0
-            //            }
-            return 1
-            
+            return user.profession.count
         case .Expertise:
-            // if let _ = user.expertise return 1
-            return 1
-            
+            return user.expertise.count
         case .Summary:
             // return user.summary ?? 0
             return 1
@@ -139,16 +176,26 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        guard let section = Section(rawValue: section) else { return 0 }
-        
-        switch section {
-        case .Education, .Profession, .Expertise:
-            return UITableViewAutomaticDimension
-        default:
+        if tableView.numberOfRows(inSection: section) != 0 {
+            
+            guard let section = Section(rawValue: section) else { return 0 }
+            
+            switch section {
+            case .Education, .Profession, .Expertise, .Summary:
+                return UITableViewAutomaticDimension
+            default:
+                return 0
+            }
+            
+        }
+        else {
             return 0
         }
         
+        
+        
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let section = Section(rawValue: section) else { return nil }
@@ -160,6 +207,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return ProfileSectionHeader(sectionTitle: "Profession")
         case .Expertise:
             return ProfileSectionHeader(sectionTitle: "Expertise")
+        case .Summary:
+            return ProfileSectionHeader(sectionTitle: "Summary")
         default:
             return nil
             
@@ -181,13 +230,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case .Education:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileInfoCell") as! ProfileInfoCell
             cell.icon.image = #imageLiteral(resourceName: "education")
-            cell.titleLabel.text = "UCLA"
+            cell.titleLabel.text = user.education[indexPath.row]
             return cell
             
         case .Profession:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileInfoCell") as! ProfileInfoCell
             cell.icon.image = #imageLiteral(resourceName: "suitcase")
-            cell.titleLabel.text = "Financial Analyst"
+            cell.titleLabel.text = user.profession[indexPath.row]
             return cell
             
         case .Expertise:

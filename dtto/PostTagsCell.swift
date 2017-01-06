@@ -21,10 +21,20 @@ class PostTagsCell: BaseCollectionViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .black
-        label.text = "15 people related with this"
         return label
     }()
 
+    var relatesCount: Int = 0 {
+        didSet {
+            if relatesCount == 1 {
+                relatesLabel.text = String(relatesCount) + " relate"
+            }
+            else {
+                relatesLabel.text = String(relatesCount) + " relates"
+            }
+
+        }
+    }
     
     override func setupViews() {
         super.setupViews()
@@ -32,9 +42,9 @@ class PostTagsCell: BaseCollectionViewCell {
         addSubview(relatesIcon)
         addSubview(relatesLabel)
         
-        relatesIcon.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
-        
-        relatesLabel.anchor(top: topAnchor, leading: relatesIcon.trailingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
+        relatesIcon.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
+        relatesIcon.anchorCenterYToSuperview()
+        relatesLabel.anchor(top: topAnchor, leading: relatesIcon.trailingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 5, leadingConstant: 10, trailingConstant: 0, bottomConstant: 5, widthConstant: 0, heightConstant: 0)
         
     }
 
