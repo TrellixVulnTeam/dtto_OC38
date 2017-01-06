@@ -8,20 +8,29 @@
 
 import UIKit
 
-class ProfileInfoCell: UITableViewCell {
+class ProfileInfoCell: BaseTableViewCell {
 
-    @IBOutlet weak var icon: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
+    var icon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "suitcase")
+        return imageView
+    }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
+        return label
+    }()
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    override func setupViews() {
+        super.setupViews()
+        
+        addSubview(icon)
+        addSubview(titleLabel)
+        
+        icon.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
+        titleLabel.anchor(top: nil, leading: icon.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        titleLabel.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
     }
     
 }

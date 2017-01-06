@@ -19,15 +19,21 @@ class ProfileViewController: UIViewController {
         tv.dataSource = self
         tv.delegate = self
         
-        tv.estimatedRowHeight = 50
+        tv.estimatedRowHeight = 100
         tv.estimatedSectionHeaderHeight = 20
         tv.separatorInset = .zero
         tv.layoutMargins = .zero
+        tv.allowsSelection = false
+//        tv.register(UINib(nibName: "ProfileImageCell", bundle: nil), forCellReuseIdentifier: "ProfileImageCell")
+//        tv.register(UINib(nibName: "ProfileInfoCell", bundle: nil), forCellReuseIdentifier: "ProfileInfoCell")
+//        tv.register(UINib(nibName: "ProfileExpertiseCell", bundle: nil), forCellReuseIdentifier: "ProfileExpertiseCell")
+//        tv.register(UINib(nibName: "ProfileSummaryCell", bundle: nil), forCellReuseIdentifier: "ProfileSummaryCell")
         
-        tv.register(UINib(nibName: "ProfileImageCell", bundle: nil), forCellReuseIdentifier: "ProfileImageCell")
-        tv.register(UINib(nibName: "ProfileInfoCell", bundle: nil), forCellReuseIdentifier: "ProfileInfoCell")
-        tv.register(UINib(nibName: "ProfileExpertiseCell", bundle: nil), forCellReuseIdentifier: "ProfileExpertiseCell")
-        tv.register(UINib(nibName: "ProfileSummaryCell", bundle: nil), forCellReuseIdentifier: "ProfileSummaryCell")
+        // Code Cells
+        tv.register(ProfileImageCell.self, forCellReuseIdentifier: "ProfileImageCell")
+        tv.register(ProfileInfoCell.self, forCellReuseIdentifier: "ProfileInfoCell")
+        tv.register(ProfileExpertiseCell.self, forCellReuseIdentifier: "ProfileExpertiseCell")
+        tv.register(ProfileSummaryCell.self, forCellReuseIdentifier: "ProfileSummaryCell")
         return tv
     }()
     
@@ -168,8 +174,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case .Expertise:
             return user.expertise.count
         case .Summary:
-            // return user.summary ?? 0
-            return 1
+            if let _ = user.summary {
+                return 1
+            }
+            else {
+                return 0
+            }
         }
 
     }
@@ -222,8 +232,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         switch section {
         case .Profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell") as! ProfileImageCell
-            cell.endorses.text = "17 people found Jae helpful."
-            cell.name.text = "Jae, 24"
+
             cell.profileImage.image = #imageLiteral(resourceName: "profile")
             return cell
             
@@ -241,13 +250,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
         case .Expertise:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileExpertiseCell") as! ProfileExpertiseCell
-            cell.icon.image = #imageLiteral(resourceName: "relate")
-            cell.tagsLabel.text = "Some tags here Some tags here Some tags here Some tags here"
+//            cell.icon.image = #imageLiteral(resourceName: "relate")
+//            cell.tagsLabel.text = "Some tags here Some tags here Some tags here Some tags here"
             return cell
             
         case .Summary:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileSummaryCell") as! ProfileSummaryCell
-            
+            cell.summaryLabel.text = user.summary!
             return cell
         }
         

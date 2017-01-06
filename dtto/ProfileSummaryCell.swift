@@ -8,17 +8,25 @@
 
 import UIKit
 
-class ProfileSummaryCell: UITableViewCell {
+class ProfileSummaryCell: BaseTableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    let summaryLabel: UILabel = {
+        
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = .black
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    override func setupViews() {
+        super.setupViews()
+        
+        addSubview(summaryLabel)
+        summaryLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 10, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
+        
+        
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    
     
 }

@@ -8,22 +8,47 @@
 
 import UIKit
 
-class ProfileImageCell: UITableViewCell {
+class ProfileImageCell: BaseTableViewCell {
 
-    @IBOutlet weak var profileImage: RoundImageView!
+    var profileImage: RoundImageView = {
+        let imageView = RoundImageView()
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+
+    var relatesReceivedCount: UILabel = {
+        let label = UILabel()
+        label.text = "21 people found Jae helpful."
+        label.font = UIFont.systemFont(ofSize: 13)
+        return label
+    }()
+    var name: UILabel = {
+        let label = UILabel()
+        label.text = "Jae, 24"
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        return label
+    }()
+
     
-    @IBOutlet weak var endorses: UILabel!
-    @IBOutlet weak var name: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    override func setupViews() {
+        super.setupViews()
+        
+        addSubview(profileImage)
+        addSubview(relatesReceivedCount)
+        addSubview(name)
+        
+        profileImage.anchor(top: topAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 100)
+        profileImage.anchorCenterXToSuperview()
+        
+        relatesReceivedCount.anchor(top: profileImage.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        relatesReceivedCount.anchorCenterXToSuperview()
+        
+        name.anchor(top: relatesReceivedCount.bottomAnchor, leading: nil, trailing: nil, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
+        name.anchorCenterXToSuperview()
+        
+        
+        
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
 }
