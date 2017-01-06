@@ -46,7 +46,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 
             case 1:
                 
-                let child = AskQuestion()
+                let child = UINavigationController(rootViewController: AskQuestion())
                 
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
@@ -108,20 +108,22 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         imageViews[item.tag].bounceAnimate()
         
-        
     }
+    
+    
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
-        if let _ = viewController as? AskQuestion {
-
-            
-            tabBarController.present(AskQuestion(), animated: true)
+        // TODO: Find better way of identifying tab
+        if viewController.childViewControllers[0] is AskQuestion {
+            let navController = UINavigationController(rootViewController: AskQuestion())
+            tabBarController.present(navController, animated: true)
             return false
-            
         }
-        
-        return true
+        else {
+            return true
+        }
+
     }
     
     func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

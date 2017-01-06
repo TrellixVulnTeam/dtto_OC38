@@ -10,13 +10,13 @@ import UIKit
 
 class ProfileInfoCell: BaseTableViewCell {
 
-    var icon: UIImageView = {
+    let icon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "suitcase")
         return imageView
     }()
     
-    var titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
         return label
