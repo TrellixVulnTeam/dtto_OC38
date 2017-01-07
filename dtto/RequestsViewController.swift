@@ -80,12 +80,12 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             
             guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
-            guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let questionID = userNotifications["questionID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
+            guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let postID = userNotifications["postID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
             
             let notification = Notification()
             
             notification.name = name
-            notification.questionID = questionID
+            notification.postID = postID
             notification.userID = uid
             notification.notificationID = notificationID
             // process timestamp
@@ -121,14 +121,14 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
         var chatDictionary = [String : String]()
         
-        guard let name = chat.name, let uid = chat.senderID, let questionID = chat.questionID else {
+        guard let name = chat.name, let uid = chat.senderID, let postID = chat.postID else {
             print("User dictionary is nil. something went wrong")
             return nil
         }
         
         chatDictionary.updateValue(name, forKey: "name")
         chatDictionary.updateValue(uid, forKey: "senderID")
-        chatDictionary.updateValue(questionID, forKey: "questionID")
+        chatDictionary.updateValue(postID, forKey: "postID")
         
         if let profile = chat.profileImageURL {
             chatDictionary.updateValue(profile, forKey: "profileImageURL")
@@ -142,7 +142,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
         let request = requests[row]
         
-        guard let userID = defaults.getUID(), let friendID = request.userID, let friendName = request.name, let questionID = request.questionID, let requestID = request.notificationID else { return }
+        guard let userID = defaults.getUID(), let friendID = request.userID, let friendName = request.name, let postID = request.postID, let requestID = request.notificationID else { return }
         
         let userName = FIRAuth.auth()?.currentUser?.displayName ?? "Anonymous"
         
@@ -159,7 +159,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             let chatsRef = FIREBASE_REF.child("chats")
             let autoID = chatsRef.childByAutoId().key   // Update both userChats with this key.
             let users = [userID : userName, friendID : friendName]
-            let baseChat: [String : Any] = ["users" : users, "questionID" : questionID]
+            let baseChat: [String : Any] = ["users" : users, "postID" : postID]
             chatsRef.updateChildValues([autoID : baseChat])
 
 
@@ -168,8 +168,8 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             dataRequest.startChat(ref: FIREBASE_REF.child("users/\(userID)/chats/\(autoID)"))
             dataRequest.startChat(ref: FIREBASE_REF.child("users/\(friendID)/chats/\(autoID)"))
         
-            // increment number of ongoing chats for question.
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("questions/\(questionID)/chatCount"))
+            // increment number of ongoing chats for post.
+            dataRequest.incrementCount(ref: FIREBASE_REF.child("posts/\(postID)/chatCount"))
             
             // increment user's and friend's number of ongoing chats.
             dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(userID)/ongoingChatCount"))

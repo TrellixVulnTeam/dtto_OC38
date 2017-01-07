@@ -46,7 +46,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 
             case 1:
                 
-                let child = UINavigationController(rootViewController: AskQuestion())
+                let child = UINavigationController(rootViewController: ComposePostViewController())
                 
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
@@ -115,8 +115,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
         // TODO: Find better way of identifying tab
-        if viewController.childViewControllers[0] is AskQuestion {
-            let navController = UINavigationController(rootViewController: AskQuestion())
+        if viewController.childViewControllers[0] is ComposePostViewController {
+            let navController = UINavigationController(rootViewController: ComposePostViewController())
             tabBarController.present(navController, animated: true)
             return false
         }

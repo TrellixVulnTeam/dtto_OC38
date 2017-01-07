@@ -1,14 +1,14 @@
 //
-//  Question.swift
+//  Post.swift
 //  dtto
 //
 //  Created by Jitae Kim on 12/11/16.
 //  Copyright © 2016 Jitae Kim. All rights reserved.
 //
 
-class Question: NSObject {
+class Post: NSObject {
     
-    var questionID: String?
+    var postID: String?
     var userID: String?
     var name: String?
     var displayName: String?

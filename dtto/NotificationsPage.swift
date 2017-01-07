@@ -65,12 +65,12 @@ class NotificationsPage:  BaseCollectionViewCell {
 
             guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
-            guard let uid = userNotifications["uid"] as? String, let name = userNotifications["name"] as? String, let questionID = userNotifications["questionID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
+            guard let uid = userNotifications["uid"] as? String, let name = userNotifications["name"] as? String, let postID = userNotifications["postID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
             
             let notification = Notification()
             
             notification.name = name
-            notification.questionID = questionID
+            notification.postID = postID
             notification.userID = uid
             // process timestamp
             notification.timestamp = timestamp
@@ -171,7 +171,7 @@ extension NotificationsPage: UICollectionViewDelegate, UICollectionViewDataSourc
             
             break
         case .Notifications:
-            // go to question, or do nothing
+            // go to post, or do nothing
             break
         }
 

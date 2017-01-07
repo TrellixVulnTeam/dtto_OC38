@@ -62,7 +62,7 @@ class MasterCollectionView: UIViewController {
 
                 guard let userChat = snapshot.value as? NSDictionary else { return }
                 
-                guard let users = userChat["users"] as? Dictionary<String, AnyObject>, let questionID = userChat["questionID"] as? String else { return }
+                guard let users = userChat["users"] as? Dictionary<String, AnyObject>, let postID = userChat["postID"] as? String else { return }
                 
                 let chat = Chat()
                 
@@ -76,7 +76,7 @@ class MasterCollectionView: UIViewController {
                 }
                 
                 chat.chatID = chatID
-                chat.questionID = questionID
+                chat.postID = postID
                 
                 if let senderID = userChat["senderID"] as? String, let lastMessage = userChat["lastMessage"] as? String!, let timestamp = userChat["timestamp"] as? String {
                     
@@ -120,12 +120,12 @@ class MasterCollectionView: UIViewController {
             
             guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
-            guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let questionID = userNotifications["questionID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
+            guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let postID = userNotifications["postID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
             
             let notification = Notification()
             
             notification.name = name
-            notification.questionID = questionID
+            notification.postID = postID
             notification.userID = uid
             notification.notificationID = notificationID
             // process timestamp

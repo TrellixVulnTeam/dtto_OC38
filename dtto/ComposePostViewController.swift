@@ -1,5 +1,5 @@
 //
-//  AskQuestion.swift
+//  AskPost.swift
 //  dtto
 //
 //  Created by Jitae Kim on 12/17/16.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class AskQuestion: UIViewController {
+class ComposePostViewController: UIViewController {
 
-    var post = Question()
+    var post = Post()
     
     lazy var headerView: UIView = {
         let headerView = UIView()
@@ -115,7 +115,7 @@ class AskQuestion: UIViewController {
 
 }
 
-extension AskQuestion: UITableViewDelegate, UITableViewDataSource {
+extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource {
     
     private enum Row: Int {
         case Profile
@@ -157,7 +157,7 @@ extension AskQuestion: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension AskQuestion: UITextViewDelegate {
+extension ComposePostViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "What's on your mind?" {

@@ -14,14 +14,14 @@ struct Person {
     var name: String
     var age: Int
     var image: UIImage
-    var question: String
+    var post: String
 
     
     init() {
         name = "Jitae"
         age = 23
         image = #imageLiteral(resourceName: "profile")
-        question = "Is this working?"
+        post = "Is this working?"
         
     }
     
@@ -29,7 +29,7 @@ struct Person {
         self.name = name
         self.age = 23
         self.image = image
-        self.question = "Is this working?"
+        self.post = "Is this working?"
     }
     
     func getName() -> String {
@@ -43,8 +43,8 @@ struct Person {
     func getImage() -> UIImage {
         return image
     }
-    func getQuestion() -> String {
-        return question
+    func getPost() -> String {
+        return post
     }
     
 }

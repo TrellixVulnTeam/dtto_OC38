@@ -12,7 +12,7 @@
 		04045C2F1DDFA010002BBD07 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04045C2D1DDFA010002BBD07 /* LaunchScreen.storyboard */; };
 		04045C3A1DDFA010002BBD07 /* BounceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04045C391DDFA010002BBD07 /* BounceTests.swift */; };
 		04045C451DDFA010002BBD07 /* BounceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04045C441DDFA010002BBD07 /* BounceUITests.swift */; };
-		04051CC01E065D4400A3FDD6 /* AskQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04051CBE1E065D4400A3FDD6 /* AskQuestion.swift */; };
+		04051CC01E065D4400A3FDD6 /* ComposePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04051CBE1E065D4400A3FDD6 /* ComposePostViewController.swift */; };
 		04051CC31E06708800A3FDD6 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04051CC21E06708800A3FDD6 /* RoundImageView.swift */; };
 		041032A31E03A94F00B6BDE8 /* MasterCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041032A11E03A94F00B6BDE8 /* MasterCollectionView.swift */; };
 		041032A61E03AB6400B6BDE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 041032A51E03AB6400B6BDE8 /* Main.storyboard */; };
@@ -41,7 +41,7 @@
 		0452480B1E08FB45007D6C3E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */; };
 		0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0453572D1DE2E8BF006668BF /* FontAwesome.otf */; };
 		045AB28F1DFE70EB009D9394 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AB28E1DFE70EB009D9394 /* User.swift */; };
-		045AB2921DFE71B1009D9394 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AB2911DFE71B1009D9394 /* Question.swift */; };
+		045AB2921DFE71B1009D9394 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AB2911DFE71B1009D9394 /* Post.swift */; };
 		045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AB2931DFE777F009D9394 /* TabBarController.swift */; };
 		045AB2961DFE7970009D9394 /* TransitioningObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AB2951DFE7970009D9394 /* TransitioningObject.swift */; };
 		045DAC3D1DDFB08A00BF3939 /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045DAC3C1DDFB08A00BF3939 /* CircleButton.swift */; };
@@ -73,7 +73,6 @@
 		04E459BC1DE15C19006003DF /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BB1DE15C19006003DF /* Login.storyboard */; };
 		04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459BD1DE15C3D006003DF /* LoginHome.swift */; };
 		04E459C01DE15C3D006003DF /* LoginHome.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E459BE1DE15C3D006003DF /* LoginHome.xib */; };
-		04E7545F1E0F6E3100883B38 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E7545E1E0F6E3100883B38 /* Account.storyboard */; };
 		04E754611E0F6E5E00883B38 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E754601E0F6E5E00883B38 /* AccountViewController.swift */; };
 		04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9D9151E1B605F00B29986 /* HorizontalBar.swift */; };
 		04EA04781E12078C00B0A984 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA04771E12078C00B0A984 /* ProfileViewController.swift */; };
@@ -131,7 +130,7 @@
 		04045C401DDFA010002BBD07 /* dttoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dttoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04045C441DDFA010002BBD07 /* BounceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceUITests.swift; sourceTree = "<group>"; };
 		04045C461DDFA010002BBD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04051CBE1E065D4400A3FDD6 /* AskQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskQuestion.swift; sourceTree = "<group>"; };
+		04051CBE1E065D4400A3FDD6 /* ComposePostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposePostViewController.swift; sourceTree = "<group>"; };
 		04051CC21E06708800A3FDD6 /* RoundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		041032A11E03A94F00B6BDE8 /* MasterCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterCollectionView.swift; sourceTree = "<group>"; };
 		041032A51E03AB6400B6BDE8 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -160,7 +159,7 @@
 		0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0453572D1DE2E8BF006668BF /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
 		045AB28E1DFE70EB009D9394 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		045AB2911DFE71B1009D9394 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		045AB2911DFE71B1009D9394 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		045AB2931DFE777F009D9394 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		045AB2951DFE7970009D9394 /* TransitioningObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitioningObject.swift; sourceTree = "<group>"; };
 		045DAC3C1DDFB08A00BF3939 /* CircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
@@ -195,7 +194,6 @@
 		04E459BB1DE15C19006003DF /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		04E459BD1DE15C3D006003DF /* LoginHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHome.swift; sourceTree = "<group>"; };
 		04E459BE1DE15C3D006003DF /* LoginHome.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginHome.xib; sourceTree = "<group>"; };
-		04E7545E1E0F6E3100883B38 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		04E754601E0F6E5E00883B38 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		04E9D9151E1B605F00B29986 /* HorizontalBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
 		04EA04771E12078C00B0A984 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -287,7 +285,7 @@
 				04DF310A1DE2EC090068E59B /* Helpers */,
 				04E459BA1DE15AE1006003DF /* Login */,
 				045DAC391DDFA10100BF3939 /* Home */,
-				045248031E089C7F007D6C3E /* AskQuestion */,
+				045248031E089C7F007D6C3E /* ComposePost */,
 				04E754571E0F6CEA00883B38 /* Profile */,
 				045AB2901DFE70F2009D9394 /* Model */,
 				04045C2B1DDFA010002BBD07 /* Assets.xcassets */,
@@ -331,14 +329,14 @@
 			name = "Custom Views";
 			sourceTree = "<group>";
 		};
-		045248031E089C7F007D6C3E /* AskQuestion */ = {
+		045248031E089C7F007D6C3E /* ComposePost */ = {
 			isa = PBXGroup;
 			children = (
-				04051CBE1E065D4400A3FDD6 /* AskQuestion.swift */,
+				04051CBE1E065D4400A3FDD6 /* ComposePostViewController.swift */,
 				04461A931E1F4244008160A1 /* PostPrivacyCell.swift */,
 				04461A951E1F45BC008160A1 /* PostComposeCell.swift */,
 			);
-			name = AskQuestion;
+			name = ComposePost;
 			sourceTree = "<group>";
 		};
 		045AB2901DFE70F2009D9394 /* Model */ = {
@@ -349,7 +347,7 @@
 				04F6EFBD1E0B6C1D0055015F /* Notification.swift */,
 				04AF68501DFF748600216652 /* Message.swift */,
 				049AB6B61DFE8E5000B45DC3 /* Chat.swift */,
-				045AB2911DFE71B1009D9394 /* Question.swift */,
+				045AB2911DFE71B1009D9394 /* Post.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -445,7 +443,6 @@
 		04E754571E0F6CEA00883B38 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				04E7545E1E0F6E3100883B38 /* Account.storyboard */,
 				04E754601E0F6E5E00883B38 /* AccountViewController.swift */,
 				04EA04791E12094400B0A984 /* Profile */,
 			);
@@ -637,7 +634,6 @@
 				04E459BC1DE15C19006003DF /* Login.storyboard in Resources */,
 				04045C2C1DDFA010002BBD07 /* Assets.xcassets in Resources */,
 				045248051E089F2F007D6C3E /* ChatListCell.xib in Resources */,
-				04E7545F1E0F6E3100883B38 /* Account.storyboard in Resources */,
 				0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */,
 				041E5BFB1E0CB6CE002533EF /* RequestsViewCell.xib in Resources */,
 				041032A61E03AB6400B6BDE8 /* Main.storyboard in Resources */,
@@ -830,7 +826,7 @@
 				04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */,
 				04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */,
 				04DDD87B1E1F286E0023EE70 /* SortDictionary.swift in Sources */,
-				04051CC01E065D4400A3FDD6 /* AskQuestion.swift in Sources */,
+				04051CC01E065D4400A3FDD6 /* ComposePostViewController.swift in Sources */,
 				045AB28F1DFE70EB009D9394 /* User.swift in Sources */,
 				04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */,
 				04051CC31E06708800A3FDD6 /* RoundImageView.swift in Sources */,
@@ -854,7 +850,7 @@
 				041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */,
 				04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */,
 				049AB6B11DFE841F00B45DC3 /* ChatList.swift in Sources */,
-				045AB2921DFE71B1009D9394 /* Question.swift in Sources */,
+				045AB2921DFE71B1009D9394 /* Post.swift in Sources */,
 				04045C251DDFA010002BBD07 /* AppDelegate.swift in Sources */,
 				0470790C1E0612E90059C360 /* Notifications.swift in Sources */,
 				04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */,

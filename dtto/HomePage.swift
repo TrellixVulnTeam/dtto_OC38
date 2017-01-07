@@ -16,14 +16,14 @@ protocol PostProtocol : class {
 
 class HomePage: BaseCollectionViewCell, PostProtocol {
     
-    var posts = [Question]()
-    var fullPosts = [Question]()
+    var posts = [Post]()
+    var fullPosts = [Post]()
     
     var collectionView: UICollectionView!
     
     override func setupViews() {
         
-        observeQuestions()
+        observePosts()
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -46,8 +46,6 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         collectionView.register(PostTextCell.self, forCellWithReuseIdentifier: "PostTextCell")
         collectionView.register(PostButtonsCell.self, forCellWithReuseIdentifier: "PostButtonsCell")
         collectionView.register(PostTagsCell.self, forCellWithReuseIdentifier: "PostTagsCell")
-        collectionView.register(UINib(nibName: "NameCell", bundle: nil), forCellWithReuseIdentifier: "NameCell")
-        collectionView.register(UINib(nibName: "QuestionCell", bundle: nil), forCellWithReuseIdentifier: "QuestionCell")
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
@@ -56,49 +54,49 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
     }
     
-    private func observeQuestions() {
+    private func observePosts() {
         
-        let questionsRef = FIREBASE_REF.child("questions")
+        let postsRef = FIREBASE_REF.child("posts")
         
-        questionsRef.observe(.childAdded, with: { snapshot in
+        postsRef.observe(.childAdded, with: { snapshot in
             
-            if let questionData = snapshot.value as? Dictionary<String, AnyObject> {
+            if let postData = snapshot.value as? Dictionary<String, AnyObject> {
                 
-                guard let questionID = questionData["questionID"] as? String, let text = questionData["text"] as? String, let userID = questionData["uid"] as? String else { return }
+                guard let postID = postData["postID"] as? String, let text = postData["text"] as? String, let userID = postData["uid"] as? String else { return }
                 
-                let question = Question()
-                question.questionID = questionID
-                question.text = text
-                question.userID = userID
+                let post = Post()
+                post.postID = postID
+                post.text = text
+                post.userID = userID
                 
-                let name = questionData["name"] as? String ?? "Anonymous"
-                question.name = name
-                if let displayName = questionData["displayName"] as? String {
-                    question.displayName = displayName
+                let name = postData["name"] as? String ?? "Anonymous"
+                post.name = name
+                if let displayName = postData["displayName"] as? String {
+                    post.displayName = displayName
                 }
                 
-                if let chatCount = questionData["chatCount"] as? Int {
-                    question.chatCount = chatCount
+                if let chatCount = postData["chatCount"] as? Int {
+                    post.chatCount = chatCount
                 }
                 
-                if let relateCount = questionData["relateCount"] as? Int {
-                    question.relateCount = relateCount
+                if let relateCount = postData["relateCount"] as? Int {
+                    post.relateCount = relateCount
                 }
                 
-                if let tags = questionData["tags"] as? Dictionary<String, AnyObject> {
+                if let tags = postData["tags"] as? Dictionary<String, AnyObject> {
                     for tag in tags {
-                        question.tags = "\(question.tags), \(tag.key)"
+                        post.tags = "\(post.tags), \(tag.key)"
                     }
                 }
 //                
 //                let hiddenPosts = defaults.getHiddenPosts()
-//                if hiddenPosts.count == 0 || hiddenPosts[questionID] == nil {
-//                    print("question is not hidden")
-//                    self.posts.insert(question, at: 0)
+//                if hiddenPosts.count == 0 || hiddenPosts[postID] == nil {
+//                    print("post is not hidden")
+//                    self.posts.insert(post, at: 0)
 //
 //                }
-                self.posts.insert(question, at: 0)
-                self.fullPosts.insert(question, at: 0)
+                self.posts.insert(post, at: 0)
+                self.fullPosts.insert(post, at: 0)
                 self.collectionView.reloadData()
                 
             }
@@ -109,13 +107,13 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     func requestChat(row: Int, chatState: ChatState) {
         
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? QuestionCell else { return }
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? PostCell else { return }
         
-        let question = posts[row]
-        guard let questionID = question.questionID, let friendID = question.userID, let userID = defaults.getUID() else { return }
+        let post = posts[row]
+        guard let postID = post.postID, let friendID = post.userID, let userID = defaults.getUID() else { return }
         
         let dataRequest = FirebaseService.dataRequest
-        let chatRequestRef = FIREBASE_REF.child("requests").child(friendID).child(questionID).child(userID)
+        let chatRequestRef = FIREBASE_REF.child("requests").child(friendID).child(postID).child(userID)
         
         switch chatState {
             
@@ -131,7 +129,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 
                     let request: [String: Any] = [
                         "name": "Jae",
-                        "questionID" : questionID,
+                        "postID" : postID,
                         "timestamp" : "11-11",
                         "uid" : "uid2",
                         "pending" : true
@@ -166,22 +164,22 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     func relatePost(row: Int) {
         
-        let question = posts[row]
-        guard let questionID = question.questionID, let friendID = question.userID, let userID = defaults.getUID() else { return }
+        let post = posts[row]
+        guard let postID = post.postID, let friendID = post.userID, let userID = defaults.getUID() else { return }
         
         let dataRequest = FirebaseService.dataRequest
-        let userRelatesRef = FIREBASE_REF.child("users/\(userID)/relatedPosts").child(questionID)
+        let userRelatesRef = FIREBASE_REF.child("users/\(userID)/relatedPosts").child(postID)
         userRelatesRef.observeSingleEvent(of: .value, with: { snapshot in
             
             if snapshot.exists() {
                 userRelatesRef.removeValue()
-                dataRequest.decrementCount(ref: FIREBASE_REF.child("questions").child(questionID).child("relatesCount"))
+                dataRequest.decrementCount(ref: FIREBASE_REF.child("posts").child(postID).child("relatesCount"))
                 dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("relatesReceivedCount"))
                 dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(userID).child("relatesGivenCount"))
             }
             else {
                 userRelatesRef.setValue(true)
-                dataRequest.incrementCount(ref: FIREBASE_REF.child("questions").child(questionID).child("relatesCount"))
+                dataRequest.incrementCount(ref: FIREBASE_REF.child("posts").child(postID).child("relatesCount"))
                 dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("relatesReceivedCount"))
                 dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("relatesGivenCount"))
             }
@@ -198,10 +196,10 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.view.tintColor = Color.darkNavy
 
-        let question = posts[section]
+        let post = posts[section]
         
-        if let userID = defaults.getUID(), let questionUID = question.questionID {
-            if userID == questionUID {
+        if let userID = defaults.getUID(), let postUID = post.postID {
+            if userID == postUID {
                 
                 let delete = UIAlertAction(title: "Delete", style: .default, handler: { (action:UIAlertAction) in
                     
@@ -223,14 +221,14 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         }
         let hide = UIAlertAction(title: "Hide", style: .default, handler: { (action:UIAlertAction) in
             
-            self.hidePost(section: section, questionID: question.questionID)
+            self.hidePost(section: section, postID: post.postID)
             
         })
         ac.addAction(hide)
         
         let report = UIAlertAction(title: "Report", style: .destructive, handler: { (action:UIAlertAction) in
             
-            self.reportPost(questionID: question.questionID)
+            self.reportPost(postID: post.postID)
             
         })
         ac.addAction(report)
@@ -254,7 +252,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     func editPost(section: Int) {
         
         print("Editing post...")
-        // present editing textview, which has the text of the question.
+        // present editing textview, which has the text of the post.
         let originalText = posts[section].text
         
         
@@ -265,9 +263,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     func deletePost(section: Int) {
         
         let post = posts[section]
-        guard let userID = defaults.getUID(), let postUID = post.userID, let questionID = post.questionID else { return }
+        guard let userID = defaults.getUID(), let postUID = post.userID, let postID = post.postID else { return }
         if postUID == userID {
-            let postRef = FIREBASE_REF.child("posts").child(questionID)
+            let postRef = FIREBASE_REF.child("posts").child(postID)
             postRef.removeValue()
             print("Removed post.")
         }
@@ -275,11 +273,11 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
     }
     
-    func hidePost(section: Int, questionID: String?) {
+    func hidePost(section: Int, postID: String?) {
         
-        if let questionID = questionID {
+        if let postID = postID {
             
-            defaults.hidePost(postID: questionID)
+            defaults.hidePost(postID: postID)
             self.collectionView.performBatchUpdates({
                 self.posts.remove(at: section)
                 self.collectionView.deleteSections(IndexSet(integer: section))
@@ -289,12 +287,12 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
     }
     
-    func reportPost(questionID: String?) {
+    func reportPost(postID: String?) {
         
-        if let questionID = questionID {
+        if let postID = postID {
             
             let dataRequest = FirebaseService.dataRequest
-            let reportsRef = FIREBASE_REF.child("reports").child(questionID)
+            let reportsRef = FIREBASE_REF.child("reports").child(postID)
             dataRequest.incrementCount(ref: reportsRef.child("reportsCount"))
  
         }
@@ -359,7 +357,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         
         guard let row = Row(rawValue: indexPath.row) else { return UICollectionViewCell() }
         
-        let question = posts[indexPath.section]
+        let post = posts[indexPath.section]
         
         switch row {
             
@@ -404,7 +402,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         case .Relates:
             let vc = RelatersViewController()
             masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
-            print("push people related, using questionID")
+            print("push people related, using postID")
         default:
             break
         }

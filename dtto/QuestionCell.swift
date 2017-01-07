@@ -1,5 +1,5 @@
 //
-//  QuestionCell.swift
+//  PostCell.swift
 //  dtto
 //
 //  Created by Jitae Kim on 12/16/16.
@@ -15,7 +15,7 @@ enum ChatState {
     case ongoing
 }
 
-class QuestionCell: UICollectionViewCell {
+class PostCell: UICollectionViewCell {
 
     @IBOutlet weak var question: UILabel!
     @IBOutlet weak var hashTags: UILabel!

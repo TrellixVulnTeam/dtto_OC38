@@ -9,7 +9,7 @@
 class Notification: NSObject {
     
     var userID: String?
-    var questionID: String?
+    var postID: String?
     var name: String?
     var profileImageURL: String?
     var timestamp: String?
