@@ -256,7 +256,7 @@ class MasterCollectionView: UIViewController {
         collectionView.dataSource = self
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = Color.gray247
+        collectionView.backgroundColor = .white
         collectionView.alpha = 0
         self.view.addSubview(collectionView)
         self.automaticallyAdjustsScrollViewInsets = false

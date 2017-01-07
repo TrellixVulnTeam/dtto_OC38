@@ -74,7 +74,7 @@ final class MessagesViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getMessages()
-        self.view.backgroundColor = .clear
+        self.view.backgroundColor = .white
         self.senderId = "uid1"
         self.senderDisplayName = "Jitae"
         self.title = chat.name ?? "Anonymous"

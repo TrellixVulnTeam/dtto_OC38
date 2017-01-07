@@ -357,7 +357,9 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
             print("push profile")
         case .Relates:
-            print("push people related")
+            let vc = RelatersViewController()
+            masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
+            print("push people related, using questionID")
         default:
             break
         }
