@@ -200,6 +200,27 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 
         let question = posts[section]
         
+        if let userID = defaults.getUID(), let questionUID = question.questionID {
+            if userID == questionUID {
+                
+                let delete = UIAlertAction(title: "Delete", style: .default, handler: { (action:UIAlertAction) in
+                    
+                    self.deletePost(section: section)
+                    
+                })
+                
+                ac.addAction(delete)
+                
+                let edit = UIAlertAction(title: "Edit", style: .default, handler: { (action:UIAlertAction) in
+                    
+                    self.editPost(section: section)
+                    
+                })
+                
+                ac.addAction(edit)
+
+            }
+        }
         let hide = UIAlertAction(title: "Hide", style: .default, handler: { (action:UIAlertAction) in
             
             self.hidePost(section: section, questionID: question.questionID)
@@ -227,6 +248,30 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         masterViewDelegate?.present(ac, animated: true, completion: { () -> () in
             ac.view.tintColor = Color.darkNavy
         })
+        
+    }
+    
+    func editPost(section: Int) {
+        
+        print("Editing post...")
+        // present editing textview, which has the text of the question.
+        let originalText = posts[section].text
+        
+        
+        
+        
+    }
+    
+    func deletePost(section: Int) {
+        
+        let post = posts[section]
+        guard let userID = defaults.getUID(), let postUID = post.userID, let questionID = post.questionID else { return }
+        if postUID == userID {
+            let postRef = FIREBASE_REF.child("posts").child(questionID)
+            postRef.removeValue()
+            print("Removed post.")
+        }
+        
         
     }
     

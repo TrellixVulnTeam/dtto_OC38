@@ -528,6 +528,14 @@ Copyright 2016 Google
 
 Copyright 2016 Google
 
+## GoogleMaps
+
+Copyright 2016 Google
+
+## GooglePlaces
+
+Copyright 2016 Google
+
 ## GoogleSignIn
 
 Copyright 2016 Google
