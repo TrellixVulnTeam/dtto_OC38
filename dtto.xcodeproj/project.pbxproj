@@ -56,6 +56,11 @@
 		04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6C7D61DDFB154004EFE14 /* GlobalConstants.swift */; };
 		04A6C7D91DDFC548004EFE14 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6C7D81DDFC548004EFE14 /* Animations.swift */; };
 		04A6C7DF1DDFCAC5004EFE14 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6C7DE1DDFCAC5004EFE14 /* Person.swift */; };
+		04A97E691E20C5D4008DA2A3 /* AccountProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A97E681E20C5D4008DA2A3 /* AccountProfileHeader.swift */; };
+		04A97E6B1E20CE57008DA2A3 /* ProfileStatsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A97E6A1E20CE57008DA2A3 /* ProfileStatsHeaderView.swift */; };
+		04A97E6D1E20D02F008DA2A3 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A97E6C1E20D02F008DA2A3 /* MenuBar.swift */; };
+		04A97E6F1E20D2C1008DA2A3 /* AccountStatsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A97E6E1E20D2C1008DA2A3 /* AccountStatsCollectionView.swift */; };
+		04A97E711E20D607008DA2A3 /* AccountPostsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A97E701E20D607008DA2A3 /* AccountPostsTableView.swift */; };
 		04AF68511DFF748600216652 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AF68501DFF748600216652 /* Message.swift */; };
 		04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B159E81DDFFBE200B6C74C /* FirebaseService.swift */; };
 		04BBE56D1E13698800D4559E /* ProfileInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBE56B1E13698800D4559E /* ProfileInfoCell.swift */; };
@@ -174,6 +179,11 @@
 		04A6C7D61DDFB154004EFE14 /* GlobalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		04A6C7D81DDFC548004EFE14 /* Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		04A6C7DE1DDFCAC5004EFE14 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		04A97E681E20C5D4008DA2A3 /* AccountProfileHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountProfileHeader.swift; sourceTree = "<group>"; };
+		04A97E6A1E20CE57008DA2A3 /* ProfileStatsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileStatsHeaderView.swift; sourceTree = "<group>"; };
+		04A97E6C1E20D02F008DA2A3 /* MenuBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		04A97E6E1E20D2C1008DA2A3 /* AccountStatsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountStatsCollectionView.swift; sourceTree = "<group>"; };
+		04A97E701E20D607008DA2A3 /* AccountPostsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountPostsTableView.swift; sourceTree = "<group>"; };
 		04AF68501DFF748600216652 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		04B159E81DDFFBE200B6C74C /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		04BBE56B1E13698800D4559E /* ProfileInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInfoCell.swift; sourceTree = "<group>"; };
@@ -325,6 +335,7 @@
 				04051CC21E06708800A3FDD6 /* RoundImageView.swift */,
 				04DF310F1DE2EEFB0068E59B /* RoundButton.swift */,
 				0432D8A71E1AE21E00A74754 /* BannerAlert.swift */,
+				04A97E6C1E20D02F008DA2A3 /* MenuBar.swift */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -444,6 +455,10 @@
 			isa = PBXGroup;
 			children = (
 				04E754601E0F6E5E00883B38 /* AccountViewController.swift */,
+				04A97E681E20C5D4008DA2A3 /* AccountProfileHeader.swift */,
+				04A97E6A1E20CE57008DA2A3 /* ProfileStatsHeaderView.swift */,
+				04A97E6E1E20D2C1008DA2A3 /* AccountStatsCollectionView.swift */,
+				04A97E701E20D607008DA2A3 /* AccountPostsTableView.swift */,
 				04EA04791E12094400B0A984 /* Profile */,
 			);
 			name = Profile;
@@ -803,7 +818,9 @@
 			files = (
 				04DF31101DE2EEFB0068E59B /* RoundButton.swift in Sources */,
 				041032A31E03A94F00B6BDE8 /* MasterCollectionView.swift in Sources */,
+				04A97E6F1E20D2C1008DA2A3 /* AccountStatsCollectionView.swift in Sources */,
 				04E754611E0F6E5E00883B38 /* AccountViewController.swift in Sources */,
+				04A97E691E20C5D4008DA2A3 /* AccountProfileHeader.swift in Sources */,
 				041B39361E1DD24E003E130E /* UIViewConstraints.swift in Sources */,
 				04DF310E1DE2EE4B0068E59B /* UserDefaultsHelper.swift in Sources */,
 				0497C2C91DE417D500485A92 /* Channel.swift in Sources */,
@@ -818,6 +835,7 @@
 				041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */,
 				04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */,
 				04BBE5711E13706D00D4559E /* ProfileImageCell.swift in Sources */,
+				04A97E6D1E20D02F008DA2A3 /* MenuBar.swift in Sources */,
 				04461A961E1F45BC008160A1 /* PostComposeCell.swift in Sources */,
 				041B393A1E1DDAAA003E130E /* PostButtonsCell.swift in Sources */,
 				041B393C1E1DEA9C003E130E /* PostTagsCell.swift in Sources */,
@@ -827,6 +845,7 @@
 				04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */,
 				04DDD87B1E1F286E0023EE70 /* SortDictionary.swift in Sources */,
 				04051CC01E065D4400A3FDD6 /* ComposePostViewController.swift in Sources */,
+				04A97E711E20D607008DA2A3 /* AccountPostsTableView.swift in Sources */,
 				045AB28F1DFE70EB009D9394 /* User.swift in Sources */,
 				04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */,
 				04051CC31E06708800A3FDD6 /* RoundImageView.swift in Sources */,
@@ -843,6 +862,7 @@
 				04EA04841E121D3600B0A984 /* ProfileSummaryCell.swift in Sources */,
 				04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */,
 				04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */,
+				04A97E6B1E20CE57008DA2A3 /* ProfileStatsHeaderView.swift in Sources */,
 				049AB6B41DFE869700B45DC3 /* ChatListCell.swift in Sources */,
 				041032AC1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift in Sources */,
 				041B39381E1DD73C003E130E /* PostTextCell.swift in Sources */,

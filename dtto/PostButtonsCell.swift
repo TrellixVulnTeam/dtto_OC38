@@ -8,29 +8,47 @@
 
 import UIKit
 
+enum ChatState {
+    case normal
+    case requested
+    case ongoing
+}
 class PostButtonsCell: BaseCollectionViewCell {
 
     weak var requestChatDelegate: PostProtocol?
+    var chatState: ChatState = .normal {
+        didSet {
+            switch chatState {
+            case .normal:
+                chatButton.setTitle("Request Chat", for: .normal)
+                chatButton.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
+                print("NORMAL")
+            case .requested:
+                chatButton.setTitle("Chat requested!", for: .normal)
+                chatButton.setImage(#imageLiteral(resourceName: "chatSelected"), for: .normal)
+                print("REQUESTED")
+            case .ongoing:
+                chatButton.setTitle("Chat ongoing", for: .normal)
+                print("ONGOING")
+            }
+        }
+    }
     
-    lazy var relateButton: UIButton = {
+    let relateButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(#imageLiteral(resourceName: "relate"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "relateSelected"), for: .selected)
-        
-        button.addTarget(self, action: #selector(selectButton(_:)), for: .touchUpInside)
-        button.addTarget(self, action: #selector(relate), for: .touchUpInside)
-        
         return button
     }()
     
-    let chatButton: UIButton = {
+    lazy var chatButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
         button.setTitle("Request Chat", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.titleEdgeInsets = .init(top: 0, left: 10, bottom: 0, right: -10)
-        
+        button.addTarget(self, action: #selector(requestChat(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -41,22 +59,20 @@ class PostButtonsCell: BaseCollectionViewCell {
         return button
     }()
     
-    func selectButton(_ sender: UIButton) {
-        
-        relateButton.isSelected = !relateButton.isSelected
+    func relate(_ sender: UIButton) {
         sender.bounceAnimate()
-        
+        relateButton.isSelected = !relateButton.isSelected
     }
-
     
-    func relate() {
+    func requestChat(_ sender: UIButton) {
+        sender.bounceAnimate()
+        requestChatDelegate?.requestChat(section: sender.tag, chatState: chatState)
         
-        
-
     }
     
     override func setupViews() {
         super.setupViews()
+        relateButton.addTarget(self, action: #selector(relate(_:)), for: .touchUpInside)
         
         addSubview(relateButton)
         addSubview(chatButton)

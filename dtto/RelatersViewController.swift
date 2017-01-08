@@ -19,7 +19,7 @@ class RelatersViewController: UIViewController {
         tv.backgroundColor = .white
         tv.estimatedRowHeight = 50
 
-        tv.separatorStyle = .none
+//        tv.separatorStyle = .none
         
         tv.register(RelatersCell.self, forCellReuseIdentifier: "RelatersCell")
 
@@ -58,6 +58,12 @@ extension RelatersViewController: UITableViewDelegate, UITableViewDataSource {
         cell.usernameLabel.text = "@jitae"
         cell.profileImage.image = #imageLiteral(resourceName: "profile")
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.preservesSuperviewLayoutMargins = false
+        cell.separatorInset = UIEdgeInsets.zero
+        cell.layoutMargins = UIEdgeInsets.zero
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PostProtocol : class {
-    func requestChat(row: Int, chatState: ChatState)
+    func requestChat(section: Int, chatState: ChatState)
     func relatePost(row: Int)
     func showMore(section: Int, sender: AnyObject)
 }
@@ -105,11 +105,11 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         })
     }
     
-    func requestChat(row: Int, chatState: ChatState) {
+    func requestChat(section: Int, chatState: ChatState) {
         
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? PostCell else { return }
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 2, section: section)) as? PostButtonsCell else { return }
         
-        let post = posts[row]
+        let post = posts[section]
         guard let postID = post.postID, let friendID = post.userID, let userID = defaults.getUID() else { return }
         
         let dataRequest = FirebaseService.dataRequest
@@ -307,7 +307,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             guard let _ = self.collectionView.cellForItem(at: index) as? PostTextCell else { return }
             guard let cell = self.collectionView.cellForItem(at: IndexPath(row: 2, section: index.section)) as? PostButtonsCell else { return }
             // request chat to this user
-            cell.selectButton(cell.chatButton)
+            cell.requestChat(cell.chatButton)
 //            requestChat(row: index.row, chatState: cell.chatState)
         
         } else {
@@ -377,6 +377,8 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
         case .Buttons:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostButtonsCell", for: indexPath) as! PostButtonsCell
+            cell.requestChatDelegate = self
+            
             return cell
             
         case .Relates:
@@ -407,6 +409,18 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             break
         }
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
+        
+        guard let row = Row(rawValue: indexPath.row) else { return false }
+        
+        switch row {
+        case .Buttons:
+            return false
+        default:
+            return true
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -8,12 +8,6 @@
 
 import UIKit
 
-enum ChatState {
-    
-    case normal
-    case requested
-    case ongoing
-}
 
 class PostCell: UICollectionViewCell {
 
@@ -59,7 +53,7 @@ class PostCell: UICollectionViewCell {
     }
 
     @IBAction func requestChat(_ sender: UIButton!) {
-        requestChatDelegate?.requestChat(row: sender.tag, chatState: chatState)
+        requestChatDelegate?.requestChat(section: sender.tag, chatState: chatState)
     }
     @IBAction func showMore(_ sender: UIButton!) {
         

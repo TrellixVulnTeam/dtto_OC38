@@ -63,7 +63,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 user.name = "Jae"
                 user.displayName = "@jae"
                 
-                let profileVC = ProfileViewController(user: user)
+                let profileVC = AccountViewController()
                 let child = UINavigationController(rootViewController: profileVC)
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
