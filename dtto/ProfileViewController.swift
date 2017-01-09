@@ -24,12 +24,7 @@ class ProfileViewController: UIViewController {
         tv.separatorInset = .zero
         tv.layoutMargins = .zero
         tv.allowsSelection = false
-//        tv.register(UINib(nibName: "ProfileImageCell", bundle: nil), forCellReuseIdentifier: "ProfileImageCell")
-//        tv.register(UINib(nibName: "ProfileInfoCell", bundle: nil), forCellReuseIdentifier: "ProfileInfoCell")
-//        tv.register(UINib(nibName: "ProfileExpertiseCell", bundle: nil), forCellReuseIdentifier: "ProfileExpertiseCell")
-//        tv.register(UINib(nibName: "ProfileSummaryCell", bundle: nil), forCellReuseIdentifier: "ProfileSummaryCell")
-        
-        // Code Cells
+
         tv.register(ProfileImageCell.self, forCellReuseIdentifier: "ProfileImageCell")
         tv.register(ProfileInfoCell.self, forCellReuseIdentifier: "ProfileInfoCell")
         tv.register(ProfileExpertiseCell.self, forCellReuseIdentifier: "ProfileExpertiseCell")

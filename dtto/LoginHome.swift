@@ -14,140 +14,65 @@ import Firebase
 class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
 
     var initialLoad = true
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    var topConstraint = NSLayoutConstraint()
+    var bottomConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var emailTextField: FloatingTextField! {
-        didSet {
-            emailTextField.iconText = "\u{f0e0}"
-            emailTextField.keyboardType = .emailAddress
-            emailTextField.delegate = self
-        }
-    }
-
-    @IBOutlet weak var passwordTextField: FloatingTextField! {
-        didSet {
-            passwordTextField.iconText = "\u{f023}"
-            passwordTextField.isSecureTextEntry = true
-            passwordTextField.delegate = self
-        }
-    }
-
-    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton! {
-        didSet {
-            facebookLoginButton.readPermissions = ["email", "public_profile"]
-        }
-    }
-    @IBOutlet weak var googleLoginButton: GIDSignInButton!
+    let headerView: LoginHeaderView = LoginHeaderView()
     
-    @IBOutlet weak var registerEmailButton: UIButton!
-    @IBAction func emailLogin(_ sender: Any) {
-        self.view.endEditing(true)
-        let email = emailTextField.text
-        let pw = passwordTextField.text
-        
-        if (email != "" && pw != "") {
-//            loginSpinner.startAnimating()
-            
-            FIRAuth.auth()?.signIn(withEmail: email!, password: pw!) { (user, error) in
-                if error != nil {
-                    
-//                    if let errorCode = FIRAuthErrorCode(rawValue: error!._code) {
-//                        switch (errorCode) {
-//                            
-//                        case .errorCodeUserNotFound:
-//                            self.errorLabel.text = "계정이 틀렸습니다."
-//                            
-//                        case .errorCodeInvalidEmail:
-//                            self.errorLabel.text = "계정 형식이 맞지 않습니다."
-//                            
-//                        case .errorCodeWrongPassword:
-//                            self.errorLabel.text = "비밀번호가 틀렸습니다."
-//                            
-//                        default:
-//                            self.errorLabel.text = "로그인을 못 하였습니다."
-//                        }
-//                        self.errorLabel.fadeOut(withDuration: 0.2)
-//                        self.errorLabel.fadeIn(withDuration: 0.5)
-//                    }
-                    
-                    
-                } else {
-                    
-                    guard let user = user else {
-                        return
-                    }
-                    
-//                    if let nickName = user.displayName {
-//                        defaults.setName(value: nickName)
-//                    }
-//                    defaults.setLogin(value: true)
-//                    defaults.setUID(value: user.uid)
-//                    defaults.setEditPermissions(value: true)
-//                    defaults.setImagePermissions(value: true)
-//                    
-//                    getFavorites()
-                    
-                    self.changeRootVC(vc: .login)
-                    
-                    
-                }
-//                self.loginSpinner.stopAnimating()
-            }
-        }
-        
-    }
+    lazy var facebookLoginButton: FBSDKLoginButton = {
+        let button = FBSDKLoginButton()
+        button.readPermissions = ["email", "public_profile"]
+        return button
+    }()
     
-    @IBOutlet weak var loginButton: UIButton!
-    @IBAction func createAccount(_ sender: Any) {
-        
-        let registerPage = self.storyboard?.instantiateViewController(withIdentifier: "CreateEmail") as! CreateEmail
-        
-        self.present(registerPage, animated: false, completion: nil)
-        
-        
-    }
-
-    // MARK: Tap Gesture to dismiss keyboard when not tapped on login button.
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if touch.view is GIDSignInButton {
-            return false
-        }
-        return true
-    }
+    var googleLoginButton: GIDSignInButton = GIDSignInButton()
     
-    override func dismissKeyboard() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-        tap.delegate = self
-    }
+    var registerEmailButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Sign Up With Email", for: .normal)
+        return button
+    }()
     
-    func setupHorizontalBar() {
+    var loginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Login", for: .normal)
+        return button
+    }()
+    
+    
+    func setupViews() {
         
-        // Middle Bar with "OR"
         let bar = TextWithHorizontalBars(string: "OR")
-        self.view.addSubview(bar)
-        
-        bar.translatesAutoresizingMaskIntoConstraints = false
-        bar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        bar.topAnchor.constraint(equalTo: googleLoginButton.bottomAnchor, constant: 30).isActive = true
-        bar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
-        bar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
-        bar.bottomAnchor.constraint(equalTo: registerEmailButton.topAnchor, constant: -20).isActive = true
-        
         let bottomBar = HorizontalBar()
-        self.view.addSubview(bottomBar)
-        bottomBar.translatesAutoresizingMaskIntoConstraints = false
-        bottomBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
-        bottomBar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
-        bottomBar.heightAnchor.constraint(equalToConstant: 1.0/UIScreen.main.scale).isActive = true
-        bottomBar.topAnchor.constraint(equalTo: loginButton.topAnchor, constant: -10).isActive = true
+        
+        view.backgroundColor = .white
+        
+        view.addSubview(headerView)
+        view.addSubview(facebookLoginButton)
+        view.addSubview(googleLoginButton)
+        view.addSubview(bar)
+        view.addSubview(registerEmailButton)
+        view.addSubview(bottomBar)
+        view.addSubview(loginButton)
+        
+        headerView.anchor(top: view.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+        topConstraint = facebookLoginButton.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20)
+        topConstraint.isActive = true
+        facebookLoginButton.anchor(top: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 20, trailingConstant: 20, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        
+        googleLoginButton.anchor(top: facebookLoginButton.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 20, leadingConstant: 20, trailingConstant: 20, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        bar.anchor(top: googleLoginButton.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 30, leadingConstant: 20, trailingConstant: 20, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        registerEmailButton.anchor(top: bar.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 20, leadingConstant: 20, trailingConstant: 20, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        
+        bottomBar.anchor(top: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 20, trailingConstant: 20, bottomConstant: 0, widthConstant: 0, heightConstant: 1.0/UIScreen.main.scale)
+        loginButton.anchor(top: bottomBar.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 10, leadingConstant: 20, trailingConstant: 20, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        dismissKeyboard()
-        setupHorizontalBar()
+        setupViews()
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
         facebookLoginButton.delegate = self
@@ -159,9 +84,6 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
         
         if initialLoad {
             topConstraint.constant += self.view.bounds.size.height
-//            bottomConstraint.constant -= self.view.bounds.size.height
-            //        emailTextField.center.y -= self.view.bounds.size.height
-            //        facebookLoginButton.center.y += self.view.bounds.size.height
             self.view.layoutIfNeeded()
         }
         
@@ -172,7 +94,6 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
         
         if initialLoad {
             topConstraint.constant = 20
-//            bottomConstraint.constant = 10
             
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: .curveEaseOut, animations: {
                 
@@ -180,7 +101,6 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
                 self.initialLoad = false
             }, completion: nil)
         }
-        
         
     }
     
@@ -198,49 +118,6 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
 
 }
 
-extension LoginHome: UITextFieldDelegate {
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        guard let text = emailTextField.text else {
-            return
-        }
-        
-        guard let floatingLabelTextField = emailTextField else {
-            return
-        }
-        
-        if(!text.isEmail) {
-            floatingLabelTextField.errorMessage = "Please enter a valid email."
-        }
-        else {
-            // The error message will only disappear when we reset it to nil or empty string
-            floatingLabelTextField.errorMessage = ""
-        }
-
-
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        textField.resignFirstResponder()
-        
-        switch textField {
-            
-        case emailTextField:
-            _ = passwordTextField.becomeFirstResponder()
-            
-        case passwordTextField:
-            print("User pressed enter, log in now.")
-            
-        default:
-            break
-        }
-        
-        return true
-        
-    }
-}
 
 extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
     
@@ -337,15 +214,5 @@ extension LoginHome: FBSDKLoginButtonDelegate {
     
 }
 
-extension String {
-    var isEmail: Bool {
-        do {
-            let regex = try NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .caseInsensitive)
-            return regex.firstMatch(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.characters.count)) != nil
-        } catch {
-            return false
-        }
-    }
-    
-}
+
 

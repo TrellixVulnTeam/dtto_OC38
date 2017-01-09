@@ -9,26 +9,28 @@
 import UIKit
 import Firebase
 
-class AccountViewController: UIViewController {
+class AccountViewController: UIViewController, UITableViewDelegate {
 
     var user: User?
     var horizontalBarView = UIView()
+    let menuBar = MenuBar()
+    let headerView = AccountProfileHeader()
+    var topConstraint: NSLayoutConstraint?
     
-    lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
-        tv.delegate = self
-        tv.dataSource = self
-        tv.showsVerticalScrollIndicator = true
-        tv.backgroundColor = .white
-//        tv.allowsSelection = false
-        tv.separatorStyle = .none
-        let header = AccountProfileHeader()
-        header.frame = .init(x: 0, y: 0, width: SCREENWIDTH, height: 100)
-        tv.tableHeaderView = header
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
         
-        tv.register(AccountStatsCollectionView.self, forCellReuseIdentifier: "AccountStatsCollectionView")
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .white
+        collectionView.register(AccountPostsTableView.self, forCellWithReuseIdentifier: "AccountPostsTableView")
+        return collectionView
         
-        return tv
     }()
 
     private func observeUser() {
@@ -48,13 +50,43 @@ class AccountViewController: UIViewController {
         
         automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = .white
+        headerView.backgroundColor = .yellow
+        view.addSubview(headerView)
+        view.addSubview(menuBar)
+        view.addSubview(collectionView)
         
-        view.addSubview(tableView)
+        headerView.anchor(top: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 100)
         
-        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        topConstraint = headerView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+        topConstraint?.isActive = true
+        
+        menuBar.anchor(top: headerView.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        
+        collectionView.anchor(top: menuBar.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset.y)
+        if scrollView == (collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! AccountPostsTableView).tableView {
+            print("SCROLLING TABLEVIEW")
+//            scrollView.isScrollEnabled = false
+        }
+        
+        topConstraint?.constant = -scrollView.contentOffset.y
+        
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.contentOffset.y > 100 {
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.topConstraint?.constant = -110
+                self.view.layoutIfNeeded()
+            })
+            
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 //        observeUser()
@@ -63,79 +95,21 @@ class AccountViewController: UIViewController {
 
 }
 
-extension AccountViewController: UITableViewDelegate, UITableViewDataSource {
-//    
-//    private enum Section: Int {
-//        case Profile
-//        case Stats
-//    }
-//    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+extension AccountViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AccountPostsTableView", for: indexPath) as! AccountPostsTableView
+        cell.tableView.delegate = self
+        return cell
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-//        guard let section = Section(rawValue: section) else { return nil }
-//        
-//        switch section {
-//        case .Profile:
-//            return nil
-//        case .Stats:
-            return MenuBar()
-//        }
-        
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-//        guard let section = Section(rawValue: section) else { return 0 }
-//        
-//        switch section {
-//        case .Profile:
-//            return 0
-//        case .Stats:
-            return 50
-//        }
-        
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.frame.height - 50
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-//        guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
-        
-//        switch section {
-//            
-//        case .Profile:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "AccountProfileCell") as! AccountProfileCell
-//            cell.nameLabel.text = "Jitae"
-//            cell.displayNameLabel.text = "@jitae"
-//            cell.relatesReceivedCountLabel.text = "22"
-//            cell.profileImage.image = #imageLiteral(resourceName: "profile")
-//            return cell
-//            
-//        case .Stats:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AccountStatsCollectionView") as! AccountStatsCollectionView
-            return cell
-
-        
-//        }
-        
-    }
-    
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        cell.preservesSuperviewLayoutMargins = false
-//        cell.separatorInset = UIEdgeInsets.zero
-//        cell.layoutMargins = UIEdgeInsets.zero
-//    }
-    
-
 }

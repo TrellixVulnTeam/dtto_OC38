@@ -195,6 +195,18 @@ class MasterCollectionView: UIViewController {
         
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if initialLoad {
+            _ = collectionView.collectionViewLayout.collectionViewContentSize
+            collectionView.contentOffset.x = SCREENWIDTH
+            UIView.animate(withDuration: 0.2, animations: {
+                self.collectionView.alpha = 1
+            })
+            initialLoad = false
+        }
+    }
+    
     var horizontalBarLeadingAnchorConstraint: NSLayoutConstraint?
     var horizontalBarWidthConstraint: NSLayoutConstraint?
     var sliderBarCenterXAnchorConstraint: NSLayoutConstraint?
@@ -279,10 +291,8 @@ class MasterCollectionView: UIViewController {
         
     }
     
-//    var previousOffset: CGFloat = 0
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         sliderBarCenterXAnchorConstraint?.constant = scrollView.contentOffset.x/2
-//        previousOffset = scrollView.contentOffset.x
       
     }
     

@@ -66,7 +66,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
-        tableView.register(UINib(nibName: "RequestsViewCell", bundle: nil), forCellReuseIdentifier: "RequestsViewCell")
+        tableView.register(RequestsViewCell.self, forCellReuseIdentifier: "RequestsViewCell")
         
     }
     

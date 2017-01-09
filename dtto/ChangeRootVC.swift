@@ -39,8 +39,7 @@ extension UIViewController {
         }
         else {
             
-            let storyboard = UIStoryboard(name: "Login", bundle: nil)
-            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginHome")
+            let initialViewController = LoginHome()
             
             let snapshot:UIView = (self.view.window?.snapshotView(afterScreenUpdates: true))!
             initialViewController.view.addSubview(snapshot)

@@ -42,8 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = Color.darkNavy
         UINavigationBar.appearance().barTintColor = .white
         
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
 //        let initialViewController = TabBarController()
 //        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
 //            self.window!.rootViewController = initialViewController
@@ -58,8 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         } else {
             // No user is signed in.
-            let storyboard = UIStoryboard(name: "Login", bundle: nil)
-            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginHome")
+            let initialViewController = LoginHome()
             UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
             }, completion: nil)

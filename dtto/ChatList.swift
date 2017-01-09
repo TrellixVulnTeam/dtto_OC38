@@ -35,7 +35,8 @@ class ChatList: BaseCollectionViewCell {
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 
-        collectionView.register(UINib(nibName: "ChatListCell", bundle: nil), forCellWithReuseIdentifier: "ChatListCell")
+        collectionView.register(ChatListCell.self, forCellWithReuseIdentifier: "ChatListCell")
+        
     }
 
 }
@@ -48,17 +49,17 @@ extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return chats.count
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatListCell", for: indexPath) as! ChatListCell
         
-        cell.lastMessage.text = chats[indexPath.row].lastMessage
-        cell.name.text = chats[indexPath.row].name
-        cell.timestamp.text = chats[indexPath.row].timestamp
-        cell.profile.image = #imageLiteral(resourceName: "profile")
+//        cell.lastMessageLabel.text = chats[indexPath.row].lastMessage
+//        cell.nameLabel.text = chats[indexPath.row].name
+//        cell.timestampLabel.text = chats[indexPath.row].timestamp
+//        cell.profileImage.image = #imageLiteral(resourceName: "profile")
         
         return cell
         
