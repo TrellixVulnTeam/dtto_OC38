@@ -14,6 +14,7 @@ class User: NSObject {
     var displayName: String?
     var gender: String?
     var age: Int?
+    var email: String?
     
     var education = [String]()
     var profession = [String]()

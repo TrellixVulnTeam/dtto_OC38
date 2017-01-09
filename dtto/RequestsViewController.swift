@@ -213,9 +213,9 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
         
         let request = requests[indexPath.row]
         
-        cell.profile.image = #imageLiteral(resourceName: "profile")
-        cell.name.text = request.name
-        cell.displayName.text = request.name
+        cell.profileImage.image = #imageLiteral(resourceName: "profile")
+        cell.nameLabel.text = "Jitae"
+        cell.displayNameLabel.text = "@jitae"
         
         cell.requestsDelegate = self
         

@@ -39,7 +39,7 @@ extension UIViewController {
         }
         else {
             
-            let initialViewController = LoginHome()
+            let initialViewController = UINavigationController(rootViewController: LoginHome())
             
             let snapshot:UIView = (self.view.window?.snapshotView(afterScreenUpdates: true))!
             initialViewController.view.addSubview(snapshot)

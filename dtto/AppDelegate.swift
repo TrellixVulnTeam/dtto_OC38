@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            self.window!.rootViewController = initialViewController
 //        }, completion: nil)
         defaults.setUID(value: "tw2QiARnU7ZFZ7we4tmKs3HcSU42")
-        defaults.setLogin(value: true)
+        defaults.setLogin(value: false)
         if defaults.isLoggedIn() {
             let initialViewController = TabBarController()
             UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         } else {
             // No user is signed in.
-            let initialViewController = LoginHome()
+            let initialViewController = UINavigationController(rootViewController: LoginHome())
             UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
             }, completion: nil)

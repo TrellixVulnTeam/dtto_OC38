@@ -20,6 +20,10 @@
 		041032AC1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041032AB1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift */; };
 		0412EB831DE28382000203E6 /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412EB821DE28382000203E6 /* FloatingTextField.swift */; };
 		0413AB9A1E22C40B00C7198C /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413AB991E22C40B00C7198C /* LoginHeaderView.swift */; };
+		0413AB9C1E232AC500C7198C /* EmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413AB9B1E232AC500C7198C /* EmailViewController.swift */; };
+		0413AB9F1E23357600C7198C /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413AB9E1E23357600C7198C /* NameViewController.swift */; };
+		0413ABA11E23363B00C7198C /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413ABA01E23363B00C7198C /* FormViewController.swift */; };
+		0413ABA31E233C4D00C7198C /* UsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413ABA21E233C4D00C7198C /* UsernameViewController.swift */; };
 		0413CECD1E1C6D0800DF9E3C /* ProfileSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413CECC1E1C6D0800DF9E3C /* ProfileSectionHeader.swift */; };
 		041B39321E1DCA80003E130E /* PostProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39311E1DCA80003E130E /* PostProfileCell.swift */; };
 		041B39361E1DD24E003E130E /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39351E1DD24E003E130E /* UIViewConstraints.swift */; };
@@ -28,7 +32,6 @@
 		041B393C1E1DEA9C003E130E /* PostTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B393B1E1DEA9C003E130E /* PostTagsCell.swift */; };
 		041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */; };
 		041E5BFA1E0CB6CE002533EF /* RequestsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */; };
-		041E5BFB1E0CB6CE002533EF /* RequestsViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */; };
 		041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F542F1E050FE600D1C767 /* NotificationsPage.swift */; };
 		0428F6E21E206496002093DB /* RelatersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0428F6E11E206496002093DB /* RelatersViewController.swift */; };
 		0428F6E41E206617002093DB /* RelatersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0428F6E31E206617002093DB /* RelatersCell.swift */; };
@@ -138,6 +141,10 @@
 		041032AB1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		0412EB821DE28382000203E6 /* FloatingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
 		0413AB991E22C40B00C7198C /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
+		0413AB9B1E232AC500C7198C /* EmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailViewController.swift; sourceTree = "<group>"; };
+		0413AB9E1E23357600C7198C /* NameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
+		0413ABA01E23363B00C7198C /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		0413ABA21E233C4D00C7198C /* UsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsernameViewController.swift; sourceTree = "<group>"; };
 		0413CECC1E1C6D0800DF9E3C /* ProfileSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSectionHeader.swift; sourceTree = "<group>"; };
 		041B39311E1DCA80003E130E /* PostProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProfileCell.swift; sourceTree = "<group>"; };
 		041B39351E1DD24E003E130E /* UIViewConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewConstraints.swift; sourceTree = "<group>"; };
@@ -146,7 +153,6 @@
 		041B393B1E1DEA9C003E130E /* PostTagsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTagsCell.swift; sourceTree = "<group>"; };
 		041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewController.swift; sourceTree = "<group>"; };
 		041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewCell.swift; sourceTree = "<group>"; };
-		041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestsViewCell.xib; sourceTree = "<group>"; };
 		041F542F1E050FE600D1C767 /* NotificationsPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
 		0428F6E11E206496002093DB /* RelatersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatersViewController.swift; sourceTree = "<group>"; };
 		0428F6E31E206617002093DB /* RelatersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatersCell.swift; sourceTree = "<group>"; };
@@ -330,6 +336,17 @@
 			name = "Custom Views";
 			sourceTree = "<group>";
 		};
+		0413AB9D1E232C3900C7198C /* RegisterForm */ = {
+			isa = PBXGroup;
+			children = (
+				0413ABA01E23363B00C7198C /* FormViewController.swift */,
+				0413AB9E1E23357600C7198C /* NameViewController.swift */,
+				0413AB9B1E232AC500C7198C /* EmailViewController.swift */,
+				0413ABA21E233C4D00C7198C /* UsernameViewController.swift */,
+			);
+			name = RegisterForm;
+			sourceTree = "<group>";
+		};
 		045248031E089C7F007D6C3E /* ComposePost */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,7 +394,6 @@
 				0470790B1E0612E90059C360 /* Notifications.swift */,
 				041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */,
 				041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */,
-				041E5BF91E0CB6CE002533EF /* RequestsViewCell.xib */,
 			);
 			name = NotificationsPage;
 			sourceTree = "<group>";
@@ -431,6 +447,7 @@
 				04E459BD1DE15C3D006003DF /* LoginHome.swift */,
 				0413AB991E22C40B00C7198C /* LoginHeaderView.swift */,
 				04E459B81DE15AD5006003DF /* LoginForm.swift */,
+				0413AB9D1E232C3900C7198C /* RegisterForm */,
 				04D84FDB1DE3B61800023195 /* CreateEmail.swift */,
 			);
 			name = Login;
@@ -632,7 +649,6 @@
 				04045C2F1DDFA010002BBD07 /* LaunchScreen.storyboard in Resources */,
 				04045C2C1DDFA010002BBD07 /* Assets.xcassets in Resources */,
 				0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */,
-				041E5BFB1E0CB6CE002533EF /* RequestsViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -802,6 +818,7 @@
 				04A97E691E20C5D4008DA2A3 /* AccountProfileHeader.swift in Sources */,
 				041B39361E1DD24E003E130E /* UIViewConstraints.swift in Sources */,
 				04DF310E1DE2EE4B0068E59B /* UserDefaultsHelper.swift in Sources */,
+				0413ABA31E233C4D00C7198C /* UsernameViewController.swift in Sources */,
 				0497C2C91DE417D500485A92 /* Channel.swift in Sources */,
 				045DAC3D1DDFB08A00BF3939 /* CircleButton.swift in Sources */,
 				041032AA1E03B76600B6BDE8 /* MenuCell.swift in Sources */,
@@ -833,6 +850,7 @@
 				04AF68511DFF748600216652 /* Message.swift in Sources */,
 				041B39321E1DCA80003E130E /* PostProfileCell.swift in Sources */,
 				04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */,
+				0413AB9C1E232AC500C7198C /* EmailViewController.swift in Sources */,
 				0428F6E41E206617002093DB /* RelatersCell.swift in Sources */,
 				04D9949A1E19F6BF00A46700 /* TextWithHorizontalBars.swift in Sources */,
 				04DDD87D1E1F2DD00023EE70 /* BaseTableViewCell.swift in Sources */,
@@ -844,6 +862,7 @@
 				04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */,
 				04A97E6B1E20CE57008DA2A3 /* ProfileStatsHeaderView.swift in Sources */,
 				049AB6B41DFE869700B45DC3 /* ChatListCell.swift in Sources */,
+				0413AB9F1E23357600C7198C /* NameViewController.swift in Sources */,
 				041032AC1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift in Sources */,
 				041B39381E1DD73C003E130E /* PostTextCell.swift in Sources */,
 				0470790A1E060BA10059C360 /* Requests.swift in Sources */,
@@ -851,6 +870,7 @@
 				04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */,
 				049AB6B11DFE841F00B45DC3 /* ChatList.swift in Sources */,
 				045AB2921DFE71B1009D9394 /* Post.swift in Sources */,
+				0413ABA11E23363B00C7198C /* FormViewController.swift in Sources */,
 				04045C251DDFA010002BBD07 /* AppDelegate.swift in Sources */,
 				0470790C1E0612E90059C360 /* Notifications.swift in Sources */,
 				04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */,

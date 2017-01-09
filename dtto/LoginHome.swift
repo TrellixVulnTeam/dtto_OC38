@@ -27,9 +27,10 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     
     var googleLoginButton: GIDSignInButton = GIDSignInButton()
     
-    var registerEmailButton: UIButton = {
+    lazy var registerEmailButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up With Email", for: .normal)
+        button.addTarget(self, action: #selector(registerUser(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -39,6 +40,11 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
         return button
     }()
     
+    func registerUser(_ sender: UIButton) {
+        let registerVC = NameViewController()
+        navigationController?.pushViewController(registerVC, animated: true)
+        
+    }
     
     func setupViews() {
         
@@ -81,7 +87,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        navigationController!.isNavigationBarHidden = true
         if initialLoad {
             topConstraint.constant += self.view.bounds.size.height
             self.view.layoutIfNeeded()
@@ -102,6 +108,11 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
             }, completion: nil)
         }
         
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController!.isNavigationBarHidden = false
     }
     
     func animateUserLogin() {

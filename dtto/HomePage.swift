@@ -364,7 +364,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         case .Profile:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostProfileCell", for: indexPath) as! PostProfileCell
             cell.nameLabel.text = "Jitae Kim"
-            cell.usernameLabel.text = "@jitae"
+            cell.displayNameLabel.text = "@jitae"
             cell.profileImage.image = #imageLiteral(resourceName: "profile")
             cell.postDelegate = self
             cell.moreButton.tag = indexPath.section

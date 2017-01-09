@@ -55,7 +55,6 @@ class PostButtonsCell: BaseCollectionViewCell {
     let shareButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "share"), for: .normal)
-        
         return button
     }()
     

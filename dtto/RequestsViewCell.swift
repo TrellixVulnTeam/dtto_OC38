@@ -8,35 +8,76 @@
 
 import UIKit
 
-class RequestsViewCell: UITableViewCell {
+class RequestsViewCell: BaseTableViewCell {
 
     weak var requestsDelegate: RequestsDelegate?
+
+    let profileImage: RoundImageView = {
+        let imageView = RoundImageView()
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
     
-    @IBOutlet weak var profile: RoundImageView!
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var displayName: UILabel!
-    @IBOutlet weak var acceptButton: UIButton!
-    @IBOutlet weak var declineButton: UIButton!
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .black
+        return label
+    }()
     
-    @IBAction func acceptRequest(_ sender: UIButton!) {
+    let displayNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = .lightGray
+        return label
+    }()
+    
+    lazy var acceptButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "check"), for: UIControlState())
+        button.addTarget(self, action: #selector(acceptRequest(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var declineButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "declineNormal"), for: UIControlState())
+        button.addTarget(self, action: #selector(declineRequest(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    func acceptRequest(_ sender: UIButton!) {
         sender.bounceAnimate()
         requestsDelegate?.handleRequest(row: sender.tag, action: .accept)
     }
     
-    @IBAction func declineRequest(_ sender: UIButton!) {
+    func declineRequest(_ sender: UIButton!) {
         sender.bounceAnimate()
         requestsDelegate?.handleRequest(row: sender.tag, action: .decline)
     }
     
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func setupViews() {
+        super.setupViews()
+        
+        addSubview(profileImage)
+        addSubview(nameLabel)
+        addSubview(displayNameLabel)
+        addSubview(acceptButton)
+        addSubview(declineButton)
+        
+        profileImage.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
+        
+        nameLabel.anchor(top: nil, leading: profileImage.trailingAnchor, trailing: acceptButton.leadingAnchor, bottom: profileImage.centerYAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+        displayNameLabel.anchor(top: profileImage.centerYAnchor, leading: profileImage.trailingAnchor, trailing: acceptButton.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+        acceptButton.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        acceptButton.anchorCenterYToSuperview()
+        
+        declineButton.anchor(top: nil, leading: acceptButton.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        declineButton.anchorCenterYToSuperview()
         
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-    }
+    
     
 }

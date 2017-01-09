@@ -15,10 +15,10 @@ class FloatingTextField: SkyFloatingLabelTextFieldWithIcon {
     override func layoutSubviews() {
         super.layoutSubviews()
         clearButtonMode = .whileEditing
-        tintColor = Color.lightGreen
-        selectedIconColor = Color.lightGreen
-        selectedLineColor = Color.lightGreen
-        selectedTitleColor = Color.lightGreen
+        tintColor = Color.darkNavy
+        selectedIconColor = Color.darkNavy
+        selectedLineColor = Color.darkNavy
+        selectedTitleColor = Color.darkNavy
         iconFont = UIFont(name: "FontAwesome", size: 15)
         iconColor = Color.lightGray
         errorColor = Color.darkSalmon
