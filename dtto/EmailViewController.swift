@@ -13,11 +13,14 @@ class EmailViewController: FormViewController {
     override func setupViews() {
         super.setupViews()
         self.title = "Email"
+        pageControl.currentPage = 1
         errorMessage = "Please enter a valid email"
         
         formLabel.text = "What's your email?"
         descLabel.text = "We won't send you spam."
         textField.placeholder = "Email Address"
+        textField.keyboardType = .emailAddress
+        textField.autocapitalizationType = .none
     }
     
     override func viewDidLoad() {
@@ -26,19 +29,15 @@ class EmailViewController: FormViewController {
         
     }
     
-    override func getUserInput(_ sender: UIButton) {
-        
+    override func checkInput(_ sender: AnyObject) {
+        super.checkInput(sender)
         if let email = textField.text {
             
-            if isValidInput(text: email) {
-                
-                user.email = email
-                let displayNameVC = DisplayNameViewController()
-                displayNameVC.user = user
-                navigationController?.pushViewController(displayNameVC, animated: true)
+            if email.isEmail {
+                checkEmails()
             }
             else {
-                print("display error")
+                self.displayBanner(desc: "Please enter a valid email", color: .red)
             }
         }
         else {
@@ -49,11 +48,41 @@ class EmailViewController: FormViewController {
     
     override func isValidInput(text: String) -> Bool {
         
-        if text.characters.count < 2 {
+        if text.isEmail {
+            return true
+        }
+        else {
+            textField.errorMessage = "Please enter a valid email"
             return false
         }
-        
-        return true
+    }
+    
+    func checkEmails() {
+        nextButton.setTitle(nil, for: UIControlState())
+        nextButton.isUserInteractionEnabled = false
+        spinner.startAnimating()
+        if let email = textField.text?.lowercased() {
+            let ref = FIREBASE_REF.child("userEmails")
+
+            ref.queryEqual(toValue: email).queryOrderedByValue().observeSingleEvent(of: .value, with: { snapshot in
+
+                if snapshot.hasChildren() {
+                    print("email already exists.")
+                    self.displayBanner(desc: "Email is already in use", color: .red)
+                }
+                else {
+                    print("push view")
+                    self.user.email = email
+                    let passwordVC = PasswordViewController()
+                    passwordVC.user = self.user
+                    self.navigationController?.pushViewController(passwordVC, animated: true)
+
+                }
+                self.spinner.stopAnimating()
+                self.nextButton.setTitle("Next", for: UIControlState())
+                self.nextButton.isUserInteractionEnabled = true
+            })
+        }
         
     }
     

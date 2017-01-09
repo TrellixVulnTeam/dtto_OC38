@@ -13,10 +13,11 @@ class NameViewController: FormViewController {
     override func setupViews() {
         super.setupViews()
         self.title = "Name"
+        pageControl.currentPage = 0
         errorMessage = ""
         
         formLabel.text = "What's your name?"
-        descLabel.text = "Full name"
+//        descLabel.text = "Full name"
         textField.placeholder = "Name"
     }
     
@@ -25,8 +26,8 @@ class NameViewController: FormViewController {
         
     }
     
-    override func getUserInput(_ sender: UIButton) {
-        
+    override func checkInput(_ sender: AnyObject) {
+        super.checkInput(sender)
         if let name = textField.text {
             
             if isValidInput(text: name) {
@@ -36,25 +37,26 @@ class NameViewController: FormViewController {
                 emailVC.user = user
                 navigationController?.pushViewController(emailVC, animated: true)
             }
-            else {
-                print("display error")
-            }
-        }
-        else {
-            print("No characters inputted")
-        }
 
+        }
         
     }
     
     override func isValidInput(text: String) -> Bool {
         
-        if text.characters.count < 2 {
+        if text.characters.count < 2 || text.characters.count > 50 {
+            errorMessage = "Please enter at least 2 characters."
+            textField.errorMessage = "Please enter at least 2 characters."
             return false
         }
-
-        return true
+        else {
+            errorMessage = ""
+            textField.errorMessage = ""
+            return true
+        }
+        
+        
         
     }
-    
+
 }

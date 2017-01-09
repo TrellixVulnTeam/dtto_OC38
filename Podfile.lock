@@ -81,6 +81,7 @@ PODS:
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - MIBadgeButton-Swift (0.5)
+  - NVActivityIndicatorView (3.1)
   - SkyFloatingLabelTextField (1.2.1)
 
 DEPENDENCIES:
@@ -93,6 +94,7 @@ DEPENDENCIES:
   - GooglePlaces
   - JSQMessagesViewController
   - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
+  - NVActivityIndicatorView
   - SkyFloatingLabelTextField (from `https://github.com/MLSDev/SkyFloatingLabelTextField`, branch `swift3`)
 
 EXTERNAL SOURCES:
@@ -135,8 +137,9 @@ SPEC CHECKSUMS:
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
+  NVActivityIndicatorView: 9f47e8a4affb860ef729aeec99b1550219e6c233
   SkyFloatingLabelTextField: 3f6610aded18e778df5cfab3b9e12a11b3e014e9
 
-PODFILE CHECKSUM: 65a654d7643e13b0d8688d48f8eaafd615756cd7
+PODFILE CHECKSUM: 1d34a6e0098af75163bb4f1d49174d3b1dd7f230
 
 COCOAPODS: 1.2.0.beta.1

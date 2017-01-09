@@ -15,9 +15,8 @@ target 'dtto' do
   pod 'Google/SignIn'
   pod 'FBSDKLoginKit'
 
-#  pod 'OneSignal'
   # UI Tweaks
-#  pod 'Koloda', :git => 'https://github.com/Yalantis/Koloda', :branch => 'swift-3'
+  pod 'NVActivityIndicatorView'
   pod 'SkyFloatingLabelTextField', :git => 'https://github.com/MLSDev/SkyFloatingLabelTextField', :branch => 'swift3'
   pod 'JSQMessagesViewController'
  pod "MIBadgeButton-Swift", :git => 'https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git', :branch => 'master'

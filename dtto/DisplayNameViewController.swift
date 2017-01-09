@@ -7,17 +7,20 @@
 //
 
 import UIKit
+import Firebase
 
 class DisplayNameViewController: FormViewController {
 
     override func setupViews() {
         super.setupViews()
-        self.title = "DisplayName"
+        self.title = "Display Name"
+        pageControl.currentPage = 2
         errorMessage = "Please enter a valid displayName"
         
         formLabel.text = "What should we call you?"
-        descLabel.text = "Your displayName will be unique. You can change it later"
-        textField.placeholder = "DisplayName"
+        descLabel.text = "Your display name will be unique. You can change it later."
+        textField.placeholder = "Display Name"
+        nextButton.setTitle("Sign Up!", for: UIControlState())
     }
     
     override func viewDidLoad() {
@@ -26,16 +29,15 @@ class DisplayNameViewController: FormViewController {
         print("User's name is \(user.name!)")
     }
     
-    override func getUserInput(_ sender: UIButton) {
-        
+    override func checkInput(_ sender: AnyObject) {
+        super.checkInput(sender)
         if let displayName = textField.text {
             
-            if isValidInput(text: displayName) {
+            if displayName.characters.count > 1 {
                 
                 user.displayName = displayName
-                let displayNameVC = DisplayNameViewController()
-                displayNameVC.user = user
-                navigationController?.pushViewController(displayNameVC, animated: true)
+                // change root or something. sign in user
+                
             }
             else {
                 print("display error")
@@ -44,20 +46,6 @@ class DisplayNameViewController: FormViewController {
         }
         else {
             print("No characters inputted")
-        }
-        
-        
-    }
-    
-    override func isValidInput(text: String) -> Bool {
-        
-        if text.characters.count < 2 {
-            errorMessage = "Please enter at least 2 characters." // no spaces, only letters, numbers, underscores
-            return false
-        }
-        else {
-            
-            return true
         }
         
         

@@ -12,7 +12,7 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
 
     lazy var emailTextField: FloatingTextField = {
         let textField = FloatingTextField()
-        textField.iconText = "\u{f0e0}"
+//        textField.iconText = "\u{f0e0}"
         textField.keyboardType = .emailAddress
         textField.delegate = self
         return textField
@@ -21,7 +21,7 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
     
     lazy var passwordTextField: FloatingTextField = {
         let textField = FloatingTextField()
-        textField.iconText = "\u{f023}"
+//        textField.iconText = "\u{f023}"
         textField.isSecureTextEntry = true
         textField.delegate = self
         return textField

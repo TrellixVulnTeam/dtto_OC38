@@ -27,9 +27,11 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     
     var googleLoginButton: GIDSignInButton = GIDSignInButton()
     
-    lazy var registerEmailButton: UIButton = {
-        let button = UIButton(type: .system)
+    lazy var registerEmailButton: RoundButton = {
+        let button = RoundButton(type: .system)
         button.setTitle("Sign Up With Email", for: .normal)
+        button.tintColor = .white
+        button.backgroundColor = Color.darkNavy
         button.addTarget(self, action: #selector(registerUser(_:)), for: .touchUpInside)
         return button
     }()
@@ -88,25 +90,25 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController!.isNavigationBarHidden = true
-        if initialLoad {
-            topConstraint.constant += self.view.bounds.size.height
-            self.view.layoutIfNeeded()
-        }
+//        if initialLoad {
+//            topConstraint.constant += self.view.bounds.size.height
+//            self.view.layoutIfNeeded()
+//        }
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if initialLoad {
-            topConstraint.constant = 20
-            
-            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: .curveEaseOut, animations: {
-                
-                self.view.layoutIfNeeded()
-                self.initialLoad = false
-            }, completion: nil)
-        }
+//        if initialLoad {
+//            topConstraint.constant = 20
+//            
+//            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: .curveEaseOut, animations: {
+//                
+//                self.view.layoutIfNeeded()
+//                self.initialLoad = false
+//            }, completion: nil)
+//        }
         
     }
     
