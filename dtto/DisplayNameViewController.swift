@@ -29,26 +29,38 @@ class DisplayNameViewController: FormViewController {
         print("User's name is \(user.name!)")
     }
     
-    override func checkInput(_ sender: AnyObject) {
-        super.checkInput(sender)
-        if let displayName = textField.text {
-            
-            if displayName.characters.count > 1 {
-                
-                user.displayName = displayName
-                // change root or something. sign in user
-                
-            }
-            else {
-                print("display error")
-            }
-            
-        }
-        else {
-            print("No characters inputted")
-        }
-        
-        
-    }
+//    override func checkInput(_ sender: AnyObject) {
+//        super.checkInput(sender)
+//        if let displayName = textField.text {
+//            
+//            if displayName.characters.count > 1 {
+//                
+//                user.displayName = displayName
+//                // change root or something. sign in user
+//                
+//            }
+//            else {
+//                print("display error")
+//            }
+//            
+//        }
+//        else {
+//            print("No characters inputted")
+//        }
+//        
+//        
+//    }
+    
+    /*
+ let changeRequest = user.profileChangeRequest()
+ changeRequest.displayName = nickname
+ changeRequest.commitChanges { error in
+ if let _ = error {
+ print("could not set user's nickname")
+ } else {
+ print("user's nickname updated")
+ }
+ }
+*/
 
 }

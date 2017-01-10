@@ -31,6 +31,8 @@ class EmailViewController: FormViewController {
     
     override func checkInput(_ sender: AnyObject) {
         super.checkInput(sender)
+        
+        
         if let email = textField.text {
             
             if email.isEmail {
@@ -46,16 +48,6 @@ class EmailViewController: FormViewController {
 
     }
     
-    override func isValidInput(text: String) -> Bool {
-        
-        if text.isEmail {
-            return true
-        }
-        else {
-            textField.errorMessage = "Please enter a valid email"
-            return false
-        }
-    }
     
     func checkEmails() {
         nextButton.setTitle(nil, for: UIControlState())

@@ -28,34 +28,34 @@ class NameViewController: FormViewController {
     
     override func checkInput(_ sender: AnyObject) {
         super.checkInput(sender)
-        if let name = textField.text {
-            
-            if isValidInput(text: name) {
-                
-                user.name = name
-                let emailVC = EmailViewController()
-                emailVC.user = user
-                navigationController?.pushViewController(emailVC, animated: true)
-            }
-
+        
+        if isValidInput(textField) {
+            self.user.name = textField.text!
+            let nextVC = EmailViewController()
+            nextVC.user = self.user
+            self.navigationController?.pushViewController(nextVC, animated: true)
         }
+        
         
     }
     
-    override func isValidInput(text: String) -> Bool {
+    override func isValidInput(_ textField: UITextField) -> Bool {
         
-        if text.characters.count < 2 || text.characters.count > 50 {
-            errorMessage = "Please enter at least 2 characters."
-            textField.errorMessage = "Please enter at least 2 characters."
-            return false
+        if let textField = textField as? FloatingTextField, let text = textField.text {
+            
+            if text.characters.count < 2 || text.characters.count > 50 {
+                errorMessage = "Please enter at least 2 characters."
+                textField.errorMessage = "Please enter at least 2 characters."
+                return false
+            }
+            else {
+                errorMessage = ""
+                textField.errorMessage = ""
+                return true
+            }
         }
-        else {
-            errorMessage = ""
-            textField.errorMessage = ""
-            return true
-        }
         
-        
+        return false
         
     }
 

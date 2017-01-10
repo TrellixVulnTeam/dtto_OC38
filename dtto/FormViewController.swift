@@ -60,6 +60,7 @@ class FormViewController: UIViewController {
     }()
     
     var errorMessage: String = String()
+    var nextButtonTopConstraint: NSLayoutConstraint?
     
     func setupViews() {
         
@@ -75,7 +76,10 @@ class FormViewController: UIViewController {
         formLabel.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 30, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         descLabel.anchor(top: formLabel.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         textField.anchor(top: descLabel.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 30, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        nextButton.anchor(top: textField.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        
+        nextButtonTopConstraint = nextButton.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 10)
+        nextButtonTopConstraint?.isActive = true
+        nextButton.anchor(top: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
         spinner.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 30, heightConstant: 30)
         spinner.anchorCenterSuperview()
         
@@ -94,7 +98,7 @@ class FormViewController: UIViewController {
         view.endEditing(true)
     }
     
-    func isValidInput(text: String) -> Bool {
+    func isValidInput(_ textField: UITextField) -> Bool {
         return false
     }
     
@@ -103,18 +107,16 @@ class FormViewController: UIViewController {
 extension FormViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+
+        isValidInput(textField)
+//        if(isValidInput(textField)) {
+//            self.textField.errorMessage = errorMessage
+//        }
+//        
+//        else {
+//            self.textField.errorMessage = ""
+//        }
         
-        if let text = self.textField.text {
-            
-            if(!isValidInput(text: text)) {
-                self.textField.errorMessage = errorMessage
-            }
-            
-            else {
-                self.textField.errorMessage = ""
-            }
-            
-        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -124,15 +126,15 @@ extension FormViewController: UITextFieldDelegate {
         return true
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        let textFieldText: NSString = (textField.text ?? "") as NSString
-        let text = textFieldText.replacingCharacters(in: range, with: string)
-        
-        _ = isValidInput(text: text)
-
-        return true
-    }
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        
+//        let textFieldText: NSString = (textField.text ?? "") as NSString
+//        let text = textFieldText.replacingCharacters(in: range, with: string)
+//        
+//        _ = isValidInput(text: text)
+//
+//        return true
+//    }
     
 }
 
