@@ -100,16 +100,16 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        if initialLoad {
-//            topConstraint.constant = 20
-//            
-//            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: .curveEaseOut, animations: {
-//                
-//                self.view.layoutIfNeeded()
-//                self.initialLoad = false
-//            }, completion: nil)
-//        }
-        
+////        if initialLoad {
+////            topConstraint.constant = 20
+////            
+////            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: .curveEaseOut, animations: {
+////                
+////                self.view.layoutIfNeeded()
+////                self.initialLoad = false
+////            }, completion: nil)
+////        }
+//        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

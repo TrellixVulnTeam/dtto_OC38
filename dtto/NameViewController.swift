@@ -26,6 +26,12 @@ class NameViewController: FormViewController {
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.layer.shouldRasterize = true
+        view.layer.rasterizationScale = UIScreen.main.scale
+    }
+
     override func checkInput(_ sender: AnyObject) {
         super.checkInput(sender)
         

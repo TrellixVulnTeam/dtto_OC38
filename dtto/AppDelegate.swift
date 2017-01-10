@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().barTintColor = .white
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.makeKeyAndVisible()
+        
 //        let initialViewController = TabBarController()
 //        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
 //            self.window!.rootViewController = initialViewController
@@ -54,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let initialViewController = TabBarController()
             UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
             }, completion: nil)
 
         } else {
@@ -61,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let initialViewController = UINavigationController(rootViewController: LoginHome())
             UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
             }, completion: nil)
         }
     

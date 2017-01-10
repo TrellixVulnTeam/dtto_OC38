@@ -28,7 +28,7 @@ class EmailViewController: FormViewController {
         print("User's name is \(user.name!)")
         
     }
-    
+
     override func checkInput(_ sender: AnyObject) {
         super.checkInput(sender)
         

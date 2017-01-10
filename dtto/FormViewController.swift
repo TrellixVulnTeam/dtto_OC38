@@ -108,7 +108,7 @@ extension FormViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
 
-        isValidInput(textField)
+//        isValidInput(textField)
 //        if(isValidInput(textField)) {
 //            self.textField.errorMessage = errorMessage
 //        }
