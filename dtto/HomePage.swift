@@ -79,8 +79,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                     post.chatCount = chatCount
                 }
                 
-                if let relateCount = postData["relateCount"] as? Int {
-                    post.relateCount = relateCount
+                if let relatesCount = postData["relatesCount"] as? Int {
+                    post.relatesCount = relatesCount
                 }
                 
                 if let tags = postData["tags"] as? Dictionary<String, AnyObject> {
@@ -363,8 +363,8 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
         case .Profile:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostProfileCell", for: indexPath) as! PostProfileCell
-            cell.nameLabel.text = "Jitae Kim"
-            cell.displayNameLabel.text = "@jitae"
+            cell.nameLabel.text = post.name!
+            cell.displayNameLabel.text = post.displayName!
             cell.profileImage.image = #imageLiteral(resourceName: "profile")
             cell.postDelegate = self
             cell.moreButton.tag = indexPath.section
@@ -372,7 +372,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
         case .Post:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostTextCell", for: indexPath) as! PostTextCell
-            cell.postLabel.text = "text up to 200 characters here. text up to 200 characters here. text up to 200 characters here. text up to 200 characters here."
+            cell.postLabel.text = post.text!
             return cell
             
         case .Buttons:
@@ -383,7 +383,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
         case .Relates:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostTagsCell", for: indexPath) as! PostTagsCell
-            cell.relatesCount = 2
+            cell.relatesCount = post.relatesCount!
             return cell
         
         }
@@ -433,11 +433,25 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         case .Profile:
             return CGSize(width: collectionView.frame.width, height: 70)
         case .Post:
-            return CGSize(width: collectionView.frame.width, height: 100)
+            
+            let post = posts[indexPath.section]
+                
+            //let's get an estimation of the height of our cell based on user.bioText
+            
+            let approximateWidthOfTextView = collectionView.frame.width - 24
+            let size = CGSize(width: approximateWidthOfTextView, height: 1000)
+            let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
+            
+            let estimatedFrame = NSString(string: post.text!).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            
+            return CGSize(width: collectionView.frame.width, height: estimatedFrame.height + 14)
+
+            
+//            return CGSize(width: collectionView.frame.width, height: 100)
         case .Buttons:
-            return CGSize(width: collectionView.frame.width, height: 50)
+            return CGSize(width: collectionView.frame.width, height: 44)
         case .Relates:
-            return CGSize(width: collectionView.frame.width, height: 50)
+            return CGSize(width: collectionView.frame.width, height: 44)
             
         }
         

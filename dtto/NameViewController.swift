@@ -10,26 +10,27 @@ import UIKit
 
 class NameViewController: FormViewController {
     
+    lazy var dismissButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissLogin(_:)))
+        return button
+        
+    }()
+    
     override func setupViews() {
         super.setupViews()
-        self.title = "Name"
+        self.navigationItem.title = "Name"
         pageControl.currentPage = 0
         errorMessage = ""
         
         formLabel.text = "What's your name?"
 //        descLabel.text = "Full name"
         textField.placeholder = "Name"
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        self.navigationItem.leftBarButtonItem = dismissButton
         
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = UIScreen.main.scale
+
+    func dismissLogin(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
 
     override func checkInput(_ sender: AnyObject) {
@@ -39,7 +40,7 @@ class NameViewController: FormViewController {
             self.user.name = textField.text!
             let nextVC = EmailViewController()
             nextVC.user = self.user
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            self.navigationController!.pushViewController(nextVC, animated: true)
         }
         
         
@@ -49,20 +50,25 @@ class NameViewController: FormViewController {
         
         if let textField = textField as? FloatingTextField, let text = textField.text {
             
-            if text.characters.count < 2 || text.characters.count > 50 {
-                errorMessage = "Please enter at least 2 characters."
-                textField.errorMessage = "Please enter at least 2 characters."
+            switch text.characters.count {
+                
+            case 0:
+                errorMessage = "Please enter your name."
+                textField.errorMessage = "Please enter your name."
                 return false
-            }
-            else {
+            case 21..<Int.max:
+                errorMessage = "Please enter up to 20 characters."
+                textField.errorMessage = "Please enter up to 20 characters."
+                return false
+            default:
                 errorMessage = ""
                 textField.errorMessage = ""
                 return true
             }
+
         }
         
         return false
-        
     }
 
 }

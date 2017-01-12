@@ -12,7 +12,7 @@ class EmailViewController: FormViewController {
     
     override func setupViews() {
         super.setupViews()
-        self.title = "Email"
+        self.navigationItem.title = "Email"
         pageControl.currentPage = 1
         errorMessage = "Please enter a valid email"
         
@@ -21,12 +21,6 @@ class EmailViewController: FormViewController {
         textField.placeholder = "Email Address"
         textField.keyboardType = .emailAddress
         textField.autocapitalizationType = .none
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("User's name is \(user.name!)")
-        
     }
 
     override func checkInput(_ sender: AnyObject) {

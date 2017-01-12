@@ -34,6 +34,7 @@ class FormViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 15)
         textField.delegate = self
         textField.autocapitalizationType = .words
+        textField.returnKeyType = .go
         return textField
     }()
     
@@ -85,7 +86,7 @@ class FormViewController: UIViewController {
         
         pageControl.anchor(top: nil, leading: nil, trailing: nil, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         pageControl.anchorCenterXToSuperview()
-        
+
     }
     
     override func viewDidLoad() {

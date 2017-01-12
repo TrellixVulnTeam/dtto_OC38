@@ -47,7 +47,7 @@ class PasswordViewController: FormViewController {
     
     override func setupViews() {
         super.setupViews()
-        self.title = "Password"
+        self.navigationItem.title = "Password"
         pageControl.currentPage = 1
         errorMessage = "Please enter at least 6 characters."
         
@@ -77,11 +77,15 @@ class PasswordViewController: FormViewController {
     
     override func checkInput(_ sender: AnyObject) {
         super.checkInput(sender)
-        
-        createUser()
+        login()
+//        createUser()
         
     }
     
+    func login() {
+        let displayNameVC = DisplayNameViewController()
+        navigationController?.pushViewController(displayNameVC, animated: true)
+    }
     override func isValidInput(_ textField: UITextField) -> Bool {
         
         
@@ -104,14 +108,14 @@ class PasswordViewController: FormViewController {
             
             if password == "" || passwordConfirm == "" || password.characters.count < 6 || passwordConfirm.characters.count < 6 {
                 errorText = "Enter at least 6 characters."
-                self.displayBanner(desc: errorText)
+//                self.displayBanner(desc: errorText)
             }
 
             else if password != passwordConfirm {
                 
                 errorText = "Your passwords don't match."
                 spinner.stopAnimating()
-                self.displayBanner(desc: errorText)
+//                self.displayBanner(desc: errorText)
             }
             
             else {
@@ -138,7 +142,7 @@ class PasswordViewController: FormViewController {
                                 errorText = "Could not connect to server."
                             }
                             self.spinner.stopAnimating()
-                            self.displayBanner(desc: errorText)
+//                            self.displayBanner(desc: errorText)
                         }
                     }
                     else {
@@ -159,4 +163,16 @@ class PasswordViewController: FormViewController {
         }
         
     }
+    
+    override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == textField {
+            _ = textField.resignFirstResponder()
+            _ = confirmTextField.becomeFirstResponder()
+        }
+        else {
+//            confirmTextField.becomeFirstResponder()
+        }
+        return true
+    }
+    
 }

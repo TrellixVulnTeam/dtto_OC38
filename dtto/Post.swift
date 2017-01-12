@@ -16,7 +16,7 @@ class Post: NSObject {
     var profileImageURL: String?
     var category: String?
     var chatCount: Int?
-    var relateCount: Int?
+    var relatesCount: Int?
     var tags: String?
     var isAnonymous: Bool = false
     

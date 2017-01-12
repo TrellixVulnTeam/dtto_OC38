@@ -77,9 +77,12 @@ class PostButtonsCell: BaseCollectionViewCell {
         addSubview(chatButton)
         addSubview(shareButton)
         
-        relateButton.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 5, leadingConstant: 10, trailingConstant: 0, bottomConstant: 5, widthConstant: 0, heightConstant: 0)
-        chatButton.anchor(top: topAnchor, leading: relateButton.trailingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
-        shareButton.anchor(top: topAnchor, leading: nil, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 5, leadingConstant: 0, trailingConstant: 10, bottomConstant: 5, widthConstant: 0, heightConstant: 0)
+        relateButton.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
+        relateButton.anchorCenterYToSuperview()
+        chatButton.anchor(top: nil, leading: relateButton.trailingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
+        chatButton.anchorCenterYToSuperview()
+        shareButton.anchor(top: nil, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
+        shareButton.anchorCenterYToSuperview()
         
     }
 

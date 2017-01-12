@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FBSDKLoginKit
+import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,14 +19,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        // Third Party Providers
+        // Login Providers
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         
+        // Configure Firebase
         FIRApp.configure()
         FIRDatabase.database().persistenceEnabled = true
         
+        
+        // Configure Stripe
+        STPPaymentConfiguration.shared().publishableKey = "pk_test_j23FETJXZSrnbjgBaT3SIeX9"
 //        FIRAuth.auth()?.signIn(withEmail: "test@gmail.com", password: "test123") { (user, error) in
 //            if error != nil {
 //                print("could not login")
@@ -43,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().barTintColor = .white
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        
+        window?.makeKeyAndVisible()
 //        let initialViewController = TabBarController()
 //        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
 //            self.window!.rootViewController = initialViewController
@@ -54,16 +59,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let initialViewController = TabBarController()
             UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
-                self.window?.makeKeyAndVisible()
             }, completion: nil)
 
         } else {
             // No user is signed in.
-            let initialViewController = UINavigationController(rootViewController: LoginHome())
-            UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
+            let initialViewController = LoginHome()
+//            let initialViewController = UINavigationController(rootViewController: DisplayNameViewController())
+//            UIView.transition(with: self.window!, duration: 0.5, options: .transitionCurlUp, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
-                self.window?.makeKeyAndVisible()
-            }, completion: nil)
+//            }, completion: nil)
         }
     
  

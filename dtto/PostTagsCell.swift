@@ -44,7 +44,7 @@ class PostTagsCell: BaseCollectionViewCell {
         
         relatesIcon.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
         relatesIcon.anchorCenterYToSuperview()
-        relatesLabel.anchor(top: topAnchor, leading: relatesIcon.trailingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 5, leadingConstant: 10, trailingConstant: 0, bottomConstant: 5, widthConstant: 0, heightConstant: 0)
+        relatesLabel.anchor(top: topAnchor, leading: relatesIcon.trailingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
     }
 

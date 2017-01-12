@@ -10,6 +10,7 @@ import UIKit
 import SkyFloatingLabelTextField
 import FBSDKLoginKit
 import Firebase
+import NVActivityIndicatorView
 
 class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
 
@@ -42,9 +43,14 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
         return button
     }()
     
+    let spinner: NVActivityIndicatorView = {
+        let spinner = NVActivityIndicatorView(frame: .zero, type: .ballClipRotate, color: Color.darkNavy, padding: 0)
+        return spinner
+    }()
+    
     func registerUser(_ sender: UIButton) {
-        let registerVC = NameViewController()
-        navigationController?.pushViewController(registerVC, animated: true)
+        let registerVC = UINavigationController(rootViewController: NameViewController())
+        present(registerVC, animated: true, completion: nil)
         
     }
     
@@ -62,6 +68,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
         view.addSubview(registerEmailButton)
         view.addSubview(bottomBar)
         view.addSubview(loginButton)
+//        view.addSubview(spinner)
         
         headerView.anchor(top: view.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
@@ -76,6 +83,10 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
         bottomBar.anchor(top: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 20, trailingConstant: 20, bottomConstant: 0, widthConstant: 0, heightConstant: 1.0/UIScreen.main.scale)
         loginButton.anchor(top: bottomBar.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 10, leadingConstant: 20, trailingConstant: 20, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
         
+//        spinner.anchorCenterSuperview()
+//        spinner.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//        spinner.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
     }
     
     override func viewDidLoad() {
@@ -89,7 +100,6 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController!.isNavigationBarHidden = true
 //        if initialLoad {
 //            topConstraint.constant += self.view.bounds.size.height
 //            self.view.layoutIfNeeded()
@@ -112,21 +122,21 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
 //        
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController!.isNavigationBarHidden = false
-    }
-    
     func animateUserLogin() {
         
-        UIView.animate(withDuration: 0.2, animations: {
-            let whiteView = UIView()
-            whiteView.backgroundColor = UIColor(white: 1, alpha: 0.7)
-            
-            self.view.addSubview(whiteView)
-            whiteView.frame = self.view.frame
-            
-        })
+        let whiteView = UIView()
+        whiteView.backgroundColor = .white
+        
+        view.addSubview(whiteView)
+        whiteView.anchor(top: view.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+
+        view.addSubview(spinner)
+        spinner.anchorCenterSuperview()
+        spinner.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        spinner.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        view.layoutIfNeeded()
+        spinner.startAnimating()
+        
     }
 
 }
@@ -139,7 +149,7 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
             print("Failed to log into Google: ", err)
             return
         }
-        
+//        spinner.startAnimating()
         animateUserLogin()
         print("Successfully logged into Google", user)
         
