@@ -48,12 +48,13 @@ class EmailViewController: FormViewController {
         nextButton.setTitle(nil, for: UIControlState())
         nextButton.isUserInteractionEnabled = false
         spinner.startAnimating()
-        if let email = textField.text?.lowercased() {
+        if let email = textField.text?.lowercased().replacingOccurrences(of: ".", with: ",") {
             let ref = FIREBASE_REF.child("userEmails")
 
-            ref.queryEqual(toValue: email).queryOrderedByValue().observeSingleEvent(of: .value, with: { snapshot in
+            ref.child(email).observeSingleEvent(of: .value, with: { snapshot in
+//            ref.queryEqual(toValue: email).queryOrderedByValue().observeSingleEvent(of: .value, with: { snapshot in
 
-                if snapshot.hasChildren() {
+                if snapshot.exists() {
                     print("email already exists.")
                     self.displayBanner(desc: "Email is already in use", color: .red)
                 }

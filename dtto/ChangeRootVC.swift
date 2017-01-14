@@ -33,7 +33,9 @@ extension UIViewController {
                 }, completion: {
                     (value: Bool) in
                     snapshot.removeFromSuperview()
+                    
                     self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.viewControllers.removeAll()
                 
             })
 

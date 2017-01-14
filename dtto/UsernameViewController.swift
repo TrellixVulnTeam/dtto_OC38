@@ -17,7 +17,7 @@ class UsernameViewController: FormViewController {
         self.navigationItem.title = "Username"
         self.navigationItem.hidesBackButton = true
         
-        pageControl.currentPage = 2
+        pageControl.currentPage = 3
         errorMessage = "Please enter a valid username"
         
         formLabel.text = "What should we call you?"
@@ -46,15 +46,16 @@ class UsernameViewController: FormViewController {
             else {
                 
                 self.user.username = username
-                self.addUsername()
+                self.addUniqueUser()
                 self.updateUser()
                 
-                let cardVC = CardRegistrationViewController()
-                cardVC.user = self.user
-                self.present(cardVC, animated: true, completion: {
-                    self.navigationController?.viewControllers.removeAll()
-                })
-                
+                self.changeRootVC(vc: .login)
+//                let cardVC = CardRegistrationViewController()
+//                cardVC.user = self.user
+//                self.present(cardVC, animated: true, completion: {
+//                    self.navigationController?.viewControllers.removeAll()
+//                })
+//                
                 
 
             }
@@ -62,12 +63,16 @@ class UsernameViewController: FormViewController {
         })
     }
     
-    func addUsername() {
+    // This adds the username and email so that no one else can claim it.
+    func addUniqueUser() {
         
-        guard let username = self.user.username else { return }
+        guard let username = self.user.username, let email = self.user.email else { return }
         
         let usernamesRef = FIREBASE_REF.child("usernames").child(username)
         usernamesRef.setValue(true)
+        
+            let userEmailsRef = FIREBASE_REF.child("userEmails").child(email.replacingOccurrences(of: ".", with: ","))
+            userEmailsRef.setValue(true)
         
         
     }
@@ -107,7 +112,7 @@ class UsernameViewController: FormViewController {
         }
         
         // Setup stats for future use
-        let userStats = ["answerCount", "ongoingChatAcceptedCount", "ongoingChatCount", "ongoingChatRequestedCount", "postCount", "relatesGivenCount", "relatesReceivedCount", "requestsCount", "shareCount", "totalChatCount", "totalChatRequestsCount"]
+        let userStats = ["answerCount", "ongoingChatAcceptedCount", "ongoingChatCount", "ongoingChatRequestedCount", "postCount", "helpsReceivedCount", "helpsGivenCount", "relatesGivenCount", "relatesReceivedCount", "requestsCount", "shareCount", "totalChatCount", "totalChatRequestsCount", "tipsGivenCount", "tipsReceivedCount", "totalTipGiven", "totalTipReceived"]
         
         for key in userStats {
             userData.updateValue(0, forKey: key)

@@ -48,7 +48,7 @@ class PasswordViewController: FormViewController {
     override func setupViews() {
         super.setupViews()
         self.navigationItem.title = "Password"
-        pageControl.currentPage = 1
+        pageControl.currentPage = 2
         errorMessage = "Please enter at least 6 characters."
         
         formLabel.text = "You'll need a password."

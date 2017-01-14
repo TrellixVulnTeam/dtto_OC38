@@ -84,7 +84,7 @@ class FormViewController: UIViewController {
         spinner.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 30, heightConstant: 30)
         spinner.anchorCenterSuperview()
         
-        pageControl.anchor(top: nil, leading: nil, trailing: nil, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        pageControl.anchor(top: nextButton.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         pageControl.anchorCenterXToSuperview()
 
     }
