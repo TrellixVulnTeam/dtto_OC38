@@ -13,6 +13,7 @@ class EmailViewController: FormViewController {
     override func setupViews() {
         super.setupViews()
         self.navigationItem.title = "Email"
+        
         pageControl.currentPage = 1
         errorMessage = "Please enter a valid email"
         

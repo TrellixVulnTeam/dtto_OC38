@@ -11,7 +11,7 @@ class User: NSObject {
     
     var uid: String?
     var name: String?
-    var displayName: String?
+    var username: String?
     var gender: String?
     var age: Int?
     var email: String?

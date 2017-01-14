@@ -25,7 +25,7 @@ class RequestsViewCell: BaseTableViewCell {
         return label
     }()
     
-    let displayNameLabel: UILabel = {
+    let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = .lightGray
@@ -61,7 +61,7 @@ class RequestsViewCell: BaseTableViewCell {
         
         addSubview(profileImage)
         addSubview(nameLabel)
-        addSubview(displayNameLabel)
+        addSubview(usernameLabel)
         addSubview(acceptButton)
         addSubview(declineButton)
         
@@ -69,7 +69,7 @@ class RequestsViewCell: BaseTableViewCell {
         
         nameLabel.anchor(top: nil, leading: profileImage.trailingAnchor, trailing: acceptButton.leadingAnchor, bottom: profileImage.centerYAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        displayNameLabel.anchor(top: profileImage.centerYAnchor, leading: profileImage.trailingAnchor, trailing: acceptButton.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        usernameLabel.anchor(top: profileImage.centerYAnchor, leading: profileImage.trailingAnchor, trailing: acceptButton.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         acceptButton.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
         acceptButton.anchorCenterYToSuperview()

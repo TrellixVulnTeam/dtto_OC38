@@ -21,27 +21,27 @@ class PasswordViewController: FormViewController {
         return button
     }()
     
-    lazy var confirmTextField: FloatingTextField = {
-        let textField = FloatingTextField()
-        textField.placeholder = "Confirm password"
-        textField.textColor = .black
-        textField.font = UIFont.systemFont(ofSize: 15)
-        textField.delegate = self
-        textField.autocapitalizationType = .words
-        textField.isSecureTextEntry = true
-        return textField
-    }()
+//    lazy var confirmTextField: FloatingTextField = {
+//        let textField = FloatingTextField()
+//        textField.placeholder = "Confirm password"
+//        textField.textColor = .black
+//        textField.font = UIFont.systemFont(ofSize: 15)
+//        textField.delegate = self
+//        textField.autocapitalizationType = .words
+//        textField.isSecureTextEntry = true
+//        return textField
+//    }()
     
     func togglePassword(_ sender: UIButton) {
 
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
             textField.isSecureTextEntry = false
-            confirmTextField.isSecureTextEntry = false
+//            confirmTextField.isSecureTextEntry = false
         }
         else {
             textField.isSecureTextEntry = true
-            confirmTextField.isSecureTextEntry = true
+//            confirmTextField.isSecureTextEntry = true
         }
     }
     
@@ -60,12 +60,12 @@ class PasswordViewController: FormViewController {
         nextButtonTopConstraint?.isActive = true
         
         view.addSubview(revealButton)
-        view.addSubview(confirmTextField)
+//        view.addSubview(confirmTextField)
         
         revealButton.anchor(top: nil, leading: view.leadingAnchor, trailing: nil, bottom: textField.topAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        nextButtonTopConstraint?.isActive = false
-        confirmTextField.anchor(top: textField.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nextButton.topAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 10, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
+//        nextButtonTopConstraint?.isActive = false
+//        confirmTextField.anchor(top: textField.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nextButton.topAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 10, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
         
     }
     
@@ -77,50 +77,24 @@ class PasswordViewController: FormViewController {
     
     override func checkInput(_ sender: AnyObject) {
         super.checkInput(sender)
-        login()
-//        createUser()
+        createUser()
         
     }
-    
-    func login() {
-        let displayNameVC = DisplayNameViewController()
-        navigationController?.pushViewController(displayNameVC, animated: true)
-    }
-    override func isValidInput(_ textField: UITextField) -> Bool {
-        
-        
-//        if text.characters.count < 6 {
-//            textField.errorMessage = "Enter at least 6 characters"
-//            return false
-//        }
-//        else {
-//            textField.errorMessage = ""
-//            return true
-//        }
-        return false
-    }
-    
+
     func createUser() {
         
         var errorText = ""
         
-        if let email = user.email, let password = textField.text, let passwordConfirm = confirmTextField.text {
+        if let email = user.email, let password = textField.text {
             
-            if password == "" || passwordConfirm == "" || password.characters.count < 6 || passwordConfirm.characters.count < 6 {
+            if password == "" || password.characters.count < 6 {
                 errorText = "Enter at least 6 characters."
-//                self.displayBanner(desc: errorText)
-            }
-
-            else if password != passwordConfirm {
-                
-                errorText = "Your passwords don't match."
-                spinner.stopAnimating()
 //                self.displayBanner(desc: errorText)
             }
             
             else {
                 spinner.startAnimating()
-
+                nextButton.setTitle("", for: UIControlState())
                 FIRAuth.auth()?.createUser(withEmail: email, password: password) { (user, error) in
                     
                     if error != nil {
@@ -142,18 +116,21 @@ class PasswordViewController: FormViewController {
                                 errorText = "Could not connect to server."
                             }
                             self.spinner.stopAnimating()
-//                            self.displayBanner(desc: errorText)
+                            self.nextButton.setTitle("Next", for: UIControlState())
+                            self.displayBanner(desc: errorText)
                         }
                     }
                     else {
 
                         self.spinner.stopAnimating()
                         guard let user = user else { return }
-
-
-                        defaults.setUID(value: user.uid)
-                        self.changeRootVC(vc: .login)
                         
+                        defaults.setUID(value: user.uid)
+                        
+                        self.user.email = email
+                        let usernameVC = UsernameViewController()
+                        usernameVC.user = self.user
+                        self.navigationController?.pushViewController(usernameVC, animated: true)
                         
                     }
                 }
@@ -162,17 +139,6 @@ class PasswordViewController: FormViewController {
             
         }
         
-    }
-    
-    override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == textField {
-            _ = textField.resignFirstResponder()
-            _ = confirmTextField.becomeFirstResponder()
-        }
-        else {
-//            confirmTextField.becomeFirstResponder()
-        }
-        return true
     }
     
 }

@@ -23,7 +23,7 @@ class RelatersCell: BaseTableViewCell {
         return label
     }()
     
-    let displayNameLabel: UILabel = {
+    let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .lightGray
@@ -35,14 +35,14 @@ class RelatersCell: BaseTableViewCell {
         
         addSubview(profileImage)
         addSubview(nameLabel)
-        addSubview(displayNameLabel)
+        addSubview(usernameLabel)
         
         profileImage.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 10, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
         profileImage.anchorCenterYToSuperview()
         
         nameLabel.anchor(top: nil, leading: profileImage.trailingAnchor, trailing: trailingAnchor, bottom: profileImage.centerYAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        displayNameLabel.anchor(top: profileImage.centerYAnchor, leading: profileImage.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        usernameLabel.anchor(top: profileImage.centerYAnchor, leading: profileImage.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         
     }

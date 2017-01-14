@@ -215,7 +215,7 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.profileImage.image = #imageLiteral(resourceName: "profile")
         cell.nameLabel.text = "Jitae"
-        cell.displayNameLabel.text = "@jitae"
+        cell.usernameLabel.text = "@jitae"
         
         cell.requestsDelegate = self
         

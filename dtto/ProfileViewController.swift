@@ -35,7 +35,7 @@ class ProfileViewController: UIViewController {
     init(user: User) {
         super.init(nibName: nil, bundle: nil)
         self.user = user
-        self.title = user.displayName ?? ""
+        self.title = user.username ?? ""
         print("TITLE IS \(title!)")
         
     }
@@ -96,11 +96,11 @@ class ProfileViewController: UIViewController {
             // get all user attributes, then add to tableview
             guard let userSnapshot = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
-            guard let name = userSnapshot["name"] as? String, let displayName = userSnapshot["displayName"] as? String else { return }
+            guard let name = userSnapshot["name"] as? String, let username = userSnapshot["username"] as? String else { return }
             
             let user = User()
             user.name = name
-            user.displayName = displayName
+            user.username = username
             
             if let age = userSnapshot["age"] as? Int {
                 user.age = age

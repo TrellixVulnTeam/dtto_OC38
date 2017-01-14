@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configure Firebase
         FIRApp.configure()
-        FIRDatabase.database().persistenceEnabled = true
+//        FIRDatabase.database().persistenceEnabled = true
         
         
         // Configure Stripe
@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             // No user is signed in.
             let initialViewController = LoginHome()
-//            let initialViewController = UINavigationController(rootViewController: DisplayNameViewController())
+//            let initialViewController = UINavigationController(rootViewController: UsernameViewController())
 //            UIView.transition(with: self.window!, duration: 0.5, options: .transitionCurlUp, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
 //            }, completion: nil)
@@ -98,6 +98,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
+        print("opening url...")
+        let path = url.absoluteString
+        
+        if path == "dtto://hi" {
+            print("success")
+            return true
+        }
+
+
         let facebookHandler = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         
         let googleHandler = GIDSignIn.sharedInstance().handle(url,

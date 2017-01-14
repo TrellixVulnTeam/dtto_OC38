@@ -17,7 +17,7 @@ class AccountProfileHeader: UIView {
         return label
     }()
     
-    var displayNameLabel: UILabel = {
+    var usernameLabel: UILabel = {
         let label = UILabel()
         label.text = "@jitae"
         label.font = UIFont.systemFont(ofSize: 13)
@@ -50,13 +50,13 @@ class AccountProfileHeader: UIView {
     func setupViews() {
         
         addSubview(nameLabel)
-        addSubview(displayNameLabel)
+        addSubview(usernameLabel)
         addSubview(relatesReceivedCountLabel)
         addSubview(profileImage)
         
         nameLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: profileImage.leadingAnchor, bottom: nil, topConstant: 20, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        displayNameLabel.anchor(top: nameLabel.bottomAnchor, leading: leadingAnchor, trailing: profileImage.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        relatesReceivedCountLabel.anchor(top: displayNameLabel.bottomAnchor, leading: leadingAnchor, trailing: profileImage.leadingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 20, widthConstant: 0, heightConstant: 0)
+        usernameLabel.anchor(top: nameLabel.bottomAnchor, leading: leadingAnchor, trailing: profileImage.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        relatesReceivedCountLabel.anchor(top: usernameLabel.bottomAnchor, leading: leadingAnchor, trailing: profileImage.leadingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 20, widthConstant: 0, heightConstant: 0)
         profileImage.anchor(top: topAnchor, leading: nil, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 20, leadingConstant: 0, trailingConstant: 10, bottomConstant: 20, widthConstant: 80, heightConstant: 80)
         
     }

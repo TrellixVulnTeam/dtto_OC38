@@ -95,6 +95,11 @@ class FormViewController: UIViewController {
         hideKeyboardWhenTappedAround()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        _ = textField.becomeFirstResponder()
+    }
+    
     func checkInput(_ sender: AnyObject) {
         view.endEditing(true)
     }

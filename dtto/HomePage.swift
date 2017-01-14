@@ -71,8 +71,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 
                 let name = postData["name"] as? String ?? "Anonymous"
                 post.name = name
-                if let displayName = postData["displayName"] as? String {
-                    post.displayName = displayName
+                if let username = postData["username"] as? String {
+                    post.username = username
                 }
                 
                 if let chatCount = postData["chatCount"] as? Int {
@@ -321,7 +321,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         let user = User()
         user.name = post.name
-        user.displayName = post.displayName
+        user.username = post.username
         user.uid = post.userID
         
         let profileVC = ProfileViewController(user: user)
@@ -364,7 +364,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         case .Profile:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostProfileCell", for: indexPath) as! PostProfileCell
             cell.nameLabel.text = post.name!
-            cell.displayNameLabel.text = post.displayName!
+            cell.usernameLabel.text = "@" + post.username!
             cell.profileImage.image = #imageLiteral(resourceName: "profile")
             cell.postDelegate = self
             cell.moreButton.tag = indexPath.section

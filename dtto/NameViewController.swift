@@ -37,10 +37,14 @@ class NameViewController: FormViewController {
         super.checkInput(sender)
         
         if isValidInput(textField) {
-            self.user.name = textField.text!
-            let nextVC = EmailViewController()
-            nextVC.user = self.user
-            self.navigationController!.pushViewController(nextVC, animated: true)
+            
+            if let name = textField.text {
+                self.user.name = name
+                let nextVC = EmailViewController()
+                nextVC.user = self.user
+                self.navigationController!.pushViewController(nextVC, animated: true)
+            }
+            
         }
         
         

@@ -55,7 +55,7 @@ extension RelatersViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "RelatersCell") as! RelatersCell
         cell.nameLabel.text = "Jitae"
-        cell.displayNameLabel.text = "@jitae"
+        cell.usernameLabel.text = "@jitae"
         cell.profileImage.image = #imageLiteral(resourceName: "profile")
         return cell
     }

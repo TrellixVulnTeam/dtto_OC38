@@ -33,13 +33,14 @@ extension UIViewController {
                 }, completion: {
                     (value: Bool) in
                     snapshot.removeFromSuperview()
+                    self.dismiss(animated: true, completion: nil)
                 
             })
 
         }
         else {
             
-            let initialViewController = UINavigationController(rootViewController: LoginHome())
+            let initialViewController = LoginHome()
             
             let snapshot:UIView = (self.view.window?.snapshotView(afterScreenUpdates: true))!
             initialViewController.view.addSubview(snapshot)

@@ -61,7 +61,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 //                let child = currentStoryboard.instantiateViewController(withIdentifier: "AccountNav") as! UINavigationController
                 let user = User()
                 user.name = "Jae"
-                user.displayName = "@jae"
+                user.username = "@jae"
                 
                 let profileVC = AccountViewController()
                 let child = UINavigationController(rootViewController: profileVC)
