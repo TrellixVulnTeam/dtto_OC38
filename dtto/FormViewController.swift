@@ -100,6 +100,11 @@ class FormViewController: UIViewController {
         _ = textField.becomeFirstResponder()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.endEditing(true)
+    }
+    
     func checkInput(_ sender: AnyObject) {
         view.endEditing(true)
     }

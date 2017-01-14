@@ -40,6 +40,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
+        button.addTarget(self, action: #selector(emailLogin(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -52,6 +53,11 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
         let registerVC = UINavigationController(rootViewController: NameViewController())
         present(registerVC, animated: true, completion: nil)
         
+    }
+    
+    func emailLogin(_ sender: UIButton) {
+        let emailLoginVC = UINavigationController(rootViewController: EmailLoginViewController())
+        present(emailLoginVC, animated: true, completion: nil)
     }
     
     func setupViews() {

@@ -69,14 +69,13 @@
 		04BBE5711E13706D00D4559E /* ProfileImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBE56F1E13706D00D4559E /* ProfileImageCell.swift */; };
 		04BD6EC01E0C986C00036DC7 /* RequestsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */; };
 		04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */; };
-		04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D84FDB1DE3B61800023195 /* CreateEmail.swift */; };
 		04D9949A1E19F6BF00A46700 /* TextWithHorizontalBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */; };
 		04DDD87B1E1F286E0023EE70 /* SortDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DDD87A1E1F286E0023EE70 /* SortDictionary.swift */; };
 		04DDD87D1E1F2DD00023EE70 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DDD87C1E1F2DD00023EE70 /* BaseTableViewCell.swift */; };
 		04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */; };
 		04DF310E1DE2EE4B0068E59B /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */; };
 		04DF31101DE2EEFB0068E59B /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF310F1DE2EEFB0068E59B /* RoundButton.swift */; };
-		04E459B91DE15AD5006003DF /* LoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459B81DE15AD5006003DF /* LoginForm.swift */; };
+		04E459B91DE15AD5006003DF /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459B81DE15AD5006003DF /* EmailLoginViewController.swift */; };
 		04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459BD1DE15C3D006003DF /* LoginHome.swift */; };
 		04E754611E0F6E5E00883B38 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E754601E0F6E5E00883B38 /* AccountViewController.swift */; };
 		04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9D9151E1B605F00B29986 /* HorizontalBar.swift */; };
@@ -195,14 +194,13 @@
 		04CFA17B1E0C634700ACD064 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeRootVC.swift; sourceTree = "<group>"; };
 		04D45ABC1DE2DA1F00A6B317 /* dtto.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dtto.entitlements; sourceTree = "<group>"; };
-		04D84FDB1DE3B61800023195 /* CreateEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEmail.swift; sourceTree = "<group>"; };
 		04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextWithHorizontalBars.swift; sourceTree = "<group>"; };
 		04DDD87A1E1F286E0023EE70 /* SortDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortDictionary.swift; sourceTree = "<group>"; };
 		04DDD87C1E1F2DD00023EE70 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		04DF310B1DE2EC160068E59B /* DismissKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissKeyboard.swift; sourceTree = "<group>"; };
 		04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		04DF310F1DE2EEFB0068E59B /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
-		04E459B81DE15AD5006003DF /* LoginForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginForm.swift; sourceTree = "<group>"; };
+		04E459B81DE15AD5006003DF /* EmailLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
 		04E459BD1DE15C3D006003DF /* LoginHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHome.swift; sourceTree = "<group>"; };
 		04E754601E0F6E5E00883B38 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		04E9D9151E1B605F00B29986 /* HorizontalBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
@@ -452,9 +450,8 @@
 				0412EB821DE28382000203E6 /* FloatingTextField.swift */,
 				04E459BD1DE15C3D006003DF /* LoginHome.swift */,
 				0413AB991E22C40B00C7198C /* LoginHeaderView.swift */,
-				04E459B81DE15AD5006003DF /* LoginForm.swift */,
+				04E459B81DE15AD5006003DF /* EmailLoginViewController.swift */,
 				0413AB9D1E232C3900C7198C /* RegisterForm */,
-				04D84FDB1DE3B61800023195 /* CreateEmail.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -843,7 +840,7 @@
 				041B393A1E1DDAAA003E130E /* PostButtonsCell.swift in Sources */,
 				041B393C1E1DEA9C003E130E /* PostTagsCell.swift in Sources */,
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,
-				04E459B91DE15AD5006003DF /* LoginForm.swift in Sources */,
+				04E459B91DE15AD5006003DF /* EmailLoginViewController.swift in Sources */,
 				04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */,
 				04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */,
 				04DDD87B1E1F286E0023EE70 /* SortDictionary.swift in Sources */,
@@ -856,7 +853,6 @@
 				041E5BFA1E0CB6CE002533EF /* RequestsViewCell.swift in Sources */,
 				04AF68511DFF748600216652 /* Message.swift in Sources */,
 				041B39321E1DCA80003E130E /* PostProfileCell.swift in Sources */,
-				04D84FDC1DE3B61800023195 /* CreateEmail.swift in Sources */,
 				0413AB9C1E232AC500C7198C /* EmailViewController.swift in Sources */,
 				0428F6E41E206617002093DB /* RelatersCell.swift in Sources */,
 				04D9949A1E19F6BF00A46700 /* TextWithHorizontalBars.swift in Sources */,
