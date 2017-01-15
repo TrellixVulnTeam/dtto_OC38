@@ -31,6 +31,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     lazy var registerEmailButton: RoundButton = {
         let button = RoundButton(type: .system)
         button.setTitle("Sign Up With Email", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.tintColor = .white
         button.backgroundColor = Color.darkNavy
         button.addTarget(self, action: #selector(registerUser(_:)), for: .touchUpInside)
@@ -40,6 +41,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
     var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.addTarget(self, action: #selector(emailLogin(_:)), for: .touchUpInside)
         return button
     }()

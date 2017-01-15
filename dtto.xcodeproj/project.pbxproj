@@ -33,10 +33,13 @@
 		041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */; };
 		041E5BFA1E0CB6CE002533EF /* RequestsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */; };
 		041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F542F1E050FE600D1C767 /* NotificationsPage.swift */; };
+		04245FBD1E2A3DB000611DA0 /* PostAnonymousCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04245FBC1E2A3DB000611DA0 /* PostAnonymousCell.swift */; };
 		0428F6E21E206496002093DB /* RelatersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0428F6E11E206496002093DB /* RelatersViewController.swift */; };
 		0428F6E41E206617002093DB /* RelatersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0428F6E31E206617002093DB /* RelatersCell.swift */; };
 		0432D8A81E1AE21E00A74754 /* BannerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0432D8A71E1AE21E00A74754 /* BannerAlert.swift */; };
-		04461A941E1F4244008160A1 /* PostPrivacyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A931E1F4244008160A1 /* PostPrivacyCell.swift */; };
+		0442E0AB1E2AC28200B7BC4D /* PostAddTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */; };
+		0442E0AD1E2AE9AC00B7BC4D /* ResolveChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */; };
+		04461A941E1F4244008160A1 /* PostNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A931E1F4244008160A1 /* PostNameCell.swift */; };
 		04461A961E1F45BC008160A1 /* PostComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A951E1F45BC008160A1 /* PostComposeCell.swift */; };
 		045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045248061E08A1F5007D6C3E /* ChatSettings.swift */; };
 		0452480B1E08FB45007D6C3E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */; };
@@ -155,10 +158,13 @@
 		041E5BF61E0CAF5D002533EF /* RequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewController.swift; sourceTree = "<group>"; };
 		041E5BF81E0CB6CE002533EF /* RequestsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewCell.swift; sourceTree = "<group>"; };
 		041F542F1E050FE600D1C767 /* NotificationsPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsPage.swift; sourceTree = "<group>"; };
+		04245FBC1E2A3DB000611DA0 /* PostAnonymousCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAnonymousCell.swift; sourceTree = "<group>"; };
 		0428F6E11E206496002093DB /* RelatersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatersViewController.swift; sourceTree = "<group>"; };
 		0428F6E31E206617002093DB /* RelatersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatersCell.swift; sourceTree = "<group>"; };
 		0432D8A71E1AE21E00A74754 /* BannerAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerAlert.swift; path = ../../Chain/Chain/CustomViews/BannerAlert.swift; sourceTree = "<group>"; };
-		04461A931E1F4244008160A1 /* PostPrivacyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostPrivacyCell.swift; sourceTree = "<group>"; };
+		0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAddTagsCell.swift; sourceTree = "<group>"; };
+		0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolveChatViewController.swift; sourceTree = "<group>"; };
+		04461A931E1F4244008160A1 /* PostNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostNameCell.swift; sourceTree = "<group>"; };
 		04461A951E1F45BC008160A1 /* PostComposeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostComposeCell.swift; sourceTree = "<group>"; };
 		045248061E08A1F5007D6C3E /* ChatSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSettings.swift; sourceTree = "<group>"; };
 		0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -355,8 +361,10 @@
 			isa = PBXGroup;
 			children = (
 				04051CBE1E065D4400A3FDD6 /* ComposePostViewController.swift */,
-				04461A931E1F4244008160A1 /* PostPrivacyCell.swift */,
+				04461A931E1F4244008160A1 /* PostNameCell.swift */,
 				04461A951E1F45BC008160A1 /* PostComposeCell.swift */,
+				0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */,
+				04245FBC1E2A3DB000611DA0 /* PostAnonymousCell.swift */,
 			);
 			name = ComposePost;
 			sourceTree = "<group>";
@@ -423,6 +431,7 @@
 				049AB6B01DFE841F00B45DC3 /* ChatList.swift */,
 				049AB6B21DFE869700B45DC3 /* ChatListCell.swift */,
 				04A66B8F1DE68F0100D7EC91 /* MessagesViewController.swift */,
+				0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */,
 				0497C2C81DE417D500485A92 /* Channel.swift */,
 				045248061E08A1F5007D6C3E /* ChatSettings.swift */,
 			);
@@ -864,6 +873,7 @@
 				0483C1E11E285356003508F2 /* CardRegistrationViewController.swift in Sources */,
 				04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */,
 				04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */,
+				0442E0AB1E2AC28200B7BC4D /* PostAddTagsCell.swift in Sources */,
 				04A97E6B1E20CE57008DA2A3 /* ProfileStatsHeaderView.swift in Sources */,
 				049AB6B41DFE869700B45DC3 /* ChatListCell.swift in Sources */,
 				0413AB9F1E23357600C7198C /* NameViewController.swift in Sources */,
@@ -873,6 +883,7 @@
 				041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */,
 				04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */,
 				049AB6B11DFE841F00B45DC3 /* ChatList.swift in Sources */,
+				0442E0AD1E2AE9AC00B7BC4D /* ResolveChatViewController.swift in Sources */,
 				045AB2921DFE71B1009D9394 /* Post.swift in Sources */,
 				0413ABA11E23363B00C7198C /* FormViewController.swift in Sources */,
 				04045C251DDFA010002BBD07 /* AppDelegate.swift in Sources */,
@@ -884,7 +895,8 @@
 				045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */,
 				0428F6E21E206496002093DB /* RelatersViewController.swift in Sources */,
 				04A66B901DE68F0100D7EC91 /* MessagesViewController.swift in Sources */,
-				04461A941E1F4244008160A1 /* PostPrivacyCell.swift in Sources */,
+				04245FBD1E2A3DB000611DA0 /* PostAnonymousCell.swift in Sources */,
+				04461A941E1F4244008160A1 /* PostNameCell.swift in Sources */,
 				0432D8A81E1AE21E00A74754 /* BannerAlert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

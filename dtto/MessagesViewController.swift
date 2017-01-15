@@ -37,10 +37,14 @@ final class MessagesViewController: JSQMessagesViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     private func setupNavBar() {
+        
+        let resolveChatButton = UIBarButtonItem(image: #imageLiteral(resourceName: "check"), style: .plain, target: self, action: #selector(resolveChat))
+        
         let chatSettingsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(showChatSettings))
         
-        self.navigationItem.rightBarButtonItem = chatSettingsButton
+        self.navigationItem.rightBarButtonItems = [chatSettingsButton, resolveChatButton]
 
     }
     
@@ -49,10 +53,18 @@ final class MessagesViewController: JSQMessagesViewController {
         collectionView.collectionViewLayout = AnimatedFlowLayout()
         
     }
+    
+    func resolveChat() {
+        
+        let resolveChatVC = ResolveChatViewController()
+        self.navigationController?.pushViewController(resolveChatVC, animated: true)
+        
+    }
+    
     func showChatSettings() {
         // push with nav bar.
-        let chatSettings = ChatSettings(nibName: "ChatSettings", bundle: nil)
-        navigationController?.pushViewController(chatSettings, animated: true)
+//        let chatSettings = ChatSettings(nibName: "ChatSettings", bundle: nil)
+//        navigationController?.pushViewController(chatSettings, animated: true)
     }
     
     private func getMessages() {
@@ -86,13 +98,9 @@ final class MessagesViewController: JSQMessagesViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = false
     }
-    
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-    }
     
     
     // MARK: JSQMessages Delegate Methods

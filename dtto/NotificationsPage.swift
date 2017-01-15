@@ -167,6 +167,9 @@ extension NotificationsPage: UICollectionViewDelegate, UICollectionViewDataSourc
         case .Requests:
             // go to requestsView
             let requestsView = RequestsViewController(requests: requests)
+            if let vd = masterViewDelegate {
+                requestsView.masterViewDelegate? = vd
+            }
             masterViewDelegate?.navigationController?.pushViewController(requestsView, animated: true)
             
             break

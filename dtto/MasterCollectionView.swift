@@ -70,8 +70,10 @@ class MasterCollectionView: UIViewController {
                     // get the other user's information
                     if user.key != userID {
                         
-                        guard let friendName = user.value as? String else { return }
-                        chat.name = friendName
+                        if let friendName = user.value as? String {
+                            chat.name = friendName
+                        }
+                        
                     }
                 }
                 
@@ -155,6 +157,11 @@ class MasterCollectionView: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

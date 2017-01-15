@@ -17,6 +17,7 @@ target 'dtto' do
   pod 'FBSDKLoginKit'
 
   # UI Tweaks
+  pod 'RAMPaperSwitch', '~> 2.0.4' 
   pod 'NVActivityIndicatorView'
   pod 'SkyFloatingLabelTextField', :git => 'https://github.com/MLSDev/SkyFloatingLabelTextField', :branch => 'swift3'
   pod 'JSQMessagesViewController'

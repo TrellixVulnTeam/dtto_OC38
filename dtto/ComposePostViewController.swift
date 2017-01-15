@@ -41,8 +41,9 @@ class ComposePostViewController: UIViewController {
 //        tv.layoutMargins = .zero
         tv.separatorStyle = .none
         
-        tv.register(PostPrivacyCell.self, forCellReuseIdentifier: "PostPrivacyCell")
+        tv.register(PostNameCell.self, forCellReuseIdentifier: "PostNameCell")
         tv.register(PostComposeCell.self, forCellReuseIdentifier: "PostComposeCell")
+        tv.register(PostAnonymousCell.self, forCellReuseIdentifier: "PostAnonymousCell")
         return tv
     }()
     
@@ -110,8 +111,13 @@ class ComposePostViewController: UIViewController {
         super.viewDidLoad()
         setupNavBar()
         setupViews()
+        dismissKeyboard()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        dismissKeyboard()
+    }
 
 }
 
@@ -120,10 +126,11 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
     private enum Row: Int {
         case Profile
         case Text
+        case Anonymous
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -131,9 +138,12 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
         guard let row = Row(rawValue: indexPath.row) else { return 0 }
         switch row {
         case .Profile:
-            return UITableViewAutomaticDimension
+            return 70
         case .Text:
-            return tableView.frame.height - 50
+            return tableView.frame.height - 120
+        case .Anonymous:
+            return 70
+            
         }
         
     }
@@ -144,7 +154,7 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
         
         switch row {
         case .Profile:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PostPrivacyCell") as! PostPrivacyCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostNameCell") as! PostNameCell
             cell.selectionStyle = .none
             return cell
         case .Text:
@@ -152,6 +162,11 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
             cell.postTextView.delegate = self
             cell.selectionStyle = .none
             return cell
+        case .Anonymous:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostAnonymousCell") as! PostAnonymousCell
+            cell.selectionStyle = .none
+            return cell
+
         }
         
     }

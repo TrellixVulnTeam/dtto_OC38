@@ -82,6 +82,7 @@ PODS:
   - JSQSystemSoundPlayer (2.0.1)
   - MIBadgeButton-Swift (0.5)
   - NVActivityIndicatorView (3.1)
+  - RAMPaperSwitch (2.0.4)
   - SkyFloatingLabelTextField (1.2.1)
   - Stripe (9.2.0)
 
@@ -96,6 +97,7 @@ DEPENDENCIES:
   - JSQMessagesViewController
   - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
   - NVActivityIndicatorView
+  - RAMPaperSwitch (~> 2.0.4)
   - SkyFloatingLabelTextField (from `https://github.com/MLSDev/SkyFloatingLabelTextField`, branch `swift3`)
   - Stripe
 
@@ -140,9 +142,10 @@ SPEC CHECKSUMS:
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
   NVActivityIndicatorView: 9f47e8a4affb860ef729aeec99b1550219e6c233
+  RAMPaperSwitch: d24db52c5423c14812d4069073c3159cffcf3992
   SkyFloatingLabelTextField: 3f6610aded18e778df5cfab3b9e12a11b3e014e9
   Stripe: a47770e82db059d0e7e160f9aabc2997055ee911
 
-PODFILE CHECKSUM: ef9c13fe66f1b16516af26dc50107b1618d1eeda
+PODFILE CHECKSUM: 75927b42a8e4e14064aede8df03d77ad2f8dc583
 
 COCOAPODS: 1.2.0.beta.1

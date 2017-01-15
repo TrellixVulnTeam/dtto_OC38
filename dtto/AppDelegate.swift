@@ -53,9 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
 //            self.window!.rootViewController = initialViewController
 //        }, completion: nil)
-        defaults.setUID(value: "tw2QiARnU7ZFZ7we4tmKs3HcSU42")
-        defaults.setLogin(value: false)
-        if defaults.isLoggedIn() {
+//        defaults.setUID(value: "tw2QiARnU7ZFZ7we4tmKs3HcSU42")
+//        defaults.setLogin(value: true)
+        if let _ = defaults.getUID() {
             let initialViewController = TabBarController()
             UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController

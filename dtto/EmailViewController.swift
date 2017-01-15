@@ -48,7 +48,9 @@ class EmailViewController: FormViewController {
         nextButton.setTitle(nil, for: UIControlState())
         nextButton.isUserInteractionEnabled = false
         spinner.startAnimating()
-        if let email = textField.text?.lowercased().replacingOccurrences(of: ".", with: ",") {
+        if var email = textField.text {
+            
+            email = email.lowercased().replacingOccurrences(of: ".", with: ",")
             let ref = FIREBASE_REF.child("userEmails")
 
             ref.child(email).observeSingleEvent(of: .value, with: { snapshot in
@@ -60,7 +62,7 @@ class EmailViewController: FormViewController {
                 }
                 else {
                     print("push view")
-                    self.user.email = email
+                    self.user.email = email.replacingOccurrences(of: ",", with: ".")
                     let passwordVC = PasswordViewController()
                     passwordVC.user = self.user
                     self.navigationController?.pushViewController(passwordVC, animated: true)

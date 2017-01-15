@@ -20,6 +20,11 @@ protocol RequestsDelegate : class {
 
 class RequestsViewController: UIViewController, RequestsDelegate {
 
+    var masterViewDelegate: MasterCollectionView? {
+        didSet {
+            print("Delegate")
+        }
+    }
     var requests = [Notification]()
 //    var requestsRef: FIRDatabaseReference! = FIREBASE_REF.child("requests/uid1") {
 //        didSet {
@@ -27,6 +32,11 @@ class RequestsViewController: UIViewController, RequestsDelegate {
 //            getRequests()
 //        }
 //    }
+    lazy var viewChatsButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "chatSelected"), style: .plain, target: self, action: #selector(viewChats(_:)))
+        
+        return button
+    }()
     
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
@@ -57,7 +67,8 @@ class RequestsViewController: UIViewController, RequestsDelegate {
     
     private func setupViews() {
         
-        self.title = "Chat Requests"
+        self.navigationItem.title = "Chat Requests"
+        self.navigationItem.rightBarButtonItem = viewChatsButton
         self.view.addSubview(tableView)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -194,6 +205,11 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
     }
 
+    func viewChats(_ sender: UIBarButtonItem) {
+
+        _ = self.masterViewDelegate?.navigationController?.popViewController(animated: true)
+
+    }
 
 }
 
