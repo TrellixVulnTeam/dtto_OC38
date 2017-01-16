@@ -160,6 +160,7 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
         case .Text:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostComposeCell") as! PostComposeCell
             cell.postTextView.delegate = self
+            _ = cell.postTextView.becomeFirstResponder()
             cell.selectionStyle = .none
             return cell
         case .Anonymous:

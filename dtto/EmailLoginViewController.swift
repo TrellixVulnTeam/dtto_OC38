@@ -74,6 +74,8 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
         return spinner
     }()
     
+    let whiteView = UIView()
+    
     func setupViews() {
         
         self.navigationItem.title = "Log In"
@@ -121,24 +123,50 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
 
         if let email = emailTextField.text, let password = passwordTextField.text {
             
+            self.animateUserLogin()
+            
             FIRAuth.auth()?.signIn(withEmail: email, password: password) { (user, error) in
-                
-                self.animateUserLogin()
                 
                 if error != nil {
                     
+                    if let errorCode = FIRAuthErrorCode(rawValue: error!._code) {
+                        
+                        var errorText = ""
+                        
+                        switch errorCode {
+                            
+                        case .errorCodeUserNotFound:
+                            errorText = "Sorry, we couldn't find an account with that email."
+                            
+                        case .errorCodeInvalidEmail:
+                            errorText = "Please enter a valid email"
+                            
+                        case .errorCodeWrongPassword:
+                            errorText = "The password you've entered is incorrect."
+                            
+                        default:
+                            errorText = "Could not connect to server."
+                        }
+                        
+                        self.displayBanner(desc: errorText)
+                        
+                    }
                 }
                 
-                guard let user = FIRAuth.auth()?.currentUser else { return }
-                defaults.setUID(value: user.uid)
-                
-                if let name = user.displayName {
-                    defaults.setName(value: name)
+                else {
+                    guard let user = FIRAuth.auth()?.currentUser else { return }
+                    defaults.setUID(value: user.uid)
+                    
+                    if let name = user.displayName {
+                        defaults.setName(value: name)
+                    }
+                    
+                    self.changeRootVC(vc: .login)
+                    
+                    
                 }
                 
-                self.spinner.stopAnimating()
-                self.changeRootVC(vc: .login)
-                
+                self.removeSpinner()
             }
             
         }
@@ -150,7 +178,6 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
         if let email = emailTextField.text {
             
             if email.isEmail {
-                print("Is this your email?")
                 FIRAuth.auth()?.sendPasswordReset(withEmail: email) { (error) in
                     
                 }
@@ -158,6 +185,7 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
             }
             else {
                 print("enter email")
+                // TODO: ux for entering email.
             }
         }
         
@@ -166,7 +194,6 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
 
     func animateUserLogin() {
         
-        let whiteView = UIView()
         whiteView.backgroundColor = .white
         
         view.addSubview(whiteView)
@@ -179,6 +206,11 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
         view.layoutIfNeeded()
         spinner.startAnimating()
         
+    }
+    
+    func removeSpinner() {
+        whiteView.removeFromSuperview()
+        spinner.removeFromSuperview()
     }
     
 }
@@ -223,6 +255,10 @@ extension EmailLoginViewController: UITextFieldDelegate {
         return true
         
     }
+}
+
+extension EmailLoginViewController: DisplayBanner {
+    
 }
 
 extension String {

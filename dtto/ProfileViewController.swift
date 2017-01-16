@@ -31,6 +31,11 @@ class ProfileViewController: UIViewController {
         tv.register(ProfileSummaryCell.self, forCellReuseIdentifier: "ProfileSummaryCell")
         return tv
     }()
+   
+    init() {
+        super.init(nibName: nil, bundle: nil)
+//        observeUser()
+    }
     
     init(user: User) {
         super.init(nibName: nil, bundle: nil)
@@ -89,8 +94,10 @@ class ProfileViewController: UIViewController {
     func observeUser() {
         
 //        guard let user = user else { return }
-        guard let userID = user.uid else { return }
-        let userRef = FIREBASE_REF.child("users").child(userID)
+//        guard let userID = user.uid else { return }
+        let testID = "tw2QiARnU7ZFZ7we4tmKs3HcSU42"
+        
+        let userRef = FIREBASE_REF.child("users").child(testID)
         userRef.observeSingleEvent(of: .value, with: { snapshot in
             
             // get all user attributes, then add to tableview

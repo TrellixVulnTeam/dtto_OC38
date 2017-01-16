@@ -127,7 +127,7 @@ class PasswordViewController: FormViewController {
                         
                         defaults.setUID(value: user.uid)
                         
-                        self.user.email = email
+//                        self.user.email = email
                         let usernameVC = UsernameViewController()
                         usernameVC.user = self.user
                         self.navigationController?.pushViewController(usernameVC, animated: true)

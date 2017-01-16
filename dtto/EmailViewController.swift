@@ -48,12 +48,15 @@ class EmailViewController: FormViewController {
         nextButton.setTitle(nil, for: UIControlState())
         nextButton.isUserInteractionEnabled = false
         spinner.startAnimating()
-        if var email = textField.text {
+        if let email = textField.text {
             
-            email = email.lowercased().replacingOccurrences(of: ".", with: ",")
+            let escapedEmail = email.lowercased().addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!.replacingOccurrences(of: ".", with: "%2E")
+            print(email)
+            print(escapedEmail)
+//            email = email.lowercased().replacingOccurrences(of: ".", with: ",")
             let ref = FIREBASE_REF.child("userEmails")
 
-            ref.child(email).observeSingleEvent(of: .value, with: { snapshot in
+            ref.child(escapedEmail).observeSingleEvent(of: .value, with: { snapshot in
 //            ref.queryEqual(toValue: email).queryOrderedByValue().observeSingleEvent(of: .value, with: { snapshot in
 
                 if snapshot.exists() {
@@ -62,7 +65,8 @@ class EmailViewController: FormViewController {
                 }
                 else {
                     print("push view")
-                    self.user.email = email.replacingOccurrences(of: ",", with: ".")
+                    self.user.email = email
+//                    self.user.email = email.replacingOccurrences(of: ",", with: ".")
                     let passwordVC = PasswordViewController()
                     passwordVC.user = self.user
                     self.navigationController?.pushViewController(passwordVC, animated: true)

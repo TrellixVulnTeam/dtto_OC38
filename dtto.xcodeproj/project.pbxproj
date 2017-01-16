@@ -39,6 +39,7 @@
 		0432D8A81E1AE21E00A74754 /* BannerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0432D8A71E1AE21E00A74754 /* BannerAlert.swift */; };
 		0442E0AB1E2AC28200B7BC4D /* PostAddTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */; };
 		0442E0AD1E2AE9AC00B7BC4D /* ResolveChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */; };
+		0442E0AF1E2B05DD00B7BC4D /* RegisterStripeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AE1E2B05DD00B7BC4D /* RegisterStripeViewController.swift */; };
 		04461A941E1F4244008160A1 /* PostNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A931E1F4244008160A1 /* PostNameCell.swift */; };
 		04461A961E1F45BC008160A1 /* PostComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A951E1F45BC008160A1 /* PostComposeCell.swift */; };
 		045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045248061E08A1F5007D6C3E /* ChatSettings.swift */; };
@@ -164,6 +165,7 @@
 		0432D8A71E1AE21E00A74754 /* BannerAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerAlert.swift; path = ../../Chain/Chain/CustomViews/BannerAlert.swift; sourceTree = "<group>"; };
 		0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAddTagsCell.swift; sourceTree = "<group>"; };
 		0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolveChatViewController.swift; sourceTree = "<group>"; };
+		0442E0AE1E2B05DD00B7BC4D /* RegisterStripeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterStripeViewController.swift; sourceTree = "<group>"; };
 		04461A931E1F4244008160A1 /* PostNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostNameCell.swift; sourceTree = "<group>"; };
 		04461A951E1F45BC008160A1 /* PostComposeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostComposeCell.swift; sourceTree = "<group>"; };
 		045248061E08A1F5007D6C3E /* ChatSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSettings.swift; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 				04A97E6E1E20D2C1008DA2A3 /* AccountStatsCollectionView.swift */,
 				04A97E701E20D607008DA2A3 /* AccountPostsTableView.swift */,
 				04EA04791E12094400B0A984 /* Profile */,
+				0442E0AE1E2B05DD00B7BC4D /* RegisterStripeViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -847,6 +850,7 @@
 				04A97E6D1E20D02F008DA2A3 /* MenuBar.swift in Sources */,
 				04461A961E1F45BC008160A1 /* PostComposeCell.swift in Sources */,
 				041B393A1E1DDAAA003E130E /* PostButtonsCell.swift in Sources */,
+				0442E0AF1E2B05DD00B7BC4D /* RegisterStripeViewController.swift in Sources */,
 				041B393C1E1DEA9C003E130E /* PostTagsCell.swift in Sources */,
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,
 				04E459B91DE15AD5006003DF /* EmailLoginViewController.swift in Sources */,

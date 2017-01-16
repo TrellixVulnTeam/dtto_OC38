@@ -71,8 +71,15 @@ class UsernameViewController: FormViewController {
         let usernamesRef = FIREBASE_REF.child("usernames").child(username)
         usernamesRef.setValue(true)
         
-            let userEmailsRef = FIREBASE_REF.child("userEmails").child(email.replacingOccurrences(of: ".", with: ","))
+        
+        if let escapedEmail = email.lowercased().addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)?.replacingOccurrences(of: ".", with: "%2E") {
+            
+            let userEmailsRef = FIREBASE_REF.child("userEmails").child(escapedEmail)
             userEmailsRef.setValue(true)
+            
+        }
+        
+        
         
         
     }

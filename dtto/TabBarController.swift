@@ -59,11 +59,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
 //                let currentStoryboard = UIStoryboard(name: "Account", bundle:nil)
 //                let child = currentStoryboard.instantiateViewController(withIdentifier: "AccountNav") as! UINavigationController
-                let user = User()
-                user.name = "Jae"
-                user.username = "@jae"
                 
-                let profileVC = AccountViewController()
+                let profileVC = ProfileViewController()
                 let child = UINavigationController(rootViewController: profileVC)
                 child.tabBarItem.title = ""
                 child.tabBarItem.image = tab
