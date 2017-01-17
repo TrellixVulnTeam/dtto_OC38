@@ -20,7 +20,7 @@ extension UIViewController {
         
         if vc == RootVC.login {
             
-            let snapshot:UIView = (self.view.window?.snapshotView(afterScreenUpdates: true))!
+            guard let snapshot:UIView = (self.view.window?.snapshotView(afterScreenUpdates: true)) else { return }
             let initialViewController = TabBarController()
             initialViewController.view.addSubview(snapshot)
             

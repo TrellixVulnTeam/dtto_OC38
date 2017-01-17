@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jitae Kim. All rights reserved.
 //
 
-class Notification: NSObject {
+class UserNotification: NSObject {
     
     var userID: String?
     var postID: String?

@@ -11,8 +11,8 @@ import UIKit
 class NotificationsPage:  BaseCollectionViewCell {
     
     var collectionView: UICollectionView!
-    var relates = [Notification]()
-    var requests = [Notification]()
+    var relates = [UserNotification]()
+    var requests = [UserNotification]()
     var initialLoad = true
     var requestsCount: Int = 0
     
@@ -67,7 +67,7 @@ class NotificationsPage:  BaseCollectionViewCell {
             
             guard let uid = userNotifications["uid"] as? String, let name = userNotifications["name"] as? String, let postID = userNotifications["postID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
             
-            let notification = Notification()
+            let notification = UserNotification()
             
             notification.name = name
             notification.postID = postID

@@ -25,7 +25,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             print("Delegate")
         }
     }
-    var requests = [Notification]()
+    var requests = [UserNotification]()
 //    var requestsRef: FIRDatabaseReference! = FIREBASE_REF.child("requests/uid1") {
 //        didSet {
 //            // get requests
@@ -48,7 +48,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         return tv
     }()
     
-    init(requests: [Notification]) {
+    init(requests: [UserNotification]) {
         super.init(nibName: nil, bundle: nil)
         self.requests = requests
         print(self.requests.count)
@@ -93,7 +93,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             
             guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let postID = userNotifications["postID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
             
-            let notification = Notification()
+            let notification = UserNotification()
             
             notification.name = name
             notification.postID = postID

@@ -153,6 +153,9 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
 extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        
+        googleLoginButton.isUserInteractionEnabled = false
+        
         if let err = error {
             print("Failed to log into Google: ", err)
             return
@@ -177,6 +180,8 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
             defaults.setUID(value: uid)
             self.changeRootVC(vc: .login)
         })
+        
+        googleLoginButton.isUserInteractionEnabled = true
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

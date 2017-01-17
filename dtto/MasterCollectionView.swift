@@ -16,8 +16,8 @@ class MasterCollectionView: UIViewController {
     private lazy var userRef: FIRDatabaseReference = FIRDatabase.database().reference().child("users")
     
     var chats = [Chat]()
-    var requests = [Notification]()
-    var relates = [Notification]()
+    var requests = [UserNotification]()
+    var relates = [UserNotification]()
     
     var horizontalBarView = UIView()
     var selectedIndex: Int = 0
@@ -124,7 +124,7 @@ class MasterCollectionView: UIViewController {
             
             guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let postID = userNotifications["postID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
             
-            let notification = Notification()
+            let notification = UserNotification()
             
             notification.name = name
             notification.postID = postID

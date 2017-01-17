@@ -11,7 +11,7 @@ import UIKit
 class Notifications: BaseCollectionViewCell {
     
     var collectionView: UICollectionView!
-    var relates = [Notification]()
+    var relates = [UserNotification]()
     
     override func setupViews() {
         

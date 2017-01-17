@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RAMPaperSwitch
 
 class ComposePostViewController: UIViewController {
 
@@ -29,7 +30,25 @@ class ComposePostViewController: UIViewController {
         button.tintColor = Color.darkNavy
         return button
     }()
-
+    
+    lazy var postToolbar: PostToolbar = {
+        let postToolbar = PostToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        postToolbar.composePostViewController = self
+        return postToolbar
+    }()
+    
+    // Will update based on keyboard show/hide
+    var postToolbarBottomAnchor: NSLayoutConstraint?
+    
+    override var inputAccessoryView: UIView? {
+        get {
+            return postToolbar
+        }
+    }
+    
+    override var canBecomeFirstResponder : Bool {
+        return true
+    }
     
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
@@ -67,11 +86,7 @@ class ComposePostViewController: UIViewController {
         
     }
     
-    func setupNavBar() {
-        self.navigationItem.leftBarButtonItem = closeButton
-        self.navigationItem.rightBarButtonItem = postButton
-        self.title = "Post"
-    }
+    
     
     func showAlert() {
         let ac = UIAlertController(title: nil, message: "Please write your post.", preferredStyle: .alert)
@@ -87,21 +102,36 @@ class ComposePostViewController: UIViewController {
         })
     }
     
+    func toggle(_ sender: UISwitch) {
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            
+            if sender.isOn {
+                self.postToolbar.anonymousLabel.text = "Posting Publicly"
+                self.postToolbar.anonymousLabel.textColor = Color.darkNavy
+                self.postToolbar.backgroundColor = .white
+            }
+            else {
+                self.postToolbar.anonymousLabel.text = "Posting Anonymously"
+                self.postToolbar.anonymousLabel.textColor = .lightGray
+                self.postToolbar.backgroundColor = Color.darkNavy
+            }
+        })
+        
+    }
+
+    func setupNavBar() {
+        self.navigationItem.leftBarButtonItem = closeButton
+        self.navigationItem.rightBarButtonItem = postButton
+        self.title = "Post"
+    }
+    
     func setupViews() {
         
         automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = .white
-        
-//        view.addSubview(headerView)
-//        headerView.addSubview(closeButton)
-//        headerView.addSubview(postButton)
+
         view.addSubview(tableView)
-        
-//        headerView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
-//        
-//        closeButton.anchor(top: headerView.topAnchor, leading: headerView.leadingAnchor, trailing: nil, bottom: headerView.bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-//        
-//        postButton.anchor(top: headerView.topAnchor, leading: nil, trailing: headerView.trailingAnchor, bottom: headerView.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
@@ -111,14 +141,45 @@ class ComposePostViewController: UIViewController {
         super.viewDidLoad()
         setupNavBar()
         setupViews()
-        dismissKeyboard()
+        hideKeyboardWhenTappedAround()
+        setupKeyboardObservers()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
         dismissKeyboard()
     }
 
+    func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+
+    
+    func handleKeyboardWillShow(_ notification: Notification) {
+        
+        let keyboardFrame = ((notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        
+        postToolbarBottomAnchor?.constant = -keyboardFrame!.height
+        UIView.animate(withDuration: keyboardDuration!, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    func handleKeyboardWillHide(_ notification: Notification) {
+        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        
+        postToolbarBottomAnchor?.constant = 0
+        UIView.animate(withDuration: keyboardDuration!, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+
+
+    
 }
 
 extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource {
@@ -130,7 +191,7 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -189,6 +250,14 @@ extension ComposePostViewController: UITextViewDelegate {
             textView.textColor = Color.textGray
         }
         textView.resignFirstResponder()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+//        textView.
+        postToolbar.characterCountLabel.text = String(200 - newText.characters.count)
+        return newText.characters.count <= 200
     }
     
 }
