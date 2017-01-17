@@ -27,7 +27,8 @@ class ComposePostViewController: UIViewController {
     
     lazy var postButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Post", style: .plain, target: self, action: #selector(post(_:)))
-        button.tintColor = Color.darkNavy
+        button.tintColor = .lightGray
+        button.isEnabled = false
         return button
     }()
     
@@ -197,6 +198,7 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         guard let row = Row(rawValue: indexPath.row) else { return 0 }
+        
         switch row {
         case .Profile:
             return 70
@@ -255,9 +257,25 @@ extension ComposePostViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-//        textView.
         postToolbar.characterCountLabel.text = String(200 - newText.characters.count)
-        return newText.characters.count <= 200
+        
+        if newText.characters.count > 200 {
+            postToolbar.characterCountLabel.textColor = .red
+        }
+        else {
+            postToolbar.characterCountLabel.textColor = .lightGray
+        }
+        
+        if newText.characters.count < 1 || newText.characters.count > 200 {
+            postButton.tintColor = .lightGray
+            postButton.isEnabled = false
+        }
+        else {
+            postButton.tintColor = Color.darkNavy
+            postButton.isEnabled = true
+        }
+        
+        return true
     }
     
 }

@@ -10,7 +10,7 @@ class Post: NSObject {
     
     var postID: String?
     var userID: String?
-    var name: String?
+    var name: String = ""
     var username: String?
     var text: String?
     var profileImageURL: String?

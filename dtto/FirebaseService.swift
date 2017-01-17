@@ -49,10 +49,12 @@ class FirebaseService {
         requestsRef.removeValue()
         
     }
+    
     func startChat(ref: FIRDatabaseReference) {
         
         ref.setValue(true)
         
     }
+
 
 }

@@ -69,8 +69,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 post.text = text
                 post.userID = userID
                 
-                let name = postData["name"] as? String ?? "Anonymous"
-                post.name = name
+                post.name = postData["name"] as? String ?? "Anonymous"
+                
                 if let username = postData["username"] as? String {
                     post.username = username
                 }
@@ -363,8 +363,13 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
         case .Profile:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostProfileCell", for: indexPath) as! PostProfileCell
-            cell.nameLabel.text = post.name!
-            cell.usernameLabel.text = "@" + post.username!
+            cell.nameLabel.text = post.name
+            if let _ = post.username {
+                cell.usernameLabel.text = "@" + post.username!
+            }
+            else {
+                cell.usernameLabel.text = ""
+            }
             cell.profileImage.image = #imageLiteral(resourceName: "profile")
             cell.postDelegate = self
             cell.moreButton.tag = indexPath.section
@@ -387,6 +392,31 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             return cell
         
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        
+        guard let row = Row(rawValue: indexPath.row) else { return true }
+        
+        switch row {
+        case .Profile:
+            // if post.isanonymous = false
+            let post = posts[indexPath.section]
+            if post.name == "Anonymous" {
+                return false
+            }
+            else {
+                return true
+            }
+        case .Post:
+            // double tap action
+            return false
+        case .Buttons:
+            return false
+        case .Relates:
+            return true
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
