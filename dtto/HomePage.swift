@@ -131,6 +131,31 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 
         })
         
+        postsRef.observe(.childRemoved, with: { snapshot in
+            
+            let uidToRemove = snapshot.key
+
+            for (index, post) in self.posts.enumerated() {
+                if post.postID == uidToRemove {
+                    self.posts.remove(at: index)
+                    DispatchQueue.main.async(execute: {
+                        self.collectionView.deleteSections(IndexSet(integer: index))
+                    })
+                }
+            }
+            
+            // remove on background thread since user isn't viewing this.
+            DispatchQueue.global().async(execute: {
+                
+                for (index, post) in self.fullPosts.enumerated() {
+                    if post.postID == uidToRemove {
+                        self.fullPosts.remove(at: index)
+                    }
+                }
+            })
+            
+        })
+        
     }
     
     func requestChat(section: Int, chatState: ChatState) {
@@ -226,7 +251,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 
         let post = posts[section]
         
-        if let userID = defaults.getUID(), let postUID = post.postID {
+        if let userID = defaults.getUID(), let postUID = post.userID {
+            
             if userID == postUID {
                 
                 let delete = UIAlertAction(title: "Delete", style: .default, handler: { (action:UIAlertAction) in
@@ -279,12 +305,10 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     func editPost(section: Int) {
         
-        print("Editing post...")
-        // present editing textview, which has the text of the post.
-        let originalText = posts[section].text
-        
-        
-        
+        let post = posts[section]
+        let editPostVC = ComposePostViewController(post: post)
+
+        masterViewDelegate?.navigationController?.pushViewController(editPostVC, animated: true)
         
     }
     

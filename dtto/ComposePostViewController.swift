@@ -11,7 +11,7 @@ import Firebase
 
 class ComposePostViewController: UIViewController {
 
-    var post = Post()
+    var post: Post?
     
     lazy var headerView: UIView = {
         let headerView = UIView()
@@ -64,6 +64,40 @@ class ComposePostViewController: UIViewController {
         return tv
     }()
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(post: Post) {
+        super.init(nibName: nil, bundle: nil)
+        self.post = post
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavBar()
+        setupViews()
+        hideKeyboardWhenTappedAround()
+        setupKeyboardObservers()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let textCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PostComposeCell {
+            _ = textCell.postTextView.becomeFirstResponder()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+        dismissKeyboard()
+    }
+
     func closeView(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
 //        self.navigationController!.dismiss(animated: true, completion: nil)
@@ -74,40 +108,88 @@ class ComposePostViewController: UIViewController {
     
     func post(_ sender: UIButton) {
         
-        let postRef = FIREBASE_REF.child("posts")
-        
-        if let text = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PostComposeCell)?.postTextView.text, let uid = FIRAuth.auth()?.currentUser?.uid {
+        // Edit the post if this was inited with a postID
+        if let post = post {
+            editPost(post)
+        }
+        else {
+            let postRef = FIREBASE_REF.child("posts")
             
-            let postID = postRef.childByAutoId().key
-            // TODO: at timestamp
-            let basePost: [String : Any] = ["postID": postID,
-                                                 "uid" : uid,
-                                                 "text" : text,
-                                                 "relatesCount" : 0,
-                                                 "ongoingChatCount" : 0]
-            
-            postRef.child(postID).updateChildValues(basePost)
-            defaults.setName(value: "Jitae")
-            defaults.setUsername(value: "jitae")
-            // Add user's names if post is public
-            if postToolbar.publicToggle.isOn {
+            if let text = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PostComposeCell)?.postTextView.text, let uid = defaults.getUID() {
                 
-                guard let name = defaults.getName(), let username = defaults.getUsername() else { return }
+                let postID = postRef.childByAutoId().key
+                // TODO: at timestamp
+                let basePost: [String : Any] = ["postID": postID,
+                                                "uid" : uid,
+                                                "text" : text,
+                                                "relatesCount" : 0,
+                                                "ongoingChatCount" : 0]
                 
-                let publicPost: [String : Any] = ["name" : name,
-                                                  "username" : username]
-                postRef.child(postID).updateChildValues(publicPost)
+                postRef.child(postID).updateChildValues(basePost)
+                defaults.setName(value: "Jitae")
+                defaults.setUsername(value: "jitae")
+                // Add user's names if post is public
+                if postToolbar.publicToggle.isOn {
+                    
+                    guard let name = defaults.getName(), let username = defaults.getUsername() else { return }
+                    
+                    let publicPost: [String : Any] = ["name" : name,
+                                                      "username" : username]
+                    postRef.child(postID).updateChildValues(publicPost)
+                }
+                
             }
-     
+                
+            else {
+                print("Could not post")
+            }
+            
+            dismiss(animated: true, completion: nil)
+
         }
         
+        
+    }
+    
+    func editPost(_ post: Post) {
+        
+        guard let postID = post.postID else { return }
+        
+        let postRef = FIREBASE_REF.child("posts").child(postID)
+        
+        if let text = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PostComposeCell)?.postTextView.text {
+            
+            // TODO: at timestamp
+            let editedPost: [String : Any] = ["text" : text, "timestamp" : "editedTime"]
+            
+            postRef.child(postID).updateChildValues(editedPost)
+            
+            // Update publicity
+            if let _ = post.name, let _ = post.username {
+                if !postToolbar.publicToggle.isOn {
+                    // change public to anonymous
+                    postRef.child(postID).child("name").removeValue()
+                    postRef.child(postID).child("username").removeValue()
+                }
+            }
+            else {
+                if postToolbar.publicToggle.isOn {
+                    // change anonymous to public
+                    guard let name = defaults.getName(), let username = defaults.getUsername() else { return }
+                    
+                    let publicPost: [String : Any] = ["name" : name,
+                                                      "username" : username]
+                    postRef.child(postID).updateChildValues(publicPost)
+                }
+            }
+            
+        }
+            
         else {
             print("Could not post")
         }
         
         dismiss(animated: true, completion: nil)
-
-        
     }
     
     func showAlert() {
@@ -161,27 +243,7 @@ class ComposePostViewController: UIViewController {
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupNavBar()
-        setupViews()
-        hideKeyboardWhenTappedAround()
-        setupKeyboardObservers()
-    }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if let textCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PostComposeCell {
-            _ = textCell.postTextView.becomeFirstResponder()
-        }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-        dismissKeyboard()
-    }
-
     func setupKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
 
@@ -250,6 +312,9 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
             return cell
         case .Text:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostComposeCell") as! PostComposeCell
+            if let text = post?.text {
+                cell.postTextView.text = text
+            }
             cell.postTextView.delegate = self
 //            _ = cell.postTextView.becomeFirstResponder()
             cell.selectionStyle = .none
@@ -293,8 +358,8 @@ extension ComposePostViewController: UITextViewDelegate {
         else {
             postToolbar.characterCountLabel.textColor = .lightGray
         }
-        
-        if newText.characters.count < 1 || newText.characters.count > 200 {
+
+        if (newText.characters.count < 1 || newText.characters.count > 200) {
             postButton.tintColor = .lightGray
             postButton.isEnabled = false
         }
@@ -302,7 +367,7 @@ extension ComposePostViewController: UITextViewDelegate {
             postButton.tintColor = Color.darkNavy
             postButton.isEnabled = true
         }
-        
+
         return true
     }
     
