@@ -103,6 +103,34 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             
             
         })
+        
+        
+        postsRef.observe(.childChanged, with: { snapshot in
+            
+            let uidToChange = snapshot.key
+            
+            if let index = self.fullPosts.index(where: {$0.userID == uidToChange}) {
+                
+//                if let post = Post(snapshot: snapshot) {
+//                    
+//                    self.fullPosts[index] = post
+//                }
+                
+            }
+            
+            
+//            if let index = self.arcanaArray.index(where: {$0.uid == uidToChange}) {
+//                
+//                if let arcana = Arcana(snapshot: snapshot) {
+//                    
+//                    self.arcanaArray[index] = arcana
+//                    self.tableView.reloadData()
+//                }
+//                
+//            }
+
+        })
+        
     }
     
     func requestChat(section: Int, chatState: ChatState) {
@@ -324,7 +352,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         user.username = post.username
         user.uid = post.userID
         
-        let profileVC = ProfileViewController(user: user)
+        let profileVC = ProfileViewController(userID: post.userID!)
         masterViewDelegate?.navigationController?.pushViewController(profileVC, animated: true)
         
     }

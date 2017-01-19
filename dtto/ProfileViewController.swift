@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import NVActivityIndicatorView
 
 class ProfileViewController: UIViewController {
 
@@ -18,8 +19,9 @@ class ProfileViewController: UIViewController {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.dataSource = self
         tv.delegate = self
+        tv.alpha = 0
         
-        tv.estimatedRowHeight = 100
+        tv.estimatedRowHeight = 200
         tv.estimatedSectionHeaderHeight = 20
         tv.separatorInset = .zero
         tv.layoutMargins = .zero
@@ -31,10 +33,18 @@ class ProfileViewController: UIViewController {
         tv.register(ProfileSummaryCell.self, forCellReuseIdentifier: "ProfileSummaryCell")
         return tv
     }()
+    
+    let spinner = NVActivityIndicatorView(frame: .zero, type: .ballClipRotate, color: Color.darkNavy, padding: 0)
    
     init() {
         super.init(nibName: nil, bundle: nil)
 //        observeUser()
+        setupNavBar()
+    }
+    
+    init(userID: String) {
+        super.init(nibName: nil, bundle: nil)
+//        setupNavBar()
     }
     
     init(user: User) {
@@ -47,6 +57,11 @@ class ProfileViewController: UIViewController {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    func edit() {
+        
+        present(UINavigationController(rootViewController: ProfileEditViewController(user: self.user)), animated: true, completion: nil)
     }
     
     func logout() {
@@ -67,28 +82,52 @@ class ProfileViewController: UIViewController {
     
     private func setupNavBar() {
         
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(edit))
         let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
-
+        
+        self.navigationItem.leftBarButtonItem = editButton
         self.navigationItem.rightBarButtonItem = logoutButton
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        animateSpinner(true)
         observeUser()
         setupNavBar()
-        self.view.backgroundColor = .white
-        automaticallyAdjustsScrollViewInsets = false
         setupViews()
     }
 
+    func animateSpinner(_ animate: Bool) {
+        
+        if animate {
+            
+            view.addSubview(spinner)
+            
+            spinner.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+            spinner.anchorCenterSuperview()
+            
+            view.layoutIfNeeded()
+            spinner.startAnimating()
+
+        }
+        else {
+            spinner.stopAnimating()
+            spinner.removeFromSuperview()
+        }
+        
+        
+    }
+    
     func setupViews() {
+        
+        view.backgroundColor = .white
+        automaticallyAdjustsScrollViewInsets = false
+
         view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+
     }
     
     func observeUser() {
@@ -108,6 +147,7 @@ class ProfileViewController: UIViewController {
             let user = User()
             user.name = name
             user.username = username
+            self.navigationItem.title = username
             
             if let age = userSnapshot["age"] as? Int {
                 user.age = age
@@ -140,6 +180,8 @@ class ProfileViewController: UIViewController {
             }
             
             self.user = user
+            self.animateSpinner(false)
+            self.tableView.alpha = 1
             self.tableView.reloadData()
             
         })

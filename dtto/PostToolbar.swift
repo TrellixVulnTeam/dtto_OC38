@@ -13,7 +13,7 @@ class PostToolbar: UIView {
 
     weak var composePostViewController: ComposePostViewController? {
         didSet {
-            anonymousToggle.addTarget(composePostViewController, action: #selector(ComposePostViewController.toggle(_:)), for: .valueChanged)
+            publicToggle.addTarget(composePostViewController, action: #selector(ComposePostViewController.toggle(_:)), for: .valueChanged)
         }
     }
     
@@ -23,7 +23,7 @@ class PostToolbar: UIView {
         return view
     }()
     
-    let anonymousLabel: UILabel = {
+    let privacyLabel: UILabel = {
         let label = UILabel()
         label.text = "Posting Publicly"
         label.textColor = .black
@@ -32,7 +32,7 @@ class PostToolbar: UIView {
         return label
     }()
     
-    lazy var anonymousToggle: UISwitch = {
+    lazy var publicToggle: UISwitch = {
         let toggle = UISwitch(frame: .zero)
         toggle.onTintColor = Color.darkNavy
         toggle.thumbTintColor = .white
@@ -54,17 +54,17 @@ class PostToolbar: UIView {
         backgroundColor = .white
         
         addSubview(topBorder)
-        addSubview(anonymousLabel)
-        addSubview(anonymousToggle)
+        addSubview(privacyLabel)
+        addSubview(publicToggle)
         addSubview(characterCountLabel)
         
         topBorder.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 1.0/UIScreen.main.scale)
         
         characterCountLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
         
-        anonymousLabel.anchor(top: topAnchor, leading: nil, trailing: anonymousToggle.leadingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
+        privacyLabel.anchor(top: topAnchor, leading: nil, trailing: publicToggle.leadingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
         
-        anonymousToggle.anchor(top: topAnchor, leading: nil, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 10, widthConstant: 50, heightConstant: 0)
+        publicToggle.anchor(top: topAnchor, leading: nil, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 10, widthConstant: 50, heightConstant: 0)
 
         
     }

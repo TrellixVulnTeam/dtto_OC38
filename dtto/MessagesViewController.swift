@@ -40,18 +40,22 @@ final class MessagesViewController: JSQMessagesViewController {
     
     private func setupNavBar() {
         
-        let resolveChatButton = UIBarButtonItem(image: #imageLiteral(resourceName: "check"), style: .plain, target: self, action: #selector(resolveChat))
+//        let resolveChatButton = UIBarButtonItem(image: #imageLiteral(resourceName: "check"), style: .plain, target: self, action: #selector(resolveChat))
+//        let chatSettingsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(showChatSettings))
+        let resolveChatButton = UIButton(type: .system)
+        resolveChatButton.setImage(#imageLiteral(resourceName: "check"), for: .normal)
+        resolveChatButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         
-        let chatSettingsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(showChatSettings))
+        let chatSettingsButton = UIButton(type: .system)
+        chatSettingsButton.setImage(#imageLiteral(resourceName: "settings"), for: .normal)
+        chatSettingsButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         
-        self.navigationItem.rightBarButtonItems = [chatSettingsButton, resolveChatButton]
+        self.navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: chatSettingsButton),  UIBarButtonItem(customView: resolveChatButton)]
 
     }
     
     private func setupCollectionView() {
-        
         collectionView.collectionViewLayout = AnimatedFlowLayout()
-        
     }
     
     func resolveChat() {

@@ -22,32 +22,28 @@ class ProfileImageCell: BaseTableViewCell {
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
+    
     var name: UILabel = {
         let label = UILabel()
-        label.text = "Jae, 24"
+        label.text = "Jae"
         label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
     }()
-
     
     override func setupViews() {
         super.setupViews()
         
         addSubview(profileImage)
-        addSubview(relatesReceivedCount)
         addSubview(name)
+        addSubview(relatesReceivedCount)
         
-        profileImage.anchor(top: topAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 100)
-        profileImage.anchorCenterXToSuperview()
+        profileImage.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 70, heightConstant: 70)
         
-        relatesReceivedCount.anchor(top: profileImage.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        relatesReceivedCount.anchorCenterXToSuperview()
-        
-        name.anchor(top: relatesReceivedCount.bottomAnchor, leading: nil, trailing: nil, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
-        name.anchorCenterXToSuperview()
+        name.anchor(top: profileImage.bottomAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
         
         
-        
+//        relatesReceivedCount.anchor(top: profileImage.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+
     }
 
     

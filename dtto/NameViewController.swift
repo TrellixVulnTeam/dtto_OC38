@@ -23,7 +23,7 @@ class NameViewController: FormViewController {
         errorMessage = ""
         
         formLabel.text = "Hi. What's your name?"
-//        descLabel.text = "Full name"
+        descLabel.text = "You can change or hide this later."
         textField.placeholder = "Name"
         self.navigationItem.leftBarButtonItem = dismissButton
         

@@ -34,6 +34,14 @@ extension UserDefaults {
         return string(forKey: "name")
     }
     
+    func setUsername(value: String) {
+        set(value, forKey: "username")
+    }
+    
+    func getUsername() -> String? {
+        return string(forKey: "username")
+    }
+    
     func setOutgoingRequests(value: [String : String]) {
         set(value, forKey: "outgoingRequests")
     }

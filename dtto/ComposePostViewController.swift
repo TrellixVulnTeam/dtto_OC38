@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import RAMPaperSwitch
+import Firebase
 
 class ComposePostViewController: UIViewController {
 
@@ -37,9 +37,6 @@ class ComposePostViewController: UIViewController {
         postToolbar.composePostViewController = self
         return postToolbar
     }()
-    
-    // Will update based on keyboard show/hide
-    var postToolbarBottomAnchor: NSLayoutConstraint?
     
     override var inputAccessoryView: UIView? {
         get {
@@ -79,15 +76,39 @@ class ComposePostViewController: UIViewController {
         
         let postRef = FIREBASE_REF.child("posts")
         
-        let textCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! PostComposeCell
-        if textCell.postTextView.text.characters.count == 0 {
-            // present alert
-            showAlert()
+        if let text = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PostComposeCell)?.postTextView.text, let uid = FIRAuth.auth()?.currentUser?.uid {
+            
+            let postID = postRef.childByAutoId().key
+            // TODO: at timestamp
+            let basePost: [String : Any] = ["postID": postID,
+                                                 "uid" : uid,
+                                                 "text" : text,
+                                                 "relatesCount" : 0,
+                                                 "ongoingChatCount" : 0]
+            
+            postRef.child(postID).updateChildValues(basePost)
+            defaults.setName(value: "Jitae")
+            defaults.setUsername(value: "jitae")
+            // Add user's names if post is public
+            if postToolbar.publicToggle.isOn {
+                
+                guard let name = defaults.getName(), let username = defaults.getUsername() else { return }
+                
+                let publicPost: [String : Any] = ["name" : name,
+                                                  "username" : username]
+                postRef.child(postID).updateChildValues(publicPost)
+            }
+     
         }
         
+        else {
+            print("Could not post")
+        }
+        
+        dismiss(animated: true, completion: nil)
+
+        
     }
-    
-    
     
     func showAlert() {
         let ac = UIAlertController(title: nil, message: "Please write your post.", preferredStyle: .alert)
@@ -108,14 +129,16 @@ class ComposePostViewController: UIViewController {
         UIView.animate(withDuration: 0.2, animations: {
             
             if sender.isOn {
-                self.postToolbar.anonymousLabel.text = "Posting Publicly"
-                self.postToolbar.anonymousLabel.textColor = Color.darkNavy
+                self.postToolbar.privacyLabel.text = "Posting Publicly"
+                self.postToolbar.privacyLabel.textColor = Color.darkNavy
                 self.postToolbar.backgroundColor = .white
+                print("switch is now on")
             }
             else {
-                self.postToolbar.anonymousLabel.text = "Posting Anonymously"
-                self.postToolbar.anonymousLabel.textColor = .lightGray
+                self.postToolbar.privacyLabel.text = "Posting Anonymously"
+                self.postToolbar.privacyLabel.textColor = .lightGray
                 self.postToolbar.backgroundColor = Color.darkNavy
+                print("switch is now off")
             }
         })
         
@@ -145,6 +168,13 @@ class ComposePostViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         setupKeyboardObservers()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let textCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PostComposeCell {
+            _ = textCell.postTextView.becomeFirstResponder()
+        }
+    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -164,7 +194,6 @@ class ComposePostViewController: UIViewController {
         let keyboardFrame = ((notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
         let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
-        postToolbarBottomAnchor?.constant = -keyboardFrame!.height
         UIView.animate(withDuration: keyboardDuration!, animations: {
             self.view.layoutIfNeeded()
         })
@@ -173,7 +202,6 @@ class ComposePostViewController: UIViewController {
     func handleKeyboardWillHide(_ notification: Notification) {
         let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
-        postToolbarBottomAnchor?.constant = 0
         UIView.animate(withDuration: keyboardDuration!, animations: {
             self.view.layoutIfNeeded()
         })
@@ -223,7 +251,7 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
         case .Text:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostComposeCell") as! PostComposeCell
             cell.postTextView.delegate = self
-            _ = cell.postTextView.becomeFirstResponder()
+//            _ = cell.postTextView.becomeFirstResponder()
             cell.selectionStyle = .none
             return cell
         case .Anonymous:
