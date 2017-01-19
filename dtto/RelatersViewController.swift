@@ -68,11 +68,10 @@ extension RelatersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let user = User()
-//        let relater = relaters[indexPath.row]
+        let relater = relaters[indexPath.row]
         
-        let vc = ProfileViewController(user: user)
-        self.navigationController!.pushViewController(vc, animated: true)
+        let vc = ProfileViewController(userID: relater.uid!)
+        self.navigationController?.pushViewController(vc, animated: true)
         
     }
 }

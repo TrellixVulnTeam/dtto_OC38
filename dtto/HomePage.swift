@@ -11,7 +11,7 @@ import UIKit
 protocol PostProtocol : class {
     func requestChat(section: Int, chatState: ChatState)
     func relatePost(row: Int)
-    func showMore(section: Int, sender: AnyObject)
+    func showMore(cell: PostProfileCell, sender: AnyObject)
 }
 
 class HomePage: BaseCollectionViewCell, PostProtocol {
@@ -209,11 +209,10 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
     }
     
-    func showMore(section: Int, sender: AnyObject) {
+    func showMore(cell: PostProfileCell, sender: AnyObject) {
         
-        guard let button = sender as? UIView else {
-            return
-        }
+        guard let button = sender as? UIView, let section = collectionView.indexPath(for: cell)?.section else { return }
+        
         
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.view.tintColor = Color.darkNavy
@@ -339,13 +338,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     func showProfile(section: Int) {
         
         let post = posts[section]
-        
-        let user = User()
-        user.name = post.name
-        user.username = post.username
-        user.uid = post.userID
-        
         let profileVC = ProfileViewController(userID: post.userID!)
+        
         masterViewDelegate?.navigationController?.pushViewController(profileVC, animated: true)
         
     }
@@ -393,7 +387,6 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             }
             cell.profileImage.image = #imageLiteral(resourceName: "profile")
             cell.postDelegate = self
-            cell.moreButton.tag = indexPath.section
             return cell
             
         case .Post:
@@ -441,7 +434,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("selected \(indexPath.row)")
+        
         guard let row = Row(rawValue: indexPath.row) else { return }
         
         switch row {
@@ -451,11 +444,10 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
                 showProfile(section: indexPath.section)
             }
             
-            print("push profile")
         case .Relates:
             let vc = RelatersViewController()
             masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
-            print("push people related, using postID")
+
         default:
             break
         }

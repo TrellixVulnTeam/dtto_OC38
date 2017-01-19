@@ -57,7 +57,7 @@ class PostCell: UICollectionViewCell {
     }
     @IBAction func showMore(_ sender: UIButton!) {
         
-        requestChatDelegate?.showMore(section: sender.tag, sender: sender)
+//        requestChatDelegate?.showMore(cell: sender.tag, sender: sender)
     }
     override func awakeFromNib() {
         super.awakeFromNib()

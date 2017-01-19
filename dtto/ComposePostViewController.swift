@@ -12,13 +12,7 @@ import Firebase
 class ComposePostViewController: UIViewController {
 
     var post: Post?
-    
-    lazy var headerView: UIView = {
-        let headerView = UIView()
-        headerView.backgroundColor = .white
-        return headerView
-    }()
-    
+
     lazy var closeButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(closeView(_:)))
         button.tintColor = Color.darkNavy
@@ -83,7 +77,6 @@ class ComposePostViewController: UIViewController {
     
     func setupPost() {
         
-//        postToolbar = PostToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
         postToolbar = PostToolbar(isPublic: false)
         postToolbar.composePostViewController = self
         
@@ -95,6 +88,7 @@ class ComposePostViewController: UIViewController {
         }
     }
     
+    // Either init as a clean new post, or edit a post
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -114,7 +108,6 @@ class ComposePostViewController: UIViewController {
         setupNavBar()
         setupViews()
         hideKeyboardWhenTappedAround()
-        setupKeyboardObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -126,8 +119,8 @@ class ComposePostViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
         dismissKeyboard()
+        postToolbar.alpha = 0
     }
 
     func closeView(_ sender: UIBarButtonItem) {
@@ -264,36 +257,6 @@ class ComposePostViewController: UIViewController {
         }
         
     }
-
-    
-    
-    
-    func setupKeyboardObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-
-    
-    func handleKeyboardWillShow(_ notification: Notification) {
-        
-        let keyboardFrame = ((notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
-        
-        UIView.animate(withDuration: keyboardDuration!, animations: {
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    func handleKeyboardWillHide(_ notification: Notification) {
-        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
-        
-        UIView.animate(withDuration: keyboardDuration!, animations: {
-            self.view.layoutIfNeeded()
-        })
-    }
-
-
     
 }
 
@@ -340,7 +303,6 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.postTextView.text = text
             }
             cell.postTextView.delegate = self
-//            _ = cell.postTextView.becomeFirstResponder()
             cell.selectionStyle = .none
             return cell
         case .Anonymous:

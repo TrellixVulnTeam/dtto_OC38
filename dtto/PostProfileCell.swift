@@ -39,7 +39,7 @@ class PostProfileCell: BaseCollectionViewCell {
     }()
     
     func showMore(_ sender: UIButton) {
-        postDelegate?.showMore(section: sender.tag, sender: sender)
+        postDelegate?.showMore(cell: self, sender: sender)
     }
     
     override func setupViews() {

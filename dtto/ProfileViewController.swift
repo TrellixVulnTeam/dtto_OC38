@@ -36,23 +36,14 @@ class ProfileViewController: UIViewController {
     
     let spinner = NVActivityIndicatorView(frame: .zero, type: .ballClipRotate, color: Color.darkNavy, padding: 0)
    
+    // Init with current user, or pass another user's ID
     init() {
         super.init(nibName: nil, bundle: nil)
-//        observeUser()
         setupNavBar()
     }
     
     init(userID: String) {
         super.init(nibName: nil, bundle: nil)
-//        setupNavBar()
-    }
-    
-    init(user: User) {
-        super.init(nibName: nil, bundle: nil)
-        self.user = user
-        self.title = user.username ?? ""
-        print("TITLE IS \(title!)")
-        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -94,7 +85,6 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         animateSpinner(true)
         observeUser()
-        setupNavBar()
         setupViews()
     }
 
