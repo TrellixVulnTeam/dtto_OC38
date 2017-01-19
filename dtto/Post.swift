@@ -1,5 +1,5 @@
 //
-//  Post.swift
+//  swift
 //  dtto
 //
 //  Created by Jitae Kim on 12/11/16.
@@ -21,15 +21,30 @@ class Post: NSObject {
     var tags: String?
     var isAnonymous: Bool = false
     
-//    init(dictionary: [String: AnyObject]) {
-//        super.init()
-//        
-//        postID = dictionary["postID"] as? String
-//        userID = dictionary["userID"] as? String
-//        text = dictionary["text"] as? String
-//        chatCount = dictionary["chatCount"] as? Int
-//        relatesCount = dictionary["relatesCount"] as? Int
-//        
-//    }
+
+    init(dictionary: [String: AnyObject]) {
+        super.init()
+        
+        postID = dictionary["postID"] as? String
+        userID = dictionary["userID"] as? String
+        
+        name = dictionary["name"] as? String
+        username = dictionary["username"] as? String
+        
+        text = dictionary["text"] as? String
+        
+        chatCount = dictionary["chatCount"] as? Int
+        relatesCount = dictionary["relatesCount"] as? Int
+
+        
+        if let tags = dictionary["tags"] as? Dictionary<String, AnyObject> {
+            for tag in tags {
+                self.tags = "\(tags), \(tag.key)"
+            }
+        }
+        
+
+        
+    }
     
 }

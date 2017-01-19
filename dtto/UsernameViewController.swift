@@ -46,6 +46,8 @@ class UsernameViewController: FormViewController {
             else {
                 
                 self.user.username = username
+                defaults.setName(value: self.user.name!)
+                defaults.setUsername(value: username)
                 self.addUniqueUser()
                 self.updateUser()
                 

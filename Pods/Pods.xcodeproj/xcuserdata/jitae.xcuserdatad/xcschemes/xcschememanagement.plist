@@ -69,11 +69,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>RAMPaperSwitch.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>SkyFloatingLabelTextField.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -92,7 +87,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>033E69588795DAAAA01EA09E8D5ED1AA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>107DA1885C2F02C20E4E30FAB82A6279</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,22 +122,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>742536CE539FF4FB7BFF45995BE58932</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>8A97DF7990CAD010B1C523B168D7D2AE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>8CF8C56E1892BBDEAEFF4DA188335DFC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AF0C74BAB439582885A699514595652F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -152,12 +147,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C7DCF2B547F7871B9BFD74DE93B0E173</key>
+		<key>C753315DBC75BB34B893AB0CDD5F2C07</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CC3F302A45ED3A52F761674E316A2F7E</key>
+		<key>C7DCF2B547F7871B9BFD74DE93B0E173</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -167,12 +162,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E1DCB14CA245D0BD9C7C7FA1F4D76646</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FEACDEDE221471F787C76EC92576EEAA</key>
+		<key>FD8EEA9458B049C5B4FE6200FFE73F0A</key>
 		<dict>
 			<key>primary</key>
 			<true/>

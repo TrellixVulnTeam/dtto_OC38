@@ -33,7 +33,7 @@ class ComposePostViewController: UIViewController {
     }()
     
     lazy var postToolbar: PostToolbar = {
-        let postToolbar = PostToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        let postToolbar = PostToolbar(isPublic: true)
         postToolbar.composePostViewController = self
         return postToolbar
     }()
@@ -63,6 +63,37 @@ class ComposePostViewController: UIViewController {
         tv.register(PostAnonymousCell.self, forCellReuseIdentifier: "PostAnonymousCell")
         return tv
     }()
+
+    func setupNavBar() {
+        self.navigationItem.leftBarButtonItem = closeButton
+        self.navigationItem.rightBarButtonItem = postButton
+        self.title = "Post"
+    }
+    
+    func setupViews() {
+        
+        automaticallyAdjustsScrollViewInsets = false
+        view.backgroundColor = .white
+        
+        view.addSubview(tableView)
+        
+        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+    }
+    
+    func setupPost() {
+        
+//        postToolbar = PostToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        postToolbar = PostToolbar(isPublic: false)
+        postToolbar.composePostViewController = self
+        
+        if let _ = post?.name {
+            postToolbar.enablePublic(enable: true)
+        }
+        else {
+            postToolbar.enablePublic(enable: false)
+        }
+    }
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -71,6 +102,7 @@ class ComposePostViewController: UIViewController {
     init(post: Post) {
         super.init(nibName: nil, bundle: nil)
         self.post = post
+        setupPost()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -100,14 +132,10 @@ class ComposePostViewController: UIViewController {
 
     func closeView(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
-//        self.navigationController!.dismiss(animated: true, completion: nil)
-//        navigationController!.popToRootViewController(animated: true)
-//        navigationController?.removeFromParentViewController()
-        
     }
     
     func post(_ sender: UIButton) {
-        
+
         // Edit the post if this was inited with a postID
         if let post = post {
             editPost(post)
@@ -120,7 +148,7 @@ class ComposePostViewController: UIViewController {
                 let postID = postRef.childByAutoId().key
                 // TODO: at timestamp
                 let basePost: [String : Any] = ["postID": postID,
-                                                "uid" : uid,
+                                                "userID" : uid,
                                                 "text" : text,
                                                 "relatesCount" : 0,
                                                 "ongoingChatCount" : 0]
@@ -162,14 +190,14 @@ class ComposePostViewController: UIViewController {
             // TODO: at timestamp
             let editedPost: [String : Any] = ["text" : text, "timestamp" : "editedTime"]
             
-            postRef.child(postID).updateChildValues(editedPost)
+            postRef.updateChildValues(editedPost)
             
             // Update publicity
             if let _ = post.name, let _ = post.username {
                 if !postToolbar.publicToggle.isOn {
                     // change public to anonymous
-                    postRef.child(postID).child("name").removeValue()
-                    postRef.child(postID).child("username").removeValue()
+                    postRef.child("name").removeValue()
+                    postRef.child("username").removeValue()
                 }
             }
             else {
@@ -179,7 +207,7 @@ class ComposePostViewController: UIViewController {
                     
                     let publicPost: [String : Any] = ["name" : name,
                                                       "username" : username]
-                    postRef.child(postID).updateChildValues(publicPost)
+                    postRef.updateChildValues(publicPost)
                 }
             }
             
@@ -208,40 +236,36 @@ class ComposePostViewController: UIViewController {
     
     func toggle(_ sender: UISwitch) {
         
+        if let _ = post {
+            enablePostButton(true)
+        }
+        
         UIView.animate(withDuration: 0.2, animations: {
             
             if sender.isOn {
-                self.postToolbar.privacyLabel.text = "Posting Publicly"
-                self.postToolbar.privacyLabel.textColor = Color.darkNavy
-                self.postToolbar.backgroundColor = .white
-                print("switch is now on")
+                self.postToolbar.enablePublic(enable: true)
             }
             else {
-                self.postToolbar.privacyLabel.text = "Posting Anonymously"
-                self.postToolbar.privacyLabel.textColor = .lightGray
-                self.postToolbar.backgroundColor = Color.darkNavy
-                print("switch is now off")
+                self.postToolbar.enablePublic(enable: false)
             }
         })
         
     }
-
-    func setupNavBar() {
-        self.navigationItem.leftBarButtonItem = closeButton
-        self.navigationItem.rightBarButtonItem = postButton
-        self.title = "Post"
-    }
     
-    func setupViews() {
+    func enablePostButton(_ enabled: Bool) {
         
-        automaticallyAdjustsScrollViewInsets = false
-        view.backgroundColor = .white
-
-        view.addSubview(tableView)
-        
-        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        if enabled {
+            postButton.tintColor = Color.darkNavy
+            postButton.isEnabled = true
+        }
+        else {
+            postButton.tintColor = .lightGray
+            postButton.isEnabled = false
+        }
         
     }
+
+    
     
     
     func setupKeyboardObservers() {
@@ -360,12 +384,10 @@ extension ComposePostViewController: UITextViewDelegate {
         }
 
         if (newText.characters.count < 1 || newText.characters.count > 200) {
-            postButton.tintColor = .lightGray
-            postButton.isEnabled = false
+            enablePostButton(false)
         }
         else {
-            postButton.tintColor = Color.darkNavy
-            postButton.isEnabled = true
+            enablePostButton(true)
         }
 
         return true

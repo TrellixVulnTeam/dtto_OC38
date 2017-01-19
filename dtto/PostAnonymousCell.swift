@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import RAMPaperSwitch
 
 class PostAnonymousCell: BaseTableViewCell {
 
-    lazy var anonymousToggle: RAMPaperSwitch = {
-        let toggle = RAMPaperSwitch(view: self.contentView, color: UIColor.white)
+    lazy var anonymousToggle: UISwitch = {
+        let toggle = UISwitch()
         toggle.isOn = true
         toggle.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
         return toggle
@@ -31,7 +30,7 @@ class PostAnonymousCell: BaseTableViewCell {
         super.setupViews()
 
         contentView.backgroundColor = .black
-        anonymousToggle.duration = 0.2
+//        anonymousToggle.duration = 0.2
         
         addSubview(anonymousLabel)
         addSubview(anonymousToggle)
@@ -44,7 +43,7 @@ class PostAnonymousCell: BaseTableViewCell {
         
     }
     
-    func toggle(_ sender: RAMPaperSwitch) {
+    func toggle(_ sender: UISwitch) {
         
         UIView.animate(withDuration: 0.2, animations: {
             

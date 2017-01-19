@@ -61,34 +61,10 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         postsRef.observe(.childAdded, with: { snapshot in
             
             if let postData = snapshot.value as? Dictionary<String, AnyObject> {
+
+                let post = Post(dictionary: postData)
                 
-                guard let postID = postData["postID"] as? String, let text = postData["text"] as? String, let userID = postData["uid"] as? String else { return }
-                
-                let post = Post()
-                post.postID = postID
-                post.text = text
-                post.userID = userID
-                
-                post.name = postData["name"] as? String ?? "Anonymous"
-                
-                if let username = postData["username"] as? String {
-                    post.username = username
-                }
-                
-                if let chatCount = postData["chatCount"] as? Int {
-                    post.chatCount = chatCount
-                }
-                
-                if let relatesCount = postData["relatesCount"] as? Int {
-                    post.relatesCount = relatesCount
-                }
-                
-                if let tags = postData["tags"] as? Dictionary<String, AnyObject> {
-                    for tag in tags {
-                        post.tags = "\(post.tags), \(tag.key)"
-                    }
-                }
-//                
+                //                
 //                let hiddenPosts = defaults.getHiddenPosts()
 //                if hiddenPosts.count == 0 || hiddenPosts[postID] == nil {
 //                    print("post is not hidden")
@@ -109,26 +85,19 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             
             let uidToChange = snapshot.key
             
-            if let index = self.fullPosts.index(where: {$0.userID == uidToChange}) {
+            if let postData = snapshot.value as? Dictionary<String, AnyObject> {
                 
-//                if let post = Post(snapshot: snapshot) {
-//                    
-//                    self.fullPosts[index] = post
-//                }
-                
+                for (index, post) in self.posts.enumerated() {
+                    if post.postID == uidToChange {
+                        self.posts[index] = Post(dictionary: postData)
+                        DispatchQueue.main.async(execute: {
+                            self.collectionView.reloadSections(IndexSet(integer: index))
+                        })
+                    }
+                }
             }
             
             
-//            if let index = self.arcanaArray.index(where: {$0.uid == uidToChange}) {
-//                
-//                if let arcana = Arcana(snapshot: snapshot) {
-//                    
-//                    self.arcanaArray[index] = arcana
-//                    self.tableView.reloadData()
-//                }
-//                
-//            }
-
         })
         
         postsRef.observe(.childRemoved, with: { snapshot in
@@ -308,7 +277,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         let post = posts[section]
         let editPostVC = ComposePostViewController(post: post)
 
-        masterViewDelegate?.navigationController?.pushViewController(editPostVC, animated: true)
+        masterViewDelegate?.navigationController?.present(UINavigationController(rootViewController:editPostVC), animated: true, completion: nil)
         
     }
     
@@ -415,7 +384,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
         case .Profile:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostProfileCell", for: indexPath) as! PostProfileCell
-            cell.nameLabel.text = post.name
+            cell.nameLabel.text = post.name ?? "Anonymous"
             if let _ = post.username {
                 cell.usernameLabel.text = "@" + post.username!
             }
