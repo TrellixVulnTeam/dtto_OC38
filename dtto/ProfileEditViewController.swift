@@ -9,7 +9,9 @@
 import UIKit
 import GooglePlaces
 
-class ProfileEditViewController: UIViewController {
+
+
+class ProfileEditViewController: UIViewController,FormNavigationBar {
 
     var user: User
     
@@ -46,25 +48,19 @@ class ProfileEditViewController: UIViewController {
         
         
     }
-    
-    private func setupNavBar() {
-        
-        navigationItem.title = "Edit Profile"
-        
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancel))
-        let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(save))
-        saveButton.tintColor = .lightGray
-        saveButton.isEnabled = false
-        
-        self.navigationItem.leftBarButtonItem = cancelButton
-        self.navigationItem.rightBarButtonItem = saveButton
-        
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupNavBar()
+        setupNavBar(title: "Edit Profile")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard let index = self.tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRow(at: index, animated: true)
     }
     
     func cancel() {
@@ -80,6 +76,12 @@ class ProfileEditViewController: UIViewController {
  
 
 extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    private enum Section: Int {
+        
+        case Name
+        case Birthday
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 5
@@ -152,13 +154,28 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let autocompleteController = GMSAutocompleteViewController()
-        let filter = GMSAutocompleteFilter()
-        filter.type = .establishment
-        autocompleteController.autocompleteFilter = filter
-        autocompleteController.delegate = self
+//        let autocompleteController = GMSAutocompleteViewController()
+//        let filter = GMSAutocompleteFilter()
+//        filter.type = .establishment
+//        autocompleteController.autocompleteFilter = filter
+//        autocompleteController.delegate = self
+//        
+//        present(autocompleteController, animated: true, completion: nil)
         
-        present(autocompleteController, animated: true, completion: nil)
+        switch indexPath.section {
+            
+        case 1:
+            switch indexPath.row {
+            case 1:
+                print("BIRTHDAY")
+                let datePickerVC = DatePickerViewController()
+                present(UINavigationController(rootViewController: datePickerVC), animated: true, completion: nil)
+            default:
+                break
+            }
+        default:
+            break
+        }
         
     }
 }

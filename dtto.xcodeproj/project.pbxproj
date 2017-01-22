@@ -53,6 +53,8 @@
 		045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AB2931DFE777F009D9394 /* TabBarController.swift */; };
 		045AB2961DFE7970009D9394 /* TransitioningObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AB2951DFE7970009D9394 /* TransitioningObject.swift */; };
 		045DAC3D1DDFB08A00BF3939 /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045DAC3C1DDFB08A00BF3939 /* CircleButton.swift */; };
+		046D567A1E342BF200409034 /* DatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046D56791E342BF200409034 /* DatePickerViewController.swift */; };
+		046D567C1E34451B00409034 /* FormNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046D567B1E34451B00409034 /* FormNavigationBar.swift */; };
 		0470790A1E060BA10059C360 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047079091E060BA10059C360 /* Requests.swift */; };
 		0470790C1E0612E90059C360 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470790B1E0612E90059C360 /* Notifications.swift */; };
 		0474C1DA1E2379B900F20704 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474C1D91E2379B900F20704 /* PasswordViewController.swift */; };
@@ -183,6 +185,8 @@
 		045AB2931DFE777F009D9394 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		045AB2951DFE7970009D9394 /* TransitioningObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitioningObject.swift; sourceTree = "<group>"; };
 		045DAC3C1DDFB08A00BF3939 /* CircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
+		046D56791E342BF200409034 /* DatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerViewController.swift; sourceTree = "<group>"; };
+		046D567B1E34451B00409034 /* FormNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormNavigationBar.swift; sourceTree = "<group>"; };
 		047079091E060BA10059C360 /* Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 		0470790B1E0612E90059C360 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		0474C1D91E2379B900F20704 /* PasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
@@ -350,6 +354,7 @@
 				04DF310F1DE2EEFB0068E59B /* RoundButton.swift */,
 				0432D8A71E1AE21E00A74754 /* BannerAlert.swift */,
 				04A97E6C1E20D02F008DA2A3 /* MenuBar.swift */,
+				046D567B1E34451B00409034 /* FormNavigationBar.swift */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -373,6 +378,7 @@
 				0410DF811E2DB89A00592920 /* ProfileEditViewController.swift */,
 				0434766C1E2F0B64008B1E9E /* EditUserInfoBaseCell.swift */,
 				04FC41121E30559C00F59132 /* EditUserInfoSearchCell.swift */,
+				046D56791E342BF200409034 /* DatePickerViewController.swift */,
 			);
 			name = ProfileEdit;
 			sourceTree = "<group>";
@@ -865,6 +871,7 @@
 				04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */,
 				0474C1DA1E2379B900F20704 /* PasswordViewController.swift in Sources */,
 				041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */,
+				046D567C1E34451B00409034 /* FormNavigationBar.swift in Sources */,
 				04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */,
 				04BBE5711E13706D00D4559E /* ProfileImageCell.swift in Sources */,
 				04A97E6D1E20D02F008DA2A3 /* MenuBar.swift in Sources */,
@@ -875,6 +882,7 @@
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,
 				04E459B91DE15AD5006003DF /* EmailLoginViewController.swift in Sources */,
 				04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */,
+				046D567A1E342BF200409034 /* DatePickerViewController.swift in Sources */,
 				04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */,
 				04DDD87B1E1F286E0023EE70 /* SortDictionary.swift in Sources */,
 				0434766D1E2F0B65008B1E9E /* EditUserInfoBaseCell.swift in Sources */,

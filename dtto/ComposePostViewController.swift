@@ -195,7 +195,7 @@ class ComposePostViewController: UIViewController {
             }
             else {
                 if postToolbar.publicToggle.isOn {
-                    // change anonymous to public
+                    // change anonymo`us to public
                     guard let name = defaults.getName(), let username = defaults.getUsername() else { return }
                     
                     let publicPost: [String : Any] = ["name" : name,

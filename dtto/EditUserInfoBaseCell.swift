@@ -13,7 +13,7 @@ class EditUserInfoBaseCell: BaseTableViewCell {
     let infoLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         label.text = "Name"
         return label
     }()
@@ -32,8 +32,8 @@ class EditUserInfoBaseCell: BaseTableViewCell {
         addSubview(infoLabel)
         addSubview(userInfoTextField)
         
-        infoLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
-        infoLabel.setContentHuggingPriority(.greatestFiniteMagnitude, for: .horizontal)
+        infoLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 80, heightConstant: 0)
+//        infoLabel.setContentHuggingPriority(.greatestFiniteMagnitude, for: .horizontal)
         
         userInfoTextField.anchor(top: nil, leading: infoLabel.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         userInfoTextField.anchorCenterYToSuperview()

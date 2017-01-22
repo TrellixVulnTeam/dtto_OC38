@@ -179,7 +179,7 @@ class MasterCollectionView: UIViewController {
         }
         
         let selectedCV = IndexPath(item: selectedIndex, section: 0)
-        
+
         if let cv = collectionView.cellForItem(at: selectedCV) as? ChatList {
             guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
             cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
@@ -214,8 +214,6 @@ class MasterCollectionView: UIViewController {
         }
     }
     
-    var horizontalBarLeadingAnchorConstraint: NSLayoutConstraint?
-    var horizontalBarWidthConstraint: NSLayoutConstraint?
     var sliderBarCenterXAnchorConstraint: NSLayoutConstraint?
     
     func setupHorizontalBar() {
@@ -224,19 +222,18 @@ class MasterCollectionView: UIViewController {
         horizontalBarView = UIView()
         horizontalBarView.backgroundColor = Color.darkNavy
         
-        horizontalBarView.translatesAutoresizingMaskIntoConstraints = false
         nav.view.addSubview(horizontalBarView)
+        
+        horizontalBarView.anchor(top: nil, leading: nil, trailing: nil, bottom: nav.navigationBar.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 1)
 
         sliderBarCenterXAnchorConstraint = horizontalBarView.centerXAnchor.constraint(equalTo: nav.view.leadingAnchor)
         sliderBarCenterXAnchorConstraint?.isActive = true
         
-        horizontalBarView.bottomAnchor.constraint(equalTo: nav.navigationBar.bottomAnchor).isActive = true
+//        nav.navigationBar.layoutIfNeeded()
 
-        horizontalBarWidthConstraint = horizontalBarView.widthAnchor.constraint(equalToConstant: 50)
-        horizontalBarWidthConstraint?.isActive = true
+//        horizontalBarWidthConstraint = horizontalBarView.widthAnchor.constraint(equalToConstant: 50)
+//        horizontalBarWidthConstraint?.isActive = true
         
-        horizontalBarView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-
     }
 
     
@@ -277,13 +274,10 @@ class MasterCollectionView: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
         collectionView.alpha = 0
+        
         self.view.addSubview(collectionView)
-        self.automaticallyAdjustsScrollViewInsets = false
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
+
+        collectionView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         collectionView.register(NotificationsPage.self, forCellWithReuseIdentifier: "NotificationsPage")
         collectionView.register(HomePage.self, forCellWithReuseIdentifier: "HomePage")
