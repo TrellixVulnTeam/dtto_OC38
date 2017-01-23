@@ -152,8 +152,8 @@ class MasterCollectionView: UIViewController {
         setupNavBar()
         setupHorizontalBar()
         setupCollectionView()
-        observeChats()
-        observeNotifications()
+//        observeChats()
+//        observeNotifications()
         
     }
     

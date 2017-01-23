@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
     
     lazy var tableView: UITableView = {
 
-        let tv = UITableView(frame: .zero, style: .plain)
+        let tv = UITableView(frame: .zero, style: .grouped)
         tv.dataSource = self
         tv.delegate = self
         tv.alpha = 0
@@ -55,6 +55,10 @@ class ProfileViewController: UIViewController {
         present(UINavigationController(rootViewController: ProfileEditViewController(user: self.user)), animated: true, completion: nil)
     }
     
+    func settings() {
+        present(UINavigationController(rootViewController: SettingsViewController()), animated: true, completion: nil)
+    }
+    
     func logout() {
         defaults.setValue(nil, forKey: "uid")
         
@@ -74,10 +78,13 @@ class ProfileViewController: UIViewController {
     private func setupNavBar() {
         
         let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(edit))
-        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settings))
+
+//        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
         
         self.navigationItem.leftBarButtonItem = editButton
-        self.navigationItem.rightBarButtonItem = logoutButton
+        self.navigationItem.rightBarButtonItem = settingsButton
+//        self.navigationItem.rightBarButtonItem = logoutButton
         
     }
     
@@ -139,8 +146,8 @@ class ProfileViewController: UIViewController {
             user.username = username
             self.navigationItem.title = username
             
-            if let age = userSnapshot["age"] as? Int {
-                user.age = age
+            if let birthday = userSnapshot["birthday"] as? String {
+                user.birthday = birthday
             }
             
             if let education = userSnapshot["education"] as? Dictionary<String, Int> {
@@ -218,15 +225,19 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 
     }
     
+//    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+//        return UITableViewAutomaticDimension
+//    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
+
         if tableView.numberOfRows(inSection: section) != 0 {
             
             guard let section = Section(rawValue: section) else { return 0 }
             
             switch section {
             case .Education, .Profession, .Expertise, .Summary:
-                return UITableViewAutomaticDimension
+                return 30
             default:
                 return 0
             }
@@ -240,23 +251,39 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        guard let section = Section(rawValue: section) else { return nil }
-        
-        switch section {
-        case .Education:
-            return ProfileSectionHeader(sectionTitle: "Education")
-        case .Profession:
-            return ProfileSectionHeader(sectionTitle: "Profession")
-        case .Expertise:
-            return ProfileSectionHeader(sectionTitle: "Expertise")
-        case .Summary:
-            return ProfileSectionHeader(sectionTitle: "Summary")
-        default:
-            return nil
-            
+
+        if tableView.numberOfRows(inSection: section) != 0 {
+            return "  Section"
         }
+        else {
+            return nil
+        }
+        
+    }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        
+//        guard let section = Section(rawValue: section) else { return nil }
+//        
+//        switch section {
+//        case .Education:
+//            return ProfileSectionHeader(sectionTitle: "Education")
+//        case .Profession:
+//            return ProfileSectionHeader(sectionTitle: "Profession")
+//        case .Expertise:
+//            return ProfileSectionHeader(sectionTitle: "Expertise")
+//        case .Summary:
+//            return ProfileSectionHeader(sectionTitle: "Summary")
+//        default:
+//            return nil
+//            
+//        }
+//    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

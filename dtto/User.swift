@@ -13,7 +13,7 @@ class User: NSObject {
     var name: String?
     var username: String?
     var gender: String?
-    var age: Int?
+    var birthday: String?
     var email: String?
     
     var education = [String]()

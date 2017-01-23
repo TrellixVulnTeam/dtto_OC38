@@ -23,7 +23,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     override func setupViews() {
         
-        observePosts()
+//        observePosts()
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical

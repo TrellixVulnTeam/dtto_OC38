@@ -11,6 +11,8 @@ import Firebase
 
 class DatePickerViewController: UIViewController, FormNavigationBar {
 
+    weak var mainEditDelegate: ProfileEditViewController?
+    
     let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
@@ -46,22 +48,14 @@ class DatePickerViewController: UIViewController, FormNavigationBar {
     }
     
     func save() {
-        let birthday = datePicker.date
         
-        guard let userID = defaults.getUID() else { return }
-        
-        let birthdayRef = FIREBASE_REF.child(userID).child("birthday")
-        birthdayRef.setValue(birthday)
-        
+        mainEditDelegate?.updateBirthday(date: datePicker.date)
+        dismiss(animated: true, completion: nil)
     }
 
     func removeBirthday() {
-
-        guard let userID = defaults.getUID() else { return }
-        
-        let birthdayRef = FIREBASE_REF.child(userID).child("birthday")
-        birthdayRef.removeValue()
-
+        mainEditDelegate?.updateBirthday(date: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {

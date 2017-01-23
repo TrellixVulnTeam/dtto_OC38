@@ -74,6 +74,7 @@
 		04A97E711E20D607008DA2A3 /* AccountPostsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A97E701E20D607008DA2A3 /* AccountPostsTableView.swift */; };
 		04AF68511DFF748600216652 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AF68501DFF748600216652 /* Message.swift */; };
 		04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B159E81DDFFBE200B6C74C /* FirebaseService.swift */; };
+		04B29A5F1E35B57000347821 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B29A5E1E35B57000347821 /* SettingsViewController.swift */; };
 		04BBE56D1E13698800D4559E /* ProfileInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBE56B1E13698800D4559E /* ProfileInfoCell.swift */; };
 		04BBE5711E13706D00D4559E /* ProfileImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBE56F1E13706D00D4559E /* ProfileImageCell.swift */; };
 		04BD6EC01E0C986C00036DC7 /* RequestsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */; };
@@ -94,6 +95,8 @@
 		04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4EFA21E0A5DE700F1DDFA /* Date.swift */; };
 		04F6945E1E04D49600557833 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6945C1E04D49600557833 /* QuestionCell.swift */; };
 		04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6EFBD1E0B6C1D0055015F /* Notification.swift */; };
+		04F9BB201E358D6700724549 /* EditUserImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F9BB1F1E358D6700724549 /* EditUserImageCell.swift */; };
+		04F9BB221E3594FC00724549 /* EditUserSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F9BB211E3594FC00724549 /* EditUserSummaryCell.swift */; };
 		04FC41131E30559C00F59132 /* EditUserInfoSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FC41121E30559C00F59132 /* EditUserInfoSearchCell.swift */; };
 		28DC166C665F928AA6088372 /* Pods_BounceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA19DACCD76D2FE8D5DBF0 /* Pods_BounceTests.framework */; };
 		5DAE27372C9348101770911C /* Pods_dtto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6D31459ECB2325DB96E01AC /* Pods_dtto.framework */; };
@@ -206,6 +209,7 @@
 		04A97E701E20D607008DA2A3 /* AccountPostsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountPostsTableView.swift; sourceTree = "<group>"; };
 		04AF68501DFF748600216652 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		04B159E81DDFFBE200B6C74C /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		04B29A5E1E35B57000347821 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		04BBE56B1E13698800D4559E /* ProfileInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInfoCell.swift; sourceTree = "<group>"; };
 		04BBE56F1E13706D00D4559E /* ProfileImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageCell.swift; sourceTree = "<group>"; };
 		04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsPreview.swift; sourceTree = "<group>"; };
@@ -229,6 +233,8 @@
 		04F4EFA21E0A5DE700F1DDFA /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		04F6945C1E04D49600557833 /* QuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		04F6EFBD1E0B6C1D0055015F /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		04F9BB1F1E358D6700724549 /* EditUserImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserImageCell.swift; sourceTree = "<group>"; };
+		04F9BB211E3594FC00724549 /* EditUserSummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserSummaryCell.swift; sourceTree = "<group>"; };
 		04FAE7A11DE296650074CA39 /* dtto-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dtto-Bridging-Header.h"; sourceTree = "<group>"; };
 		04FC41121E30559C00F59132 /* EditUserInfoSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserInfoSearchCell.swift; sourceTree = "<group>"; };
 		064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bounce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -376,8 +382,10 @@
 			isa = PBXGroup;
 			children = (
 				0410DF811E2DB89A00592920 /* ProfileEditViewController.swift */,
+				04F9BB1F1E358D6700724549 /* EditUserImageCell.swift */,
 				0434766C1E2F0B64008B1E9E /* EditUserInfoBaseCell.swift */,
 				04FC41121E30559C00F59132 /* EditUserInfoSearchCell.swift */,
+				04F9BB211E3594FC00724549 /* EditUserSummaryCell.swift */,
 				046D56791E342BF200409034 /* DatePickerViewController.swift */,
 			);
 			name = ProfileEdit;
@@ -516,6 +524,7 @@
 				04BBE56B1E13698800D4559E /* ProfileInfoCell.swift */,
 				04EA047E1E121C1C00B0A984 /* ProfileExpertiseCell.swift */,
 				04EA04821E121D3600B0A984 /* ProfileSummaryCell.swift */,
+				04B29A5E1E35B57000347821 /* SettingsViewController.swift */,
 				0434766B1E2F0B2F008B1E9E /* ProfileEdit */,
 			);
 			name = Profile;
@@ -911,11 +920,14 @@
 				04A97E6B1E20CE57008DA2A3 /* ProfileStatsHeaderView.swift in Sources */,
 				049AB6B41DFE869700B45DC3 /* ChatListCell.swift in Sources */,
 				0413AB9F1E23357600C7198C /* NameViewController.swift in Sources */,
+				04F9BB221E3594FC00724549 /* EditUserSummaryCell.swift in Sources */,
 				041032AC1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift in Sources */,
 				041B39381E1DD73C003E130E /* PostTextCell.swift in Sources */,
 				0470790A1E060BA10059C360 /* Requests.swift in Sources */,
+				04B29A5F1E35B57000347821 /* SettingsViewController.swift in Sources */,
 				041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */,
 				04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */,
+				04F9BB201E358D6700724549 /* EditUserImageCell.swift in Sources */,
 				049AB6B11DFE841F00B45DC3 /* ChatList.swift in Sources */,
 				0442E0AD1E2AE9AC00B7BC4D /* ResolveChatViewController.swift in Sources */,
 				045AB2921DFE71B1009D9394 /* Post.swift in Sources */,

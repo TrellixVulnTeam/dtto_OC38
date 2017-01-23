@@ -8,8 +8,13 @@
 
 import UIKit
 import GooglePlaces
+import Firebase
 
-
+protocol MainEditViewDelegate {
+    
+    func updateBirthday(date: Date?)
+    
+}
 
 class ProfileEditViewController: UIViewController,FormNavigationBar {
 
@@ -26,29 +31,30 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
     }
     
     lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
+        let tv = UITableView(frame: .zero, style: .grouped)
         tv.delegate = self
         tv.dataSource = self
         tv.backgroundColor = .white
         tv.estimatedRowHeight = 50
-        tv.separatorStyle = .none
+//        tv.separatorStyle = .none
         tv.showsVerticalScrollIndicator = true
         
         tv.register(EditUserInfoBaseCell.self, forCellReuseIdentifier: "EditUserInfoBaseCell")
+        tv.register(EditUserImageCell.self, forCellReuseIdentifier: "EditUserImageCell")
+        tv.register(EditUserSummaryCell.self, forCellReuseIdentifier: "EditUserSummaryCell")
         return tv
     }()
     
     private func setupViews() {
         
+        automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = .white
         
         view.addSubview(tableView)
 
         tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        
-        
+    
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,12 +69,55 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
         tableView.deselectRow(at: index, animated: true)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.endEditing(true)
+    }
+    
     func cancel() {
         dismiss(animated: true, completion: nil)
     }
     
     func save() {
-        selectPicture()
+        updateName()
+        updateBirthday()
+//        selectPicture()
+    }
+    
+    func enableSaveButton() {
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        navigationItem.rightBarButtonItem?.tintColor = Color.darkNavy
+    }
+    
+    private func updateName() {
+        
+        guard let userID = defaults.getName(), let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? EditUserInfoBaseCell else { return }
+
+        guard let nameField = cell.userInfoTextField.text, let name = user.name, name != nameField else { return }
+        
+        let nameRef = FIREBASE_REF.child("users").child(userID).child("name")
+        nameRef.setValue(name)
+
+    }
+    
+    private func updateBirthday() {
+        
+        guard let userID = defaults.getUID(), let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? EditUserInfoBaseCell else { return }
+   
+        let birthdayRef = FIREBASE_REF.child(userID).child("birthday")
+        
+        if let birthdayField = cell.userInfoTextField.text, birthdayField != "Add your birthday" {
+            if let userBirthday = user.birthday, userBirthday == birthdayField {
+  
+            }
+            else {
+                birthdayRef.setValue(birthdayField)
+            }
+        }
+        else {
+            birthdayRef.removeValue()
+        }
+        
     }
 
 }
@@ -78,9 +127,13 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
 extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource {
     
     private enum Section: Int {
-        
+
+        case Image
         case Name
         case Birthday
+        case Education
+        case Profession
+        case Summary
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -90,8 +143,12 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
+        case 0:
+            return 1
         case 1:
             return 2
+        case 5:
+            return 1
         default:
             return 0
         }
@@ -120,14 +177,18 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return UITableViewAutomaticDimension
-        
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
+            
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserImageCell") as! EditUserImageCell
+            cell.profileImage.setBackgroundImage(#imageLiteral(resourceName: "profile"), for: UIControlState())
+            cell.selectionStyle = .none
+            return cell
             
         case 1:
             
@@ -136,16 +197,21 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
             switch indexPath.row {
             
             case 0:
-                cell.infoLabel.text = "Pls"
-                cell.userInfoTextField.placeholder = "Jitae"
+                cell.infoLabel.text = "Name"
+                cell.userInfoTextField.placeholder = user.name ?? "Add your name"
+                cell.selectionStyle = .none
                 
             default:
                 cell.infoLabel.text = "Birthday"
-                cell.userInfoTextField.placeholder = "11-11-93"
+                cell.userInfoTextField.placeholder = user.birthday ?? "Add your birthday"
+                cell.userInfoTextField.isUserInteractionEnabled = false
             }
             
             return cell
             
+        case 5:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserSummaryCell") as! EditUserSummaryCell
+            return cell
         default:
             return UITableViewCell()
         }
@@ -154,21 +220,17 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        let autocompleteController = GMSAutocompleteViewController()
-//        let filter = GMSAutocompleteFilter()
-//        filter.type = .establishment
-//        autocompleteController.autocompleteFilter = filter
-//        autocompleteController.delegate = self
-//        
-//        present(autocompleteController, animated: true, completion: nil)
-        
         switch indexPath.section {
             
         case 1:
             switch indexPath.row {
+            case 0:
+                guard let nameCell = tableView.cellForRow(at: indexPath) as? EditUserInfoBaseCell else { return }
+                _ = nameCell.userInfoTextField.becomeFirstResponder()
+                
             case 1:
-                print("BIRTHDAY")
                 let datePickerVC = DatePickerViewController()
+                datePickerVC.mainEditDelegate = self
                 present(UINavigationController(rootViewController: datePickerVC), animated: true, completion: nil)
             default:
                 break
@@ -180,6 +242,23 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
     }
 }
 
+extension ProfileEditViewController: MainEditViewDelegate {
+    
+    func updateBirthday(date: Date?) {
+        
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? EditUserInfoBaseCell else { return }
+        
+        if let date = date {
+            cell.userInfoTextField.text = "\(date)"
+        }
+        else {
+            cell.userInfoTextField.text = "Add your birthday"
+        }
+        
+        enableSaveButton()
+        
+    }
+}
 
 extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
@@ -214,6 +293,15 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
 }
 
 extension ProfileEditViewController: GMSAutocompleteViewControllerDelegate {
+    
+    //        let autocompleteController = GMSAutocompleteViewController()
+    //        let filter = GMSAutocompleteFilter()
+    //        filter.type = .establishment
+    //        autocompleteController.autocompleteFilter = filter
+    //        autocompleteController.delegate = self
+    //
+    //        present(autocompleteController, animated: true, completion: nil)
+    
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
