@@ -11,8 +11,7 @@ import UIKit
 class TransitioningObject: NSObject, UIViewControllerAnimatedTransitioning {
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let fromView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
-        let toView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
+        guard let fromView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.from), let toView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.to) else { return }
         
         transitionContext.containerView.addSubview(fromView)
         transitionContext.containerView.addSubview(toView)

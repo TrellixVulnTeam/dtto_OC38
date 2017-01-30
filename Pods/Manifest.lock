@@ -1,13 +1,14 @@
 PODS:
+  - Batch (1.7.3)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - FBSDKCoreKit (4.18.0):
+  - FBSDKCoreKit (4.19.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.18.0):
+  - FBSDKLoginKit (4.19.0):
     - FBSDKCoreKit
   - Firebase (3.11.1):
     - Firebase/Core (= 3.11.1)
@@ -87,6 +88,7 @@ PODS:
   - Stripe (9.3.0)
 
 DEPENDENCIES:
+  - Batch (~> 1.6)
   - FBSDKLoginKit
   - Firebase
   - Firebase/Auth
@@ -111,9 +113,10 @@ CHECKOUT OPTIONS:
     :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
 
 SPEC CHECKSUMS:
+  Batch: 33183bfc82e3dc9156f13d14d2a0e5c6680eb59c
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  FBSDKCoreKit: 15fef8804a4629f98c6f4e55e81a76c9d725d85e
-  FBSDKLoginKit: 6773073e970b2b15fb12e451ce7f11da0532b880
+  FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
+  FBSDKLoginKit: 83ca4d8f12a2022570af9fd6aacf27f6b425b99f
   Firebase: 53b2343db1ebfa3eb16bdb4318b8bb65360b2220
   FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
   FirebaseAuth: b436e4ecebe068bf8e8c6e4e29de5756ffe7ee24
@@ -138,6 +141,6 @@ SPEC CHECKSUMS:
   SkyFloatingLabelTextField: 070e749632ffd608d6fd9db3fa488a822524997c
   Stripe: 0f41a33a6fa3ac76ee668d7df3e2680c28b8ab1a
 
-PODFILE CHECKSUM: ab29420581afc93f56e2cca00934bcea2620ec18
+PODFILE CHECKSUM: 24ac2fe591e35c05d5e4aa055474183de472d2ab
 
 COCOAPODS: 1.2.0.beta.1

@@ -124,7 +124,16 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return TransitioningObject()
+        
+        if toVC.childViewControllers[0] is ComposePostViewController {
+            let navController = UINavigationController(rootViewController: ComposePostViewController())
+            tabBarController.present(navController, animated: true)
+            return nil
+        }
+        else {
+            return TransitioningObject()
+        }
+        
         
     }
     
