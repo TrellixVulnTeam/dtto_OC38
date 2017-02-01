@@ -103,9 +103,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             for (index, post) in self.posts.enumerated() {
                 if post.postID == uidToRemove {
                     self.posts.remove(at: index)
-                    DispatchQueue.main.async(execute: {
+//                    DispatchQueue.main.async(execute: {
                         self.collectionView.deleteSections(IndexSet(integer: index))
-                    })
+//                    })
                 }
             }
             
@@ -149,7 +149,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                         "name": "Jae",
                         "postID" : postID,
                         "timestamp" : "11-11",
-                        "uid" : "uid2",
+                        "uid" : userID,
                         "pending" : true
                     ]
                     
@@ -164,7 +164,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             chatRequestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
                 
                 // if poster has not ignored yet, cancel the request.
-                if snapshot.value as! Bool == true {
+                if snapshot.value as? Bool == true {
                     
                     dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
                     chatRequestRef.removeValue()

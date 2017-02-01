@@ -59,6 +59,7 @@ class Requests: BaseCollectionViewCell {
         badge.anchor(top: profile.topAnchor, leading: nil, trailing: profile.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
 
         requestsLabel.anchor(top: nil, leading: profile.trailingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        requestsLabel.anchorCenterYToSuperview()
 
     }
     

@@ -56,7 +56,9 @@ class NotificationsPage:  BaseCollectionViewCell {
     private func observeNotifications() {
         
         print("Getting notifications...")
-        let notificationsRef = FIREBASE_REF.child("relatesNotifications/uid1")
+        guard let userID = defaults.getUID() else { return }
+        
+        let notificationsRef = FIREBASE_REF.child("relatesNotifications").child(userID)
         notificationsRef.observe(.childAdded, with: { snapshot in
 
             guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }

@@ -81,45 +81,73 @@ class RequestsViewController: UIViewController, RequestsDelegate {
     private func observeRequests() {
         
         guard let userID = defaults.getUID() else { return }
-        
+
         let requestsRef = FIREBASE_REF.child("requests/\(userID)")
-        requestsRef.observe(.childAdded, with: { snapshot in
+
+        requestsRef.observe(.childAdded, with: { postID in
+
+            let postID = postID.key
             
-            guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            requestsRef.child(postID).observe(.childAdded, with: { snapshot in
+                
+                if let userNotifications = snapshot.value as? Dictionary<String, AnyObject> {
+                    
+                    if let uid = userNotifications["uid"] as? String, let name = userNotifications["name"] as? String,  let timestamp = userNotifications["timestamp"] as? String {
+                        
+                        let notification = UserNotification()
+                        
+                        notification.postID = postID
+                        notification.name = name
+                        notification.userID = uid
+                        // process timestamp
+                        notification.timestamp = timestamp
+                        
+                        self.requests.append(notification)
+                        self.tableView.reloadData()
+                        
+                    }
+
+                }
+                
+            })
             
-            guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let postID = userNotifications["postID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
-            
-            let notification = UserNotification()
-            
-            notification.name = name
-            notification.postID = postID
-            notification.userID = uid
-            notification.notificationID = notificationID
-            // process timestamp
-            notification.timestamp = timestamp
-            if let profileImageURL = userNotifications["profileImageURL"] as? String {
-                notification.profileImageURL = profileImageURL
-            }
-            
-            self.requests.append(notification)
-            self.tableView.reloadData()
-        })
-        
-        requestsRef.observe(.childRemoved, with: { snapshot in
-            
-            let requestToRemove = snapshot.key
-            
-            for (index, request) in self.requests.enumerated() {
-                if let notificationID = request.notificationID {
-                    if requestToRemove == notificationID {
-                        self.requests.remove(at: index)
-                        let indexPath = IndexPath(row: index, section: 0)
-                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+            requestsRef.child(postID).observe(.childRemoved, with: { snapshot in
+                
+                let removeRequestID = snapshot.key
+
+                for (index, request) in self.requests.enumerated() {
+
+                    if let requestPostID = request.postID, let requestUserID = request.userID {
+                        if requestPostID == postID && requestUserID == removeRequestID {
+                            self.requests.remove(at: index)
+                            let indexPath = IndexPath(row: index, section: 0)
+                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                        }
                     }
                 }
-            }
+
+                
+            })
             
         })
+        
+        
+//        requestsRef.observe(.childRemoved, with: { postID in
+//            
+//            let postID = postID.key
+//            
+//            requestsRef.
+//            for (index, request) in self.requests.enumerated() {
+//                if let notificationID = request.notificationID {
+//                    if requestToRemove == notificationID {
+//                        self.requests.remove(at: index)
+//                        let indexPath = IndexPath(row: index, section: 0)
+//                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+//                    }
+//                }
+//            }
+//
+//        })
         
     }
 
@@ -149,7 +177,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
         let request = requests[row]
         
-        guard let userID = defaults.getUID(), let friendID = request.userID, let friendName = request.name, let postID = request.postID, let requestID = request.notificationID else { return }
+        guard let userID = defaults.getUID(), let friendID = request.userID, let friendName = request.name, let postID = request.postID else { return }
         
         let userName = FIRAuth.auth()?.currentUser?.displayName ?? "Anonymous"
         
@@ -195,8 +223,9 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         }
         
         // remove this request.
-        dataRequest.removeRequest(requestID: requestID)
-        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
+        let requestID = FIREBASE_REF.child("requests").child(userID).child(postID).child(friendID)
+        requestID.removeValue()
+//        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
 
         
     }
