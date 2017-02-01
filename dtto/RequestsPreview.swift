@@ -12,7 +12,11 @@ import MIBadgeButton_Swift
 class RequestsPreview: UIView {
 
     let profile = RoundImageView()
-    let requestsLabel = UILabel()
+    let requestsLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        return label
+    }()
     let badge = MIBadgeButton()
     
     var requestsCount: Int? {
@@ -36,20 +40,13 @@ class RequestsPreview: UIView {
         addSubview(profile)
         addSubview(badge)
         
-        profile.translatesAutoresizingMaskIntoConstraints = false
-        profile.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        profile.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        profile.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        profile.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        profile.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        profile.anchorCenterYToSuperview()
         
-        badge.translatesAutoresizingMaskIntoConstraints = false
-        badge.topAnchor.constraint(equalTo: profile.topAnchor).isActive = true
-        badge.trailingAnchor.constraint(equalTo: profile.trailingAnchor).isActive = true
+        badge.anchor(top: profile.topAnchor, leading: nil, trailing: profile.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        requestsLabel.translatesAutoresizingMaskIntoConstraints = false
-        requestsLabel.leadingAnchor.constraint(equalTo: profile.trailingAnchor, constant: 10).isActive = true
-        requestsLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        requestsLabel.textColor = .black
+        requestsLabel.anchor(top: nil, leading: profile.trailingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        requestsLabel.anchorCenterYToSuperview()
         
     }
     

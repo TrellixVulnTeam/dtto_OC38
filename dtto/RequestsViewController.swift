@@ -67,15 +67,11 @@ class RequestsViewController: UIViewController, RequestsDelegate {
     
     private func setupViews() {
         
-        self.navigationItem.title = "Chat Requests"
-        self.navigationItem.rightBarButtonItem = viewChatsButton
-        self.view.addSubview(tableView)
+        navigationItem.title = "Chat Requests"
+        navigationItem.rightBarButtonItem = viewChatsButton
+        view.addSubview(tableView)
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        tableView.anchor(top: view.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         tableView.register(RequestsViewCell.self, forCellReuseIdentifier: "RequestsViewCell")
         

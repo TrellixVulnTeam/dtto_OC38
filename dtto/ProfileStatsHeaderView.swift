@@ -28,14 +28,10 @@ class ProfileStatsHeaderView: UIView {
         addSubview(sectionLabel)
         addSubview(underline)
         
-        sectionLabel.translatesAutoresizingMaskIntoConstraints = false
-        sectionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        sectionLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        
-        underline.translatesAutoresizingMaskIntoConstraints = false
-        underline.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        underline.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        underline.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        sectionLabel.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        sectionLabel.anchorCenterYToSuperview()
+
+        underline.anchor(top: nil, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
     }
     

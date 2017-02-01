@@ -44,11 +44,7 @@ class NotificationsPage:  BaseCollectionViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        collectionView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         collectionView.register(Requests.self, forCellWithReuseIdentifier: "Requests")
         collectionView.register(Notifications.self, forCellWithReuseIdentifier: "Notifications")

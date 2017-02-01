@@ -25,12 +25,9 @@ class Notifications: BaseCollectionViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        self.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        addSubview(collectionView)
+        
+        collectionView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         collectionView.register(NotificationsCell.self, forCellWithReuseIdentifier: "NotificationsCell")
 
     }
@@ -80,16 +77,12 @@ class NotificationsCell: BaseCollectionViewCell {
         desc.sizeToFit()
         addSubview(desc)
         addSubview(profile)
-        profile.translatesAutoresizingMaskIntoConstraints = false
-        desc.translatesAutoresizingMaskIntoConstraints = false
-        profile.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        profile.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        profile.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        profile.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        profile.trailingAnchor.constraint(equalTo: desc.leadingAnchor, constant: -10).isActive = true
-        desc.centerYAnchor.constraint(equalTo: profile.centerYAnchor).isActive = true
-        desc.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
         
+        profile.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        profile.anchorCenterYToSuperview()
+
+        desc.anchor(top: nil, leading: profile.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        desc.anchorCenterYToSuperview()
     }
     
     

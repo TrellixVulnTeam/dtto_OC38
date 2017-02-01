@@ -7,7 +7,7 @@
 		<key>dtto.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<true />
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
@@ -17,17 +17,17 @@
 		<key>04045C201DDFA010002BBD07</key>
 		<dict>
 			<key>primary</key>
-			<true/>
+			<true />
 		</dict>
 		<key>04045C341DDFA010002BBD07</key>
 		<dict>
 			<key>primary</key>
-			<true/>
+			<true />
 		</dict>
 		<key>04045C3F1DDFA010002BBD07</key>
 		<dict>
 			<key>primary</key>
-			<true/>
+			<true />
 		</dict>
 	</dict>
 </dict>

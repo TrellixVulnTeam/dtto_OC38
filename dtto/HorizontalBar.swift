@@ -20,12 +20,8 @@ class HorizontalBar: UIView {
         let bar = UIView()
         bar.backgroundColor = .lightGray
         addSubview(bar)
-        bar.translatesAutoresizingMaskIntoConstraints = false
-        bar.heightAnchor.constraint(equalToConstant: 1.0/UIScreen.main.scale).isActive = true
-        bar.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        bar.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        bar.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        
+        bar.anchor(top: nil, leading: leadingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 1.0/UIScreen.main.scale)
+        bar.anchorCenterYToSuperview()
     }
     
     required init?(coder aDecoder: NSCoder) {

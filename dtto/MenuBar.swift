@@ -56,39 +56,37 @@ class MenuBar: UIView {
     func setupBottomBorder() {
         let bottomBorderView = UIView()
         bottomBorderView.backgroundColor = Color.lightGray
-        bottomBorderView.translatesAutoresizingMaskIntoConstraints = false
+
         addSubview(bottomBorderView)
-        bottomBorderView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        bottomBorderView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        bottomBorderView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        bottomBorderView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        bottomBorderView.anchor(top: nil, leading: leadingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 1)
+
     }
     
     func setupHorizontalBar() {
         let horizontalBarView = UIView()
         horizontalBarView.backgroundColor = Color.lightGreen
         
-        horizontalBarView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(horizontalBarView)
+        
+        horizontalBarView.anchor(top: nil, leading: nil, trailing: nil, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 2)
         
         horizontalBarLeftAnchorConstraint = horizontalBarView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10)
         horizontalBarLeftAnchorConstraint?.isActive = true
         
-        horizontalBarView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        horizontalBarView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: CGFloat(1)/CGFloat(numberOfItems), constant: -20).isActive = true
-        horizontalBarView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+//        horizontalBarView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+//        horizontalBarView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: CGFloat(1)/CGFloat(numberOfItems), constant: -20).isActive = true
+//        horizontalBarView.heightAnchor.constraint(equalToConstant: 2).isActive = true
 
     }
     
     func setupSectionSeparator() {
         let line = UIView()
         line.backgroundColor = Color.lightGray
-        line.translatesAutoresizingMaskIntoConstraints = false
+
         addSubview(line)
-        line.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
-        line.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
-        line.widthAnchor.constraint(equalToConstant: 1).isActive = true
-        line.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        
+        line.anchor(top: topAnchor, leading: nil, trailing: nil, bottom: bottomAnchor, topConstant: 5, leadingConstant: 0, trailingConstant: 0, bottomConstant: 5, widthConstant: 1, heightConstant: 0)
+
         
     }
     
@@ -155,10 +153,8 @@ class MenuCell: UICollectionViewCell {
     }
     func setupViews() {
         
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(nameLabel)
-        addConstraint(NSLayoutConstraint(item: nameLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: nameLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        nameLabel.anchorCenterSuperview()
     }
     
     required init?(coder aDecoder: NSCoder) {
