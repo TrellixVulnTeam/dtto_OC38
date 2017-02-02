@@ -58,58 +58,20 @@ class MasterCollectionView: UIViewController {
             let chatID = snapshot.key
             
             let chatRoomRef = FIREBASE_REF.child("chats/\(chatID)")
-            chatRoomRef.observe(.value, with: { snapshot in
+        
 
-                guard let userChat = snapshot.value as? NSDictionary else { return }
-                
-                guard let users = userChat["users"] as? Dictionary<String, AnyObject>, let postID = userChat["postID"] as? String else { return }
-                
-                let chat = Chat()
-                
-                for user in users {
-                    // get the other user's information
-                    if user.key != userID {
-                        
-                        if let friendName = user.value as? String {
-                            chat.name = friendName
-                        }
-                        
-                    }
-                }
-                
-                chat.chatID = chatID
-                chat.postID = postID
-                
-                if let senderID = userChat["senderID"] as? String, let lastMessage = userChat["lastMessage"] as? String!, let timestamp = userChat["timestamp"] as? String {
-                    
-                    chat.senderID = senderID
-                    chat.lastMessage = lastMessage
-                    
-//                    let cal = Calendar(identifier: .gregorian)
-//                    let c = Calendar.current
-//                    let current = c.startOfDay(for: Date())
-                    let currentDate = Date()
-                    let timestampDate = stringToDate(timestamp)
-                    
-                    
-                    // just show hours and minutes.
-                    
-                    chat.timestamp = timestamp
-                    
-                }
+            chatRoomRef.observe(.value, with: { chatSnapshot in
 
-                if let profileImageURL = userChat["profileImageURL"] as? String {
-                    chat.profileImageURL = profileImageURL
-                }
-                
+                let chat = Chat(snapshot: chatSnapshot)
+                // insert
                 self.chats.insert(chat, at: 0)
-                
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                     print("Reloaded master")
                 }
                 
             })
+            
             
         })  
         
@@ -152,7 +114,7 @@ class MasterCollectionView: UIViewController {
         setupNavBar()
         setupHorizontalBar()
         setupCollectionView()
-//        observeChats()
+        observeChats()
 //        observeNotifications()
         
     }

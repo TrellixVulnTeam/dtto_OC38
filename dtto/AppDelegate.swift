@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configure Firebase
         FIRApp.configure()
-        FIRDatabase.database().persistenceEnabled = true
+//        FIRDatabase.database().persistenceEnabled = true
         
         // Configure Google Places
         GMSPlacesClient.provideAPIKey("AIzaSyCnPwF0sigqf4nlHoIgu1QRos4nQYgwbH4")

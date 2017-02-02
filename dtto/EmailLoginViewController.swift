@@ -156,7 +156,7 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
                 else {
                     guard let user = FIRAuth.auth()?.currentUser else { return }
                     defaults.setUID(value: user.uid)
-                    
+                    defaults.setLogin(value: true)
                     if let name = user.displayName {
                         defaults.setName(value: name)
                     }

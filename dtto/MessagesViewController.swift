@@ -54,10 +54,6 @@ final class MessagesViewController: JSQMessagesViewController {
 
     }
     
-    private func setupCollectionView() {
-        collectionView.collectionViewLayout = AnimatedFlowLayout()
-    }
-    
     func resolveChat() {
         
         let resolveChatVC = ResolveChatViewController()
@@ -89,14 +85,13 @@ final class MessagesViewController: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getMessages()
-        self.view.backgroundColor = .white
-        self.senderId = "uid1"
-        self.senderDisplayName = "Jitae"
-        self.title = chat.name ?? "Anonymous"
-        hideKeyboardWhenTappedAround()
         setupNavBar()
-        setupCollectionView()
+        setupChat()
+        
+        getMessages()
+        view.backgroundColor = .white
+        hideKeyboardWhenTappedAround()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,6 +100,16 @@ final class MessagesViewController: JSQMessagesViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
 
+    func setupChat() {
+        
+        guard let userID = defaults.getUID() else { return }
+        senderId = userID
+        
+        senderDisplayName = FIRAuth.auth()?.currentUser?.displayName ?? "Me"
+
+        title = chat.name ?? "Anonymous"
+
+    }
     
     
     // MARK: JSQMessages Delegate Methods

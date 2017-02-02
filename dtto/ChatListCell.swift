@@ -28,7 +28,6 @@ class ChatListCell: BaseCollectionViewCell {
     
     let lastMessageLabel: UILabel = {
         let label = UILabel()
-        label.text = "Some last message text"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .lightGray
         return label

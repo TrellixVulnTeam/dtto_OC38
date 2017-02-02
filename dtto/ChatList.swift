@@ -44,7 +44,7 @@ extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
+        print(chats.count)
         return chats.count
     }
     
@@ -56,6 +56,7 @@ extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 //        cell.nameLabel.text = chats[indexPath.row].name
 //        cell.timestampLabel.text = chats[indexPath.row].timestamp
 //        cell.profileImage.image = #imageLiteral(resourceName: "profile")
+        cell.lastMessageLabel.text = chats[indexPath.row].lastMessage
         
         return cell
         

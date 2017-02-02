@@ -143,7 +143,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 // if poster ignored this user, do nothing on server.
                 if !snapshot.exists() {
                     
-                    dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
+                    dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(friendID)/requestsCount"))
 
                     let request: [String: Any] = [
                         "name": "Jae",

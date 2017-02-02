@@ -21,7 +21,7 @@ class Post: NSObject {
     var tags: String?
     var isAnonymous: Bool = false
     
-
+    
     init(dictionary: [String: AnyObject]) {
         super.init()
         
@@ -42,8 +42,6 @@ class Post: NSObject {
                 self.tags = "\(tags), \(tag.key)"
             }
         }
-        
-
         
     }
     

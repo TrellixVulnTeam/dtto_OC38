@@ -42,7 +42,7 @@ class Requests: BaseCollectionViewCell {
     
     override func setupViews() {
         super.setupViews()
-//        getRequestsCount()
+        getRequestsCount()
         backgroundColor = .white
         badge.badgeBackgroundColor = .red
         badge.badgeTextColor = .white
