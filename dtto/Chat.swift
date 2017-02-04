@@ -18,6 +18,7 @@ class Chat: NSObject {
     var timestamp: String?
     var profileImageURL: String?
     var postID: String?
+    var friendID: String?
     
     init(snapshot: FIRDataSnapshot) {
         super.init()
@@ -32,6 +33,7 @@ class Chat: NSObject {
                 
                 if let friendName = user.value as? String {
                     name = friendName
+                    friendID = user.key
                 }
                 
             }

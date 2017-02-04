@@ -136,19 +136,18 @@ class ComposePostViewController: UIViewController {
         else {
             let postRef = FIREBASE_REF.child("posts")
             
-            if let text = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PostComposeCell)?.postTextView.text, let uid = defaults.getUID() {
+            if let text = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PostComposeCell)?.postTextView.text, let userID = defaults.getUID() {
                 
                 let postID = postRef.childByAutoId().key
                 // TODO: at timestamp
                 let basePost: [String : Any] = ["postID": postID,
-                                                "userID" : uid,
+                                                "userID" : userID,
                                                 "text" : text,
                                                 "relatesCount" : 0,
                                                 "ongoingChatCount" : 0]
                 
                 postRef.child(postID).updateChildValues(basePost)
-                defaults.setName(value: "Jitae")
-                defaults.setUsername(value: "jitae")
+
                 // Add user's names if post is public
                 if postToolbar.publicToggle.isOn {
                     
@@ -159,10 +158,16 @@ class ComposePostViewController: UIViewController {
                     postRef.child(postID).updateChildValues(publicPost)
                 }
                 
+                // Update user stats
+                let userRef = FIREBASE_REF.child("users").child(userID)
+                let dataRequest = FirebaseService.dataRequest
+                dataRequest.incrementCount(ref: userRef.child("postCount"))
+                
             }
                 
             else {
                 print("Could not post")
+                // show some error
             }
             
             dismiss(animated: true, completion: nil)

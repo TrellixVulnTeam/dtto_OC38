@@ -45,7 +45,7 @@ final class MessagesViewController: JSQMessagesViewController {
         let resolveChatButton = UIButton(type: .system)
         resolveChatButton.setImage(#imageLiteral(resourceName: "check"), for: .normal)
         resolveChatButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        
+        resolveChatButton.addTarget(self, action: #selector(resolveChat), for: .touchUpInside)
         let chatSettingsButton = UIButton(type: .system)
         chatSettingsButton.setImage(#imageLiteral(resourceName: "settings"), for: .normal)
         chatSettingsButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
@@ -56,8 +56,25 @@ final class MessagesViewController: JSQMessagesViewController {
     
     func resolveChat() {
         
-        let resolveChatVC = ResolveChatViewController()
-        self.navigationController?.pushViewController(resolveChatVC, animated: true)
+        let chatRef = FIREBASE_REF.child("chats")
+        chatRef.child("resolved").setValue(true)
+        
+        guard let userID = defaults.getUID(), let friendID = chat.friendID else { return }
+        let userRef = FIREBASE_REF.child("users").child(userID)
+        let friendRef = FIREBASE_REF.child("users").child(friendID)
+        
+        let dataRequest = FirebaseService.dataRequest
+        
+        // Update this user's stats
+        dataRequest.incrementCount(ref: userRef.child("helpsReceivedCount"))
+        dataRequest.decrementCount(ref: userRef.child("ongoingChatCount"))
+        
+        // Update the helper's stats
+        dataRequest.incrementCount(ref: friendRef.child("helpsGivenCount"))
+        dataRequest.decrementCount(ref: friendRef.child("ongoingChatCount"))
+        
+//        let resolveChatVC = ResolveChatViewController()
+//        self.navigationController?.pushViewController(resolveChatVC, animated: true)
         
     }
     

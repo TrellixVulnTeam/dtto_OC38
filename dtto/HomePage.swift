@@ -23,6 +23,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     var collectionView: UICollectionView!
     
     override func setupViews() {
+        super.setupViews()
         
         observePosts()
         checkOutgoingRequests()
@@ -37,7 +38,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        self.addSubview(collectionView)
+        addSubview(collectionView)
         collectionView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         collectionView.register(PostProfileCell.self, forCellWithReuseIdentifier: "PostProfileCell")
@@ -66,7 +67,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 self.outgoingRequests.updateValue(true, forKey: postID)
 
                 // find the cell to update and reload the indexpath.
-                DispatchQueue.global().async {
+                DispatchQueue.global().async { [unowned self] in
                     for (index, post) in self.posts.enumerated() {
                         if post.postID == postID {
                             DispatchQueue.main.async {
@@ -117,7 +118,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 for (index, post) in self.posts.enumerated() {
                     if post.postID == uidToChange {
                         self.posts[index] = Post(dictionary: postData)
-                        DispatchQueue.main.async(execute: {
+                        DispatchQueue.main.async(execute: { [unowned self] in
                             self.collectionView.reloadSections(IndexSet(integer: index))
                         })
                     }
@@ -141,7 +142,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             }
             
             // remove on background thread since user isn't viewing this.
-            DispatchQueue.global().async(execute: {
+            DispatchQueue.global().async(execute: { [unowned self] in
                 
                 for (index, post) in self.fullPosts.enumerated() {
                     if post.postID == uidToRemove {
@@ -322,6 +323,11 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             let postRef = FIREBASE_REF.child("posts").child(postID)
             postRef.removeValue()
             print("Removed post.")
+            
+            // Update user stats
+            let userRef = FIREBASE_REF.child("users").child(userID)
+            let dataRequest = FirebaseService.dataRequest
+            dataRequest.decrementCount(ref: userRef.child("postCount"))
         }
         
         

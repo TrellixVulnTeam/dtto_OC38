@@ -56,30 +56,37 @@ class MasterCollectionView: UIViewController {
         userChatsRef.observe(.childAdded, with: { snapshot in
         
             let chatID = snapshot.key
-            
             let chatRoomRef = FIREBASE_REF.child("chats/\(chatID)")
-        
 
             chatRoomRef.observe(.value, with: { chatSnapshot in
-
-                let chat = Chat(snapshot: chatSnapshot)
-                // insert
-                self.chats.insert(chat, at: 0)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                    print("Reloaded master")
-                }
                 
+                DispatchQueue.global().async { [unowned self] in
+                    
+                    var contains = false
+                    for (index, chat) in self.chats.enumerated() {
+                        if chat.chatID == chatID {
+                            DispatchQueue.main.async {
+                                self.chats[index] = Chat(snapshot: chatSnapshot)
+                                self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+                            }
+                            contains = true
+                        }
+                    }
+                    if !contains {
+                        self.chats.append(Chat(snapshot: chatSnapshot))
+                        self.collectionView.reloadData()
+                    }
+                }
             })
-            
-            
         })  
         
     }
     
     private func observeNotifications() {
         
-        let notificationsRef = FIREBASE_REF.child("relatesNotifications/uid1")
+        guard let userID = defaults.getUID() else { return }
+        
+        let notificationsRef = FIREBASE_REF.child("relatesNotifications/\(userID)")
         notificationsRef.observe(.childAdded, with: { snapshot in
             
             guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
