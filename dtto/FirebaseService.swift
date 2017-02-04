@@ -50,9 +50,9 @@ class FirebaseService {
         
     }
     
-    func startChat(ref: FIRDatabaseReference) {
+    func startChat(ref: FIRDatabaseReference, postID: String) {
         
-        ref.setValue(true)
+        ref.setValue(postID)
         
     }
 

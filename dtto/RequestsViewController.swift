@@ -200,8 +200,8 @@ class RequestsViewController: UIViewController, RequestsDelegate {
 
             
             // update chat list for both users, with the chat ID
-            dataRequest.startChat(ref: FIREBASE_REF.child("users/\(userID)/chats/\(autoID)"))
-            dataRequest.startChat(ref: FIREBASE_REF.child("users/\(friendID)/chats/\(autoID)"))
+            dataRequest.startChat(ref: FIREBASE_REF.child("users/\(userID)/chats/\(autoID)"), postID: postID)
+            dataRequest.startChat(ref: FIREBASE_REF.child("users/\(friendID)/chats/\(autoID)"), postID: postID)
         
             // increment number of ongoing chats for post.
             dataRequest.incrementCount(ref: FIREBASE_REF.child("posts/\(postID)/chatCount"))
@@ -222,11 +222,10 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             break
         }
         
-        // remove this request.
+        // remove this request. also change the friend's outgoingRequest to ongoingChat
         let requestID = FIREBASE_REF.child("requests").child(userID).child(postID).child(friendID)
         requestID.removeValue()
-//        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
-
+        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
         
     }
 

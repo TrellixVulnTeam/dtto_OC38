@@ -42,12 +42,12 @@ extension UserDefaults {
         return string(forKey: "username")
     }
     
-    func setOutgoingRequests(value: [String : String]) {
+    func setOutgoingRequests(value: [String : Bool]) {
         set(value, forKey: "outgoingRequests")
     }
     
-    func getOutgoingRequests() -> [String : String] {
-        return object(forKey: "outgoingRequests") as? [String : String] ?? [String : String]()
+    func getOutgoingRequests() -> [String : Bool] {
+        return object(forKey: "outgoingRequests") as? [String : Bool] ?? [String : Bool]()
     }
     
     func hidePost(postID: String) {

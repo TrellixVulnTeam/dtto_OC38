@@ -18,12 +18,14 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     var posts = [Post]()
     var fullPosts = [Post]()
+    var outgoingRequests = [String : Bool]()
     
     var collectionView: UICollectionView!
     
     override func setupViews() {
         
         observePosts()
+        checkOutgoingRequests()
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -47,6 +49,35 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         tap.numberOfTapsRequired = 2
         tap.delegate = self
         collectionView.addGestureRecognizer(tap)
+        
+    }
+    
+    private func checkOutgoingRequests() {
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        outgoingRequests = defaults.getOutgoingRequests()
+        
+        // Check if the user has ongoing requests and update.
+        let ongoingChatsRef = FIREBASE_REF.child("users").child(userID).child("chats")
+        ongoingChatsRef.observe(.childAdded, with: { snapshot in
+            
+            if let postID = snapshot.value as? String {
+                self.outgoingRequests.updateValue(true, forKey: postID)
+
+                // find the cell to update and reload the indexpath.
+                DispatchQueue.global().async {
+                    for (index, post) in self.posts.enumerated() {
+                        if post.postID == postID {
+                            DispatchQueue.main.async {
+                                self.collectionView.reloadSections(IndexSet(integer: index))
+                            }
+                        }
+                    }
+                }
+            }
+            
+        })
         
     }
     
@@ -133,6 +164,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         let dataRequest = FirebaseService.dataRequest
         let chatRequestRef = FIREBASE_REF.child("requests").child(friendID).child(postID).child(userID)
         
+        
         switch chatState {
             
         case .normal:
@@ -164,12 +196,18 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             chatRequestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
                 
                 // if poster has not ignored yet, cancel the request.
-                if snapshot.value as? Bool == true {
-                    
-                    dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
-                    chatRequestRef.removeValue()
+                if snapshot.exists() {
+                    guard let pending = snapshot.value as? Bool else { return }
+                    if pending {
+                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(friendID)/requestsCount"))
+                        chatRequestRef.removeValue()
+
+                    }
+                }
+                else {
                     
                 }
+
                 
             })
 
@@ -393,7 +431,17 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         case .Buttons:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostButtonsCell", for: indexPath) as! PostButtonsCell
             cell.requestChatDelegate = self
-            
+            if let ongoing = outgoingRequests[post.postID!] {
+                if ongoing {
+                    cell.chatState = .ongoing
+                }
+                else {
+                    cell.chatState = .requested
+                }
+            }
+            else {
+                cell.chatState = .normal
+            }
             return cell
             
         case .Relates:

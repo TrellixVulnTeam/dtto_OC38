@@ -20,7 +20,7 @@ class PostButtonsCell: BaseCollectionViewCell {
         didSet {
             switch chatState {
             case .normal:
-                chatButton.setTitle("Request Chat", for: .normal)
+                chatButton.setTitle("Request Chat", for: UIControlState())
                 chatButton.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
                 print("NORMAL")
             case .requested:
@@ -29,6 +29,7 @@ class PostButtonsCell: BaseCollectionViewCell {
                 print("REQUESTED")
             case .ongoing:
                 chatButton.setTitle("Chat ongoing", for: .normal)
+                chatButton.setImage(#imageLiteral(resourceName: "chatSelected"), for: .normal)
                 print("ONGOING")
             }
         }
@@ -46,7 +47,7 @@ class PostButtonsCell: BaseCollectionViewCell {
         button.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
         button.setTitle("Request Chat", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.titleLabel!.font = UIFont.systemFont(ofSize: 11)
         button.titleEdgeInsets = .init(top: 0, left: 10, bottom: 0, right: -10)
         button.addTarget(self, action: #selector(requestChat(_:)), for: .touchUpInside)
         return button
@@ -79,7 +80,7 @@ class PostButtonsCell: BaseCollectionViewCell {
         
         relateButton.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
         relateButton.anchorCenterYToSuperview()
-        chatButton.anchor(top: nil, leading: relateButton.trailingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
+        chatButton.anchor(top: nil, leading: relateButton.trailingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 25)
         chatButton.anchorCenterYToSuperview()
         shareButton.anchor(top: nil, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
         shareButton.anchorCenterYToSuperview()
