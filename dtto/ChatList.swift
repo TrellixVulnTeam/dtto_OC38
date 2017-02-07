@@ -18,6 +18,8 @@ class ChatList: BaseCollectionViewCell {
     var collectionView: UICollectionView!
     
     override func setupViews() {
+        super.setupViews()
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 1
@@ -44,7 +46,6 @@ extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(chats.count)
         return chats.count
     }
     

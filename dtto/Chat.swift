@@ -18,26 +18,28 @@ class Chat: NSObject {
     var timestamp: String?
     var profileImageURL: String?
     var postID: String?
-    var friendID: String?
+    var helperID: String?
+    var posterID: String?
     
     init(snapshot: FIRDataSnapshot) {
         super.init()
         
         guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
         
-        guard let userID = defaults.getUID(), let users = dictionary["users"] as? Dictionary<String, AnyObject>, let postID = dictionary["postID"] as? String else { return }
-        
-        for user in users {
-            // get the other user's information
-            if user.key != userID {
-                
-                if let friendName = user.value as? String {
-                    name = friendName
-                    friendID = user.key
-                }
-                
-            }
-        }
+        guard let userID = defaults.getUID(), let postID = dictionary["postID"] as? String else { return }
+        // , let users = dictionary["users"] as? Dictionary<String, AnyObject>
+        guard let helperID = dictionary["helperID"] as? String else { return }
+//        for user in users {
+//            // get the other user's information
+//            if user.key != userID {
+//                
+//                if let friendName = user.value as? String {
+//                    name = friendName
+//                    friendID = user.key
+//                }
+//                
+//            }
+//        }
         
         self.chatID = snapshot.key
         self.postID = postID

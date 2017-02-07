@@ -193,9 +193,11 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             
             let chatsRef = FIREBASE_REF.child("chats")
             let autoID = chatsRef.childByAutoId().key   // Update both userChats with this key.
-            let users = [userID : userName, friendID : friendName]
-            let baseChat: [String : Any] = ["users" : users, "postID" : postID]
-            chatsRef.updateChildValues([autoID : baseChat])
+            
+            chatsRef.child(autoID).updateChildValues(["posterID" : userID, "helperID" : friendID, "postID" : postID])
+//            let users = [userID : userName, friendID : friendName]
+//            let baseChat: [String : Any] = ["users" : users, "postID" : postID]
+//            chatsRef.updateChildValues([autoID : baseChat])
     
             // update chat list for both users, with the chat ID
             dataRequest.startChat(ref: FIREBASE_REF.child("users/\(userID)/chats/\(autoID)"), postID: postID)

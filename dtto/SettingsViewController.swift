@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SettingsViewController: UIViewController {
 
@@ -33,11 +34,31 @@ class SettingsViewController: UIViewController {
     func setupNavBar() {
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.done))
         
-        self.navigationItem.rightBarButtonItem = doneButton
+        navigationItem.rightBarButtonItem = doneButton
+        
+        
+        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        navigationItem.leftBarButtonItem = logoutButton
     }
     
     func done() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func logout() {
+        defaults.setValue(nil, forKey: "uid")
+        
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
+        defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+        
+        
+        self.changeRootVC(vc: .logout)
     }
     
     override func viewDidLoad() {

@@ -42,36 +42,57 @@ final class MessagesViewController: JSQMessagesViewController {
         
 //        let resolveChatButton = UIBarButtonItem(image: #imageLiteral(resourceName: "check"), style: .plain, target: self, action: #selector(resolveChat))
 //        let chatSettingsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(showChatSettings))
-        let resolveChatButton = UIButton(type: .system)
-        resolveChatButton.setImage(#imageLiteral(resourceName: "check"), for: .normal)
-        resolveChatButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        resolveChatButton.addTarget(self, action: #selector(resolveChat), for: .touchUpInside)
+        
+        var buttons = [UIBarButtonItem]()
+  
         let chatSettingsButton = UIButton(type: .system)
         chatSettingsButton.setImage(#imageLiteral(resourceName: "settings"), for: .normal)
         chatSettingsButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         
-        self.navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: chatSettingsButton),  UIBarButtonItem(customView: resolveChatButton)]
+        buttons.append(UIBarButtonItem(customView: chatSettingsButton))
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        if userID == chat.posterID {
+            let resolveChatButton = UIButton(type: .system)
+            resolveChatButton.setImage(#imageLiteral(resourceName: "check"), for: .normal)
+            resolveChatButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+            resolveChatButton.addTarget(self, action: #selector(resolveChat), for: .touchUpInside)
+            buttons.append(UIBarButtonItem(customView: resolveChatButton))
+        }
+        navigationItem.rightBarButtonItems = buttons
 
     }
     
     func resolveChat() {
         
-        let chatRef = FIREBASE_REF.child("chats")
-        chatRef.child("resolved").setValue(true)
+        guard let userID = defaults.getUID(), let helperID = chat.helperID else { return }
         
-        guard let userID = defaults.getUID(), let friendID = chat.friendID else { return }
-        let userRef = FIREBASE_REF.child("users").child(userID)
-        let friendRef = FIREBASE_REF.child("users").child(friendID)
-        
-        let dataRequest = FirebaseService.dataRequest
-        
-        // Update this user's stats
-        dataRequest.incrementCount(ref: userRef.child("helpsReceivedCount"))
-        dataRequest.decrementCount(ref: userRef.child("ongoingChatCount"))
-        
-        // Update the helper's stats
-        dataRequest.incrementCount(ref: friendRef.child("helpsGivenCount"))
-        dataRequest.decrementCount(ref: friendRef.child("ongoingChatCount"))
+        let chatResolvedRef = FIREBASE_REF.child("chats").child("resolved")
+        chatResolvedRef.observeSingleEvent(of: .value, with: { snapshot in
+            
+            if snapshot.exists() {
+                // chat is already resolved, alert user
+            }
+            else {
+                chatResolvedRef.setValue(true)
+                
+                let userRef = FIREBASE_REF.child("users").child(userID)
+                let helperRef = FIREBASE_REF.child("users").child(helperID)
+                
+                let dataRequest = FirebaseService.dataRequest
+                
+                // Update this user's stats
+                dataRequest.incrementCount(ref: userRef.child("helpsReceivedCount"))
+                dataRequest.decrementCount(ref: userRef.child("ongoingChatCount"))
+                
+                // Update the helper's stats
+                dataRequest.incrementCount(ref: helperRef.child("helpsGivenCount"))
+                dataRequest.decrementCount(ref: helperRef.child("ongoingChatCount"))
+
+            }
+            
+        })
         
 //        let resolveChatVC = ResolveChatViewController()
 //        self.navigationController?.pushViewController(resolveChatVC, animated: true)
@@ -143,10 +164,8 @@ final class MessagesViewController: JSQMessagesViewController {
         
         messagesRef.childByAutoId().setValue(messageItem)
         
-        
         // Also update the chat room's last message path.
         chatsRef.updateChildValues(messageItem)
-        
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         

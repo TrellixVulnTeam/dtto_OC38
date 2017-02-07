@@ -136,7 +136,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 if post.postID == uidToRemove {
                     self.posts.remove(at: index)
 //                    DispatchQueue.main.async(execute: {
-                        self.collectionView.deleteSections(IndexSet(integer: index))
+                    self.collectionView.deleteSections(IndexSet(integer: index))
 //                    })
                 }
             }

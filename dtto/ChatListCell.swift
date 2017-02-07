@@ -7,10 +7,27 @@
 //
 
 import UIKit
-
+import Firebase
 
 class ChatListCell: BaseCollectionViewCell {
 
+    var chat: Chat? {
+        didSet {
+            setupNameAndProfileImage()
+            
+            lastMessageLabel.text = chat?.lastMessage
+            
+//            if let seconds = chat?.timestamp.doubleValue {
+//                let timestampDate = NSDate(timeIntervalSince1970: seconds)
+//                
+//                let dateFormatter = DateFormatter()
+//                dateFormatter.dateFormat = "hh:mm:ss a"
+//                timestampLabel.text = dateFormatter.stringFromDate(timestampDate)
+//            }
+
+        }
+    }
+    
     let profileImage: RoundImageView = {
         let imageView = RoundImageView()
         imageView.image = #imageLiteral(resourceName: "profile")
@@ -30,6 +47,7 @@ class ChatListCell: BaseCollectionViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .lightGray
+        label.numberOfLines = 2
         return label
     }()
     
@@ -51,13 +69,38 @@ class ChatListCell: BaseCollectionViewCell {
         
         profileImage.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
         
-        nameLabel.anchor(top: nil, leading: profileImage.trailingAnchor, trailing: timestampLabel.leadingAnchor, bottom: profileImage.centerYAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        nameLabel.anchor(top: profileImage.topAnchor, leading: profileImage.trailingAnchor, trailing: timestampLabel.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        lastMessageLabel.anchor(top: profileImage.centerYAnchor, leading: profileImage.trailingAnchor, trailing: timestampLabel.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        lastMessageLabel.anchor(top: nameLabel.bottomAnchor, leading: profileImage.trailingAnchor, trailing: timestampLabel.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         timestampLabel.anchor(top: topAnchor, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         timestampLabel.setContentHuggingPriority(.greatestFiniteMagnitude, for: .horizontal)
         
     }
     
+    
+    private func setupNameAndProfileImage() {
+        let chatPartnerId: String?
+        
+        if chat?.posterID == FIRAuth.auth()?.currentUser?.uid {
+            chatPartnerId = chat?.helperID!
+        } else {
+            chatPartnerId = chat?.posterID!
+        }
+        
+        if let id = chatPartnerId {
+            let ref = FIRDatabase.database().reference().child("users").child(id)
+            
+            ref.observeSingleEvent(of: .value, with: { snapshot in
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    self.lastMessageLabel.text = dictionary["name"] as? String
+                    
+                    if let profileImageUrl = dictionary["profileImageUrl"] as? String {
+//                        self.profileImage.loadImageUsingCacheWithUrlString(profileImageUrl)
+                    }
+                }
+            })
+        }
+    }
+
 }
