@@ -25,5 +25,7 @@ class User: NSObject {
     var ongoingChatCount: Int?
     var totalChatCount: Int?
     var relatesReceivedCount: Int?
+    
+    
 
 }

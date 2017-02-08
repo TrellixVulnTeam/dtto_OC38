@@ -35,10 +35,12 @@ class PostButtonsCell: BaseCollectionViewCell {
         }
     }
     
-    let relateButton: UIButton = {
-        let button = UIButton(type: .custom)
+    lazy var relateButton: UIButton = {
+        let button = UIButton()
+//        button.setImage(#imageLiteral(resourceName: "relate"), for: UIControlState())
         button.setImage(#imageLiteral(resourceName: "relate"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "relateSelected"), for: .selected)
+        button.addTarget(self, action: #selector(relate(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -60,19 +62,20 @@ class PostButtonsCell: BaseCollectionViewCell {
     }()
     
     func relate(_ sender: UIButton) {
-        sender.bounceAnimate()
-        relateButton.isSelected = !relateButton.isSelected
+//        sender.bounceAnimate()
+        sender.isSelected = !sender.isSelected
+        requestChatDelegate?.relatePost(cell: self)
     }
     
     func requestChat(_ sender: UIButton) {
         sender.bounceAnimate()
-        requestChatDelegate?.requestChat(section: sender.tag, chatState: chatState)
+        requestChatDelegate?.requestChat(cell: self, chatState: chatState)
         
     }
     
     override func setupViews() {
         super.setupViews()
-        relateButton.addTarget(self, action: #selector(relate(_:)), for: .touchUpInside)
+
         
         addSubview(relateButton)
         addSubview(chatButton)

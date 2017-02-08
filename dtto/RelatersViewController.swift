@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import Firebase
 
 class RelatersViewController: UIViewController {
 
-    var relaters = [User]()
+    var postID: String
+    var relaters = [Relater]()
+    var relatersRef: FIRDatabaseReference
     
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
@@ -20,11 +23,20 @@ class RelatersViewController: UIViewController {
         tv.estimatedRowHeight = 50
 
 //        tv.separatorStyle = .none
-        
         tv.register(RelatersCell.self, forCellReuseIdentifier: "RelatersCell")
 
         return tv
     }()
+    
+    init(postID: String) {
+        self.postID = postID
+        self.relatersRef = FIREBASE_REF.child("postRelates").child(postID)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func setupViews() {
         
@@ -40,7 +52,27 @@ class RelatersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        // Do any additional setup after loading the view.
+        observeRelaters()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        relatersRef.removeAllObservers()
+    }
+    
+    func observeRelaters() {
+        
+        relatersRef.queryOrdered(byChild: "timestamp").observe(.childAdded, with: { snapshot in
+            
+            if let relaterData = snapshot.value as? Dictionary<String, AnyObject> {
+                let relater = Relater(dictionary: relaterData)
+                self.relaters.insert(relater, at: 0)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            
+        })
     }
 
 }
@@ -48,14 +80,16 @@ class RelatersViewController: UIViewController {
 extension RelatersViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return relaters.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let relater = relaters[indexPath.row]
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "RelatersCell") as! RelatersCell
-        cell.nameLabel.text = "Jitae"
-        cell.usernameLabel.text = "@jitae"
+        cell.nameLabel.text = relater.name ?? ""
+        cell.usernameLabel.text = relater.username ?? ""
         cell.profileImage.image = #imageLiteral(resourceName: "profile")
         return cell
     }
@@ -70,7 +104,7 @@ extension RelatersViewController: UITableViewDelegate, UITableViewDataSource {
         
         let relater = relaters[indexPath.row]
         
-        let vc = ProfileViewController(userID: relater.uid!)
+        let vc = ProfileViewController(userID: relater.userID!)
         self.navigationController?.pushViewController(vc, animated: true)
         
     }

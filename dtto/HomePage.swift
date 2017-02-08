@@ -9,8 +9,8 @@
 import UIKit
 
 protocol PostProtocol : class {
-    func requestChat(section: Int, chatState: ChatState)
-    func relatePost(row: Int)
+    func requestChat(cell: PostButtonsCell, chatState: ChatState)
+    func relatePost(cell: PostButtonsCell)
     func showMore(cell: PostProfileCell, sender: AnyObject)
 }
 
@@ -101,7 +101,10 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 //                }
                 self.posts.insert(post, at: 0)
                 self.fullPosts.insert(post, at: 0)
-                self.collectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                
                 
             }
             
@@ -117,6 +120,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 
                 for (index, post) in self.posts.enumerated() {
                     if post.postID == uidToChange {
+                        
+                        
                         self.posts[index] = Post(dictionary: postData)
                         DispatchQueue.main.async(execute: { [unowned self] in
                             self.collectionView.reloadSections(IndexSet(integer: index))
@@ -155,15 +160,15 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
     }
     
-    func requestChat(section: Int, chatState: ChatState) {
+    func requestChat(cell: PostButtonsCell, chatState: ChatState) {
         
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: 2, section: section)) as? PostButtonsCell else { return }
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
         
-        let post = posts[section]
-        guard let postID = post.postID, let friendID = post.userID, let userID = defaults.getUID() else { return }
+        let post = posts[indexPath.section]
+        guard let postID = post.postID, let posterID = post.userID, let userID = defaults.getUID(), posterID != userID else { return }
         
         let dataRequest = FirebaseService.dataRequest
-        let chatRequestRef = FIREBASE_REF.child("requests").child(friendID).child(postID).child(userID)
+        let chatRequestRef = FIREBASE_REF.child("requests").child(posterID).child(postID).child(userID)
         
         
         switch chatState {
@@ -176,8 +181,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 // if poster ignored this user, do nothing on server.
                 if !snapshot.exists() {
                     
-                    dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(friendID)/requestsCount"))
-
+                    dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(posterID)/requestsCount"))
+                    dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("totalChatRequestsCount"))
+                    
                     let request: [String: Any] = [
                         "name": "Jae",
                         "postID" : postID,
@@ -200,7 +206,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 if snapshot.exists() {
                     guard let pending = snapshot.value as? Bool else { return }
                     if pending {
-                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(friendID)/requestsCount"))
+                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(posterID)/requestsCount"))
+                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("totalChatRequestsCount"))
                         chatRequestRef.removeValue()
 
                     }
@@ -214,17 +221,22 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 
         case .ongoing:
             print("Already in chat, doing nothing...")
+            // maybe go to the chat?
             break
         }
     
     }
     
-    func relatePost(row: Int) {
+    func relatePost(cell: PostButtonsCell) {
         
-        let post = posts[row]
-        guard let postID = post.postID, let friendID = post.userID, let userID = defaults.getUID() else { return }
+        guard let section = collectionView.indexPath(for: cell)?.section else { return }
+        
+        let post = posts[section]
+        guard let postID = post.postID, let friendID = post.userID, let userID = defaults.getUID(), let username = defaults.getUsername(), let name = defaults.getName() else { return }
         
         let dataRequest = FirebaseService.dataRequest
+        let postRelatesRef = FIREBASE_REF.child("postRelates").child(postID).child(userID)
+        
         let userRelatesRef = FIREBASE_REF.child("users/\(userID)/relatedPosts").child(postID)
         userRelatesRef.observeSingleEvent(of: .value, with: { snapshot in
             
@@ -233,12 +245,21 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 dataRequest.decrementCount(ref: FIREBASE_REF.child("posts").child(postID).child("relatesCount"))
                 dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("relatesReceivedCount"))
                 dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(userID).child("relatesGivenCount"))
+                
+                // remove this user from the post's list of related users
+                postRelatesRef.removeValue()
             }
             else {
                 userRelatesRef.setValue(true)
                 dataRequest.incrementCount(ref: FIREBASE_REF.child("posts").child(postID).child("relatesCount"))
                 dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("relatesReceivedCount"))
                 dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("relatesGivenCount"))
+                
+                // add this user to the post's list of related users
+                let timestamp = Date()
+                let relaterData: [String : Any] = ["name" : name, "username" : username, "timestamp" : "\(timestamp)"]
+                postRelatesRef.setValue(relaterData)
+                
             }
         })
         
@@ -247,7 +268,6 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     func showMore(cell: PostProfileCell, sender: AnyObject) {
         
         guard let button = sender as? UIView, let section = collectionView.indexPath(for: cell)?.section else { return }
-        
         
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.view.tintColor = Color.darkNavy
@@ -437,17 +457,24 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         case .Buttons:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostButtonsCell", for: indexPath) as! PostButtonsCell
             cell.requestChatDelegate = self
-            if let ongoing = outgoingRequests[post.postID!] {
-                if ongoing {
-                    cell.chatState = .ongoing
-                }
-                else {
-                    cell.chatState = .requested
-                }
+            if post.userID! == defaults.getUID() {
+                cell.chatButton.isHidden = true
             }
             else {
-                cell.chatState = .normal
+                cell.chatButton.isHidden = false
+                if let ongoing = outgoingRequests[post.postID!] {
+                    if ongoing {
+                        cell.chatState = .ongoing
+                    }
+                    else {
+                        cell.chatState = .requested
+                    }
+                }
+                else {
+                    cell.chatState = .normal
+                }
             }
+            
             return cell
             
         case .Relates:
@@ -486,16 +513,16 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let row = Row(rawValue: indexPath.row) else { return }
-        
+        let post = posts[indexPath.section]
         switch row {
         case .Profile:
-            let post = posts[indexPath.section]
+            
             if !post.isAnonymous {
                 showProfile(section: indexPath.section)
             }
             
         case .Relates:
-            let vc = RelatersViewController()
+            let vc = RelatersViewController(postID: post.postID!)
             masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
 
         default:
