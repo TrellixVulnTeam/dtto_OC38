@@ -20,7 +20,7 @@ class PostButtonsCell: BaseCollectionViewCell {
         didSet {
             switch chatState {
             case .normal:
-                chatButton.setTitle("Request Chat", for: UIControlState())
+                chatButton.setTitle("Request Chat", for: .normal)
                 chatButton.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
                 print("NORMAL")
             case .requested:
@@ -35,19 +35,22 @@ class PostButtonsCell: BaseCollectionViewCell {
         }
     }
     
+    var related: Bool = false
+    
     lazy var relateButton: UIButton = {
         let button = UIButton()
 //        button.setImage(#imageLiteral(resourceName: "relate"), for: UIControlState())
         button.setImage(#imageLiteral(resourceName: "relate"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "relateSelected"), for: .selected)
+
         button.addTarget(self, action: #selector(relate(_:)), for: .touchUpInside)
         return button
     }()
     
     lazy var chatButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
-        button.setTitle("Request Chat", for: .normal)
+//        button.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
+//        button.setTitle("Request Chat", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 11)
         button.titleEdgeInsets = .init(top: 0, left: 10, bottom: 0, right: -10)
@@ -62,8 +65,14 @@ class PostButtonsCell: BaseCollectionViewCell {
     }()
     
     func relate(_ sender: UIButton) {
-//        sender.bounceAnimate()
-        sender.isSelected = !sender.isSelected
+        sender.bounceAnimate()
+//        if related {
+//            relateButton.setImage(#imageLiteral(resourceName: "relate"), for: .normal)
+//        }
+//        else {
+//            relateButton.setImage(#imageLiteral(resourceName: "relateSelected"), for: .normal)
+//        }
+//        related = !related
         requestChatDelegate?.relatePost(cell: self)
     }
     

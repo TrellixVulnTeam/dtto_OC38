@@ -65,20 +65,39 @@ class MasterCollectionView: UIViewController {
                     var contains = false
                     for (index, chat) in self.chats.enumerated() {
                         if chat.chatID == chatID {
+                            
+                            self.chats[index] = Chat(snapshot: chatSnapshot)
                             DispatchQueue.main.async {
-                                self.chats[index] = Chat(snapshot: chatSnapshot)
                                 self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
                             }
                             contains = true
                         }
                     }
                     if !contains {
+                        
                         self.chats.append(Chat(snapshot: chatSnapshot))
-                        self.collectionView.reloadData()
+                        DispatchQueue.main.async {
+                            self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+                        }
                     }
                 }
             })
-        })  
+        })
+        
+        userChatsRef.observe(.childRemoved, with: { snapshot in
+            
+            let chatIDRemoved = snapshot.key
+            
+            for (index, chat) in self.chats.enumerated() {
+                if chatIDRemoved == chat.chatID! {
+                    
+                    self.chats.remove(at: index)
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+                    }
+                }
+            }
+        })
         
     }
     
@@ -107,7 +126,6 @@ class MasterCollectionView: UIViewController {
 
             self.relates.append(notification)
 
-            
         })
     }
     
@@ -349,15 +367,10 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
         
     }
     
-
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
-
-    
-    
     
 }
 

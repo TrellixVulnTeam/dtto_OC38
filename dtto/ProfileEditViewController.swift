@@ -340,13 +340,13 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
 
 extension ProfileEditViewController: GMSAutocompleteViewControllerDelegate {
     
-    //        let autocompleteController = GMSAutocompleteViewController()
-    //        let filter = GMSAutocompleteFilter()
-    //        filter.type = .establishment
-    //        autocompleteController.autocompleteFilter = filter
-    //        autocompleteController.delegate = self
-    //
-    //        present(autocompleteController, animated: true, completion: nil)
+//    let autocompleteController = GMSAutocompleteViewController()
+//    let filter = GMSAutocompleteFilter()
+//    filter.type = .establishment
+//    autocompleteController.autocompleteFilter = filter
+//    autocompleteController.delegate = self
+//
+//    present(autocompleteController, animated: true, completion: nil)
     
     
     // Handle the user's selection.

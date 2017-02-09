@@ -26,6 +26,7 @@ class SettingsViewController: UIViewController {
     
     func setupViews() {
         automaticallyAdjustsScrollViewInsets = false
+        view.backgroundColor = .white
         view.addSubview(tableView)
         
         tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
@@ -68,6 +69,44 @@ class SettingsViewController: UIViewController {
         setupNavBar()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        checkNotificationSettings()
+
+    }
+    func checkNotificationSettings() {
+        
+        if let settings = UIApplication.shared.currentUserNotificationSettings {
+            if settings.types != UIUserNotificationType() {
+                print("is on!")
+            }else{
+                showNotificationsDisabledAlert()
+                print("is off!")
+            }
+        }else{
+            print("is off")
+        }
+    }
+
+    func showNotificationsDisabledAlert() {
+        let alertController = UIAlertController(title: "Turn on notifications?",
+                                                message: "To get notifications from dtto, turn them on in your Settings.",
+                                                preferredStyle: .alert)
+        
+        let settingsAction = UIAlertAction(title: "Settings", style: .default) { (alertAction) in
+            
+            if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.openURL(appSettings as URL)
+            }
+        }
+        alertController.addAction(settingsAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -78,10 +117,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

@@ -17,7 +17,14 @@ final class MessagesViewController: JSQMessagesViewController {
     var messagesRef: FIRDatabaseReference
     var chatsRef: FIRDatabaseReference
     var storageRef: FIRStorageReference
+    var profileImage: UIImage?
+    var friendID: String?
     
+    var friendName: String? {
+        didSet {
+            title = friendName!
+        }
+    }
     var messages = [JSQMessage]()
     private var photoMessageMap = [String: JSQPhotoMediaItem]()
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
@@ -48,7 +55,7 @@ final class MessagesViewController: JSQMessagesViewController {
         let chatSettingsButton = UIButton(type: .system)
         chatSettingsButton.setImage(#imageLiteral(resourceName: "settings"), for: .normal)
         chatSettingsButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        
+        chatSettingsButton.addTarget(self, action: #selector(chatSettings), for: .touchUpInside)
         buttons.append(UIBarButtonItem(customView: chatSettingsButton))
         
         guard let userID = defaults.getUID() else { return }
@@ -62,6 +69,18 @@ final class MessagesViewController: JSQMessagesViewController {
         }
         navigationItem.rightBarButtonItems = buttons
 
+    }
+    
+    func chatSettings() {
+        
+        if let friendID = friendID {
+            let vc = ChatSettings(chat: self.chat, friendID: friendID)
+            navigationController?.pushViewController(vc, animated: true)
+
+        }
+        else {
+            print("Could not get friend info")
+        }
     }
     
     func resolveChat() {
@@ -99,10 +118,26 @@ final class MessagesViewController: JSQMessagesViewController {
         
     }
     
-    func showChatSettings() {
-        // push with nav bar.
-//        let chatSettings = ChatSettings(nibName: "ChatSettings", bundle: nil)
-//        navigationController?.pushViewController(chatSettings, animated: true)
+    private func getFriendName() {
+        
+        guard let userID = defaults.getUID(), let postID = chat.postID, let helperID = chat.helperID else { return }
+        
+        if userID == helperID {
+            // Get the poster's name. Check if poster was anonymous
+            let friendNameRef = FIREBASE_REF.child("posts").child(postID).child("name")
+            friendNameRef.observeSingleEvent(of: .value, with: { snapshot in
+                
+                self.friendName = snapshot.value as? String ?? "Anonymous"
+                
+            })
+        }
+        else {
+            // Get the helper's name.
+            FIREBASE_REF.child("users").child(helperID).child("name").observeSingleEvent(of: .value, with: { snapshot in
+                                
+                self.friendName = snapshot.value as? String ?? "Anonymous"
+            })
+        }
     }
     
     private func getMessages() {
@@ -123,9 +158,9 @@ final class MessagesViewController: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getFriendName()
         setupNavBar()
         setupChat()
-        
         getMessages()
         view.backgroundColor = .white
         hideKeyboardWhenTappedAround()
@@ -144,8 +179,16 @@ final class MessagesViewController: JSQMessagesViewController {
         senderId = userID
         
         senderDisplayName = FIRAuth.auth()?.currentUser?.displayName ?? "Me"
-
-        title = chat.name ?? "Anonymous"
+        
+        guard let posterID = chat.posterID, let helperID = chat.helperID else { return }
+        
+        if userID == posterID {
+            friendID = helperID
+        }
+        else {
+            friendID = posterID
+        }
+        
 
     }
     

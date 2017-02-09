@@ -12,7 +12,7 @@ import NVActivityIndicatorView
 
 class ProfileViewController: UIViewController {
 
-    var user = User()
+    let user = User()
     var userRef: FIRDatabaseReference!
     
     lazy var tableView: UITableView = {
@@ -46,6 +46,7 @@ class ProfileViewController: UIViewController {
     
     init(userID: String) {
         userRef = FIREBASE_REF.child("users").child(userID)
+        self.user.uid = userID
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -145,42 +146,41 @@ class ProfileViewController: UIViewController {
             
             guard let name = userSnapshot["name"] as? String, let username = userSnapshot["username"] as? String else { return }
             
-            let user = User()
-            user.name = name
-            user.username = username
+            self.user.name = name
+            self.user.username = username
             self.navigationItem.title = username
             
             if let birthday = userSnapshot["birthday"] as? String {
-                user.birthday = birthday
+                self.user.birthday = birthday
             }
             
             if let education = userSnapshot["education"] as? Dictionary<String, Int> {
                 
-                user.education = sortByValue(dict: education)
+                self.user.education = sortByValue(dict: education)
                 
             }
             
             if let profession = userSnapshot["profession"] as? Dictionary<String, Int> {
                 
-                user.profession = sortByValue(dict: profession)
+                self.user.profession = sortByValue(dict: profession)
                 
             }
             
             if let expertise = userSnapshot["expertise"] as? Dictionary<String, Int> {
 
-                user.expertise = sortByValue(dict: expertise)
+                self.user.expertise = sortByValue(dict: expertise)
                 
             }
             
             if let summary = userSnapshot["summary"] as? String {
-                user.summary = summary
+                self.user.summary = summary
             }
             
             if let relatesReceivedCount = userSnapshot["relatesReceivedCount"] as? Int {
-                user.relatesReceivedCount = relatesReceivedCount
+                self.user.relatesReceivedCount = relatesReceivedCount
             }
             
-            self.user = user
+            
             self.animateSpinner(false)
             self.tableView.alpha = 1
             self.tableView.reloadData()
@@ -298,7 +298,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case .Profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell") as! ProfileImageCell
 
-            cell.profileImage.image = #imageLiteral(resourceName: "profile")
+            if let userID = user.uid {
+                cell.profileImage.loadProfileImage(userID)
+            }
             return cell
             
         case .Education:

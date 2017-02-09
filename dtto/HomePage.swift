@@ -19,6 +19,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     var posts = [Post]()
     var fullPosts = [Post]()
     var outgoingRequests = [String : Bool]()
+    var relates: [String : Bool] = defaults.getRelates()
     
     var collectionView: UICollectionView!
     
@@ -124,7 +125,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                         
                         self.posts[index] = Post(dictionary: postData)
                         DispatchQueue.main.async(execute: { [unowned self] in
-                            self.collectionView.reloadSections(IndexSet(integer: index))
+                            UIView.performWithoutAnimation {
+                                self.collectionView.reloadSections(IndexSet(integer: index))
+                            }
                         })
                     }
                 }
@@ -248,6 +251,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 
                 // remove this user from the post's list of related users
                 postRelatesRef.removeValue()
+                self.relates.removeValue(forKey: postID)
             }
             else {
                 userRelatesRef.setValue(true)
@@ -259,8 +263,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 let timestamp = Date()
                 let relaterData: [String : Any] = ["name" : name, "username" : username, "timestamp" : "\(timestamp)"]
                 postRelatesRef.setValue(relaterData)
-                
+                self.relates.updateValue(true, forKey: postID)
             }
+            defaults.setRelates(value: self.relates)
         })
         
     }
@@ -271,7 +276,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.view.tintColor = Color.darkNavy
-
+        
         let post = posts[section]
         
         if let userID = defaults.getUID(), let posterID = post.userID {
@@ -462,6 +467,14 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         case .Buttons:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostButtonsCell", for: indexPath) as! PostButtonsCell
             cell.requestChatDelegate = self
+            
+            if let _ = relates[post.postID!] {
+                cell.relateButton.isSelected = true
+            }
+            else {
+                cell.relateButton.isSelected = false
+            }
+            
             if post.userID! == defaults.getUID() {
                 cell.chatButton.isHidden = true
             }

@@ -42,6 +42,14 @@ extension UserDefaults {
         return string(forKey: "username")
     }
     
+    func setRelates(value: [String : Bool]) {
+        set(value, forKey: "relates")
+    }
+    
+    func getRelates() -> [String : Bool] {
+        return object(forKey: "relates") as? [String : Bool] ?? [String : Bool]()
+    }
+    
     func setOutgoingRequests(value: [String : Bool]) {
         set(value, forKey: "outgoingRequests")
     }

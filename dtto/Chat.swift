@@ -26,9 +26,8 @@ class Chat: NSObject {
         
         guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
         
-        guard let userID = defaults.getUID(), let postID = dictionary["postID"] as? String else { return }
+        guard let userID = defaults.getUID(), let postID = dictionary["postID"] as? String, let helperID = dictionary["helperID"] as? String, let posterID = dictionary["posterID"] as? String else { return }
         // , let users = dictionary["users"] as? Dictionary<String, AnyObject>
-        guard let helperID = dictionary["helperID"] as? String else { return }
 //        for user in users {
 //            // get the other user's information
 //            if user.key != userID {
@@ -43,6 +42,8 @@ class Chat: NSObject {
         
         self.chatID = snapshot.key
         self.postID = postID
+        self.posterID = posterID
+        self.helperID = helperID
         
         if let senderID = dictionary["senderID"] as? String, let lastMessage = dictionary["text"] as? String!, let timestamp = dictionary["timestamp"] as? String {
             
