@@ -90,7 +90,8 @@ extension RelatersViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RelatersCell") as! RelatersCell
         cell.nameLabel.text = relater.name ?? ""
         cell.usernameLabel.text = relater.username ?? ""
-        cell.profileImage.image = #imageLiteral(resourceName: "profile")
+        cell.profileImage.loadProfileImage(relater.userID!)
+        
         return cell
     }
     

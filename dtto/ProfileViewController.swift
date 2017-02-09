@@ -13,6 +13,7 @@ import NVActivityIndicatorView
 class ProfileViewController: UIViewController {
 
     var user = User()
+    var userRef: FIRDatabaseReference!
     
     lazy var tableView: UITableView = {
 
@@ -38,11 +39,13 @@ class ProfileViewController: UIViewController {
    
     // Init with current user, or pass another user's ID
     init() {
+        userRef = FIREBASE_REF.child("users").child(defaults.getUID()!)
         super.init(nibName: nil, bundle: nil)
         setupNavBar()
     }
     
     init(userID: String) {
+        userRef = FIREBASE_REF.child("users").child(userID)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -94,6 +97,11 @@ class ProfileViewController: UIViewController {
         observeUser()
         setupViews()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        userRef.removeAllObservers()
+    }
 
     func animateSpinner(_ animate: Bool) {
         
@@ -131,11 +139,7 @@ class ProfileViewController: UIViewController {
         
 //        guard let user = user else { return }
 //        guard let userID = user.uid else { return }
-        let testID = "tw2QiARnU7ZFZ7we4tmKs3HcSU42"
-        
-        let userRef = FIREBASE_REF.child("users").child(testID)
         userRef.observeSingleEvent(of: .value, with: { snapshot in
-            
             // get all user attributes, then add to tableview
             guard let userSnapshot = snapshot.value as? Dictionary<String, AnyObject> else { return }
             

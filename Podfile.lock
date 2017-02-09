@@ -1,5 +1,5 @@
 PODS:
-  - Batch (1.7.3)
+  - Batch (1.7.4)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -82,10 +82,11 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - Kingfisher (3.3.4)
   - MIBadgeButton-Swift (0.5)
-  - NVActivityIndicatorView (3.3)
+  - NVActivityIndicatorView (3.4)
   - SkyFloatingLabelTextField (2.0.1)
-  - Stripe (9.3.0)
+  - Stripe (9.4.0)
 
 DEPENDENCIES:
   - Batch (~> 1.6)
@@ -97,6 +98,7 @@ DEPENDENCIES:
   - Google/SignIn
   - GooglePlaces
   - JSQMessagesViewController
+  - Kingfisher (~> 3.0)
   - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
   - NVActivityIndicatorView
   - SkyFloatingLabelTextField
@@ -113,7 +115,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
 
 SPEC CHECKSUMS:
-  Batch: 33183bfc82e3dc9156f13d14d2a0e5c6680eb59c
+  Batch: 4c2ab398e92663ec7132fc348d6f613c541fd9e2
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
   FBSDKLoginKit: 83ca4d8f12a2022570af9fd6aacf27f6b425b99f
@@ -136,11 +138,12 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  Kingfisher: 35f289f015d26e81ea6c85048718c6205f3933c6
   MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
-  NVActivityIndicatorView: 0a4cd7863d0e409e65b72e253c3e13f48d0260d7
+  NVActivityIndicatorView: 5754be63ceecd1df8af37d3c088d81872feeb8b8
   SkyFloatingLabelTextField: 070e749632ffd608d6fd9db3fa488a822524997c
-  Stripe: 0f41a33a6fa3ac76ee668d7df3e2680c28b8ab1a
+  Stripe: 0957cc85df5c3df153e6fb44d307ea4b778b6bd1
 
-PODFILE CHECKSUM: 24ac2fe591e35c05d5e4aa055474183de472d2ab
+PODFILE CHECKSUM: a8b7485ba1720098fe5faf7e36df7d2a6281df39
 
 COCOAPODS: 1.2.0

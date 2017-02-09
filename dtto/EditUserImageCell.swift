@@ -11,6 +11,8 @@ import UIKit
 
 class EditUserImageCell: BaseTableViewCell {
 
+    weak var profileViewControllerDelegate: ProfileEditViewController?
+    
     lazy var profileImage: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(choosePhoto), for: .touchUpInside)
@@ -36,7 +38,8 @@ class EditUserImageCell: BaseTableViewCell {
     }
     
     func choosePhoto() {
-        
+        profileViewControllerDelegate?.showImagePicker()
+        profileImage.isSelected = false
     }
 
 }

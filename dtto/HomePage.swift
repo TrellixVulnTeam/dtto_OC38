@@ -274,9 +274,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 
         let post = posts[section]
         
-        if let userID = defaults.getUID(), let postUID = post.userID {
+        if let userID = defaults.getUID(), let posterID = post.userID {
             
-            if userID == postUID {
+            if userID == posterID {
                 
                 let delete = UIAlertAction(title: "Delete", style: .default, handler: { (action:UIAlertAction) in
                     
@@ -295,7 +295,16 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 ac.addAction(edit)
 
             }
+            else {
+                let report = UIAlertAction(title: "Report", style: .destructive, handler: { (action:UIAlertAction) in
+                    
+                    self.reportPost(postID: post.postID)
+                    
+                })
+                ac.addAction(report)
+            }
         }
+
         let hide = UIAlertAction(title: "Hide", style: .default, handler: { (action:UIAlertAction) in
             
             self.hidePost(section: section, postID: post.postID)
@@ -303,12 +312,6 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         })
         ac.addAction(hide)
         
-        let report = UIAlertAction(title: "Report", style: .destructive, handler: { (action:UIAlertAction) in
-            
-            self.reportPost(postID: post.postID)
-            
-        })
-        ac.addAction(report)
         
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alertAction: UIAlertAction!) in
@@ -445,7 +448,9 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             else {
                 cell.usernameLabel.text = ""
             }
-            cell.profileImage.image = #imageLiteral(resourceName: "profile")
+            
+            cell.profileImage.loadProfileImage(post.userID!)
+
             cell.postDelegate = self
             return cell
             

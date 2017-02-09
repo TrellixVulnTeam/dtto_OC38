@@ -21,8 +21,8 @@ target 'dtto' do
   pod 'NVActivityIndicatorView'
   pod 'SkyFloatingLabelTextField'
   pod 'JSQMessagesViewController'
- pod "MIBadgeButton-Swift", :git => 'https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git', :branch => 'master'
- 
+  pod "MIBadgeButton-Swift", :git => 'https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git', :branch => 'master'
+  pod 'Kingfisher', '~> 3.0' 
   target 'dttoTests' do
     inherit! :search_paths
     # Pods for testing

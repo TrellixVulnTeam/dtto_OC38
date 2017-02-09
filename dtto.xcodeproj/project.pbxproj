@@ -43,6 +43,7 @@
 		0442E0AB1E2AC28200B7BC4D /* PostAddTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */; };
 		0442E0AD1E2AE9AC00B7BC4D /* ResolveChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */; };
 		0442E0AF1E2B05DD00B7BC4D /* RegisterStripeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AE1E2B05DD00B7BC4D /* RegisterStripeViewController.swift */; };
+		0445D4101E4ABC6500DC051E /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445D40F1E4ABC6500DC051E /* ImageHelper.swift */; };
 		04461A941E1F4244008160A1 /* PostNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A931E1F4244008160A1 /* PostNameCell.swift */; };
 		04461A961E1F45BC008160A1 /* PostComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A951E1F45BC008160A1 /* PostComposeCell.swift */; };
 		045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045248061E08A1F5007D6C3E /* ChatSettings.swift */; };
@@ -177,6 +178,7 @@
 		0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAddTagsCell.swift; sourceTree = "<group>"; };
 		0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolveChatViewController.swift; sourceTree = "<group>"; };
 		0442E0AE1E2B05DD00B7BC4D /* RegisterStripeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterStripeViewController.swift; sourceTree = "<group>"; };
+		0445D40F1E4ABC6500DC051E /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		04461A931E1F4244008160A1 /* PostNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostNameCell.swift; sourceTree = "<group>"; };
 		04461A951E1F45BC008160A1 /* PostComposeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostComposeCell.swift; sourceTree = "<group>"; };
 		045248061E08A1F5007D6C3E /* ChatSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSettings.swift; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 			isa = PBXGroup;
 			children = (
 				04B159E81DDFFBE200B6C74C /* FirebaseService.swift */,
+				0445D40F1E4ABC6500DC051E /* ImageHelper.swift */,
 				04A6C7D81DDFC548004EFE14 /* Animations.swift */,
 				04F4EFA21E0A5DE700F1DDFA /* Date.swift */,
 				04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */,
@@ -874,6 +877,7 @@
 				041032A81E03B2E000B6BDE8 /* HomePage.swift in Sources */,
 				0413CECD1E1C6D0800DF9E3C /* ProfileSectionHeader.swift in Sources */,
 				04BD6EC01E0C986C00036DC7 /* RequestsPreview.swift in Sources */,
+				0445D4101E4ABC6500DC051E /* ImageHelper.swift in Sources */,
 				0474C1DA1E2379B900F20704 /* PasswordViewController.swift in Sources */,
 				041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */,
 				046D567C1E34451B00409034 /* FormNavigationBar.swift in Sources */,

@@ -13,7 +13,7 @@ import Firebase
 protocol MainEditViewDelegate {
     
     func updateBirthday(date: Date?)
-    
+    func showImagePicker()
 }
 
 class ProfileEditViewController: UIViewController,FormNavigationBar {
@@ -23,7 +23,6 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
     init(user: User) {
         self.user = user
         super.init(nibName: nil, bundle: nil)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -119,6 +118,8 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
         }
         
     }
+    
+   
 
 }
 
@@ -186,6 +187,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
             
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserImageCell") as! EditUserImageCell
+            cell.profileViewControllerDelegate = self
             cell.profileImage.setBackgroundImage(#imageLiteral(resourceName: "profile"), for: UIControlState())
             cell.selectionStyle = .none
             return cell
@@ -258,6 +260,10 @@ extension ProfileEditViewController: MainEditViewDelegate {
         enableSaveButton()
         
     }
+    
+    func showImagePicker() {
+        selectPicture()
+    }
 }
 
 extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -284,10 +290,50 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
             return
         }
         
-        // do something interesting here!
-        print(newImage.size)
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditUserImageCell else { return }
         
+//        cell.profileImage.setBackgroundImage(newImage, for: UIControlState())
+        downloadImageToDisk(newImage)
+        uploadProfileImage(newImage)
         dismiss(animated: true)
+    }
+    
+    func downloadImageToDisk(_ image: UIImage) {
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        if let data = UIImageJPEGRepresentation(image, 0.1) {
+            let filename = getDocumentsDirectory().appendingPathComponent("\(userID)profile.jpg")
+            try! data.write(to: filename)
+            
+            guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditUserImageCell else { return }
+            
+            if let docImage = UIImage(contentsOfFile: filename.path) {
+                cell.profileImage.setBackgroundImage(docImage, for: UIControlState())
+            }
+            
+        }
+        
+    }
+    
+    func uploadProfileImage(_ image: UIImage) {
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        let storageRef = STORAGE_REF.child("users").child(userID).child("profile.jpg")
+        
+        if let uploadData = UIImageJPEGRepresentation(image, 0.1) {
+            
+            storageRef.put(uploadData, metadata: nil, completion: { (metadata, error) in
+                
+                if error != nil {
+                    print(error)
+                    return
+                }
+
+            })
+        }
+        
     }
     
 }

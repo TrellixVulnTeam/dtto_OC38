@@ -11,5 +11,4 @@
 
 #import <Google/SignIn.h>
 
-
 #endif /* dtto_Bridging_Header_h */
