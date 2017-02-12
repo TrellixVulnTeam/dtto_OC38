@@ -38,6 +38,8 @@
 		04245FBD1E2A3DB000611DA0 /* PostAnonymousCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04245FBC1E2A3DB000611DA0 /* PostAnonymousCell.swift */; };
 		0428F6E21E206496002093DB /* RelatersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0428F6E11E206496002093DB /* RelatersViewController.swift */; };
 		0428F6E41E206617002093DB /* RelatersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0428F6E31E206617002093DB /* RelatersCell.swift */; };
+		042CC99A1E4E7A9B00B6F501 /* MyAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CC9991E4E7A9B00B6F501 /* MyAPIClient.swift */; };
+		042CC99C1E4E7AE400B6F501 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CC99B1E4E7AE400B6F501 /* Networking.swift */; };
 		0432D8A81E1AE21E00A74754 /* BannerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0432D8A71E1AE21E00A74754 /* BannerAlert.swift */; };
 		0434766D1E2F0B65008B1E9E /* EditUserInfoBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0434766C1E2F0B64008B1E9E /* EditUserInfoBaseCell.swift */; };
 		0442E0AB1E2AC28200B7BC4D /* PostAddTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */; };
@@ -173,6 +175,8 @@
 		04245FBC1E2A3DB000611DA0 /* PostAnonymousCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAnonymousCell.swift; sourceTree = "<group>"; };
 		0428F6E11E206496002093DB /* RelatersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatersViewController.swift; sourceTree = "<group>"; };
 		0428F6E31E206617002093DB /* RelatersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatersCell.swift; sourceTree = "<group>"; };
+		042CC9991E4E7A9B00B6F501 /* MyAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAPIClient.swift; sourceTree = "<group>"; };
+		042CC99B1E4E7AE400B6F501 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		0432D8A71E1AE21E00A74754 /* BannerAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerAlert.swift; path = ../../Chain/Chain/CustomViews/BannerAlert.swift; sourceTree = "<group>"; };
 		0434766C1E2F0B64008B1E9E /* EditUserInfoBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserInfoBaseCell.swift; sourceTree = "<group>"; };
 		0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAddTagsCell.swift; sourceTree = "<group>"; };
@@ -484,6 +488,8 @@
 				04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */,
 				041B39351E1DD24E003E130E /* UIViewConstraints.swift */,
 				04DDD87A1E1F286E0023EE70 /* SortDictionary.swift */,
+				042CC9991E4E7A9B00B6F501 /* MyAPIClient.swift */,
+				042CC99B1E4E7AE400B6F501 /* Networking.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -932,6 +938,7 @@
 				0442E0AD1E2AE9AC00B7BC4D /* ResolveChatViewController.swift in Sources */,
 				045AB2921DFE71B1009D9394 /* Post.swift in Sources */,
 				0413ABA11E23363B00C7198C /* FormViewController.swift in Sources */,
+				042CC99A1E4E7A9B00B6F501 /* MyAPIClient.swift in Sources */,
 				04045C251DDFA010002BBD07 /* AppDelegate.swift in Sources */,
 				0470790C1E0612E90059C360 /* Notifications.swift in Sources */,
 				04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */,
@@ -944,6 +951,7 @@
 				04245FBD1E2A3DB000611DA0 /* PostAnonymousCell.swift in Sources */,
 				04461A941E1F4244008160A1 /* PostNameCell.swift in Sources */,
 				0410DF821E2DB89A00592920 /* ProfileEditViewController.swift in Sources */,
+				042CC99C1E4E7AE400B6F501 /* Networking.swift in Sources */,
 				04FC41131E30559C00F59132 /* EditUserInfoSearchCell.swift in Sources */,
 				0432D8A81E1AE21E00A74754 /* BannerAlert.swift in Sources */,
 			);

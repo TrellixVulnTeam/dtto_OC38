@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        defaults.setLogin(value: true)
 //        defaults.setUID(value: "dueyYrZnhZTYRlAXfL0U9ErcOj02")
         if defaults.isLoggedIn() {
-            let initialViewController = TabBarController()
+            let initialViewController = UINavigationController(rootViewController: ResolveChatViewController()) //TabBarController()
 //            UIView.transition(with: self.window!, duration: 0.5, options: .transitionCurlUp, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
 //            }, completion: nil)

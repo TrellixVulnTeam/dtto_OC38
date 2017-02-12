@@ -87,6 +87,10 @@ final class MessagesViewController: JSQMessagesViewController {
         
         guard let userID = defaults.getUID(), let helperID = chat.helperID else { return }
         
+        let resolveChatVC = ResolveChatViewController()
+        self.navigationController?.pushViewController(resolveChatVC, animated: true)
+        
+        /*
         let chatResolvedRef = FIREBASE_REF.child("chats").child("resolved")
         chatResolvedRef.observeSingleEvent(of: .value, with: { snapshot in
             
@@ -112,9 +116,8 @@ final class MessagesViewController: JSQMessagesViewController {
             }
             
         })
-        
-//        let resolveChatVC = ResolveChatViewController()
-//        self.navigationController?.pushViewController(resolveChatVC, animated: true)
+ */
+    
         
     }
     
