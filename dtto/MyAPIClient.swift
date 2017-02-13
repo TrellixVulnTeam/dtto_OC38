@@ -43,22 +43,28 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
         let path = "charge"
         let url = baseURL.appendingPathComponent(path)
         let params: [String: AnyObject] = [
-            "source": result.source.stripeID as AnyObject,
+            "source": result.source.stripeID as AnyObject,  // creates a token from the card.
 //            "amount": amount as AnyObject
-            "amount": 1000 as AnyObject
+            "amount": 1000 as AnyObject,
+            "stripeID" : "cus_A6SxUPJ6nBGQDr" as AnyObject
+//            "customer" : "123" as AnyObject
         ]
         let request = URLRequest.request(url, method: .POST, params: params)
         let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
             DispatchQueue.main.async {
                 if let error = self.decodeResponse(urlResponse, error: error as NSError?) {
                     completion(error)
-                    print(error)
+                    print(error.localizedDescription)
                     return
                 }
                 completion(nil)
             }
         }
         task.resume()
+    }
+    
+    func createCustomer() {
+        
     }
     
     @objc func retrieveCustomer(_ completion: @escaping STPCustomerCompletionBlock) {
@@ -77,7 +83,11 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
         }
         let path = "/customer"
         let url = baseURL.appendingPathComponent(path)
-        let request = URLRequest.request(url, method: .GET, params: [:])
+        let params: [String : AnyObject] = [
+            "stripeID" : "cus_A6SxUPJ6nBGQDr" as AnyObject,
+            "firebaseID" : defaults.getUID()! as AnyObject
+        ]
+        let request = URLRequest.request(url, method: .GET, params: params)
         let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
             DispatchQueue.main.async {
                 let deserializer = STPCustomerDeserializer(data: data, urlResponse: urlResponse, error: error)
@@ -102,7 +112,8 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
         }
         let path = "/customer/default_source"
         let url = baseURL.appendingPathComponent(path)
-        let params = [
+        let params: [String : Any] = [
+            "stripeID" : "cus_A6SxUPJ6nBGQDr" as Any,
             "source": source.stripeID,
         ]
         let request = URLRequest.request(url, method: .POST, params: params as [String : AnyObject])
@@ -129,7 +140,8 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
         }
         let path = "/customer/sources"
         let url = baseURL.appendingPathComponent(path)
-        let params = [
+        let params: [String : Any] = [
+            "stripeID" : "cus_A6SxUPJ6nBGQDr" as AnyObject,
             "source": source.stripeID,
             ]
         let request = URLRequest.request(url, method: .POST, params: params as [String : AnyObject])
