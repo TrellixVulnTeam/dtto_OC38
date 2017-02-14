@@ -8,6 +8,7 @@
 
 import Foundation
 import Stripe
+import Firebase
 
 class MyAPIClient: NSObject, STPBackendAPIAdapter {
 
@@ -46,8 +47,6 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
             "source": result.source.stripeID as AnyObject,  // creates a token from the card.
 //            "amount": amount as AnyObject
             "amount": 1000 as AnyObject,
-            "stripeID" : "cus_A6SxUPJ6nBGQDr" as AnyObject
-//            "customer" : "123" as AnyObject
         ]
         let request = URLRequest.request(url, method: .POST, params: params)
         let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
@@ -61,10 +60,6 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
             }
         }
         task.resume()
-    }
-    
-    func createCustomer() {
-        
     }
     
     @objc func retrieveCustomer(_ completion: @escaping STPCustomerCompletionBlock) {
@@ -81,25 +76,39 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
             completion(customer, nil)
             return
         }
-        let path = "/customer"
-        let url = baseURL.appendingPathComponent(path)
-        let params: [String : AnyObject] = [
-            "stripeID" : "cus_A6SxUPJ6nBGQDr" as AnyObject,
-            "firebaseID" : defaults.getUID()! as AnyObject
-        ]
-        let request = URLRequest.request(url, method: .GET, params: params)
-        let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
-            DispatchQueue.main.async {
-                let deserializer = STPCustomerDeserializer(data: data, urlResponse: urlResponse, error: error)
-                if let error = deserializer.error {
-                    completion(nil, error)
-                    return
-                } else if let customer = deserializer.customer {
-                    completion(customer, nil)
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        let ref = FIREBASE_REF.child("users").child(userID).child("stripeID")
+        ref.observeSingleEvent(of: .value, with: { snapshot in
+            
+            let path = "/customer"
+            let url = baseURL.appendingPathComponent(path)
+            var params: [String : AnyObject] = [
+                "firebaseID" : userID as AnyObject
+            ]
+            
+            // if user already has a stripeID, retrieve
+            if let _ = snapshot.value as? String {
+                params.updateValue(snapshot.value as AnyObject, forKey: "stripeID")
+            }
+
+            let request = URLRequest.request(url, method: .GET, params: params)
+            let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
+                DispatchQueue.main.async {
+                    let deserializer = STPCustomerDeserializer(data: data, urlResponse: urlResponse, error: error)
+                    if let error = deserializer.error {
+                        completion(nil, error)
+                        return
+                    } else if let customer = deserializer.customer {
+                        completion(customer, nil)
+                    }
                 }
             }
-        }
-        task.resume()
+            task.resume()
+            
+        })
+        
     }
     
     @objc func selectDefaultCustomerSource(_ source: STPSource, completion: @escaping STPErrorBlock) {
@@ -113,7 +122,6 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
         let path = "/customer/default_source"
         let url = baseURL.appendingPathComponent(path)
         let params: [String : Any] = [
-            "stripeID" : "cus_A6SxUPJ6nBGQDr" as Any,
             "source": source.stripeID,
         ]
         let request = URLRequest.request(url, method: .POST, params: params as [String : AnyObject])
@@ -141,7 +149,6 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
         let path = "/customer/sources"
         let url = baseURL.appendingPathComponent(path)
         let params: [String : Any] = [
-            "stripeID" : "cus_A6SxUPJ6nBGQDr" as AnyObject,
             "source": source.stripeID,
             ]
         let request = URLRequest.request(url, method: .POST, params: params as [String : AnyObject])
