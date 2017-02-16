@@ -33,7 +33,7 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
         return error
     }
 
-    func completeCharge(_ result: STPPaymentResult, amount: Int, completion: @escaping STPErrorBlock) {
+    func completeCharge(_ result: STPPaymentResult, amount: Int, helperID: String, stripeID: String, completion: @escaping STPErrorBlock) {
         guard let baseURLString = baseURLString, let baseURL = URL(string: baseURLString) else {
             let error = NSError(domain: StripeDomain, code: 50, userInfo: [
                 NSLocalizedDescriptionKey: "Please set baseURLString to your Heroku URL in CheckoutViewController.swift"
@@ -45,8 +45,10 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
         let url = baseURL.appendingPathComponent(path)
         let params: [String: AnyObject] = [
             "source": result.source.stripeID as AnyObject,  // creates a token from the card.
-//            "amount": amount as AnyObject
-            "amount": 1000 as AnyObject,
+            "amount": amount as AnyObject,
+            "destination" : stripeID as AnyObject,
+            "userID" : defaults.getUID()! as AnyObject,
+            "helperID" : helperID as AnyObject
         ]
         let request = URLRequest.request(url, method: .POST, params: params)
         let task = self.session.dataTask(with: request) { (data, urlResponse, error) in

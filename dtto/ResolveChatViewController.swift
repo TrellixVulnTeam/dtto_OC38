@@ -57,6 +57,12 @@ class ResolveChatViewController: UIViewController {
         return button
     }()
     
+    lazy var amountPickerView: UIPickerView = {
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        return pickerView
+    }()
+    
     let paymentContext: STPPaymentContext
     
     init() {
@@ -89,20 +95,23 @@ class ResolveChatViewController: UIViewController {
         
         view.backgroundColor = Color.darkNavy
         
-        view.addSubview(helpfulButton)
-        view.addSubview(addCardButton)
+//        view.addSubview(helpfulButton)
+//        view.addSubview(addCardButton)
+        view.addSubview(amountPickerView)
         view.addSubview(submitPaymentButton)
         
-        helpfulButton.anchorCenterSuperview()
-        addCardButton.anchor(top: helpfulButton.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 20, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 80)
-        addCardButton.anchorCenterXToSuperview()
-        submitPaymentButton.anchor(top: addCardButton.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 20, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 80)
-        submitPaymentButton.anchorCenterXToSuperview()
+//        helpfulButton.anchorCenterSuperview()
+//        addCardButton.anchor(top: helpfulButton.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 20, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 80)
+//        addCardButton.anchorCenterXToSuperview()
+//        amountPickerView.
+//        submitPaymentButton.anchor(top: addCardButton.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 20, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 80)
+        submitPaymentButton.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 100)
+        submitPaymentButton.anchorCenterSuperview()
+        
         
     }
     
     func helped(_ sender: UIButton) {
-
         
     }
     
@@ -112,22 +121,23 @@ class ResolveChatViewController: UIViewController {
     
     func addCard() {
       
-        self.paymentContext.pushPaymentMethodsViewController()
+//        self.paymentContext.pushPaymentMethodsViewController()
     }
     
     func submitCard() {
-//        STPAPIClient.shared().createToken(with: <#T##PKPayment#>, completion: <#T##STPTokenCompletionBlock##STPTokenCompletionBlock##(STPToken?, Error?) -> Void#>)
+        
         self.paymentContext.requestPayment()
     }
     
 
 }
 
+
 extension ResolveChatViewController: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
-        
-        MyAPIClient.sharedClient.completeCharge(paymentResult, amount: self.paymentContext.paymentAmount, completion: completion)
+//        
+//        MyAPIClient.sharedClient.completeCharge(paymentResult, amount: self.paymentContext.paymentAmount, completion: completion)
     }
     
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
@@ -137,15 +147,33 @@ extension ResolveChatViewController: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
         
-        print("Payment successful")
+        switch status {
+        case .error:
+            print(error)
+        case .success:
+            print("Payment successful")
+        case .userCancellation:
+            return // Do nothing
+        }
+        
     }
     
     func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
-        print("payment failed")
+        print("couldn't reach stripe servers")
         _ = self.navigationController?.popViewController(animated: true)
     }
 
     
 }
 
+extension ResolveChatViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 5
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+}

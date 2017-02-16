@@ -11,7 +11,11 @@ import JSQMessagesViewController
 import Firebase
 import Photos
 
-final class MessagesViewController: JSQMessagesViewController {
+protocol PaymentConfirmationProtocol : class {
+    func displayPaymentConfirmation()
+}
+
+final class MessagesViewController: JSQMessagesViewController, PaymentConfirmationProtocol, DisplayBanner {
 
     var chat: Chat
     var messagesRef: FIRDatabaseReference
@@ -87,8 +91,13 @@ final class MessagesViewController: JSQMessagesViewController {
         
         guard let userID = defaults.getUID(), let helperID = chat.helperID else { return }
         
-        let resolveChatVC = ResolveChatViewController()
-        self.navigationController?.pushViewController(resolveChatVC, animated: true)
+        let checkoutVC = CheckoutViewController(helperID: "tw2QiARnU7ZFZ7we4tmKs3HcSU42", helperName: "Jitae")
+        checkoutVC.paymentConfirmationDelegate = self
+        
+        present(UINavigationController(rootViewController: checkoutVC), animated: true, completion: nil)
+        
+//        let resolveChatVC = ResolveChatViewController()
+//        self.navigationController?.pushViewController(resolveChatVC, animated: true)
         
         /*
         let chatResolvedRef = FIREBASE_REF.child("chats").child("resolved")
@@ -195,6 +204,27 @@ final class MessagesViewController: JSQMessagesViewController {
 
     }
     
+    func displayPaymentConfirmation() {
+        displayBanner(desc: "Payment Successful!")
+        updateUserStats()
+        
+    }
+    
+    func updateUserStats() {
+        
+        guard let chatID = chat.chatID else { return }
+        let chatRef = FIREBASE_REF.child("chats").child(chatID).child("resolved")
+        chatRef.setValue(true)
+        
+        guard let userID = defaults.getUID(), let friendID = friendID else { return }
+        
+        let dataRequest = FirebaseService.dataRequest
+        dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("helpsReceivedCount"))
+        dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("tipsGivenCount"))
+        dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("helpsGivenCount"))
+        dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("tipsReceivedCount"))
+
+    }
     
     // MARK: JSQMessages Delegate Methods
     

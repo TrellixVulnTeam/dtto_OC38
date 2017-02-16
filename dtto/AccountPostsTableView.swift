@@ -17,6 +17,7 @@ class AccountPostsTableView: BaseCollectionViewCell {
         tv.backgroundColor = .white
         tv.estimatedRowHeight = 500
         tv.separatorStyle = .none
+        
         tv.showsVerticalScrollIndicator = true
 //        tv.contentInset = .init(top: 200, left: 0, bottom: 0, right: 0)
         return tv

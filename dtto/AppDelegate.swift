@@ -22,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         // Configure batch
-        Batch.start(withAPIKey: "DEV588BCEF7C6B8DDADD5CDCCB1E14")
-        BatchPush.registerForRemoteNotifications()
+//        Batch.start(withAPIKey: "DEV588BCEF7C6B8DDADD5CDCCB1E14")
+//        BatchPush.registerForRemoteNotifications()
         // Login Providers
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        defaults.setLogin(value: true)
 //        defaults.setUID(value: "dueyYrZnhZTYRlAXfL0U9ErcOj02")
         if defaults.isLoggedIn() {
-            let initialViewController = UINavigationController(rootViewController: ResolveChatViewController()) //TabBarController()
+            let initialViewController = TabBarController()
 //            UIView.transition(with: self.window!, duration: 0.5, options: .transitionCurlUp, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
 //            }, completion: nil)
