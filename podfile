@@ -17,6 +17,9 @@ target 'dtto' do
   pod 'Google/SignIn'
   pod 'FBSDKLoginKit'
 
+  # Useful Libraries
+  pod 'SwiftDate'
+
   # UI Tweaks
   pod 'NVActivityIndicatorView'
   pod 'SkyFloatingLabelTextField'

@@ -160,8 +160,15 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
             
             guard let messageData = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
-            if let senderID = messageData["senderID"] as? String, let name = messageData["name"] as? String, let text = messageData["text"] as? String {
-                self.addMessage(withId: senderID, name: name, text: text)
+            if let senderID = messageData["senderID"] as? String, let name = messageData["name"] as? String, let text = messageData["text"] as? String, let date = messageData["date"] as? String {
+                // do date conversion
+                
+                if let messageStringDate = stringToDate(date) {
+                    
+                }
+                
+                let (colloquial,relevantTime) = try! dateDifference.colloquialSinceNow()
+                self.addMessage(withId: senderID, name: name, text: text, date: Date())
                 self.finishReceivingMessage()
             }
             
@@ -300,10 +307,9 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         }
     }
 
-    
-    private func addMessage(withId id: String, name: String, text: String) {
+    private func addMessage(withId id: String, name: String, text: String, date: Date) {
 
-        if let message = JSQMessage(senderId: id, displayName: name, text: text) {
+        if let message = JSQMessage(senderId: id, senderDisplayName: name, date: date, text: text) {
             messages.append(message)
         }
     }
@@ -338,7 +344,6 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAt indexPath: IndexPath!) -> NSAttributedString! {
         
         let timestamp = messages[indexPath.item].date
-        
         let timeLabel = NSAttributedString(string: "\(timestamp)")
         return timeLabel
         
