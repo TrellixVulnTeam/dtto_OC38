@@ -447,15 +447,17 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         case .Profile:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostProfileCell", for: indexPath) as! PostProfileCell
             cell.nameLabel.text = post.name ?? "Anonymous"
+            
+            // Only load profile if the post is public
             if let _ = post.username {
+                cell.profileImage.loadProfileImage(post.userID!)
                 cell.usernameLabel.text = "@" + post.username!
             }
             else {
+                cell.profileImage.image = nil
                 cell.usernameLabel.text = ""
             }
             
-            cell.profileImage.loadProfileImage(post.userID!)
-
             cell.postDelegate = self
             return cell
             

@@ -151,11 +151,12 @@ class ComposePostViewController: UIViewController {
                 // Add user's names if post is public
                 if postToolbar.publicToggle.isOn {
                     
-                    guard let name = defaults.getName(), let username = defaults.getUsername() else { return }
+                    if let name = defaults.getName(), let username = defaults.getUsername() {
+                        let publicPost: [String : Any] = ["name" : name,
+                                                          "username" : username]
+                        postRef.child(postID).updateChildValues(publicPost)
+                    }
                     
-                    let publicPost: [String : Any] = ["name" : name,
-                                                      "username" : username]
-                    postRef.child(postID).updateChildValues(publicPost)
                 }
                 
                 // Update user stats
