@@ -18,7 +18,7 @@ target 'dtto' do
   pod 'FBSDKLoginKit'
 
   # Useful Libraries
-  pod 'SwiftDate'
+  pod 'DateTools'
 
   # UI Tweaks
   pod 'NVActivityIndicatorView'

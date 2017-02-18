@@ -10,6 +10,7 @@ import UIKit
 import JSQMessagesViewController
 import Firebase
 import Photos
+import DateTools
 
 protocol PaymentConfirmationProtocol : class {
     func displayPaymentConfirmation()
@@ -160,15 +161,15 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
             
             guard let messageData = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
-            if let senderID = messageData["senderID"] as? String, let name = messageData["name"] as? String, let text = messageData["text"] as? String, let date = messageData["date"] as? String {
-                // do date conversion
+            if let senderID = messageData["senderID"] as? String, let name = messageData["name"] as? String, let text = messageData["text"] as? String, let timestamp = messageData["timestamp"] as? String {
                 
-                if let messageStringDate = stringToDate(date) {
-                    
+                var messageDate: Date?
+                
+                if let date = stringToDate(timestamp) {
+                    messageDate = date
                 }
                 
-                let (colloquial,relevantTime) = try! dateDifference.colloquialSinceNow()
-                self.addMessage(withId: senderID, name: name, text: text, date: Date())
+                self.addMessage(withId: senderID, name: name, text: text, date: messageDate!)
                 self.finishReceivingMessage()
             }
             
@@ -307,7 +308,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         }
     }
 
-    private func addMessage(withId id: String, name: String, text: String, date: Date) {
+    private func addMessage(withId id: String, name: String, text: String, date: Date?) {
 
         if let message = JSQMessage(senderId: id, senderDisplayName: name, date: date, text: text) {
             messages.append(message)
@@ -343,9 +344,16 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAt indexPath: IndexPath!) -> NSAttributedString! {
         
-        let timestamp = messages[indexPath.item].date
-        let timeLabel = NSAttributedString(string: "\(timestamp)")
-        return timeLabel
+        // convert date
+        var readableDate = NSAttributedString()
+        
+        if let messageDate = messages[indexPath.item].date {
+            
+            readableDate = NSAttributedString(string: messageDate.timeAgoSinceDate(numericDates: true))
+            
+        }
+        
+        return readableDate
         
     }
 

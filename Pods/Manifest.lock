@@ -6,6 +6,7 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
+  - DateTools (2.0.0)
   - FBSDKCoreKit (4.19.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.19.0):
@@ -78,10 +79,10 @@ PODS:
   - NVActivityIndicatorView (3.4)
   - SkyFloatingLabelTextField (2.0.1)
   - Stripe (9.4.0)
-  - SwiftDate (4.0.13)
 
 DEPENDENCIES:
   - Batch (~> 1.6)
+  - DateTools
   - FBSDKLoginKit
   - Firebase
   - Firebase/Auth
@@ -95,7 +96,6 @@ DEPENDENCIES:
   - NVActivityIndicatorView
   - SkyFloatingLabelTextField
   - Stripe
-  - SwiftDate
 
 EXTERNAL SOURCES:
   MIBadgeButton-Swift:
@@ -110,6 +110,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Batch: 4c2ab398e92663ec7132fc348d6f613c541fd9e2
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
   FBSDKLoginKit: 83ca4d8f12a2022570af9fd6aacf27f6b425b99f
   Firebase: 5bc34d7b5ff5792e3386c8b28dc6265deeab0da4
@@ -133,8 +134,7 @@ SPEC CHECKSUMS:
   NVActivityIndicatorView: 5754be63ceecd1df8af37d3c088d81872feeb8b8
   SkyFloatingLabelTextField: 070e749632ffd608d6fd9db3fa488a822524997c
   Stripe: 0957cc85df5c3df153e6fb44d307ea4b778b6bd1
-  SwiftDate: 8ec416bb1b5129d1f35e8efaed720421f41d42df
 
-PODFILE CHECKSUM: 0a22f2b17e77ac8e9fbb0ce41e9bd08b31d44dc6
+PODFILE CHECKSUM: 55f514a1b4fd0f21897360d8dc82f9764002e1df
 
 COCOAPODS: 1.2.0
