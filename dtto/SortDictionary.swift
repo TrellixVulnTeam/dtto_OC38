@@ -17,3 +17,15 @@ func sortByValue(dict: [String : Int]) -> [String] {
     
     return array
 }
+
+
+func addUserInfoLine(count: Int) -> Int {
+
+    if count < 3 {
+        return count + 1
+    }
+    else {
+        return count
+    }
+    
+}

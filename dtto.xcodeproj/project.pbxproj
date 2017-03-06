@@ -97,6 +97,7 @@
 		04EA04781E12078C00B0A984 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA04771E12078C00B0A984 /* ProfileViewController.swift */; };
 		04EA04801E121C1C00B0A984 /* ProfileExpertiseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA047E1E121C1C00B0A984 /* ProfileExpertiseCell.swift */; };
 		04EA04841E121D3600B0A984 /* ProfileSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA04821E121D3600B0A984 /* ProfileSummaryCell.swift */; };
+		04F18BC01E60FB6B00AF9FF5 /* UserInfoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F18BBF1E60FB6B00AF9FF5 /* UserInfoPickerViewController.swift */; };
 		04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4EFA21E0A5DE700F1DDFA /* Date.swift */; };
 		04F6EFBE1E0B6C1D0055015F /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6EFBD1E0B6C1D0055015F /* Notification.swift */; };
 		04F9BB201E358D6700724549 /* EditUserImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F9BB1F1E358D6700724549 /* EditUserImageCell.swift */; };
@@ -239,6 +240,7 @@
 		04EA04771E12078C00B0A984 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		04EA047E1E121C1C00B0A984 /* ProfileExpertiseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileExpertiseCell.swift; sourceTree = "<group>"; };
 		04EA04821E121D3600B0A984 /* ProfileSummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSummaryCell.swift; sourceTree = "<group>"; };
+		04F18BBF1E60FB6B00AF9FF5 /* UserInfoPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoPickerViewController.swift; sourceTree = "<group>"; };
 		04F4EFA21E0A5DE700F1DDFA /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		04F6EFBD1E0B6C1D0055015F /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		04F9BB1F1E358D6700724549 /* EditUserImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserImageCell.swift; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 				04FC41121E30559C00F59132 /* EditUserInfoSearchCell.swift */,
 				04F9BB211E3594FC00724549 /* EditUserSummaryCell.swift */,
 				046D56791E342BF200409034 /* DatePickerViewController.swift */,
+				04F18BBF1E60FB6B00AF9FF5 /* UserInfoPickerViewController.swift */,
 			);
 			name = ProfileEdit;
 			sourceTree = "<group>";
@@ -940,6 +943,7 @@
 				04B29A5F1E35B57000347821 /* SettingsViewController.swift in Sources */,
 				041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */,
 				04B8EC471E496A60004E45FC /* Relater.swift in Sources */,
+				04F18BC01E60FB6B00AF9FF5 /* UserInfoPickerViewController.swift in Sources */,
 				04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */,
 				04F9BB201E358D6700724549 /* EditUserImageCell.swift in Sources */,
 				049AB6B11DFE841F00B45DC3 /* ChatList.swift in Sources */,

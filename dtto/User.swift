@@ -26,6 +26,47 @@ class User: NSObject {
     var totalChatCount: Int?
     var relatesReceivedCount: Int?
     
-    
+    func createUserDict() -> [String : Any] {
+        
+        var userUpdates = [String : Any]()
+        
+        if let uid = uid {
+            userUpdates.updateValue(uid, forKey: "uid")
+        }
+        
+        if let name = name {
+            userUpdates.updateValue(name, forKey: "name")
+        }
+        
+        if let username = username {
+            userUpdates.updateValue(username, forKey: "username")
+        }
+        
+        if let birthday = birthday {
+            userUpdates.updateValue(birthday, forKey: "birthday")
+        }
+        
+        if let email = email {
+            userUpdates.updateValue(email, forKey: "email")
+        }
+        
+        if education.count != 0 {
+            for (index, education) in education.enumerated() {
+                userUpdates.updateValue(index, forKey: education)
+            }
+        }
+        
+        if profession.count != 0 {
+            for (index, profession) in profession.enumerated() {
+                userUpdates.updateValue(index, forKey: profession)
+            }
+        }
+        
+        if let summary = summary {
+            userUpdates.updateValue(summary, forKey: "summary")
+        }
+        
+        return userUpdates
+    }
 
 }

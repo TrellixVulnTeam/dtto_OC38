@@ -29,8 +29,6 @@ class EditUserInfoSearchCell: BaseTableViewCell {
     override func setupViews() {
         super.setupViews()
         
-        
-        
     }
 
 }

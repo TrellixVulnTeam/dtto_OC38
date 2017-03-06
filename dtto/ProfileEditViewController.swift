@@ -13,10 +13,11 @@ import Firebase
 protocol MainEditViewDelegate {
     
     func updateBirthday(date: Date?)
+    func updateEducation(education: String)
     func showImagePicker()
 }
 
-class ProfileEditViewController: UIViewController,FormNavigationBar {
+class ProfileEditViewController: UIViewController, FormNavigationBar {
 
     var user: User
     
@@ -30,11 +31,12 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
     }
     
     lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .grouped)
+        let tv = UITableView(frame: .zero, style: .plain)
         tv.delegate = self
         tv.dataSource = self
-        tv.backgroundColor = .white
+//        tv.backgroundColor = .white
         tv.estimatedRowHeight = 50
+//        tv.estimatedSectionHeaderHeight = 20
 //        tv.separatorStyle = .none
         tv.showsVerticalScrollIndicator = true
         
@@ -57,6 +59,7 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        hideKeyboardWhenTappedAround()
         setupViews()
         setupNavBar(title: "Edit Profile")
     }
@@ -81,6 +84,14 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
         updateName()
         updateBirthday()
 //        selectPicture()
+        
+        let userUpdates = user.createUserDict()
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        let userRef = FIREBASE_REF.child("users").child(userID)
+        userRef.updateChildValues(userUpdates)
+        
     }
     
     func enableSaveButton() {
@@ -92,7 +103,7 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
         
         guard let userID = defaults.getName(), let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? EditUserInfoBaseCell else { return }
 
-        guard let nameField = cell.userInfoTextField.text, let name = user.name, name != nameField else { return }
+        guard let nameField = cell.userInfoTextView.text, let name = user.name, name != nameField else { return }
         
         let nameRef = FIREBASE_REF.child("users").child(userID).child("name")
         nameRef.setValue(name)
@@ -105,7 +116,7 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
    
         let birthdayRef = FIREBASE_REF.child(userID).child("birthday")
         
-        if let birthdayField = cell.userInfoTextField.text, birthdayField != "Add your birthday" {
+        if let birthdayField = cell.userInfoTextView.text, birthdayField != "Add your birthday" {
             if let userBirthday = user.birthday, userBirthday == birthdayField {
   
             }
@@ -118,12 +129,8 @@ class ProfileEditViewController: UIViewController,FormNavigationBar {
         }
         
     }
-    
-   
 
 }
-
- 
 
 extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -134,25 +141,36 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
         case Birthday
         case Education
         case Profession
+        case Expertise
         case Summary
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 7
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+        guard let section = Section(rawValue: section) else { return 0 }
+        
         switch section {
-        case 0:
+            
+        case .Image:
             return 1
-        case 1:
-            return 2
-        case 5:
+        case .Name:
             return 1
-        default:
-            return 0
+        case .Birthday:
+            return 1
+        case .Education:
+            return addUserInfoLine(count: user.education.count)
+        case .Profession:
+            return addUserInfoLine(count: user.profession.count)
+        case .Expertise:
+            return addUserInfoLine(count: user.expertise.count)
+        case .Summary:
+            return 1
         }
+        
         
 //        guard let section = Section(rawValue: section) else { return 0 }
 //        
@@ -177,66 +195,161 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
         
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0
-    }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        
+//        if tableView.numberOfRows(inSection: section) != 0 {
+//            
+//            guard let section = Section(rawValue: section) else { return 0 }
+//            
+//            switch section {
+//            case .Education, .Profession, .Expertise, .Summary:
+//                return 30
+//            default:
+//                return 0
+//            }
+//            
+//        }
+//        else {
+//            return 0
+//        }
+//        
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
+        
+        switch section {
             
-        case 0:
+        case .Image:
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserImageCell") as! EditUserImageCell
             cell.profileViewControllerDelegate = self
             cell.profileImage.setBackgroundImage(#imageLiteral(resourceName: "profile"), for: UIControlState())
             cell.selectionStyle = .none
             return cell
+  
+        case .Summary:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserSummaryCell") as! EditUserSummaryCell
+            cell.selectionStyle = .none
+            return cell
             
-        case 1:
+        default:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserInfoBaseCell") as! EditUserInfoBaseCell
+            cell.selectionStyle = .none
             
-            switch indexPath.row {
-            
-            case 0:
-                cell.infoLabel.text = "Name"
-                cell.userInfoTextField.placeholder = user.name ?? "Add your name"
-                cell.selectionStyle = .none
+            switch section {
                 
-            default:
+            case .Name:
+                cell.infoLabel.text = "Name"
+                cell.userInfoTextView.text = user.name ?? "Add your name"
+            
+            case .Birthday:
                 cell.infoLabel.text = "Birthday"
-                cell.userInfoTextField.placeholder = user.birthday ?? "Add your birthday"
-                cell.userInfoTextField.isUserInteractionEnabled = false
+                cell.userInfoTextView.text = user.birthday ?? "Add your birthday"
+                cell.userInfoTextView.isUserInteractionEnabled = false
+            
+            case .Education:
+                if indexPath.row == 0 {
+                    cell.infoLabel.text = "Education"
+                }
+                else {
+                    cell.infoLabel.text = nil
+                }
+                if indexPath.row >= user.education.count {
+                    // make new cell
+                    cell.userInfoTextView.text = "Add a school"
+                    cell.userInfoTextView.isUserInteractionEnabled = false
+                    cell.selectionStyle = .default
+                }
+                else {
+                    cell.userInfoTextView.text = user.education[indexPath.row]
+                }
+
+            case .Profession:
+                if indexPath.row == 0 {
+                    cell.infoLabel.text = "Profession"
+                }
+                else {
+                    cell.infoLabel.text = nil
+                }
+                if indexPath.row >= user.profession.count {
+                    // make new cell
+                    cell.userInfoTextView.text = "Add a profession"
+                    cell.userInfoTextView.isUserInteractionEnabled = false
+                    cell.selectionStyle = .default
+                }
+                else {
+                    cell.userInfoTextView.text = user.profession[indexPath.row]
+                }
+            
+            case .Expertise:
+                if indexPath.row == 0 {
+                    cell.infoLabel.text = "Expertise"
+                }
+                else {
+                    cell.infoLabel.text = nil
+                }
+                if indexPath.row >= user.expertise.count {
+                    cell.userInfoTextView.text = "Add an expertise"
+                    cell.userInfoTextView.isUserInteractionEnabled = false
+                    cell.selectionStyle = .default
+                }
+                else {
+                    cell.userInfoTextView.text = user.expertise[indexPath.row]
+                }
+            
+            default:
+                return UITableViewCell()
             }
             
             return cell
-            
-        case 5:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserSummaryCell") as! EditUserSummaryCell
-            return cell
-        default:
-            return UITableViewCell()
         }
        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else { return }
+        
+        switch section {
             
-        case 1:
-            switch indexPath.row {
-            case 0:
-                guard let nameCell = tableView.cellForRow(at: indexPath) as? EditUserInfoBaseCell else { return }
-                _ = nameCell.userInfoTextField.becomeFirstResponder()
+        case .Name:
+            guard let nameCell = tableView.cellForRow(at: indexPath) as? EditUserInfoBaseCell else { return }
+            _ = nameCell.userInfoTextView.becomeFirstResponder()
+            
+        case .Birthday:
+            let datePickerVC = DatePickerViewController()
+            datePickerVC.mainEditDelegate = self
+            present(UINavigationController(rootViewController: datePickerVC), animated: true, completion: nil)
+            
+        case .Education:
+            if indexPath.row >= user.education.count {
                 
-            case 1:
-                let datePickerVC = DatePickerViewController()
-                datePickerVC.mainEditDelegate = self
-                present(UINavigationController(rootViewController: datePickerVC), animated: true, completion: nil)
-            default:
-                break
+                let autocompleteController = GMSAutocompleteViewController()
+                let filter = GMSAutocompleteFilter()
+                filter.type = .establishment
+                autocompleteController.autocompleteFilter = filter
+                autocompleteController.delegate = self
+                
+                present(autocompleteController, animated: true, completion: nil)
+
+//                let vc = UserInfoPickerViewController(UserInfoType.Education)
+//                present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
             }
+        case .Profession:
+            if indexPath.row >= user.profession.count {
+                let vc = UserInfoPickerViewController(UserInfoType.Profession)
+                vc.mainEditDelegate = self
+                present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+            }
+        case .Expertise:
+            if indexPath.row >= user.expertise.count {
+                let vc = UserInfoPickerViewController(UserInfoType.Expertise)
+                vc.mainEditDelegate = self
+                present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+            }
+            
         default:
             break
         }
@@ -251,14 +364,23 @@ extension ProfileEditViewController: MainEditViewDelegate {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? EditUserInfoBaseCell else { return }
         
         if let date = date {
-            cell.userInfoTextField.text = "\(date)"
+            cell.userInfoTextView.text = "\(date)"
+            user.birthday = "\(date)"
         }
         else {
-            cell.userInfoTextField.text = "Add your birthday"
+            cell.userInfoTextView.text = "Add your birthday"
         }
         
         enableSaveButton()
         
+    }
+    
+    func updateEducation(education: String) {
+        
+        var userEducation = user.education
+        userEducation.append(education)
+        
+        enableSaveButton()
     }
     
     func showImagePicker() {
@@ -336,24 +458,67 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
         
     }
     
+    func addTableViewCell(infoType: UserInfoType, placeName: String) {
+        
+        switch infoType {
+        case .Education:
+            
+            user.education.append(placeName)
+            
+            let educationCount = user.education.count
+            
+            if educationCount < 3 {
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+                    self.tableView.insertRows(at: [IndexPath(row: educationCount, section: 3)], with: .automatic)
+                    self.tableView.endUpdates()
+                }
+            }
+            
+            guard let cell = tableView.cellForRow(at: IndexPath(row: user.education.count-1, section: 3)) as? EditUserInfoBaseCell else { return }
+            cell.userInfoTextView.text = placeName
+            
+            
+        case .Profession:
+            
+            user.profession.append(placeName)
+            
+            let professionCount = user.profession.count
+            
+            if professionCount < 3 {
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+                    self.tableView.insertRows(at: [IndexPath(row: professionCount, section: 4)], with: .automatic)
+                    self.tableView.endUpdates()
+                }
+            }
+
+            guard let cell = tableView.cellForRow(at: IndexPath(row: user.profession.count-1, section: 4)) as? EditUserInfoBaseCell else { return }
+            cell.userInfoTextView.text = placeName
+
+            
+        case .Expertise:
+            
+            let expertiseCount = user.expertise.count
+            DispatchQueue.main.async {
+                self.tableView.insertRows(at: [IndexPath(row: expertiseCount, section: 5)], with: .automatic)
+            }
+        }
+        
+    }
+    
 }
 
 extension ProfileEditViewController: GMSAutocompleteViewControllerDelegate {
-    
-//    let autocompleteController = GMSAutocompleteViewController()
-//    let filter = GMSAutocompleteFilter()
-//    filter.type = .establishment
-//    autocompleteController.autocompleteFilter = filter
-//    autocompleteController.delegate = self
-//
-//    present(autocompleteController, animated: true, completion: nil)
-    
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress)")
         print("Place attributions: \(place.attributions)")
+        
+        addTableViewCell(infoType: .Education, placeName: place.name)
+        
         dismiss(animated: true, completion: nil)
     }
     

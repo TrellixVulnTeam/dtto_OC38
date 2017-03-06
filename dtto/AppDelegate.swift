@@ -21,17 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+        // Configure Firebase
+        FIRApp.configure()
+        //        FIRDatabase.database().persistenceEnabled = true
         // Configure batch
 //        Batch.start(withAPIKey: "DEV588BCEF7C6B8DDADD5CDCCB1E14")
 //        BatchPush.registerForRemoteNotifications()
         // Login Providers
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
-        
-        // Configure Firebase
-        FIRApp.configure()
-//        FIRDatabase.database().persistenceEnabled = true
+//        GIDSignIn.sharedInstance().clientID = FIRApp.defaultApp()?.options.clientID
         
         // Configure Google Places
         GMSPlacesClient.provideAPIKey("AIzaSyCnPwF0sigqf4nlHoIgu1QRos4nQYgwbH4")

@@ -97,6 +97,9 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         
         present(UINavigationController(rootViewController: checkoutVC), animated: true, completion: nil)
         
+        // prompt user with screen that reviews that helper.
+        // depending on the prompt, go to the payment selection screen. 
+        
 //        let resolveChatVC = ResolveChatViewController()
 //        self.navigationController?.pushViewController(resolveChatVC, animated: true)
         

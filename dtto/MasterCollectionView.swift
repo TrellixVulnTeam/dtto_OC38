@@ -11,9 +11,9 @@ import Firebase
 
 class MasterCollectionView: UIViewController {
     
-    private var chatRefHandle: FIRDatabaseHandle?
-    private lazy var chatRef: FIRDatabaseReference = FIRDatabase.database().reference().child("chats")
-    private lazy var userRef: FIRDatabaseReference = FIRDatabase.database().reference().child("users")
+//    private var chatRefHandle: FIRDatabaseHandle?
+//    private lazy var chatRef: FIRDatabaseReference = FIRDatabase.database().reference().child("chats")
+//    private lazy var userRef: FIRDatabaseReference = FIRDatabase.database().reference().child("users")
     
     var chats = [Chat]()
     var requests = [UserNotification]()
@@ -25,7 +25,6 @@ class MasterCollectionView: UIViewController {
     var initialLoad = true
     var numberOfMenuTabs = 0
     
-    var group = DispatchGroup()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -60,7 +59,7 @@ class MasterCollectionView: UIViewController {
 
             chatRoomRef.observe(.value, with: { chatSnapshot in
                 
-                DispatchQueue.global().async { [unowned self] in
+                DispatchQueue.global().async {
                     
                     var contains = false
                     for (index, chat) in self.chats.enumerated() {
@@ -75,7 +74,7 @@ class MasterCollectionView: UIViewController {
                     }
                     if !contains {
                         
-                        self.chats.append(Chat(snapshot: chatSnapshot))
+                        self.chats.insert(Chat(snapshot: chatSnapshot), at: 0)
                         DispatchQueue.main.async {
                             self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
                         }
@@ -262,7 +261,7 @@ class MasterCollectionView: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.alpha = 0
         
-        self.view.addSubview(collectionView)
+        view.addSubview(collectionView)
 
         collectionView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         

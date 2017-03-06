@@ -18,25 +18,27 @@ class EditUserInfoBaseCell: BaseTableViewCell {
         return label
     }()
     
-    let userInfoTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Add your name"
-        textField.textColor = .lightGray
-        textField.font = UIFont.systemFont(ofSize: 15)
-        return textField
+    let userInfoTextView: UITextView = {
+        let textView = UITextView()
+        textView.text = "Add your name"
+        textView.textColor = .lightGray
+        textView.font = UIFont.systemFont(ofSize: 15)
+        textView.sizeToFit()
+        textView.isScrollEnabled = false
+        return textView
     }()
     
     override func setupViews() {
         super.setupViews()
         
         addSubview(infoLabel)
-        addSubview(userInfoTextField)
+        addSubview(userInfoTextView)
         
-        infoLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 80, heightConstant: 0)
-//        infoLabel.setContentHuggingPriority(.greatestFiniteMagnitude, for: .horizontal)
+        infoLabel.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 80, heightConstant: 0)
+        infoLabel.anchorCenterYToSuperview()
         
-        userInfoTextField.anchor(top: nil, leading: infoLabel.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        userInfoTextField.anchorCenterYToSuperview()
+        userInfoTextView.anchor(top: topAnchor, leading: infoLabel.trailingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 10, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
+        userInfoTextView.anchorCenterYToSuperview()
         
     }
 

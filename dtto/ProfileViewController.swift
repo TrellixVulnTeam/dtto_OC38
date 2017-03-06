@@ -140,7 +140,8 @@ class ProfileViewController: UIViewController {
         
 //        guard let user = user else { return }
 //        guard let userID = user.uid else { return }
-        userRef.observeSingleEvent(of: .value, with: { snapshot in
+        
+        userRef.observe(.value, with: { snapshot in
             // get all user attributes, then add to tableview
             guard let userSnapshot = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
@@ -251,19 +252,30 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
         
-        
-        
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-
-        if tableView.numberOfRows(inSection: section) != 0 {
-            return "  Section"
-        }
-        else {
+        guard let section = Section(rawValue: section) else { return nil }
+        
+        switch section {
+        case .Profile:
             return nil
+        case .Education:
+            return "  Education"
+        case .Profession:
+            return "  Profession"
+        case .Expertise:
+            return "  Expertise"
+        case .Summary:
+            return "  Summary"
         }
+//        if tableView.numberOfRows(inSection: section) != 0 {
+//            return "  Section"
+//        }
+//        else {
+//            return nil
+//        }
         
     }
     

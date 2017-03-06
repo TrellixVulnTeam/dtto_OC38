@@ -18,34 +18,40 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     var posts = [Post]()
     var fullPosts = [Post]()
-    var outgoingRequests = [String : Bool]()
-    var relates: [String : Bool] = defaults.getRelates()
+    var outgoingRequests: [String : Bool]?
+    var relates: [String : Bool]?
+//    var relates: [String : Bool] = defaults.getRelates()
     
-    var collectionView: UICollectionView!
-    
-    override func setupViews() {
-        super.setupViews()
-        
-        observePosts()
-        checkOutgoingRequests()
+    lazy var collectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
-
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
         collectionView.backgroundColor = Color.gray247
+        
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        addSubview(collectionView)
-        collectionView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         collectionView.register(PostProfileCell.self, forCellWithReuseIdentifier: "PostProfileCell")
         collectionView.register(PostTextCell.self, forCellWithReuseIdentifier: "PostTextCell")
         collectionView.register(PostButtonsCell.self, forCellWithReuseIdentifier: "PostButtonsCell")
         collectionView.register(PostTagsCell.self, forCellWithReuseIdentifier: "PostTagsCell")
+        
+        return collectionView
+    }()
+    
+    override func setupViews() {
+        super.setupViews()
+        
+        addSubview(collectionView)
+        
+        collectionView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+        observePosts()
+        checkOutgoingRequests()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
@@ -62,13 +68,14 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         // Check if the user has ongoing requests and update.
         let ongoingChatsRef = FIREBASE_REF.child("users").child(userID).child("chats")
+        
         ongoingChatsRef.observe(.childAdded, with: { snapshot in
             
             if let postID = snapshot.value as? String {
-                self.outgoingRequests.updateValue(true, forKey: postID)
+                _ = self.outgoingRequests?.updateValue(true, forKey: postID)
 
                 // find the cell to update and reload the indexpath.
-                DispatchQueue.global().async { [unowned self] in
+                DispatchQueue.global().async {
                     for (index, post) in self.posts.enumerated() {
                         if post.postID == postID {
                             DispatchQueue.main.async {
@@ -124,7 +131,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                         
                         
                         self.posts[index] = Post(dictionary: postData)
-                        DispatchQueue.main.async(execute: { [unowned self] in
+                        DispatchQueue.main.async(execute: {
                             UIView.performWithoutAnimation {
                                 self.collectionView.reloadSections(IndexSet(integer: index))
                             }
@@ -143,14 +150,14 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             for (index, post) in self.posts.enumerated() {
                 if post.postID == uidToRemove {
                     self.posts.remove(at: index)
-//                    DispatchQueue.main.async(execute: {
-                    self.collectionView.deleteSections(IndexSet(integer: index))
-//                    })
+                        DispatchQueue.main.async(execute: {
+                            self.collectionView.deleteSections(IndexSet(integer: index))
+                        })
                 }
             }
             
             // remove on background thread since user isn't viewing this.
-            DispatchQueue.global().async(execute: { [unowned self] in
+            DispatchQueue.global().async(execute: {
                 
                 for (index, post) in self.fullPosts.enumerated() {
                     if post.postID == uidToRemove {
@@ -160,6 +167,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             })
             
         })
+        
+        
         
     }
     
@@ -251,7 +260,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 
                 // remove this user from the post's list of related users
                 postRelatesRef.removeValue()
-                self.relates.removeValue(forKey: postID)
+                self.relates?.removeValue(forKey: postID)
             }
             else {
                 userRelatesRef.setValue(true)
@@ -263,9 +272,13 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 let timestamp = Date()
                 let relaterData: [String : Any] = ["name" : name, "username" : username, "timestamp" : "\(timestamp)"]
                 postRelatesRef.setValue(relaterData)
-                self.relates.updateValue(true, forKey: postID)
+                self.relates?.updateValue(true, forKey: postID)
             }
-            defaults.setRelates(value: self.relates)
+            
+            if let relates = self.relates {
+                defaults.setRelates(value: relates)
+            }
+            
         })
         
     }
@@ -283,7 +296,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             
             if userID == posterID {
                 
-                let delete = UIAlertAction(title: "Delete", style: .default, handler: { (action:UIAlertAction) in
+                let delete = UIAlertAction(title: "Delete", style: .default, handler: { [unowned self] (action:UIAlertAction) in
                     
                     self.deletePost(section: section)
                     
@@ -291,7 +304,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 
                 ac.addAction(delete)
                 
-                let edit = UIAlertAction(title: "Edit", style: .default, handler: { (action:UIAlertAction) in
+                let edit = UIAlertAction(title: "Edit", style: .default, handler: { [unowned self] (action:UIAlertAction) in
                     
                     self.editPost(section: section)
                     
@@ -301,7 +314,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 
             }
             else {
-                let report = UIAlertAction(title: "Report", style: .destructive, handler: { (action:UIAlertAction) in
+                let report = UIAlertAction(title: "Report", style: .destructive, handler: { [unowned self] (action:UIAlertAction) in
                     
                     self.reportPost(postID: post.postID)
                     
@@ -310,7 +323,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             }
         }
 
-        let hide = UIAlertAction(title: "Hide", style: .default, handler: { (action:UIAlertAction) in
+        let hide = UIAlertAction(title: "Hide", style: .default, handler: { [unowned self] (action:UIAlertAction) in
             
             self.hidePost(section: section, postID: post.postID)
             
@@ -470,7 +483,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostButtonsCell", for: indexPath) as! PostButtonsCell
             cell.requestChatDelegate = self
             
-            if let _ = relates[post.postID!] {
+            if let _ = relates?[post.postID!] {
                 cell.relateButton.isSelected = true
             }
             else {
@@ -482,7 +495,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             }
             else {
                 cell.chatButton.isHidden = false
-                if let ongoing = outgoingRequests[post.postID!] {
+                if let ongoing = outgoingRequests?[post.postID!] {
                     if ongoing {
                         cell.chatState = .ongoing
                     }
