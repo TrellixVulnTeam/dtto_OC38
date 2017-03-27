@@ -21,15 +21,6 @@ class ProfileEditViewController: UIViewController, FormNavigationBar {
 
     var user: User
     
-    init(user: User) {
-        self.user = user
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.delegate = self
@@ -46,15 +37,13 @@ class ProfileEditViewController: UIViewController, FormNavigationBar {
         return tv
     }()
     
-    private func setupViews() {
-        
-        automaticallyAdjustsScrollViewInsets = false
-        view.backgroundColor = .white
-        
-        view.addSubview(tableView)
-
-        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -74,6 +63,17 @@ class ProfileEditViewController: UIViewController, FormNavigationBar {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         view.endEditing(true)
+    }
+    
+    private func setupViews() {
+        
+        automaticallyAdjustsScrollViewInsets = false
+        view.backgroundColor = .white
+        
+        view.addSubview(tableView)
+        
+        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        
     }
     
     func cancel() {

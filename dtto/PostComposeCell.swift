@@ -27,6 +27,7 @@ class PostComposeCell: BaseTableViewCell {
     }()
     
     override func setupViews() {
+        super.setupViews()
         
         addSubview(postTextView)
         

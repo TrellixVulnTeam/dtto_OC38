@@ -18,10 +18,7 @@ class PaymentCell: BaseTableViewCell {
     }()
     
     override func setupViews() {
-        backgroundColor = .white
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = Color.darkNavy
-        self.selectedBackgroundView = backgroundView
+        super.setupViews()
         
         addSubview(amountLabel)
         

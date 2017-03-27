@@ -39,13 +39,18 @@ class RequestsViewController: UIViewController, RequestsDelegate {
     }()
     
     lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
-        tv.backgroundColor = .white
-        tv.dataSource = self
-        tv.delegate = self
-        tv.rowHeight = 70
-        tv.allowsSelection = false
-        return tv
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = .white
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        tableView.rowHeight = 70
+        tableView.allowsSelection = false
+        
+        tableView.register(RequestsViewCell.self, forCellReuseIdentifier: "RequestsViewCell")
+
+        return tableView
     }()
     
     init(requests: [UserNotification]) {
@@ -60,24 +65,23 @@ class RequestsViewController: UIViewController, RequestsDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupViews()
         observeRequests()
-
     }
     
     private func setupViews() {
         
         navigationItem.title = "Chat Requests"
         navigationItem.rightBarButtonItem = viewChatsButton
+        
         view.addSubview(tableView)
         
         tableView.anchor(top: view.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        tableView.register(RequestsViewCell.self, forCellReuseIdentifier: "RequestsViewCell")
         
     }
     
-
     private func observeRequests() {
         
         guard let userID = defaults.getUID() else { return }

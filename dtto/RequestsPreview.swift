@@ -17,6 +17,7 @@ class RequestsPreview: UIView {
         label.textColor = .black
         return label
     }()
+    
     let badge = MIBadgeButton()
     
     var requestsCount: Int? {

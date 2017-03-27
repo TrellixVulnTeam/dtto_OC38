@@ -13,8 +13,10 @@ class ImageCell: BaseCollectionViewCell {
     let image = UIImageView()
     
     override func setupViews() {
+        super.setupViews()
         
-        self.addSubview(image)
+        addSubview(image)
+        
         image.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 25, heightConstant: 25)
         image.anchorCenterSuperview()
     }
@@ -23,14 +25,17 @@ class ImageCell: BaseCollectionViewCell {
 
 class TextCell: BaseCollectionViewCell {
     
-    let label = UILabel()
+    let label: UILabel = {
+        let label = UILabel()
+        return label
+    }()
     
     override func setupViews() {
-
-        label.textColor = .black
+        super.setupViews()
+        
         addSubview(label)
         
-        addConstraint(NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        label.anchorCenterSuperview()
+
     }
 }

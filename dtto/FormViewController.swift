@@ -63,6 +63,22 @@ class FormViewController: UIViewController {
     var errorMessage: String = String()
     var nextButtonTopConstraint: NSLayoutConstraint?
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupViews()
+        hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        _ = textField.becomeFirstResponder()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.endEditing(true)
+    }
+
     func setupViews() {
         
         view.backgroundColor = .white
@@ -87,22 +103,6 @@ class FormViewController: UIViewController {
         pageControl.anchor(top: nextButton.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         pageControl.anchorCenterXToSuperview()
 
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupViews()
-        hideKeyboardWhenTappedAround()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        _ = textField.becomeFirstResponder()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        view.endEditing(true)
     }
     
     func checkInput(_ sender: AnyObject) {

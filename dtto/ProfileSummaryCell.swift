@@ -11,7 +11,6 @@ import UIKit
 class ProfileSummaryCell: BaseTableViewCell {
 
     let summaryLabel: UILabel = {
-        
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .black
@@ -23,6 +22,7 @@ class ProfileSummaryCell: BaseTableViewCell {
         super.setupViews()
         
         addSubview(summaryLabel)
+        
         summaryLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 10, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
         
         

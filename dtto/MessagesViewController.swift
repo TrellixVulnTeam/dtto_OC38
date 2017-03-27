@@ -50,6 +50,23 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        getFriendName()
+        setupNavBar()
+        setupChat()
+        getMessages()
+        view.backgroundColor = .white
+        hideKeyboardWhenTappedAround()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
     private func setupNavBar() {
         
 //        let resolveChatButton = UIBarButtonItem(image: #imageLiteral(resourceName: "check"), style: .plain, target: self, action: #selector(resolveChat))
@@ -179,23 +196,6 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         })
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        getFriendName()
-        setupNavBar()
-        setupChat()
-        getMessages()
-        view.backgroundColor = .white
-        hideKeyboardWhenTappedAround()
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.navigationBar.isHidden = false
-    }
-
     func setupChat() {
         
         guard let userID = defaults.getUID() else { return }

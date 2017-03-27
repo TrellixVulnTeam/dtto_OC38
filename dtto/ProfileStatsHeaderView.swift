@@ -10,8 +10,14 @@ import UIKit
 
 class ProfileStatsHeaderView: UIView {
     
-    var sectionLabel = UILabel()
-    var underline = HorizontalBar()
+    let sectionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Color.darkNavy
+        label.font = UIFont.boldSystemFont(ofSize: 11)
+        return label
+    }()
+    
+    let underline = HorizontalBar()
     
     init() {
         super.init(frame: .zero)
@@ -22,8 +28,6 @@ class ProfileStatsHeaderView: UIView {
     func setupViews() {
         
         backgroundColor = .white
-        sectionLabel.textColor = Color.darkNavy
-        sectionLabel.font = UIFont.boldSystemFont(ofSize: 11)
         
         addSubview(sectionLabel)
         addSubview(underline)
@@ -34,7 +38,6 @@ class ProfileStatsHeaderView: UIView {
         underline.anchor(top: nil, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

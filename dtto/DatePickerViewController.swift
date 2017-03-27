@@ -30,6 +30,15 @@ class DatePickerViewController: UIViewController, FormNavigationBar {
         return button
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupViews()
+        setupNavBar(title: "Edit birthday")
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        navigationItem.rightBarButtonItem?.tintColor = Color.darkNavy
+        
+    }
+
     func setupViews() {
         
         view.backgroundColor = .white
@@ -57,15 +66,4 @@ class DatePickerViewController: UIViewController, FormNavigationBar {
         mainEditDelegate?.updateBirthday(date: nil)
         dismiss(animated: true, completion: nil)
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupViews()
-        setupNavBar(title: "Edit birthday")
-        navigationItem.rightBarButtonItem?.isEnabled = true
-        navigationItem.rightBarButtonItem?.tintColor = Color.darkNavy
-
-    }
-
 }

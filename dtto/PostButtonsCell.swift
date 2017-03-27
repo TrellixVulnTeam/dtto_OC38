@@ -65,28 +65,9 @@ class PostButtonsCell: BaseCollectionViewCell {
         return button
     }()
     
-    func relate(_ sender: UIButton) {
-        sender.bounceAnimate()
-//        if related {
-//            relateButton.setImage(#imageLiteral(resourceName: "relate"), for: .normal)
-//        }
-//        else {
-//            relateButton.setImage(#imageLiteral(resourceName: "relateSelected"), for: .normal)
-//        }
-//        related = !related
-        requestChatDelegate?.relatePost(cell: self)
-    }
-    
-    func requestChat(_ sender: UIButton) {
-        sender.bounceAnimate()
-        requestChatDelegate?.requestChat(cell: self, chatState: chatState)
-        
-    }
-    
     override func setupViews() {
         super.setupViews()
 
-        
         addSubview(relateButton)
         addSubview(chatButton)
         addSubview(shareButton)
@@ -97,6 +78,17 @@ class PostButtonsCell: BaseCollectionViewCell {
         chatButton.anchorCenterYToSuperview()
         shareButton.anchor(top: nil, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 15, bottomConstant: 0, widthConstant: 30, heightConstant: 30)
         shareButton.anchorCenterYToSuperview()
+        
+    }
+    
+    func relate(_ sender: UIButton) {
+        sender.bounceAnimate()
+        requestChatDelegate?.relatePost(cell: self)
+    }
+    
+    func requestChat(_ sender: UIButton) {
+        sender.bounceAnimate()
+        requestChatDelegate?.requestChat(cell: self, chatState: chatState)
         
     }
 

@@ -26,6 +26,6 @@ class BaseCollectionViewCell: UICollectionViewCell {
         backgroundColor = .white
         let backgroundView = UIView()
         backgroundView.backgroundColor = Color.gray247
-        self.selectedBackgroundView = backgroundView
+        selectedBackgroundView = backgroundView
     }
 }

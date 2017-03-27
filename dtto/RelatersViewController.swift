@@ -16,16 +16,17 @@ class RelatersViewController: UIViewController {
     var relatersRef: FIRDatabaseReference
     
     lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
-        tv.delegate = self
-        tv.dataSource = self
-        tv.backgroundColor = .white
-        tv.estimatedRowHeight = 50
+        let tableView = UITableView(frame: .zero, style: .plain)
+        
+        tableView.backgroundColor = .white
+        tableView.estimatedRowHeight = 50
 
+        tableView.delegate = self
+        tableView.dataSource = self
 //        tv.separatorStyle = .none
-        tv.register(RelatersCell.self, forCellReuseIdentifier: "RelatersCell")
+        tableView.register(RelatersCell.self, forCellReuseIdentifier: "RelatersCell")
 
-        return tv
+        return tableView
     }()
     
     init(postID: String) {
@@ -38,6 +39,17 @@ class RelatersViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupViews()
+        observeRelaters()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        relatersRef.removeAllObservers()
+    }
+    
     func setupViews() {
         
         title = "Relaters"
@@ -47,17 +59,6 @@ class RelatersViewController: UIViewController {
         
         tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupViews()
-        observeRelaters()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        relatersRef.removeAllObservers()
     }
     
     func observeRelaters() {

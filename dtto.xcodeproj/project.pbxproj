@@ -62,7 +62,6 @@
 		0470790C1E0612E90059C360 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470790B1E0612E90059C360 /* Notifications.swift */; };
 		0474C1DA1E2379B900F20704 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474C1D91E2379B900F20704 /* PasswordViewController.swift */; };
 		0483C1E11E285356003508F2 /* CardRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483C1E01E285356003508F2 /* CardRegistrationViewController.swift */; };
-		0497C2C91DE417D500485A92 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497C2C81DE417D500485A92 /* Channel.swift */; };
 		049AB6B11DFE841F00B45DC3 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB6B01DFE841F00B45DC3 /* ChatList.swift */; };
 		049AB6B41DFE869700B45DC3 /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB6B21DFE869700B45DC3 /* ChatListCell.swift */; };
 		049AB6B71DFE8E5000B45DC3 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB6B61DFE8E5000B45DC3 /* Chat.swift */; };
@@ -203,7 +202,6 @@
 		0470790B1E0612E90059C360 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		0474C1D91E2379B900F20704 /* PasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		0483C1E01E285356003508F2 /* CardRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardRegistrationViewController.swift; sourceTree = "<group>"; };
-		0497C2C81DE417D500485A92 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		049AB6B01DFE841F00B45DC3 /* ChatList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
 		049AB6B21DFE869700B45DC3 /* ChatListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		049AB6B61DFE8E5000B45DC3 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -482,7 +480,6 @@
 				0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */,
 				04D29D7D1E5416AA00F7264C /* CheckoutViewController.swift */,
 				04D29D7F1E54188200F7264C /* PaymentCell.swift */,
-				0497C2C81DE417D500485A92 /* Channel.swift */,
 				045248061E08A1F5007D6C3E /* ChatSettings.swift */,
 			);
 			name = Chat;
@@ -888,7 +885,6 @@
 				041B39361E1DD24E003E130E /* UIViewConstraints.swift in Sources */,
 				04DF310E1DE2EE4B0068E59B /* UserDefaultsHelper.swift in Sources */,
 				0413ABA31E233C4D00C7198C /* UsernameViewController.swift in Sources */,
-				0497C2C91DE417D500485A92 /* Channel.swift in Sources */,
 				045DAC3D1DDFB08A00BF3939 /* CircleButton.swift in Sources */,
 				041032AA1E03B76600B6BDE8 /* MenuCell.swift in Sources */,
 				04EA04801E121C1C00B0A984 /* ProfileExpertiseCell.swift in Sources */,

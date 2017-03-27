@@ -311,7 +311,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell") as! ProfileImageCell
 
             if let userID = user.uid {
-                cell.profileImage.loadProfileImage(userID)
+                cell.profileImageView.loadProfileImage(userID)
             }
             return cell
             

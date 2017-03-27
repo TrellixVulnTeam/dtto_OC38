@@ -15,6 +15,7 @@ class ChatList: BaseCollectionViewCell {
             collectionView.reloadData()
         }
     }
+    
     var collectionView: UICollectionView!
     
     override func setupViews() {

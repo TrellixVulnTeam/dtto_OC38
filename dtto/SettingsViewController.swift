@@ -24,6 +24,19 @@ class SettingsViewController: UIViewController {
         return tv
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupViews()
+        setupNavBar()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkNotificationSettings()
+        
+    }
+    
     func setupViews() {
         automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = .white
@@ -61,20 +74,7 @@ class SettingsViewController: UIViewController {
         
         self.changeRootVC(vc: .logout)
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupViews()
-        setupNavBar()
-    }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        checkNotificationSettings()
-
-    }
     func checkNotificationSettings() {
         
         if let settings = UIApplication.shared.currentUserNotificationSettings {

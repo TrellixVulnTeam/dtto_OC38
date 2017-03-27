@@ -19,6 +19,7 @@ class PostAddTagsCell: BaseTableViewCell {
     }()
     
     override func setupViews() {
+        super.setupViews()
         
         addSubview(tagsTextView)
         

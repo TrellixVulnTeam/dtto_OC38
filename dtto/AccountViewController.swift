@@ -32,18 +32,11 @@ class AccountViewController: UIViewController, UITableViewDelegate {
         return collectionView
         
     }()
-
-    private func observeUser() {
-        print("GETTING USER INFO...")
-        
-        guard let userID = FIRAuth.auth()?.currentUser?.uid else { return }
-        let userRef = FIREBASE_REF.child("users/\(userID)")
-        userRef.observeSingleEvent(of: .value, with: { snapshot in
-            
-            
-            
-        })
-        
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //        observeUser()
+        setupViews()
     }
     
     func setupViews() {
@@ -51,6 +44,7 @@ class AccountViewController: UIViewController, UITableViewDelegate {
         automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = .white
         headerView.backgroundColor = .yellow
+        
         view.addSubview(headerView)
         view.addSubview(menuBar)
         view.addSubview(collectionView)
@@ -63,6 +57,18 @@ class AccountViewController: UIViewController, UITableViewDelegate {
         menuBar.anchor(top: headerView.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
         
         collectionView.anchor(top: menuBar.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+    }
+    
+    private func observeUser() {
+        print("GETTING USER INFO...")
+        
+        guard let userID = FIRAuth.auth()?.currentUser?.uid else { return }
+        let userRef = FIREBASE_REF.child("users/\(userID)")
+        userRef.observeSingleEvent(of: .value, with: { snapshot in
+            
+            
+        })
         
     }
     
@@ -86,11 +92,6 @@ class AccountViewController: UIViewController, UITableViewDelegate {
             })
             
         }
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        observeUser()
-        setupViews()
     }
 
 }

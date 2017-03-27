@@ -10,28 +10,28 @@ import UIKit
 
 class AccountProfileHeader: UIView {
     
-    var nameLabel: UILabel = {
+    let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Jitae Kim"
         label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
     }()
     
-    var usernameLabel: UILabel = {
+    let usernameLabel: UILabel = {
         let label = UILabel()
         label.text = "@jitae"
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
     
-    var relatesReceivedCountLabel: UILabel = {
+    let relatesReceivedCountLabel: UILabel = {
         let label = UILabel()
         label.text = "21 people found Jae helpful."
         label.font = UIFont.systemFont(ofSize: 13)
         return label
     }()
     
-    var profileImage: RoundImageView = {
+    let profileImage: RoundImageView = {
         let imageView = RoundImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = #imageLiteral(resourceName: "profile")

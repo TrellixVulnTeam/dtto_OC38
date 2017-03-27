@@ -60,9 +60,7 @@ class ChatSettings: UIViewController {
     }
     
     func setupNavBar() {
-        
-        self.navigationItem.rightBarButtonItem = deleteChatButton
-        
+        navigationItem.rightBarButtonItem = deleteChatButton
     }
     
     func confirmDeleteAlert() {
@@ -117,7 +115,6 @@ class ChatSettings: UIViewController {
 extension ChatSettings: UITableViewDelegate, UITableViewDataSource {
     
     private enum Section: Int {
-        
         case Profile
 
     }
@@ -147,7 +144,7 @@ extension ChatSettings: UITableViewDelegate, UITableViewDataSource {
         switch section {
         case .Profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell") as! ProfileImageCell
-            cell.profileImage.loadProfileImage(friendID)
+            cell.profileImageView.loadProfileImage(friendID)
             return cell
         }
     }

@@ -16,9 +16,12 @@ class AccountStatsCollectionView: BaseTableViewCell {
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
         collectionView.delegate = self
         collectionView.dataSource = self
+        
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
@@ -31,7 +34,9 @@ class AccountStatsCollectionView: BaseTableViewCell {
     
     override func setupViews() {
         super.setupViews()
+        
         addSubview(collectionView)
+        
         collectionView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: SCREENHEIGHT)
         
     }

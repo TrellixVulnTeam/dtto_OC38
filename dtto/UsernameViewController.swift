@@ -14,8 +14,8 @@ class UsernameViewController: FormViewController {
     
     override func setupViews() {
         super.setupViews()
-        self.navigationItem.title = "Username"
-        self.navigationItem.hidesBackButton = true
+        navigationItem.title = "Username"
+        navigationItem.hidesBackButton = true
         
         pageControl.currentPage = 3
         errorMessage = "Please enter a valid username"

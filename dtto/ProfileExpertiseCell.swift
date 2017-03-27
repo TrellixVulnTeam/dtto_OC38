@@ -10,14 +10,14 @@ import UIKit
 
 class ProfileExpertiseCell: BaseTableViewCell {
 
-    var icon: UIImageView = {
+    let icon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "relateSelected")
         return imageView
     
     }()
     
-    var titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "I can help you with..."
         label.textColor = .black
@@ -25,7 +25,7 @@ class ProfileExpertiseCell: BaseTableViewCell {
         return label
     }()
     
-    var tagsLabel: UILabel = {
+    let tagsLabel: UILabel = {
         let label = UILabel()
         label.text = "First tag."
         label.textColor = .black
