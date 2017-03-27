@@ -10,9 +10,10 @@ target 'dtto' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
   pod 'Stripe'
   pod 'GooglePlaces'
-  pod 'Batch', '~> 1.6'
   # Social Login
   pod 'Google/SignIn'
   pod 'FBSDKLoginKit'

@@ -117,7 +117,7 @@ class PasswordViewController: FormViewController {
                             }
                             self.spinner.stopAnimating()
                             self.nextButton.setTitle("Next", for: UIControlState())
-                            self.displayBanner(desc: errorText)
+//                            self.displayBanner(desc: errorText)
                         }
                     }
                     else {

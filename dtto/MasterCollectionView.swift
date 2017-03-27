@@ -17,7 +17,11 @@ class MasterCollectionView: UIViewController {
     
     var chats = [Chat]()
     var requests = [UserNotification]()
-    var relates = [UserNotification]()
+    var relates = [UserNotification]() {
+        didSet {
+            collectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
+        }
+    }
     
     var horizontalBarView = UIView()
     var selectedIndex: Int = 0
@@ -44,6 +48,76 @@ class MasterCollectionView: UIViewController {
 //        }
 //    }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.view.backgroundColor = .white
+        
+        setupNavBar()
+        setupHorizontalBar()
+        setupCollectionView()
+        observeChats()
+        observeNotifications()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //        navigationController?.hidesBarsOnSwipe = true
+        UIView.animate(withDuration: 0.2, animations: {
+            self.horizontalBarView.alpha = 1
+        })
+        
+        if initialLoad {
+            collectionView.contentOffset.x = SCREENWIDTH
+            UIView.animate(withDuration: 0.2, animations: {
+                self.collectionView.alpha = 1
+            })
+            initialLoad = false
+        }
+        
+        let selectedCV = IndexPath(item: selectedIndex, section: 0)
+        
+        if let cv = collectionView.cellForItem(at: selectedCV) as? ChatList {
+            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
+            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
+        }
+        
+        if let cv = collectionView.cellForItem(at: selectedCV) as? NotificationsPage {
+            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
+            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
+        }
+        
+        if let cv = collectionView.cellForItem(at: selectedCV) as? HomePage {
+            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
+            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        horizontalBarView.alpha = 0
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if initialLoad {
+            _ = collectionView.collectionViewLayout.collectionViewContentSize
+            collectionView.contentOffset.x = SCREENWIDTH
+            UIView.animate(withDuration: 0.2, animations: {
+                self.collectionView.alpha = 1
+            })
+            initialLoad = false
+        }
+    }
+
     func observeChats() {
         
         // Check user path for list of chat IDs.
@@ -104,7 +178,8 @@ class MasterCollectionView: UIViewController {
         
         guard let userID = defaults.getUID() else { return }
         
-        let notificationsRef = FIREBASE_REF.child("relatesNotifications/\(userID)")
+//        let notificationsRef = FIREBASE_REF.child("relatesNotifications").child(userID)
+        let notificationsRef = FIREBASE_REF.child("relatesNotifications").child("uid1")
         notificationsRef.observe(.childAdded, with: { snapshot in
             
             guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
@@ -127,79 +202,7 @@ class MasterCollectionView: UIViewController {
 
         })
     }
-    
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.view.backgroundColor = .white
-        
-        setupNavBar()
-        setupHorizontalBar()
-        setupCollectionView()
-        observeChats()
-//        observeNotifications()
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.tabBarController?.tabBar.isHidden = false
-    }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        navigationController?.hidesBarsOnSwipe = true
-        UIView.animate(withDuration: 0.2, animations: {
-            self.horizontalBarView.alpha = 1
-        })
-        
-        if initialLoad {
-            collectionView.contentOffset.x = SCREENWIDTH
-            UIView.animate(withDuration: 0.2, animations: {
-                self.collectionView.alpha = 1
-            })
-            initialLoad = false
-        }
-        
-        let selectedCV = IndexPath(item: selectedIndex, section: 0)
-
-        if let cv = collectionView.cellForItem(at: selectedCV) as? ChatList {
-            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
-            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
-        }
-        
-        if let cv = collectionView.cellForItem(at: selectedCV) as? NotificationsPage {
-            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
-            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
-        }
-        
-        if let cv = collectionView.cellForItem(at: selectedCV) as? HomePage {
-            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
-            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        horizontalBarView.alpha = 0
-        
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if initialLoad {
-            _ = collectionView.collectionViewLayout.collectionViewContentSize
-            collectionView.contentOffset.x = SCREENWIDTH
-            UIView.animate(withDuration: 0.2, animations: {
-                self.collectionView.alpha = 1
-            })
-            initialLoad = false
-        }
-    }
-    
     var sliderBarCenterXAnchorConstraint: NSLayoutConstraint?
     
     func setupHorizontalBar() {
@@ -237,7 +240,7 @@ class MasterCollectionView: UIViewController {
         let homeButton =  UIButton(type: .custom)
         homeButton.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
         homeButton.setTitleColor(Color.darkNavy, for: .normal)
-        homeButton.setTitle("Dtto", for: UIControlState.normal)
+        homeButton.setTitle("dtto", for: UIControlState.normal)
         homeButton.addTarget(self, action: #selector(scrollToMenuIndex(_:)), for: UIControlEvents.touchUpInside)
         homeButton.tag = 1
         self.navigationItem.titleView = homeButton
@@ -349,6 +352,7 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
             
         case .Notifications:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NotificationsPage", for: indexPath) as! NotificationsPage
+            cell.relates = relates
             cell.masterViewDelegate = self
             return cell
             

@@ -16,7 +16,7 @@ protocol PaymentConfirmationProtocol : class {
     func displayPaymentConfirmation()
 }
 
-final class MessagesViewController: JSQMessagesViewController, PaymentConfirmationProtocol, DisplayBanner {
+final class MessagesViewController: JSQMessagesViewController, PaymentConfirmationProtocol {
 
     var chat: Chat
     var messagesRef: FIRDatabaseReference
@@ -90,7 +90,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     func resolveChat() {
         
-        guard let userID = defaults.getUID(), let helperID = chat.helperID else { return }
+//        guard let userID = defaults.getUID(), let helperID = chat.helperID else { return }
         
         let checkoutVC = CheckoutViewController(helperID: "tw2QiARnU7ZFZ7we4tmKs3HcSU42", helperName: "Jitae")
         checkoutVC.paymentConfirmationDelegate = self
@@ -216,7 +216,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     }
     
     func displayPaymentConfirmation() {
-        displayBanner(desc: "Payment Successful!")
+//        displayBanner(desc: "Payment Successful!")
         updateUserStats()
         
     }

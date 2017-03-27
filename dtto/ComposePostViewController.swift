@@ -27,7 +27,7 @@ class ComposePostViewController: UIViewController {
     }()
     
     lazy var postToolbar: PostToolbar = {
-        let postToolbar = PostToolbar(isPublic: true)
+        let postToolbar = PostToolbar(isPublic: false)
         postToolbar.composePostViewController = self
         return postToolbar
     }()
@@ -58,36 +58,6 @@ class ComposePostViewController: UIViewController {
         return tv
     }()
 
-    func setupNavBar() {
-        self.navigationItem.leftBarButtonItem = closeButton
-        self.navigationItem.rightBarButtonItem = postButton
-        self.title = "Post"
-    }
-    
-    func setupViews() {
-        
-        automaticallyAdjustsScrollViewInsets = false
-        view.backgroundColor = .white
-        
-        view.addSubview(tableView)
-        
-        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        
-    }
-    
-    func setupPost() {
-        
-        postToolbar = PostToolbar(isPublic: false)
-        postToolbar.composePostViewController = self
-        
-        if let _ = post?.name {
-            postToolbar.enablePublic(enable: true)
-        }
-        else {
-            postToolbar.enablePublic(enable: false)
-        }
-    }
-    
     // Either init as a clean new post, or edit a post
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -122,6 +92,36 @@ class ComposePostViewController: UIViewController {
         dismissKeyboard()
         postToolbar.alpha = 0
     }
+    
+    func setupNavBar() {
+        navigationItem.leftBarButtonItem = closeButton
+        navigationItem.rightBarButtonItem = postButton
+        title = "Post"
+    }
+    
+    func setupViews() {
+        
+        automaticallyAdjustsScrollViewInsets = false
+        view.backgroundColor = .white
+        
+        view.addSubview(tableView)
+        
+        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+    }
+    
+    func setupPost() {
+        
+        postToolbar = PostToolbar(isPublic: false)
+        postToolbar.composePostViewController = self
+        
+        if let _ = post?.name {
+            postToolbar.enablePublic(enable: true)
+        }
+        else {
+            postToolbar.enablePublic(enable: false)
+        }
+    }
 
     func closeView(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
@@ -149,7 +149,7 @@ class ComposePostViewController: UIViewController {
                 postRef.child(postID).updateChildValues(basePost)
 
                 // Add user's names if post is public
-                if postToolbar.publicToggle.isOn {
+                if !postToolbar.anonymousToggle.isOn {
                     
                     if let name = defaults.getName(), let username = defaults.getUsername() {
                         let publicPost: [String : Any] = ["name" : name,
@@ -180,7 +180,7 @@ class ComposePostViewController: UIViewController {
     
     func editPost(_ post: Post) {
         
-        guard let postID = post.postID else { return }
+        let postID = post.getPostID()
         
         let postRef = FIREBASE_REF.child("posts").child(postID)
         
@@ -193,15 +193,15 @@ class ComposePostViewController: UIViewController {
             
             // Update publicity
             if let _ = post.name, let _ = post.username {
-                if !postToolbar.publicToggle.isOn {
+                if postToolbar.anonymousToggle.isOn {
                     // change public to anonymous
                     postRef.child("name").removeValue()
                     postRef.child("username").removeValue()
                 }
             }
             else {
-                if postToolbar.publicToggle.isOn {
-                    // change anonymo`us to public
+                if !postToolbar.anonymousToggle.isOn {
+                    // change anonymous to public
                     guard let name = defaults.getName(), let username = defaults.getUsername() else { return }
                     
                     let publicPost: [String : Any] = ["name" : name,
@@ -301,7 +301,7 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
         switch row {
         case .Profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostNameCell") as! PostNameCell
-            cell.selectionStyle = .none
+//            cell.selectionStyle = .none
             return cell
         case .Text:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostComposeCell") as! PostComposeCell
@@ -316,6 +316,19 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
             cell.selectionStyle = .none
             return cell
 
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let row = Row(rawValue: indexPath.row) else { return }
+        switch row {
+        case .Profile:
+            guard let cell = tableView.cellForRow(at: indexPath) as? PostNameCell else { return }
+            cell.keywordTextField.becomeFirstResponder()
+        default:
+            break
         }
         
     }
@@ -346,6 +359,7 @@ extension ComposePostViewController: UITextViewDelegate {
         
         if newText.characters.count > 200 {
             postToolbar.characterCountLabel.textColor = .red
+            return false
         }
         else {
             postToolbar.characterCountLabel.textColor = .lightGray

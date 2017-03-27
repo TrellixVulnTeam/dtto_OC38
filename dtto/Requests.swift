@@ -11,12 +11,23 @@ import MIBadgeButton_Swift
 
 class Requests: BaseCollectionViewCell {
     
-    let profile = UIImageView()
+    let profileImageView = RoundImageView()
+    
     let requestsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
     }()
+    
+    let subLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.text = "Tap to Review"
+        label.font = UIFont.systemFont(ofSize: 15)
+        return label
+    }()
+    
     let badge = MIBadgeButton()
     weak var notificationsPageDelegate: NotificationsPage?
     
@@ -28,13 +39,8 @@ class Requests: BaseCollectionViewCell {
             requestsLabel.fadeIn(withDuration: 0.2)
             // maybe in willset, fadeout, then in.
             guard let requestsCount = requestsCount else { return }
-            
-            if requestsCount == 1 {
-                requestsLabel.text = "\(requestsCount) chat request"
-            }
-            else {
-                requestsLabel.text = "\(requestsCount) chat requests"
-            }
+
+            requestsLabel.text = "Chat Requests"
             
             badge.badgeString = "\(requestsCount)"
         }
@@ -47,20 +53,26 @@ class Requests: BaseCollectionViewCell {
         badge.badgeBackgroundColor = .red
         badge.badgeTextColor = .white
         
-        profile.image = #imageLiteral(resourceName: "user")
+        profileImageView.image = #imageLiteral(resourceName: "profile")
         
         addSubview(requestsLabel)
-        addSubview(profile)
+        addSubview(subLabel)
+        addSubview(profileImageView)
         addSubview(badge)
         
-        profile.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
-        profile.anchorCenterYToSuperview()
+        profileImageView.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 15, trailingConstant: 0, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
+        profileImageView.anchorCenterYToSuperview()
 
-        badge.anchor(top: profile.topAnchor, leading: nil, trailing: profile.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        badge.anchor(top: profileImageView.topAnchor, leading: nil, trailing: profileImageView.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
 
-        requestsLabel.anchor(top: nil, leading: profile.trailingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        requestsLabel.anchorCenterYToSuperview()
-
+        let stackView = UIStackView(arrangedSubviews: [requestsLabel, subLabel])
+        stackView.axis = .vertical
+        
+        addSubview(stackView)
+        
+        stackView.anchor(top: nil, leading: profileImageView.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        stackView.anchorCenterYToSuperview()
+        
     }
     
     func getRequestsCount() {

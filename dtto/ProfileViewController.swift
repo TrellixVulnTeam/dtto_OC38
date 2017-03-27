@@ -54,6 +54,31 @@ class ProfileViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        animateSpinner(true)
+        observeUser()
+        setupViews()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        userRef.removeAllObservers()
+    }
+    
+    private func setupNavBar() {
+        
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(edit))
+        let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settings))
+        
+        //        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        
+        self.navigationItem.leftBarButtonItem = editButton
+        self.navigationItem.rightBarButtonItem = settingsButton
+        //        self.navigationItem.rightBarButtonItem = logoutButton
+        
+    }
+    
     func edit() {
         
         present(UINavigationController(rootViewController: ProfileEditViewController(user: self.user)), animated: true, completion: nil)
@@ -77,31 +102,6 @@ class ProfileViewController: UIViewController {
         
         
         self.changeRootVC(vc: .logout)
-    }
-    
-    private func setupNavBar() {
-        
-        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(edit))
-        let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settings))
-
-//        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
-        
-        self.navigationItem.leftBarButtonItem = editButton
-        self.navigationItem.rightBarButtonItem = settingsButton
-//        self.navigationItem.rightBarButtonItem = logoutButton
-        
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        animateSpinner(true)
-        observeUser()
-        setupViews()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        userRef.removeAllObservers()
     }
 
     func animateSpinner(_ animate: Bool) {

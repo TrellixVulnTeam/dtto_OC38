@@ -149,7 +149,8 @@ extension ResolveChatViewController: STPPaymentContextDelegate {
         
         switch status {
         case .error:
-            print(error)
+//            print(error)
+            print("ERROR")
         case .success:
             print("Payment successful")
         case .userCancellation:

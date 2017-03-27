@@ -1,14 +1,14 @@
 //
-//  PostTextCell.swift
+//  PostKeywordCell.swift
 //  dtto
 //
-//  Created by Jitae Kim on 1/4/17.
+//  Created by Jitae Kim on 3/24/17.
 //  Copyright © 2017 Jitae Kim. All rights reserved.
 //
 
 import UIKit
 
-class PostTextCell: BaseCollectionViewCell {
+class PostKeywordCell: BaseTableViewCell {
     
     let postLabel: UILabel = {
         let label = UILabel()
@@ -30,7 +30,7 @@ class PostTextCell: BaseCollectionViewCell {
         imageView.image = #imageLiteral(resourceName: "quote-right")
         return imageView
     }()
-
+    
     override func setupViews() {
         super.setupViews()
         
@@ -45,5 +45,5 @@ class PostTextCell: BaseCollectionViewCell {
         rightQuotationImage.anchor(top: nil, leading: postLabel.trailingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 10, bottomConstant: 10, widthConstant: 35, heightConstant: 35)
         
     }
-
+        
 }

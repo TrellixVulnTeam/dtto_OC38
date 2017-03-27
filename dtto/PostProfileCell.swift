@@ -18,17 +18,17 @@ class PostProfileCell: BaseCollectionViewCell {
         return imageView
     }()
     
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = .black
-        return label
-    }()
+//    let nameLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFont.boldSystemFont(ofSize: 17)
+//        label.textColor = .black
+//        return label
+//    }()
     
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = .lightGray
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = .black
         return label
     }()
     
@@ -47,24 +47,23 @@ class PostProfileCell: BaseCollectionViewCell {
         super.setupViews()
         
         addSubview(profileImage)
-        addSubview(nameLabel)
+//        addSubview(nameLabel)
         addSubview(usernameLabel)
         addSubview(moreButton)
 
-        profileImage.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        profileImage.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 15, trailingConstant: 10, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
         profileImage.anchorCenterYToSuperview()
         
-        nameLabel.anchor(top: nil, leading: profileImage.trailingAnchor, trailing: moreButton.leadingAnchor, bottom: profileImage.centerYAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+//        nameLabel.anchor(top: nil, leading: profileImage.trailingAnchor, trailing: moreButton.leadingAnchor, bottom: profileImage.centerYAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        usernameLabel.anchor(top: profileImage.centerYAnchor, leading: profileImage.trailingAnchor, trailing: moreButton.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        usernameLabel.anchor(top: nil, leading: profileImage.trailingAnchor, trailing: moreButton.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        usernameLabel.anchorCenterYToSuperview()
         
-        moreButton.anchor(top: nil, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        moreButton.anchor(top: nil, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
         moreButton.anchorCenterYToSuperview()
-        moreButton.setImage(#imageLiteral(resourceName: "more"), for: .normal)
-        
+        moreButton.setImage(#imageLiteral(resourceName: "more-black"), for: .normal)
         
     }
-
 
 }
 

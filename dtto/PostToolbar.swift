@@ -12,7 +12,7 @@ class PostToolbar: UIView {
 
     weak var composePostViewController: ComposePostViewController? {
         didSet {
-            publicToggle.addTarget(composePostViewController, action: #selector(ComposePostViewController.toggle(_:)), for: .valueChanged)
+            anonymousToggle.addTarget(composePostViewController, action: #selector(ComposePostViewController.toggle(_:)), for: .valueChanged)
         }
     }
     
@@ -24,17 +24,18 @@ class PostToolbar: UIView {
     
     let privacyLabel: UILabel = {
         let label = UILabel()
-        label.text = "Posting Publicly"
+        label.text = "Post Anonymously?"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 13)
         label.numberOfLines = 0
         return label
     }()
     
-    let publicToggle: UISwitch = {
+    let anonymousToggle: UISwitch = {
         let toggle = UISwitch(frame: .zero)
         toggle.onTintColor = Color.darkNavy
-        toggle.thumbTintColor = .white
+//        toggle.thumbTintColor = .white
+//        toggle.tintColor = .lightGray
         return toggle
     }()
     
@@ -55,16 +56,16 @@ class PostToolbar: UIView {
         
         addSubview(topBorder)
         addSubview(privacyLabel)
-        addSubview(publicToggle)
+        addSubview(anonymousToggle)
         addSubview(characterCountLabel)
         
         topBorder.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 1.0/UIScreen.main.scale)
         
         characterCountLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
         
-        privacyLabel.anchor(top: topAnchor, leading: nil, trailing: publicToggle.leadingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
+        privacyLabel.anchor(top: topAnchor, leading: nil, trailing: anonymousToggle.leadingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
         
-        publicToggle.anchor(top: topAnchor, leading: nil, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 10, widthConstant: 50, heightConstant: 0)
+        anonymousToggle.anchor(top: topAnchor, leading: nil, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 10, widthConstant: 50, heightConstant: 0)
         
     }
     
@@ -75,16 +76,16 @@ class PostToolbar: UIView {
     func enablePublic(enable: Bool) {
 
         if enable {
-            publicToggle.isOn = true
-            privacyLabel.text = "Posting Publicly"
-            privacyLabel.textColor = Color.darkNavy
-            backgroundColor = .white
-        }
-        else {
-            publicToggle.isOn = false
+            anonymousToggle.isOn = true
             privacyLabel.text = "Posting Anonymously"
             privacyLabel.textColor = .white
             backgroundColor = Color.darkNavy
+        }
+        else {
+            anonymousToggle.isOn = false
+            privacyLabel.text = "Post Anonymously?"
+            privacyLabel.textColor = Color.darkNavy
+            backgroundColor = .white
         }
     }
     

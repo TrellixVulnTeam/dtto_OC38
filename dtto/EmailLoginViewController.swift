@@ -147,8 +147,9 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
                         default:
                             errorText = "Could not connect to server."
                         }
+                        print(errorText)
                         
-                        self.displayBanner(desc: errorText)
+//                        self.displayBanner(desc: errorText)
                         
                     }
                 }
@@ -263,10 +264,10 @@ extension EmailLoginViewController: UITextFieldDelegate {
         
     }
 }
-
-extension EmailLoginViewController: DisplayBanner {
-    
-}
+//
+//extension EmailLoginViewController: DisplayBanner {
+//    
+//}
 
 extension String {
     var isEmail: Bool {

@@ -7,34 +7,34 @@
 //
 import Firebase
 
-class Post: NSObject {
+class Post {
     
-    var postID: String?
-    var userID: String?
+    var postID: String
+    var userID: String
     var name: String?
     var username: String?
     var text: String?
     var profileImageURL: String?
     var category: String?
-    var chatCount: Int?
-    var relatesCount: Int?
+    var chatCount: Int
+    let relatesCount: Int
     var tags: String?
     var isAnonymous: Bool = false
     
     
-    init(dictionary: [String: AnyObject]) {
-        super.init()
+    init?(dictionary: [String: AnyObject]) {
         
-        postID = dictionary["postID"] as? String
-        userID = dictionary["userID"] as? String
+        guard let postID = dictionary["postID"] as? String, let userID = dictionary["userID"] as? String else { return nil }
+        self.postID = postID
+        self.userID = userID
         
         name = dictionary["name"] as? String
         username = dictionary["username"] as? String
         
         text = dictionary["text"] as? String
         
-        chatCount = dictionary["chatCount"] as? Int
-        relatesCount = dictionary["relatesCount"] as? Int
+        chatCount = dictionary["chatCount"] as? Int ?? 0
+        relatesCount = dictionary["relatesCount"] as? Int ?? 0
 
         
         if let tags = dictionary["tags"] as? Dictionary<String, AnyObject> {
@@ -45,4 +45,19 @@ class Post: NSObject {
         
     }
     
+    func getPostID() -> String {
+        return postID
+    }
+    
+    func getUserID() -> String {
+        return userID
+    }
+    
+    func getRelatesCount() -> Int {
+        return relatesCount
+    }
+    
+    func getPostUsername() -> String? {
+        return username
+    }
 }

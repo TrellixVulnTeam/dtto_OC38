@@ -11,22 +11,45 @@ import Firebase
 import FBSDKLoginKit
 import Stripe
 import GooglePlaces
-import Batch
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         // Configure Firebase
         FIRApp.configure()
+
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+            
+            // For iOS 10 data message (sent via FCM)
+            FIRMessaging.messaging().remoteMessageDelegate = self
+            
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.tokenRefreshNotification),
+                                               name: .firInstanceIDTokenRefresh,
+                                               object: nil)
+        // [END add_token_refresh_observer]
         //        FIRDatabase.database().persistenceEnabled = true
-        // Configure batch
-//        Batch.start(withAPIKey: "DEV588BCEF7C6B8DDADD5CDCCB1E14")
-//        BatchPush.registerForRemoteNotifications()
+
         // Login Providers
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -60,10 +83,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            self.window!.rootViewController = initialViewController
 //        }, completion: nil)
 //        defaults.setUID(value: "tw2QiARnU7ZFZ7we4tmKs3HcSU42")
-//        defaults.setLogin(value: true)
-//        defaults.setUID(value: "dueyYrZnhZTYRlAXfL0U9ErcOj02")
-//        defaults.setName(value: "Jitae")
-//        defaults.setUsername(value: "jk")
+        defaults.setLogin(value: true)
+        defaults.setUID(value: "dueyYrZnhZTYRlAXfL0U9ErcOj02")
+        defaults.setName(value: "Jitae")
+        defaults.setUsername(value: "jk")
         if defaults.isLoggedIn() {
             let initialViewController = TabBarController()
 //            UIView.transition(with: self.window!, duration: 0.5, options: .transitionCurlUp, animations: {() -> Void in
@@ -125,8 +148,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return facebookHandler || googleHandler
     }
 
-
-
+    func tokenRefreshNotification(_ notification: Notification) {
+        if let refreshedToken = FIRInstanceID.instanceID().token(), let userID = defaults.getUID() {
+            print("InstanceID token: \(refreshedToken)")
+            
+            // upload the token to user's firebase path
+            let userTokenRef = FIREBASE_REF.child("users").child(userID).child("notificationTokens")
+            userTokenRef.child(refreshedToken).setValue(true)
+            
+        }
+        
+        // Connect to FCM since connection may have failed when attempted before having a token.
+        connectToFcm()
+    }
+    
+    func connectToFcm() {
+        // Won't connect since there is no token
+        guard FIRInstanceID.instanceID().token() != nil else {
+            return
+        }
+        
+        // Disconnect previous FCM connection if it exists.
+        FIRMessaging.messaging().disconnect()
+        
+        FIRMessaging.messaging().connect { (error) in
+            if error != nil {
+                print("Unable to connect with FCM. \(error)")
+            } else {
+                print("Connected to FCM.")
+            }
+        }
+    }
 }
 
+extension AppDelegate : FIRMessagingDelegate {
+    // Receive data message on iOS 10 devices while app is in the foreground.
+    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+        print(remoteMessage.appData)
+    }
+}
 

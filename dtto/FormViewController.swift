@@ -149,6 +149,3 @@ extension FormViewController: UITextFieldDelegate {
     
 }
 
-extension FormViewController: DisplayBanner {
-    
-}

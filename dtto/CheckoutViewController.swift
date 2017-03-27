@@ -178,9 +178,9 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
 //    }
     
 }
-extension CheckoutViewController: DisplayBanner {
-    
-}
+//extension CheckoutViewController: DisplayBanner {
+//    
+//}
 extension CheckoutViewController: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
@@ -193,7 +193,7 @@ extension CheckoutViewController: STPPaymentContextDelegate {
             }
             
             else {
-                self.displayBanner(desc: "\(self.helperName) has no Stripe account set up to receive transfers:(", color: UIColor.red)
+//                self.displayBanner(desc: "\(self.helperName) has no Stripe account set up to receive transfers:(", color: UIColor.red)
                 self.paymentInProgress = false
             }
             

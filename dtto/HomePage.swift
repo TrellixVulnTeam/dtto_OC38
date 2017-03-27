@@ -27,6 +27,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
+        layout.footerReferenceSize = CGSize(width: SCREENWIDTH, height: 1)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
@@ -39,6 +40,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         collectionView.register(PostTextCell.self, forCellWithReuseIdentifier: "PostTextCell")
         collectionView.register(PostButtonsCell.self, forCellWithReuseIdentifier: "PostButtonsCell")
         collectionView.register(PostTagsCell.self, forCellWithReuseIdentifier: "PostTagsCell")
+        collectionView.register(FooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "FooterView")
         
         return collectionView
     }()
@@ -98,7 +100,13 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             
             if let postData = snapshot.value as? Dictionary<String, AnyObject> {
 
-                let post = Post(dictionary: postData)
+                if let post = Post(dictionary: postData) {
+                    self.posts.insert(post, at: 0)
+                    self.fullPosts.insert(post, at: 0)
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                }
                 
                 //                
 //                let hiddenPosts = defaults.getHiddenPosts()
@@ -107,11 +115,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 //                    self.posts.insert(post, at: 0)
 //
 //                }
-                self.posts.insert(post, at: 0)
-                self.fullPosts.insert(post, at: 0)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
+
                 
                 
             }
@@ -129,13 +133,15 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 for (index, post) in self.posts.enumerated() {
                     if post.postID == uidToChange {
                         
+                        if let post = Post(dictionary: postData) {
+                            self.posts[index] = post
+                            DispatchQueue.main.async(execute: {
+                                UIView.performWithoutAnimation {
+                                    self.collectionView.reloadSections(IndexSet(integer: index))
+                                }
+                            })
+                        }
                         
-                        self.posts[index] = Post(dictionary: postData)
-                        DispatchQueue.main.async(execute: {
-                            UIView.performWithoutAnimation {
-                                self.collectionView.reloadSections(IndexSet(integer: index))
-                            }
-                        })
                     }
                 }
             }
@@ -177,7 +183,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         
         let post = posts[indexPath.section]
-        guard let postID = post.postID, let posterID = post.userID, let userID = defaults.getUID(), posterID != userID else { return }
+        let postID = post.getPostID()
+        let posterID = post.getUserID()
+        guard let userID = defaults.getUID(), posterID != userID else { return }
         
         let dataRequest = FirebaseService.dataRequest
         let chatRequestRef = FIREBASE_REF.child("requests").child(posterID).child(postID).child(userID)
@@ -244,7 +252,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         guard let section = collectionView.indexPath(for: cell)?.section else { return }
         
         let post = posts[section]
-        guard let postID = post.postID, let friendID = post.userID, let userID = defaults.getUID(), let username = defaults.getUsername(), let name = defaults.getName() else { return }
+        let postID = post.getPostID()
+        let friendID = post.getUserID()
+        guard let userID = defaults.getUID(), let username = defaults.getUsername(), let name = defaults.getName() else { return }
         
         let dataRequest = FirebaseService.dataRequest
         let postRelatesRef = FIREBASE_REF.child("postRelates").child(postID).child(userID)
@@ -260,7 +270,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 
                 // remove this user from the post's list of related users
                 postRelatesRef.removeValue()
-                self.relates?.removeValue(forKey: postID)
+                _ = self.relates?.removeValue(forKey: postID)
             }
             else {
                 userRelatesRef.setValue(true)
@@ -272,7 +282,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 let timestamp = Date()
                 let relaterData: [String : Any] = ["name" : name, "username" : username, "timestamp" : "\(timestamp)"]
                 postRelatesRef.setValue(relaterData)
-                self.relates?.updateValue(true, forKey: postID)
+                _ = self.relates?.updateValue(true, forKey: postID)
             }
             
             if let relates = self.relates {
@@ -291,8 +301,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         ac.view.tintColor = Color.darkNavy
         
         let post = posts[section]
-        
-        if let userID = defaults.getUID(), let posterID = post.userID {
+        let posterID = post.getUserID()
+        if let userID = defaults.getUID() {
             
             if userID == posterID {
                 
@@ -359,8 +369,11 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     func deletePost(section: Int) {
         
         let post = posts[section]
-        guard let userID = defaults.getUID(), let postUID = post.userID, let postID = post.postID else { return }
-        if postUID == userID {
+        let postID = post.getPostID()
+        let posterID = post.getUserID()
+        
+        guard let userID = defaults.getUID() else { return }
+        if posterID == userID {
             let postRef = FIREBASE_REF.child("posts").child(postID)
             postRef.removeValue()
             print("Removed post.")
@@ -419,7 +432,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     func showProfile(section: Int) {
         
         let post = posts[section]
-        let profileVC = ProfileViewController(userID: post.userID!)
+        let profileVC = ProfileViewController(userID: post.getUserID())
         
         masterViewDelegate?.navigationController?.pushViewController(profileVC, animated: true)
         
@@ -431,22 +444,37 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     private enum Row: Int {
-        
         case Profile
         case Post
         case Buttons
         case Relates
-        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        
         return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // check if 0 relates
+        let post = posts[section]
+        if post.getRelatesCount() < 1 {
+            return 3
+        }
         
         return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        switch kind {
+        case UICollectionElementKindSectionFooter:
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FooterView", for: indexPath) as! FooterView
+            return footerView
+        default:
+            assert(false, "Unexpected element kind")
+
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -459,16 +487,19 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
         case .Profile:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostProfileCell", for: indexPath) as! PostProfileCell
-            cell.nameLabel.text = post.name ?? "Anonymous"
+            
+            cell.profileImage.image = nil
+            
+//            cell.nameLabel.text = post.name ?? "Anonymous"
             
             // Only load profile if the post is public
-            if let _ = post.username {
-                cell.profileImage.loadProfileImage(post.userID!)
-                cell.usernameLabel.text = "@" + post.username!
+            if let username = post.getPostUsername() {
+                cell.profileImage.loadProfileImage(post.getUserID())
+                cell.usernameLabel.text = "@" + username
             }
             else {
-                cell.profileImage.image = nil
-                cell.usernameLabel.text = ""
+                cell.profileImage.backgroundColor = Color.lightGray
+                cell.usernameLabel.text = "Anonymous"
             }
             
             cell.postDelegate = self
@@ -483,19 +514,19 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostButtonsCell", for: indexPath) as! PostButtonsCell
             cell.requestChatDelegate = self
             
-            if let _ = relates?[post.postID!] {
+            if let _ = relates?[post.getPostID()] {
                 cell.relateButton.isSelected = true
             }
             else {
                 cell.relateButton.isSelected = false
             }
             
-            if post.userID! == defaults.getUID() {
+            if post.getUserID() == defaults.getUID() {
                 cell.chatButton.isHidden = true
             }
             else {
                 cell.chatButton.isHidden = false
-                if let ongoing = outgoingRequests?[post.postID!] {
+                if let ongoing = outgoingRequests?[post.getPostID()] {
                     if ongoing {
                         cell.chatState = .ongoing
                     }
@@ -512,7 +543,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
         case .Relates:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostTagsCell", for: indexPath) as! PostTagsCell
-            cell.relatesCount = post.relatesCount!
+            cell.relatesCount = post.getRelatesCount()
             return cell
         
         }
@@ -555,7 +586,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             }
             
         case .Relates:
-            let vc = RelatersViewController(postID: post.postID!)
+            let vc = RelatersViewController(postID: post.getPostID())
             masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
 
         default:
@@ -597,7 +628,7 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             
             let estimatedFrame = NSString(string: post.text!).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
             
-            return CGSize(width: collectionView.frame.width, height: estimatedFrame.height + 14)
+            return CGSize(width: collectionView.frame.width, height: estimatedFrame.height + 114)
 
             
 //            return CGSize(width: collectionView.frame.width, height: 100)
@@ -609,8 +640,6 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         }
         
     }
-    
-
 
 }
 

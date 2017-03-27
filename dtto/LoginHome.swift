@@ -12,7 +12,7 @@ import FBSDKLoginKit
 import Firebase
 import NVActivityIndicatorView
 
-class LoginHome: UIViewController, UIGestureRecognizerDelegate, DisplayBanner {
+class LoginHome: UIViewController, UIGestureRecognizerDelegate {
 
     var initialLoad = true
     var topConstraint = NSLayoutConstraint()
@@ -212,7 +212,7 @@ extension LoginHome: FBSDKLoginButtonDelegate {
                     
                     switch errorCode {
                     case .errorCodeEmailAlreadyInUse:
-                        self.displayBanner(desc: "This email is already in use by gmail.")
+                        break
                     default:
                         print("this error needs to be fixed")
                     }

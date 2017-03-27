@@ -34,6 +34,7 @@ class NotificationsPage:  BaseCollectionViewCell {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
+        
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         self.addSubview(collectionView)
@@ -48,6 +49,7 @@ class NotificationsPage:  BaseCollectionViewCell {
         
         collectionView.register(Requests.self, forCellWithReuseIdentifier: "Requests")
         collectionView.register(Notifications.self, forCellWithReuseIdentifier: "Notifications")
+        collectionView.register(FooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "FooterView")
         
         observeChatRequestsCount()
     }
@@ -172,6 +174,7 @@ extension NotificationsPage: UICollectionViewDelegate, UICollectionViewDataSourc
             
             break
         case .Notifications:
+            
             // go to post, or do nothing
             break
         }
@@ -193,6 +196,32 @@ extension NotificationsPage: UICollectionViewDelegate, UICollectionViewDataSourc
         }
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        if section == 0 {
+            return CGSize(width: SCREENWIDTH, height: 1)
+
+        }
+        else {
+            return CGSize(width: 0, height: 0)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        switch kind {
+        case UICollectionElementKindSectionFooter:
+
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FooterView", for: indexPath) as! FooterView
+            return footerView
+
+        default:
+            assert(false, "Unexpected element kind")
+            
+        }
+        
+    }
+
     
     
 }

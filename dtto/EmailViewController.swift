@@ -34,7 +34,7 @@ class EmailViewController: FormViewController {
                 checkEmails()
             }
             else {
-                self.displayBanner(desc: "Please enter a valid email", color: .red)
+//                self.displayBanner(desc: "Please enter a valid email", color: .red)
             }
         }
         else {
@@ -61,7 +61,7 @@ class EmailViewController: FormViewController {
 
                 if snapshot.exists() {
                     print("email already exists.")
-                    self.displayBanner(desc: "Email is already in use", color: .red)
+//                    self.displayBanner(desc: "Email is already in use", color: .red)
                 }
                 else {
                     print("push view")

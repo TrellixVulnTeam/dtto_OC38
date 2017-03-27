@@ -41,7 +41,7 @@ class UsernameViewController: FormViewController {
         usernameRef.observeSingleEvent(of: .value, with: { snapshot in
             
             if snapshot.exists() {
-                self.displayBanner(desc: "Username is already taken", color: .red)
+//                self.displayBanner(desc: "Username is already taken", color: .red)
             }
             else {
                 
