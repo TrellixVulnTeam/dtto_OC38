@@ -194,11 +194,11 @@ class ProfileViewController: UIViewController {
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     private enum Section: Int {
-        case Profile
-        case Education
-        case Profession
-        case Expertise
-        case Summary
+        case profile
+        case about
+        case skills
+        case interests
+        case location
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -211,22 +211,20 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch section {
             
-        case .Profile:
+        case .profile:
             return 1
-        case .Education:
+        case .about:
             return user.education.count
-        case .Profession:
+        case .skills:
             return user.profession.count
-        case .Expertise:
+        case .interests:
             return user.expertise.count
-        case .Summary:
-            if let _ = user.summary {
+        case .location:
+            if let _ = user.location {
                 return 1
             }
-            else {
-                return 0
-            }
         }
+        return 0
 
     }
     
@@ -241,10 +239,10 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             guard let section = Section(rawValue: section) else { return 0 }
             
             switch section {
-            case .Education, .Profession, .Expertise, .Summary:
-                return 30
-            default:
+            case .profile:
                 return 0
+            default:
+                return 30
             }
             
         }
@@ -259,47 +257,18 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         guard let section = Section(rawValue: section) else { return nil }
         
         switch section {
-        case .Profile:
+        case .profile:
             return nil
-        case .Education:
-            return "  Summary"
-        case .Profession:
-            return "  Education"
-        case .Expertise:
-            return "  Profession"
-        case .Summary:
-            return "  Expertise"
+        case .about:
+            return "  What I Do"
+        case .skills:
+            return "  Skills"
+        case .interests:
+            return "  Interests"
+        case .location:
+            return "  Location"
         }
-//        if tableView.numberOfRows(inSection: section) != 0 {
-//            return "  Section"
-//        }
-//        else {
-//            return nil
-//        }
         
-    }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        
-//        guard let section = Section(rawValue: section) else { return nil }
-//        
-//        switch section {
-//        case .Education:
-//            return ProfileSectionHeader(sectionTitle: "Education")
-//        case .Profession:
-//            return ProfileSectionHeader(sectionTitle: "Profession")
-//        case .Expertise:
-//            return ProfileSectionHeader(sectionTitle: "Expertise")
-//        case .Summary:
-//            return ProfileSectionHeader(sectionTitle: "Summary")
-//        default:
-//            return nil
-//            
-//        }
-//    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -307,7 +276,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
         
         switch section {
-        case .Profile:
+        case .profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell") as! ProfileImageCell
 
             if let userID = user.uid {
@@ -315,25 +284,25 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             }
             return cell
             
-        case .Education:
+        case .about:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileInfoCell") as! ProfileInfoCell
             cell.icon.image = #imageLiteral(resourceName: "education")
             cell.titleLabel.text = user.education[indexPath.row]
             return cell
             
-        case .Profession:
+        case .skills:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileInfoCell") as! ProfileInfoCell
             cell.icon.image = #imageLiteral(resourceName: "suitcase")
             cell.titleLabel.text = user.profession[indexPath.row]
             return cell
             
-        case .Expertise:
+        case .interests:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileExpertiseCell") as! ProfileExpertiseCell
 //            cell.icon.image = #imageLiteral(resourceName: "relate")
 //            cell.tagsLabel.text = "Some tags here Some tags here Some tags here Some tags here"
             return cell
             
-        case .Summary:
+        case .location:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileSummaryCell") as! ProfileSummaryCell
             cell.summaryLabel.text = user.summary!
             return cell

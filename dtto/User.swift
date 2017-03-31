@@ -15,11 +15,12 @@ class User: NSObject {
     var gender: String?
     var birthday: String?
     var email: String?
+    var location: String?
     
+    var summary: String?
     var education = [String]()
     var profession = [String]()
     var expertise = [String]()
-    var summary: String?
     
     var answerCount: Int?
     var ongoingChatCount: Int?
@@ -48,6 +49,10 @@ class User: NSObject {
         
         if let email = email {
             userUpdates.updateValue(email, forKey: "email")
+        }
+        
+        if let location = location {
+            userUpdates.updateValue(location, forKey: "location")
         }
         
         if education.count != 0 {

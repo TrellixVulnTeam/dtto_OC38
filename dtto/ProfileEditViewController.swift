@@ -22,19 +22,19 @@ class ProfileEditViewController: UIViewController, FormNavigationBar {
     var user: User
     
     lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
-        tv.delegate = self
-        tv.dataSource = self
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.delegate = self
+        tableView.dataSource = self
 //        tv.backgroundColor = .white
-        tv.estimatedRowHeight = 50
-        tv.estimatedSectionHeaderHeight = 30
-//        tv.separatorStyle = .none
-        tv.showsVerticalScrollIndicator = true
+        tableView.estimatedRowHeight = 50
+        tableView.estimatedSectionHeaderHeight = 30
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = true
         
-        tv.register(EditUserInfoBaseCell.self, forCellReuseIdentifier: "EditUserInfoBaseCell")
-        tv.register(EditUserImageCell.self, forCellReuseIdentifier: "EditUserImageCell")
-        tv.register(EditUserSummaryCell.self, forCellReuseIdentifier: "EditUserSummaryCell")
-        return tv
+        tableView.register(EditUserInfoBaseCell.self, forCellReuseIdentifier: "EditUserInfoBaseCell")
+        tableView.register(EditUserImageCell.self, forCellReuseIdentifier: "EditUserImageCell")
+        tableView.register(EditUserSummaryCell.self, forCellReuseIdentifier: "EditUserSummaryCell")
+        return tableView
     }()
     
     init(user: User) {
@@ -135,15 +135,14 @@ class ProfileEditViewController: UIViewController, FormNavigationBar {
 extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource {
     
     private enum Section: Int {
-
         case image
         case name
         case username
-        case birthday
         case summary
-        case education
-        case profession
-        case expertise
+        case about
+        case skills
+        case interests
+        case location
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -162,15 +161,15 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
             return 1
         case .username:
             return 1
-        case .birthday:
-            return 1
-        case .education:
-            return addUserInfoLine(count: user.education.count)
-        case .profession:
-            return addUserInfoLine(count: user.profession.count)
-        case .expertise:
-            return addUserInfoLine(count: user.expertise.count)
         case .summary:
+            return 1
+        case .about:
+            return addUserInfoLine(count: user.education.count)
+        case .skills:
+            return addUserInfoLine(count: user.profession.count)
+        case .interests:
+            return addUserInfoLine(count: user.expertise.count)
+        case .location:
             return 1
             
         }
@@ -199,25 +198,25 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
         
     }
     
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        
-//        if tableView.numberOfRows(inSection: section) != 0 {
-//            
-//            guard let section = Section(rawValue: section) else { return 0 }
-//            
-//            switch section {
-//            case .education, .profession, .expertise, .summary:
-//                return 30
-//            default:
-//                return 0
-//            }
-//            
-//        }
-//        else {
-//            return 0
-//        }
-//        
-//    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        if tableView.numberOfRows(inSection: section) != 0 {
+            
+            guard let section = Section(rawValue: section) else { return 0 }
+            
+            switch section {
+            case .image:
+                return 0
+            default:
+                return UITableViewAutomaticDimension
+            }
+            
+        }
+        else {
+            return 0
+        }
+        
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
@@ -228,8 +227,16 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
             return ProfileSectionHeader(sectionTitle: "Name")
         case .username:
             return ProfileSectionHeader(sectionTitle: "Username")
-        case .birthday:
-            return ProfileSectionHeader(sectionTitle: "Birthday")
+        case .summary:
+            return ProfileSectionHeader(sectionTitle: "Summary")
+        case .about:
+            return ProfileSectionHeader(sectionTitle: "What I Do")
+        case .skills:
+            return ProfileSectionHeader(sectionTitle: "Skills")
+        case .interests:
+            return ProfileSectionHeader(sectionTitle: "Interests")
+        case .location:
+            return ProfileSectionHeader(sectionTitle: "Location")
         default:
             return nil
         }
@@ -252,6 +259,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
   
         case .summary:
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserSummaryCell") as! EditUserSummaryCell
+            cell.summaryTextView.text = "Tell us about who you are"
             cell.selectionStyle = .none
             return cell
             
@@ -263,15 +271,26 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
             switch section {
                 
             case .name:
-                cell.infoLabel.text = "Name"
-                cell.userInfoTextView.text = user.name ?? "Add your name"
-            
-
-            case .birthday:
-                cell.infoLabel.text = "Birthday"
-                cell.userInfoTextView.text = user.birthday ?? "Add your birthday"
-                cell.userInfoTextView.isUserInteractionEnabled = false
-            
+                cell.userInfoTextView.text = user.name ?? "What's your name?"
+            case .username:
+                if let username = user.username {
+                    cell.userInfoTextView.text = "@" + username
+                }
+                else {
+                    cell.userInfoTextView.text = "Enter your username"
+                }
+           
+            case .about:
+                cell.userInfoTextView.text = "Describe what you do"
+            case .skills:
+                cell.userInfoTextView.text = "What are your talents and expertise?"
+            case .interests:
+                cell.userInfoTextView.text = "What are your interests and hobbies?"
+            case .location:
+                cell.userInfoTextView.text = "Enter your location"
+                
+                
+                /*
             case .education:
                 if indexPath.row == 0 {
                     cell.infoLabel.text = "Education"
@@ -321,7 +340,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
                 else {
                     cell.userInfoTextView.text = user.expertise[indexPath.row]
                 }
-            
+            */
             default:
                 return UITableViewCell()
             }
@@ -330,7 +349,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
         }
        
     }
-    
+    /*
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let section = Section(rawValue: indexPath.section) else { return }
@@ -378,6 +397,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
         }
         
     }
+ */
 }
 
 extension ProfileEditViewController: MainEditViewDelegate {

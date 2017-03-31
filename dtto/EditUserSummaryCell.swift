@@ -12,6 +12,7 @@ class EditUserSummaryCell: BaseTableViewCell {
 
     let summaryTextView: UITextView = {
         let textView = UITextView()
+        textView.textColor = .lightGray
         return textView
     }()
     

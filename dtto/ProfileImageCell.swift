@@ -82,7 +82,7 @@ class ProfileImageCell: BaseTableViewCell {
     let summaryLabel: UILabel = {
         let label = UILabel()
         label.text = "Some summary extending several lines here"
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: 15)
         label.numberOfLines = 0
         return label
     }()
