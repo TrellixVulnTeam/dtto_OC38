@@ -31,7 +31,8 @@ class EditUserImageCell: BaseTableViewCell {
         addSubview(profileImage)
         profileImage.addSubview(imageIcon)
         
-        profileImage.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
+        profileImage.anchor(top: topAnchor, leading: nil, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 10, widthConstant: 90, heightConstant: 90)
+        profileImage.anchorCenterSuperview()
         
         imageIcon.anchorCenterSuperview()
         

@@ -8,13 +8,12 @@
 
 import UIKit
 
-class NotificationsPage:  BaseCollectionViewCell {
+class NotificationsPage: BaseCollectionViewCell {
     
     var collectionView: UICollectionView!
     var relates = [UserNotification]()
     var requests = [UserNotification]()
     var initialLoad = true
-    var requestsCount: Int = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,30 +27,10 @@ class NotificationsPage:  BaseCollectionViewCell {
     
     override func setupViews() {
         
-        // Initialize Views
+        super.setupViews()
         
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 1
-        layout.minimumInteritemSpacing = 1
         
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        self.addSubview(collectionView)
-
-        // Setup Relate Notifications
-    
-        collectionView.backgroundColor = .white
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        
-        collectionView.register(Requests.self, forCellWithReuseIdentifier: "Requests")
-        collectionView.register(Notifications.self, forCellWithReuseIdentifier: "Notifications")
-        collectionView.register(FooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "FooterView")
-        
-        observeChatRequestsCount()
     }
     
 
@@ -96,133 +75,5 @@ class NotificationsPage:  BaseCollectionViewCell {
         })
         
     }
-
-    func observeChatRequestsCount() {
-        
-        guard let userID = defaults.getUID() else { return }
-        let chatRequestsCountRef = FIREBASE_REF.child("users/\(userID)/requestsCount")
-        chatRequestsCountRef.observe(.value, with: { snapshot in
-            
-            self.requestsCount = snapshot.value as? Int ?? 0
-            self.collectionView.reloadData()
-            
-        })
-        
-    }
-    
     
 }
-
-extension NotificationsPage: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    private enum Section: Int {
-        
-        case Requests
-        case Notifications
-        
-    }
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        guard let section = Section(rawValue: section) else { return 0 }
-        
-        switch section {
-            
-        case .Requests:
-            return 1
-        case .Notifications:
-            return relates.count
-            
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let section = Section(rawValue: indexPath.section) else { return UICollectionViewCell() }
-        
-        switch section {
-            
-        case .Requests:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Requests", for: indexPath) as! Requests
-            cell.requestsCount = requestsCount
-
-            return cell
-        case .Notifications:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Notifications", for: indexPath) as! Notifications
-            cell.relates = relates
-            return cell
-        }
-
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let section = Section(rawValue: indexPath.section) else { return }
-        
-        switch section {
-            
-        case .Requests:
-            // go to requestsView
-            let requestsView = RequestsViewController(requests: requests)
-            if let vd = masterViewDelegate {
-                requestsView.masterViewDelegate? = vd
-            }
-            masterViewDelegate?.navigationController?.pushViewController(requestsView, animated: true)
-            
-            break
-        case .Notifications:
-            
-            // go to post, or do nothing
-            break
-        }
-
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        guard let section = Section(rawValue: indexPath.section) else { return CGSize() }
-        
-        switch section {
-            
-        case .Requests:
-            return CGSize(width: collectionView.frame.width, height: 70)
-        case .Notifications:
-            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height - 70)
-            
-        }
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if section == 0 {
-            return CGSize(width: SCREENWIDTH, height: 1)
-
-        }
-        else {
-            return CGSize(width: 0, height: 0)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        switch kind {
-        case UICollectionElementKindSectionFooter:
-
-            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FooterView", for: indexPath) as! FooterView
-            return footerView
-
-        default:
-            assert(false, "Unexpected element kind")
-            
-        }
-        
-    }
-
-    
-    
-}
-

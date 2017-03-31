@@ -12,70 +12,91 @@ class ChatList: BaseCollectionViewCell {
 
     var chats = [Chat]() {
         didSet {
-            collectionView.reloadData()
+            tableView.reloadData()
         }
     }
     
-    var collectionView: UICollectionView!
+    var requests = [UserNotification]()
+    var requestsCount = 0
     
     override func setupViews() {
         super.setupViews()
         
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 1
+        tableView.register(ChatListCell.self, forCellReuseIdentifier: "ChatListCell")
+        tableView.delegate = self
+        tableView.dataSource = self
         
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        observeChatRequestsCount()
         
-        collectionView.backgroundColor = Color.gray247
-        collectionView.delegate = self
-        collectionView.dataSource = self
+    }
+    
+    func observeChatRequestsCount() {
         
-        addSubview(collectionView)
-        collectionView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-
-        collectionView.register(ChatListCell.self, forCellWithReuseIdentifier: "ChatListCell")
+        guard let userID = defaults.getUID() else { return }
+        let chatRequestsCountRef = FIREBASE_REF.child("users").child(userID).child("requestsCount")
+        chatRequestsCountRef.observe(.value, with: { snapshot in
+            
+            self.requestsCount = snapshot.value as? Int ?? 0
+            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            
+        })
         
     }
 
 }
 
-extension ChatList: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ChatList: UITableViewDelegate, UITableViewDataSource {
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+    private enum Section: Int {
+        case requests
+        case chats
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return chats.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatListCell", for: indexPath) as! ChatListCell
+        guard let section = Section(rawValue: section) else { return 0 }
         
-//        cell.lastMessageLabel.text = chats[indexPath.row].lastMessage
-//        cell.nameLabel.text = chats[indexPath.row].name
-//        cell.timestampLabel.text = chats[indexPath.row].timestamp
-//        cell.profileImage.image = #imageLiteral(resourceName: "profile")
-        cell.lastMessageLabel.text = chats[indexPath.row].lastMessage
+        switch section {
+        case .requests:
+            return 1
+        case .chats:
+            return chats.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatListCell") as! ChatListCell
+        cell.lastMessageLabel.text = chats[indexPath.row].lastMessage!
         return cell
-        
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        let chat = chats[indexPath.row]
-
-        let messagesViewController = MessagesViewController(chat: chat)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        masterViewDelegate?.navigationController?.pushViewController(messagesViewController, animated: true)
+        guard let section = Section(rawValue: indexPath.section) else { return }
         
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 70)
+        switch section {
+            
+        case .requests:
+            let requestsView = RequestsViewController(requests: requests)
+            if let vd = masterViewDelegate {
+                requestsView.masterViewDelegate? = vd
+            }
+            masterViewDelegate?.navigationController?.pushViewController(requestsView, animated: true)
+            
+        case .chats:
+            let chat = chats[indexPath.row]
+            
+            let messagesViewController = MessagesViewController(chat: chat)
+            
+            masterViewDelegate?.navigationController?.pushViewController(messagesViewController, animated: true)
+        }
     }
     
 }

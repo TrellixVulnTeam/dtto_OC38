@@ -13,25 +13,12 @@ class Notifications: BaseCollectionViewCell {
     var collectionView: UICollectionView!
     var relates = [UserNotification]()
     
-    lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .plain)
-        tv.delegate = self
-        tv.dataSource = self
-        tv.backgroundColor = .white
-        tv.estimatedRowHeight = 200
-        
-        tv.showsVerticalScrollIndicator = true
-        tv.register(NotificationsCell.self, forCellReuseIdentifier: "NotificationsCell")
-        return tv
-
-    }()
-    
     override func setupViews() {
         super.setupViews()
         
-        addSubview(tableView)
-        
-        tableView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(NotificationsCell.self, forCellReuseIdentifier: "NotificationsCell")
     }
 
 }

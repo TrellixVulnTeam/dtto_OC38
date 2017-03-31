@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ChatListCell: BaseCollectionViewCell {
+class ChatListCell: BaseTableViewCell {
 
     var chat: Chat? {
         didSet {
@@ -77,7 +77,7 @@ class ChatListCell: BaseCollectionViewCell {
         timestampLabel.setContentHuggingPriority(.greatestFiniteMagnitude, for: .horizontal)
         
     }
-    
+
     
     private func setupNameAndProfileImage() {
         let chatPartnerId: String?

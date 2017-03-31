@@ -9,7 +9,7 @@
 import UIKit
 import MIBadgeButton_Swift
 
-class Requests: BaseCollectionViewCell {
+class Requests: BaseTableViewCell {
     
     let profileImageView = RoundImageView()
     
@@ -78,10 +78,9 @@ class Requests: BaseCollectionViewCell {
     func getRequestsCount() {
         guard let userID = defaults.getUID() else { return }
         let requestsCountRef = FIREBASE_REF.child("users/\(userID)/requestsCount")
-        requestsCountRef.observe(.value, with: { snapshot in 
-            
+        requestsCountRef.observe(.value, with: { snapshot in
             self.requestsCount = snapshot.value as? Int ?? 0
-            
+
         })
         
     }

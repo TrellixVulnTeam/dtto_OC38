@@ -9,9 +9,9 @@
 import UIKit
 
 enum UserInfoType {
-    case Education
-    case Profession
-    case Expertise
+    case education
+    case profession
+    case expertise
 }
 
 class UserInfoPickerViewController: UIViewController {
@@ -60,11 +60,11 @@ class UserInfoPickerViewController: UIViewController {
     
     func setupPlaceHolder() {
         switch userInfoType {
-        case .Education:
+        case .education:
             textField.placeholder = "Add a school"
-        case .Profession:
+        case .profession:
             textField.placeholder = "Add a profession"
-        case .Expertise:
+        case .expertise:
             textField.placeholder = "Add an expertise"
         }
     }

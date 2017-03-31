@@ -31,14 +31,15 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         let homeTab = UINavigationController(rootViewController: MasterCollectionView())
         homeTab.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "home"), tag: 0)
+        homeTab.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
 
         let postTab = UINavigationController(rootViewController: ComposePostViewController())
         postTab.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "plus"), tag: 1)
+        postTab.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
         
         let profileTab = UINavigationController(rootViewController: ProfileViewController())
         profileTab.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "userTab"), tag: 2)
-        
-//        child.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
+        profileTab.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
         
         viewControllers = [homeTab, postTab, profileTab]
         

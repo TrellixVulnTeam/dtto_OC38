@@ -27,7 +27,7 @@ class ProfileEditViewController: UIViewController, FormNavigationBar {
         tv.dataSource = self
 //        tv.backgroundColor = .white
         tv.estimatedRowHeight = 50
-//        tv.estimatedSectionHeaderHeight = 20
+        tv.estimatedSectionHeaderHeight = 30
 //        tv.separatorStyle = .none
         tv.showsVerticalScrollIndicator = true
         
@@ -136,13 +136,14 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
     
     private enum Section: Int {
 
-        case Image
-        case Name
-        case Birthday
-        case Education
-        case Profession
-        case Expertise
-        case Summary
+        case image
+        case name
+        case username
+        case birthday
+        case summary
+        case education
+        case profession
+        case expertise
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -155,20 +156,23 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
         
         switch section {
             
-        case .Image:
+        case .image:
             return 1
-        case .Name:
+        case .name:
             return 1
-        case .Birthday:
+        case .username:
             return 1
-        case .Education:
+        case .birthday:
+            return 1
+        case .education:
             return addUserInfoLine(count: user.education.count)
-        case .Profession:
+        case .profession:
             return addUserInfoLine(count: user.profession.count)
-        case .Expertise:
+        case .expertise:
             return addUserInfoLine(count: user.expertise.count)
-        case .Summary:
+        case .summary:
             return 1
+            
         }
         
         
@@ -178,13 +182,13 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
 //            
 //        case .Profile:
 //            return 1
-//        case .Education:
+//        case .education:
 //            return user.education.count
-//        case .Profession:
+//        case .profession:
 //            return user.profession.count
-//        case .Expertise:
+//        case .expertise:
 //            return user.expertise.count
-//        case .Summary:
+//        case .summary:
 //            if let _ = user.summary {
 //                return 1
 //            }
@@ -202,7 +206,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
 //            guard let section = Section(rawValue: section) else { return 0 }
 //            
 //            switch section {
-//            case .Education, .Profession, .Expertise, .Summary:
+//            case .education, .profession, .expertise, .summary:
 //                return 30
 //            default:
 //                return 0
@@ -215,20 +219,38 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
 //        
 //    }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        guard let section = Section(rawValue: section) else { return nil }
+        
+        switch section {
+        case .name:
+            return ProfileSectionHeader(sectionTitle: "Name")
+        case .username:
+            return ProfileSectionHeader(sectionTitle: "Username")
+        case .birthday:
+            return ProfileSectionHeader(sectionTitle: "Birthday")
+        default:
+            return nil
+        }
+        
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
         
         switch section {
             
-        case .Image:
+        case .image:
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserImageCell") as! EditUserImageCell
             cell.profileViewControllerDelegate = self
             cell.profileImage.setBackgroundImage(#imageLiteral(resourceName: "profile"), for: UIControlState())
             cell.selectionStyle = .none
             return cell
   
-        case .Summary:
+        case .summary:
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserSummaryCell") as! EditUserSummaryCell
             cell.selectionStyle = .none
             return cell
@@ -240,16 +262,17 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
             
             switch section {
                 
-            case .Name:
+            case .name:
                 cell.infoLabel.text = "Name"
                 cell.userInfoTextView.text = user.name ?? "Add your name"
             
-            case .Birthday:
+
+            case .birthday:
                 cell.infoLabel.text = "Birthday"
                 cell.userInfoTextView.text = user.birthday ?? "Add your birthday"
                 cell.userInfoTextView.isUserInteractionEnabled = false
             
-            case .Education:
+            case .education:
                 if indexPath.row == 0 {
                     cell.infoLabel.text = "Education"
                 }
@@ -266,7 +289,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
                     cell.userInfoTextView.text = user.education[indexPath.row]
                 }
 
-            case .Profession:
+            case .profession:
                 if indexPath.row == 0 {
                     cell.infoLabel.text = "Profession"
                 }
@@ -283,7 +306,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
                     cell.userInfoTextView.text = user.profession[indexPath.row]
                 }
             
-            case .Expertise:
+            case .expertise:
                 if indexPath.row == 0 {
                     cell.infoLabel.text = "Expertise"
                 }
@@ -314,16 +337,16 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
         
         switch section {
             
-        case .Name:
+        case .name:
             guard let nameCell = tableView.cellForRow(at: indexPath) as? EditUserInfoBaseCell else { return }
             _ = nameCell.userInfoTextView.becomeFirstResponder()
             
-        case .Birthday:
+        case .birthday:
             let datePickerVC = DatePickerViewController()
             datePickerVC.mainEditDelegate = self
             present(UINavigationController(rootViewController: datePickerVC), animated: true, completion: nil)
             
-        case .Education:
+        case .education:
             if indexPath.row >= user.education.count {
                 
                 let autocompleteController = GMSAutocompleteViewController()
@@ -334,18 +357,18 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
                 
                 present(autocompleteController, animated: true, completion: nil)
 
-//                let vc = UserInfoPickerViewController(UserInfoType.Education)
+//                let vc = UserInfoPickerViewController(UserInfoType.education)
 //                present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
             }
-        case .Profession:
+        case .profession:
             if indexPath.row >= user.profession.count {
-                let vc = UserInfoPickerViewController(UserInfoType.Profession)
+                let vc = UserInfoPickerViewController(UserInfoType.profession)
                 vc.mainEditDelegate = self
                 present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
             }
-        case .Expertise:
+        case .expertise:
             if indexPath.row >= user.expertise.count {
-                let vc = UserInfoPickerViewController(UserInfoType.Expertise)
+                let vc = UserInfoPickerViewController(UserInfoType.expertise)
                 vc.mainEditDelegate = self
                 present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
             }
@@ -461,7 +484,7 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
     func addTableViewCell(infoType: UserInfoType, placeName: String) {
         
         switch infoType {
-        case .Education:
+        case .education:
             
             user.education.append(placeName)
             
@@ -479,7 +502,7 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
             cell.userInfoTextView.text = placeName
             
             
-        case .Profession:
+        case .profession:
             
             user.profession.append(placeName)
             
@@ -497,7 +520,7 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
             cell.userInfoTextView.text = placeName
 
             
-        case .Expertise:
+        case .expertise:
             
             let expertiseCount = user.expertise.count
             DispatchQueue.main.async {
@@ -517,7 +540,7 @@ extension ProfileEditViewController: GMSAutocompleteViewControllerDelegate {
         print("Place address: \(place.formattedAddress)")
         print("Place attributions: \(place.attributions)")
         
-        addTableViewCell(infoType: .Education, placeName: place.name)
+        addTableViewCell(infoType: .education, placeName: place.name)
         
         dismiss(animated: true, completion: nil)
     }

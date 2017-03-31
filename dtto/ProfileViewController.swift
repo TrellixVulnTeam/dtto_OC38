@@ -262,13 +262,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case .Profile:
             return nil
         case .Education:
-            return "  Education"
-        case .Profession:
-            return "  Profession"
-        case .Expertise:
-            return "  Expertise"
-        case .Summary:
             return "  Summary"
+        case .Profession:
+            return "  Education"
+        case .Expertise:
+            return "  Profession"
+        case .Summary:
+            return "  Expertise"
         }
 //        if tableView.numberOfRows(inSection: section) != 0 {
 //            return "  Section"
