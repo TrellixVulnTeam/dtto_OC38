@@ -10,7 +10,6 @@ import UIKit
 
 class NotificationsPage: BaseCollectionViewCell {
     
-    var collectionView: UICollectionView!
     var relates = [UserNotification]()
     var requests = [UserNotification]()
     var initialLoad = true
@@ -26,13 +25,10 @@ class NotificationsPage: BaseCollectionViewCell {
     }
     
     override func setupViews() {
-        
         super.setupViews()
         
         
-        
     }
-    
 
     private func observeNotifications() {
         
@@ -61,7 +57,7 @@ class NotificationsPage: BaseCollectionViewCell {
             
             // Wait until all notifications are downloaded, then reload.
             if self.initialLoad == false {
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
             }
 
             
@@ -71,7 +67,7 @@ class NotificationsPage: BaseCollectionViewCell {
         // Checks when all notifications are loaded
         notificationsRef.observeSingleEvent(of: .value, with: { snapshot in
             self.initialLoad = false
-            self.collectionView.reloadData()
+            self.tableView.reloadData()
         })
         
     }

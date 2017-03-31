@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostTextCell: BaseCollectionViewCell {
+class PostTextCell: BaseTableViewCell {
     
     let postLabel: UILabel = {
         let label = UILabel()

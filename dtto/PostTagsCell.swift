@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostTagsCell: BaseCollectionViewCell {
+class PostTagsCell: BaseTableViewCell {
 
     let relatesIcon: UIImageView = {
         let imageView = UIImageView()

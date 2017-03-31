@@ -9,7 +9,7 @@
 import UIKit
 import MIBadgeButton_Swift
 
-class Requests: BaseTableViewCell {
+class RequestsCell: BaseTableViewCell {
     
     let profileImageView = RoundImageView()
     

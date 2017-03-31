@@ -16,11 +16,11 @@ class BaseCollectionViewCell: UICollectionViewCell {
         let tableView = UITableView(frame: .zero, style: .plain)
         
         tableView.backgroundColor = .white
-        tableView.estimatedRowHeight = 50
+        tableView.estimatedRowHeight = 90
+        tableView.separatorStyle = .none
         
         return tableView
     }()
-
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,7 +35,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
     func setupViews() {
         backgroundColor = .white
         let backgroundView = UIView()
-        backgroundView.backgroundColor = Color.gray247
+        backgroundView.backgroundColor = .clear
         selectedBackgroundView = backgroundView
         
         addSubview(tableView)

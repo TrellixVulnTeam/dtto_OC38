@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostProfileCell: BaseCollectionViewCell {
+class PostProfileCell: BaseTableViewCell {
 
     weak var postDelegate: PostProtocol?
     
@@ -51,7 +51,7 @@ class PostProfileCell: BaseCollectionViewCell {
         addSubview(usernameLabel)
         addSubview(moreButton)
 
-        profileImage.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 15, trailingConstant: 10, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        profileImage.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 15, trailingConstant: 10, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
         profileImage.anchorCenterYToSuperview()
         
 //        nameLabel.anchor(top: nil, leading: profileImage.trailingAnchor, trailing: moreButton.leadingAnchor, bottom: profileImage.centerYAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)

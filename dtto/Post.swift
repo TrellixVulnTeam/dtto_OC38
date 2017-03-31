@@ -19,7 +19,7 @@ class Post {
     var chatCount: Int
     let relatesCount: Int
     var tags: String?
-    var isAnonymous: Bool = false
+    var isAnonymous: Bool = true
     
     
     init?(dictionary: [String: AnyObject]) {
@@ -29,7 +29,13 @@ class Post {
         self.userID = userID
         
         name = dictionary["name"] as? String
-        username = dictionary["username"] as? String
+        if let username = dictionary["username"] as? String {
+            self.username = username
+            isAnonymous = false
+        }
+        else {
+            username = "Anonymous"
+        }
         
         text = dictionary["text"] as? String
         

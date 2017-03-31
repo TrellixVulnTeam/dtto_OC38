@@ -21,44 +21,25 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     var outgoingRequests: [String : Bool]?
     var relates: [String : Bool]?
 //    var relates: [String : Bool] = defaults.getRelates()
-    
-    lazy var collectionView: UICollectionView = {
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
-        layout.footerReferenceSize = CGSize(width: SCREENWIDTH, height: 1)
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-        collectionView.backgroundColor = Color.gray247
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionView.register(PostProfileCell.self, forCellWithReuseIdentifier: "PostProfileCell")
-        collectionView.register(PostTextCell.self, forCellWithReuseIdentifier: "PostTextCell")
-        collectionView.register(PostButtonsCell.self, forCellWithReuseIdentifier: "PostButtonsCell")
-        collectionView.register(PostTagsCell.self, forCellWithReuseIdentifier: "PostTagsCell")
-        collectionView.register(FooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "FooterView")
-        
-        return collectionView
-    }()
+    var initialLoad = true
     
     override func setupViews() {
         super.setupViews()
         
-        addSubview(collectionView)
-        
-        collectionView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        
         observePosts()
-        checkOutgoingRequests()
+//        checkOutgoingRequests()
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.register(PostProfileCell.self, forCellReuseIdentifier: "PostProfileCell")
+        tableView.register(PostTextCell.self, forCellReuseIdentifier: "PostTextCell")
+        tableView.register(PostButtonsCell.self, forCellReuseIdentifier: "PostButtonsCell")
+        tableView.register(PostTagsCell.self, forCellReuseIdentifier: "PostTagsCell")
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
         tap.delegate = self
-        collectionView.addGestureRecognizer(tap)
+        tableView.addGestureRecognizer(tap)
         
     }
     
@@ -81,7 +62,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                     for (index, post) in self.posts.enumerated() {
                         if post.postID == postID {
                             DispatchQueue.main.async {
-                                self.collectionView.reloadSections(IndexSet(integer: index))
+                                self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
                             }
                         }
                     }
@@ -103,9 +84,14 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 if let post = Post(dictionary: postData) {
                     self.posts.insert(post, at: 0)
                     self.fullPosts.insert(post, at: 0)
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
+
+                    if self.initialLoad == false {
+                        self.tableView.beginUpdates()
+                        self.tableView.insertSections(IndexSet(integer: 0), with: .automatic)
+                        self.tableView.endUpdates()
                     }
+
+                    
                 }
                 
                 //                
@@ -123,7 +109,11 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             
         })
         
-        
+        postsRef.observeSingleEvent(of: .value, with: { snapshot in
+            self.initialLoad = false
+            self.tableView.reloadData()
+        })
+        /*
         postsRef.observe(.childChanged, with: { snapshot in
             
             let uidToChange = snapshot.key
@@ -137,7 +127,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                             self.posts[index] = post
                             DispatchQueue.main.async(execute: {
                                 UIView.performWithoutAnimation {
-                                    self.collectionView.reloadSections(IndexSet(integer: index))
+                                    self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
                                 }
                             })
                         }
@@ -157,7 +147,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 if post.postID == uidToRemove {
                     self.posts.remove(at: index)
                         DispatchQueue.main.async(execute: {
-                            self.collectionView.deleteSections(IndexSet(integer: index))
+                            self.tableView.beginUpdates()
+                            self.tableView.deleteSections(IndexSet(integer: index), with: .automatic)
+                            self.tableView.endUpdates()
                         })
                 }
             }
@@ -173,6 +165,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             })
             
         })
+        */
         
         
         
@@ -180,7 +173,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     func requestChat(cell: PostButtonsCell, chatState: ChatState) {
         
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
         
         let post = posts[indexPath.section]
         let postID = post.getPostID()
@@ -249,7 +242,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     func relatePost(cell: PostButtonsCell) {
         
-        guard let section = collectionView.indexPath(for: cell)?.section else { return }
+        guard let section = tableView.indexPath(for: cell)?.section else { return }
         
         let post = posts[section]
         let postID = post.getPostID()
@@ -295,7 +288,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     func showMore(cell: PostProfileCell, sender: AnyObject) {
         
-        guard let button = sender as? UIView, let section = collectionView.indexPath(for: cell)?.section else { return }
+        guard let button = sender as? UIView, let section = tableView.indexPath(for: cell)?.section else { return }
         
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.view.tintColor = Color.darkNavy
@@ -392,11 +385,11 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         if let postID = postID {
             
             defaults.hidePost(postID: postID)
-            self.collectionView.performBatchUpdates({
-                self.posts.remove(at: section)
-                self.collectionView.deleteSections(IndexSet(integer: section))
-            }, completion: nil)
             
+            self.tableView.beginUpdates()
+            self.posts.remove(at: section)
+            self.tableView.deleteSections(IndexSet(integer: section), with: .automatic)
+            self.tableView.endUpdates()
         }
         
     }
@@ -414,12 +407,12 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     func doubleTapped(_ gestureReconizer: UITapGestureRecognizer) {
         
-        let p = gestureReconizer.location(in: self.collectionView)
-        let indexPath = self.collectionView.indexPathForItem(at: p)
+        let p = gestureReconizer.location(in: tableView)
+        let indexPath = tableView.indexPathForRow(at: p)
         
         if let index = indexPath {
-            guard let _ = self.collectionView.cellForItem(at: index) as? PostTextCell else { return }
-            guard let cell = self.collectionView.cellForItem(at: IndexPath(row: 2, section: index.section)) as? PostButtonsCell else { return }
+            guard let _ = tableView.cellForRow(at: index) as? PostTextCell else { return }
+            guard let cell = tableView.cellForRow(at: IndexPath(row: 2, section: index.section)) as? PostButtonsCell else { return }
             // request chat to this user
             cell.requestChat(cell.chatButton)
 //            requestChat(row: index.row, chatState: cell.chatState)
@@ -441,6 +434,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
 }
 
+/*
 extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     private enum Row: Int {
@@ -642,7 +636,166 @@ extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
 
 }
-
+*/
 extension HomePage: UIGestureRecognizerDelegate {
     
+}
+
+extension HomePage: UITableViewDelegate, UITableViewDataSource {
+    
+    private enum Row: Int {
+        case profile
+        case post
+        case buttons
+        case relates
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return posts.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let post = posts[section]
+        if post.getRelatesCount() < 1 {
+            return 3
+        }
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let row = Row(rawValue: indexPath.row) else { return UITableViewCell() }
+        
+        let post = posts[indexPath.section]
+        
+        switch row {
+            
+        case .profile:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostProfileCell") as! PostProfileCell
+            
+            cell.profileImage.image = nil
+            
+            //            cell.nameLabel.text = post.name ?? "Anonymous"
+            
+            // Only load profile if the post is public
+    
+            if post.isAnonymous {
+                cell.profileImage.backgroundColor = Color.lightGray
+                cell.usernameLabel.text = "Anonymous"
+            }
+            else {
+                if let username = post.getPostUsername() {
+                    cell.profileImage.loadProfileImage(post.getUserID())
+                    cell.usernameLabel.text = "@" + username
+                }
+            }
+            
+            cell.postDelegate = self
+            return cell
+            
+        case .post:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostTextCell") as! PostTextCell
+            cell.postLabel.text = post.text!
+            return cell
+            
+        case .buttons:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostButtonsCell") as! PostButtonsCell
+            
+            cell.requestChatDelegate = self
+            
+            if let _ = relates?[post.getPostID()] {
+                cell.relateButton.isSelected = true
+            }
+            else {
+                cell.relateButton.isSelected = false
+            }
+            
+            if post.getUserID() == defaults.getUID() {
+                cell.chatButton.isHidden = true
+            }
+            else {
+                cell.chatButton.isHidden = false
+                if let ongoing = outgoingRequests?[post.getPostID()] {
+                    if ongoing {
+                        cell.chatState = .ongoing
+                    }
+                    else {
+                        cell.chatState = .requested
+                    }
+                }
+                else {
+                    cell.chatState = .normal
+                }
+            }
+            
+            return cell
+            
+        case .relates:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostTagsCell") as! PostTagsCell
+            
+            cell.relatesCount = post.getRelatesCount()
+            return cell
+            
+        }
+
+    }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        
+        guard let row = Row(rawValue: indexPath.row) else { return nil }
+        
+        switch row {
+        case .profile:
+            // if post.isanonymous = false
+            let post = posts[indexPath.section]
+            if post.isAnonymous {
+                return nil
+            }
+            else {
+                return indexPath
+            }
+        case .post:
+            // double tap action
+            return nil
+        case .buttons:
+            return nil
+        case .relates:
+            return indexPath
+        }
+
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let row = Row(rawValue: indexPath.row) else { return }
+        let post = posts[indexPath.section]
+        switch row {
+        case .profile:
+            
+            if !post.isAnonymous {
+                showProfile(section: indexPath.section)
+            }
+            
+        case .relates:
+            let vc = RelatersViewController(postID: post.getPostID())
+            masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
+            
+        default:
+            break
+        }
+
+    }
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        
+        guard let row = Row(rawValue: indexPath.row) else { return false }
+        
+        switch row {
+        case .profile, .relates:
+            return true
+        default:
+            return false
+        }
+        
+    }
 }

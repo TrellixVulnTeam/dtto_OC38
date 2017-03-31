@@ -14,7 +14,7 @@ enum ChatState {
     case ongoing
 }
 
-class PostButtonsCell: BaseCollectionViewCell {
+class PostButtonsCell: BaseTableViewCell {
 
     weak var requestChatDelegate: PostProtocol?
     var chatState: ChatState = .normal {

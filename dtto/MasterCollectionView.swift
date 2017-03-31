@@ -90,13 +90,13 @@ class MasterCollectionView: UIViewController {
         }
         
         if let cv = collectionView.cellForItem(at: selectedCV) as? NotificationsPage {
-            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
-            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
+            guard let selectedIndexPath = cv.tableView.indexPathsForSelectedRows?.first else { return }
+            cv.tableView.deselectRow(at: selectedIndexPath, animated: true)
         }
         
         if let cv = collectionView.cellForItem(at: selectedCV) as? HomePage {
-            guard let selectedIndexPath = cv.collectionView.indexPathsForSelectedItems?.first else { return }
-            cv.collectionView.deselectItem(at: selectedIndexPath, animated: true)
+            guard let selectedIndexPath = cv.tableView.indexPathsForSelectedRows?.first else { return }
+            cv.tableView.deselectRow(at: selectedIndexPath, animated: true)
         }
     }
     

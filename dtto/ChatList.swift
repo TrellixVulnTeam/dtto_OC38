@@ -21,10 +21,12 @@ class ChatList: BaseCollectionViewCell {
     
     override func setupViews() {
         super.setupViews()
-        
-        tableView.register(ChatListCell.self, forCellReuseIdentifier: "ChatListCell")
+
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tableView.register(ChatListCell.self, forCellReuseIdentifier: "ChatListCell")
+        tableView.register(RequestsCell.self, forCellReuseIdentifier: "RequestsCell")
         
         observeChatRequestsCount()
         
@@ -72,9 +74,21 @@ extension ChatList: UITableViewDelegate, UITableViewDataSource {
         
         guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatListCell") as! ChatListCell
-        cell.lastMessageLabel.text = chats[indexPath.row].lastMessage!
-        return cell
+        switch section {
+            
+        case .requests:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "RequestsCell") as! RequestsCell
+            cell.requestsCount = requestsCount
+            return cell
+
+            
+        case .chats:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ChatListCell") as! ChatListCell
+            cell.lastMessageLabel.text = chats[indexPath.row].lastMessage
+            
+            return cell
+
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
