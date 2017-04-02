@@ -124,12 +124,12 @@ class MasterCollectionView: UIViewController {
         
         guard let userID = defaults.getUID() else { return }
 
-        let userChatsRef = FIREBASE_REF.child("users/\(userID)/chats")
+        let userChatsRef = FIREBASE_REF.child("users").child(userID).child("chats")
         
         userChatsRef.observe(.childAdded, with: { snapshot in
         
             let chatID = snapshot.key
-            let chatRoomRef = FIREBASE_REF.child("chats/\(chatID)")
+            let chatRoomRef = FIREBASE_REF.child("chats").child(chatID)
 
             chatRoomRef.observe(.value, with: { chatSnapshot in
                 
@@ -138,19 +138,24 @@ class MasterCollectionView: UIViewController {
                     var contains = false
                     for (index, chat) in self.chats.enumerated() {
                         if chat.chatID == chatID {
-                            
-                            self.chats[index] = Chat(snapshot: chatSnapshot)
-                            DispatchQueue.main.async {
-                                self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+                            if let chat = Chat(snapshot: chatSnapshot){
+                                self.chats[index] = chat
+                                DispatchQueue.main.async {
+                                    self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+                                }
+                                contains = true
+
                             }
-                            contains = true
+                            
                         }
                     }
                     if !contains {
-                        
-                        self.chats.insert(Chat(snapshot: chatSnapshot), at: 0)
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+                        if let chat = Chat(snapshot: chatSnapshot) {
+                            self.chats.insert(chat, at: 0)
+                            DispatchQueue.main.async {
+                                self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+                            }
+
                         }
                     }
                 }
@@ -162,7 +167,7 @@ class MasterCollectionView: UIViewController {
             let chatIDRemoved = snapshot.key
             
             for (index, chat) in self.chats.enumerated() {
-                if chatIDRemoved == chat.chatID! {
+                if chatIDRemoved == chat.chatID {
                     
                     self.chats.remove(at: index)
                     DispatchQueue.main.async {
@@ -234,8 +239,8 @@ class MasterCollectionView: UIViewController {
         let chatButton = UIBarButtonItem(image: #imageLiteral(resourceName: "chatNormal"), style: .plain, target: self, action: #selector(scrollToMenuIndex(_:)))
         chatButton.tag = 2
         
-        self.navigationItem.leftBarButtonItem = notificationsButton
-        self.navigationItem.rightBarButtonItem = chatButton
+        navigationItem.leftBarButtonItem = notificationsButton
+        navigationItem.rightBarButtonItem = chatButton
         
         let homeButton =  UIButton(type: .custom)
         homeButton.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
@@ -276,16 +281,13 @@ class MasterCollectionView: UIViewController {
     func scrollToMenuIndex(_ sender: AnyObject) {
         
         let indexPath = IndexPath(item: sender.tag, section: 0)
-        self.selectedIndex = sender.tag
+        selectedIndex = sender.tag
         collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition(), animated: true)
-        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         sliderBarCenterXAnchorConstraint?.constant = scrollView.contentOffset.x/2
-      
     }
-    
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
@@ -293,20 +295,20 @@ class MasterCollectionView: UIViewController {
         
         let indexPath = IndexPath(item: Int(index), section: 0)
         
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition())
-        self.selectedIndex = Int(index)
+//        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition())
+        selectedIndex = Int(index)
     }
     
     func scrollToIndex() {
-        switch self.selectedIndex {
+        switch selectedIndex {
         case 0:
-            self.sliderBarCenterXAnchorConstraint?.constant = 25
+            sliderBarCenterXAnchorConstraint?.constant = 25
             
         case 1:
-            self.sliderBarCenterXAnchorConstraint?.constant = SCREENWIDTH/2
+            sliderBarCenterXAnchorConstraint?.constant = SCREENWIDTH/2
             
         default:
-            self.sliderBarCenterXAnchorConstraint?.constant = SCREENWIDTH - 25
+            sliderBarCenterXAnchorConstraint?.constant = SCREENWIDTH - 25
         }
         
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear, animations: {

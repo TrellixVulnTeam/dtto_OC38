@@ -9,7 +9,7 @@
 import UIKit
 import MIBadgeButton_Swift
 
-class RequestsCell: BaseTableViewCell {
+class RequestsPreviewCell: BaseTableViewCell {
     
     let profileImageView = RoundImageView()
     
@@ -46,6 +46,8 @@ class RequestsCell: BaseTableViewCell {
         }
     }
     
+    let underline = HorizontalBar()
+    
     override func setupViews() {
         super.setupViews()
         getRequestsCount()
@@ -59,6 +61,7 @@ class RequestsCell: BaseTableViewCell {
         addSubview(subLabel)
         addSubview(profileImageView)
         addSubview(badge)
+        addSubview(underline)
         
         profileImageView.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 15, trailingConstant: 0, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
         profileImageView.anchorCenterYToSuperview()
@@ -73,6 +76,7 @@ class RequestsCell: BaseTableViewCell {
         stackView.anchor(top: nil, leading: profileImageView.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         stackView.anchorCenterYToSuperview()
         
+        underline.anchor(top: nil, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 20, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 1)
     }
     
     func getRequestsCount() {

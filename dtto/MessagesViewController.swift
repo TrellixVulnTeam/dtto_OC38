@@ -39,9 +39,10 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
 
     init(chat: Chat) {
         self.chat = chat
-        self.messagesRef = FIREBASE_REF.child("messages/\(chat.chatID!)")
-        self.chatsRef = FIREBASE_REF.child("chats/\(chat.chatID!)")
-        self.storageRef = STORAGE_REF.child("messages/\(chat.chatID!)")
+        let chatID = chat.getChatID()
+        self.messagesRef = FIREBASE_REF.child("messages").child(chatID)
+        self.chatsRef = FIREBASE_REF.child("chats").child(chatID)
+        self.storageRef = STORAGE_REF.child("messages").child(chatID)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -84,7 +85,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         
         if userID == chat.posterID {
             let resolveChatButton = UIButton(type: .system)
-            resolveChatButton.setImage(#imageLiteral(resourceName: "check"), for: .normal)
+            resolveChatButton.setImage(#imageLiteral(resourceName: "resolveChat"), for: .normal)
             resolveChatButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
             resolveChatButton.addTarget(self, action: #selector(resolveChat), for: .touchUpInside)
             buttons.append(UIBarButtonItem(customView: resolveChatButton))
@@ -109,10 +110,13 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         
 //        guard let userID = defaults.getUID(), let helperID = chat.helperID else { return }
         
-        let checkoutVC = CheckoutViewController(helperID: "tw2QiARnU7ZFZ7we4tmKs3HcSU42", helperName: "Jitae")
-        checkoutVC.paymentConfirmationDelegate = self
+        let vc = ResolveChatViewController()
+        present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
         
-        present(UINavigationController(rootViewController: checkoutVC), animated: true, completion: nil)
+//        let checkoutVC = CheckoutViewController(helperID: "tw2QiARnU7ZFZ7we4tmKs3HcSU42", helperName: "Jitae")
+//        checkoutVC.paymentConfirmationDelegate = self
+//        
+//        present(UINavigationController(rootViewController: checkoutVC), animated: true, completion: nil)
         
         // prompt user with screen that reviews that helper.
         // depending on the prompt, go to the payment selection screen. 
@@ -153,7 +157,10 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     private func getFriendName() {
         
-        guard let userID = defaults.getUID(), let postID = chat.postID, let helperID = chat.helperID else { return }
+        guard let userID = defaults.getUID() else { return }
+        
+        let postID = chat.getPostID()
+        let helperID = chat.getHelperID()
         
         if userID == helperID {
             // Get the poster's name. Check if poster was anonymous
@@ -175,7 +182,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     private func getMessages() {
         
-        let ref = FIREBASE_REF.child("messages/\(chat.chatID!)")
+        let ref = FIREBASE_REF.child("messages").child(chat.getChatID())
         
         ref.observe(.childAdded, with: { snapshot in
             
@@ -203,7 +210,8 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         
         senderDisplayName = FIRAuth.auth()?.currentUser?.displayName ?? "Me"
         
-        guard let posterID = chat.posterID, let helperID = chat.helperID else { return }
+        let posterID = chat.getPosterID()
+        let helperID = chat.getHelperID()
         
         if userID == posterID {
             friendID = helperID
@@ -223,7 +231,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     func updateUserStats() {
         
-        guard let chatID = chat.chatID else { return }
+        let chatID = chat.getChatID()
         let chatRef = FIREBASE_REF.child("chats").child(chatID).child("resolved")
         chatRef.setValue(true)
         
@@ -241,7 +249,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
 
-        let messagesRef = FIREBASE_REF.child("messages/\(chat.chatID!)")
+        let messagesRef = FIREBASE_REF.child("messages").child(chat.getChatID())
         let messageItem = [
             "senderID": senderId!,
             "name": senderDisplayName!,

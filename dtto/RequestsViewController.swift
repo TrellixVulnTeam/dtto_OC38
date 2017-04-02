@@ -160,11 +160,11 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
         var chatDictionary = [String : String]()
         
-        guard let name = chat.name, let uid = chat.senderID, let postID = chat.postID else {
+        guard let name = chat.name, let uid = chat.senderID else {
             print("User dictionary is nil. something went wrong")
             return nil
         }
-        
+        let postID = chat.postID
         chatDictionary.updateValue(name, forKey: "name")
         chatDictionary.updateValue(uid, forKey: "senderID")
         chatDictionary.updateValue(postID, forKey: "postID")
@@ -257,8 +257,8 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
         
         let request = requests[indexPath.row]
         
-        cell.profileImage.image = #imageLiteral(resourceName: "profile")
-        cell.nameLabel.text = request.name!
+        cell.profileImageView.image = #imageLiteral(resourceName: "profile")
+        cell.usernameLabel.text = request.name
         
         cell.requestsDelegate = self
         

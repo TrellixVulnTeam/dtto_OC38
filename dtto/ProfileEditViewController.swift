@@ -138,6 +138,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
         case image
         case name
         case username
+        case email
         case summary
         case about
         case skills
@@ -146,7 +147,7 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 7
+        return 8
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -160,6 +161,8 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
         case .name:
             return 1
         case .username:
+            return 1
+        case .email:
             return 1
         case .summary:
             return 1
@@ -227,6 +230,8 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
             return ProfileSectionHeader(sectionTitle: "Name")
         case .username:
             return ProfileSectionHeader(sectionTitle: "Username")
+        case .email:
+            return ProfileSectionHeader(sectionTitle: "Email")
         case .summary:
             return ProfileSectionHeader(sectionTitle: "Summary")
         case .about:
@@ -256,12 +261,6 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
             cell.profileImage.setBackgroundImage(#imageLiteral(resourceName: "profile"), for: UIControlState())
             cell.selectionStyle = .none
             return cell
-  
-        case .summary:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "EditUserSummaryCell") as! EditUserSummaryCell
-            cell.summaryTextView.text = "Tell us about who you are"
-            cell.selectionStyle = .none
-            return cell
             
         default:
             
@@ -279,7 +278,10 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
                 else {
                     cell.userInfoTextView.text = "Enter your username"
                 }
-           
+            case .email:
+                cell.userInfoTextView.text = "Enter your email"
+            case .summary:
+                cell.userInfoTextView.text = "Tell us about yourself"
             case .about:
                 cell.userInfoTextView.text = "Describe what you do"
             case .skills:

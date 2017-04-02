@@ -21,7 +21,6 @@ class Post {
     var tags: String?
     var isAnonymous: Bool = true
     
-    
     init?(dictionary: [String: AnyObject]) {
         
         guard let postID = dictionary["postID"] as? String, let userID = dictionary["userID"] as? String else { return nil }

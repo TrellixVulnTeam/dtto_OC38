@@ -14,22 +14,18 @@ class ChatSettings: UIViewController {
     let friendID: String
     
     lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .grouped)
-        tv.delegate = self
-        tv.dataSource = self
-//        tv.backgroundColor = .white
-        tv.estimatedRowHeight = 50
-        tv.estimatedSectionHeaderHeight = 20
-        tv.separatorStyle = .none
-        tv.register(ProfileImageCell.self, forCellReuseIdentifier: "ProfileImageCell")
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        tableView.estimatedRowHeight = 50
+        tableView.estimatedSectionHeaderHeight = 20
         
-        return tv
-    }()
-    
-    lazy var deleteChatButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(confirmDeleteAlert))
-        button.tintColor = Color.darkNavy
-        return button
+        tableView.register(ProfileImageCell.self, forCellReuseIdentifier: "ProfileImageCell")
+        tableView.register(ToggleCell.self, forCellReuseIdentifier: "ToggleCell")
+        tableView.register(DestructiveCell.self, forCellReuseIdentifier: "DestructiveCell")
+        
+        return tableView
     }()
     
     init(chat: Chat, friendID: String) {
@@ -45,7 +41,6 @@ class ChatSettings: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupNavBar()
     }
 
     func setupViews() {
@@ -59,17 +54,40 @@ class ChatSettings: UIViewController {
         
     }
     
-    func setupNavBar() {
-        navigationItem.rightBarButtonItem = deleteChatButton
-    }
-    
-    func confirmDeleteAlert() {
+    func confirmAlert(type: DestructiveRow) {
         
-        let ac = UIAlertController(title: "Remove Chat", message: "Remove this chat and all messages?", preferredStyle: .alert)
+        var title = ""
+        var message = ""
+        var deleteTitle = ""
+        
+        switch type {
+        case .delete:
+            title = "Remove Chat"
+            message = "Remove this chat and all messages?"
+            deleteTitle = "Remove"
+        case .block:
+            title = "Block \(chat.getFriendID())?"
+            message = "They will not be able to send you requests."
+            deleteTitle = "Remove"
+        case .report:
+            title = "Report \(chat.getFriendID())?"
+            message = "Report this user?"
+            deleteTitle = "Remove"
+            
+        }
+        
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         ac.view.tintColor = Color.darkNavy
         
-        let deleteAction = UIAlertAction(title: "Remove", style: .destructive, handler: { action in
-            self.deleteChat()
+        let deleteAction = UIAlertAction(title: deleteTitle, style: .destructive, handler: { action in
+            switch type {
+            case .delete:
+                self.deleteChat()
+            case .block:
+                self.blockUser()
+            case .report:
+                self.reportUser()
+            }
         })
         
         ac.addAction(deleteAction)
@@ -80,18 +98,18 @@ class ChatSettings: UIViewController {
         
         ac.addAction(cancelAction)
         
-        self.present(ac, animated: true, completion: {
+        present(ac, animated: true, completion: {
             ac.view.tintColor = Color.darkNavy
         })
 
     }
-    
+
     func deleteChat() {
         
         // present alert.
         
-        guard let userID = defaults.getUID(), let chatID = chat.chatID else { return }
-        
+        guard let userID = defaults.getUID() else { return }
+        let chatID = chat.getChatID()
         // remove from user's chat list
         let userChatsRef = FIREBASE_REF.child("users").child(userID).child("chats").child(chatID)
         userChatsRef.removeValue()
@@ -110,17 +128,44 @@ class ChatSettings: UIViewController {
         })
         
     }
+    
+    func blockUser() {
+        
+    }
+    
+    func reportUser() {
+        
+    }
 }
 
 extension ChatSettings: UITableViewDelegate, UITableViewDataSource {
     
     private enum Section: Int {
-        case Profile
-
+        case profile
+        case notifications
+        case block
+    }
+    
+    enum DestructiveRow: Int {
+        case delete
+        case block
+        case report
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        
+        guard let section = Section(rawValue: section) else { return 0 }
+        
+        switch section {
+        case .block:
+            return 3
+        default:
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -142,21 +187,64 @@ extension ChatSettings: UITableViewDelegate, UITableViewDataSource {
         guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
         
         switch section {
-        case .Profile:
+        case .profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell") as! ProfileImageCell
             cell.profileImageView.loadProfileImage(friendID)
             return cell
+        case .notifications:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell") as! ToggleCell
+            return cell
+        case .block:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DestructiveCell") as! DestructiveCell
+            
+            guard let row = DestructiveRow(rawValue: indexPath.row) else { return cell }
+            switch row {
+            case .delete:
+                cell.titleLabel.text = "Delete"
+            case .block:
+                cell.titleLabel.text = "Block"
+            case .report:
+                cell.titleLabel.text = "Report"
+            }
+            return cell
+
         }
     }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        
+        guard let section = Section(rawValue: indexPath.section) else { return true }
+        
+        switch section {
+        case .block:
+            return true
+        default:
+            return false
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let section = Section(rawValue: indexPath.section) else { return }
         
         switch section {
-        case .Profile:
+        case .profile:
             let profileVC = ProfileViewController(userID: friendID)
             navigationController?.pushViewController(profileVC, animated: true)
+        case .block:
+            guard let row = DestructiveRow(rawValue: indexPath.row) else { return }
+            switch row {
+            case .delete:
+                confirmAlert(type: row)
+            case .block:
+                break
+            case .report:
+                break
+            }
+            tableView.deselectRow(at: indexPath, animated: true)
+        default:
+            break
         }
  
     }

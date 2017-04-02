@@ -11,65 +11,55 @@ import Stripe
 
 class ResolveChatViewController: UIViewController {
 
-    let resolveTitleLabel: UILabel = {
+    let thanksLabel: UILabel = {
         let label = UILabel()
-        label.text = "Was username helpful?"
+        label.text = "Thank you for saying jae was helpful! Would you like to send a gift?"
+        label.textColor = .white
+        label.numberOfLines = 0
         return label
     }()
     
-    lazy var helpfulButton: RoundButton = {
-        let button = RoundButton(type: .system)
-        button.setTitle("Helpful", for: UIControlState())
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        button.tintColor = .white
-        button.backgroundColor = .darkGray
-        button.addTarget(self, action: #selector(helped(_:)), for: .touchUpInside)
+    lazy var fiveButton: PaymentAmountButton = {
+        let button = PaymentAmountButton(dollarAmount: 5)
+        button.setTitle("$5.00", for: .normal)
         return button
     }()
     
-    lazy var notHelpfulButton: RoundButton = {
-        let button = RoundButton(type: .system)
-        button.setTitle("-", for: UIControlState())
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        button.tintColor = .darkGray
-        button.backgroundColor = .clear
-        button.addTarget(self, action: #selector(notHelped(_:)), for: .touchUpInside)
+    lazy var tenButton: PaymentAmountButton = {
+        let button = PaymentAmountButton(dollarAmount: 10)
+        button.setTitle("$10.00", for: .normal)
         return button
     }()
     
-    lazy var addCardButton: RoundButton = {
-        let button = RoundButton(type: .system)
-        button.setTitle("Add Card", for: UIControlState())
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        button.tintColor = .white
-        button.backgroundColor = .darkGray
-        button.addTarget(self, action: #selector(addCard), for: .touchUpInside)
+    lazy var customPaymentTextField: UITextField = {
+        let textField = UITextField()
+        textField.delegate = self
+        textField.placeholder = "Enter a specific amount here."
+        textField.backgroundColor = .white
+        textField.textAlignment = .center
+        textField.textColor = Color.darkNavy
+        textField.keyboardType = .decimalPad
+        textField.layer.cornerRadius = 5
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.clear.cgColor
+        return textField
+    }()
+    
+    lazy var confirmButton: RoundButton = {
+        let button = RoundButton()
+        button.setTitle("Confirm", for: .normal)
+        button.setTitleColor(Color.darkNavy, for: .normal)
+        button.backgroundColor = .white
         return button
     }()
-    
-    lazy var submitPaymentButton: RoundButton = {
-        let button = RoundButton(type: .system)
-        button.setTitle("Submit", for: UIControlState())
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        button.tintColor = .white
-        button.backgroundColor = .darkGray
-        button.addTarget(self, action: #selector(submitCard), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var amountPickerView: UIPickerView = {
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
-        return pickerView
-    }()
-    
+
     let paymentContext: STPPaymentContext
     
     init() {
-        self.paymentContext = STPPaymentContext(apiAdapter: MyAPIClient())
+        paymentContext = STPPaymentContext(apiAdapter: MyAPIClient())
         super.init(nibName: nil, bundle: nil)
-        self.paymentContext.hostViewController = self
-        self.paymentContext.delegate = self
+        paymentContext.hostViewController = self
+        paymentContext.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,57 +69,48 @@ class ResolveChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true
+        setupNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.navigationBar.isHidden = false
+        dismissKeyboard()
     }
     
     func setupViews() {
         
         view.backgroundColor = Color.darkNavy
         
-//        view.addSubview(helpfulButton)
-//        view.addSubview(addCardButton)
-        view.addSubview(amountPickerView)
-        view.addSubview(submitPaymentButton)
+        view.addSubview(thanksLabel)
+        view.addSubview(fiveButton)
+        view.addSubview(tenButton)
+        view.addSubview(customPaymentTextField)
+        view.addSubview(confirmButton)
         
-//        helpfulButton.anchorCenterSuperview()
-//        addCardButton.anchor(top: helpfulButton.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 20, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 80)
-//        addCardButton.anchorCenterXToSuperview()
-//        amountPickerView.
-//        submitPaymentButton.anchor(top: addCardButton.bottomAnchor, leading: nil, trailing: nil, bottom: nil, topConstant: 20, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 80)
-        submitPaymentButton.anchor(top: nil, leading: nil, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 100, heightConstant: 100)
-        submitPaymentButton.anchorCenterSuperview()
+        thanksLabel.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 20, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
+        fiveButton.anchor(top: thanksLabel.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 20, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
         
+        tenButton.anchor(top: fiveButton.bottomAnchor, leading: fiveButton.leadingAnchor, trailing: fiveButton.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        
+        customPaymentTextField.anchor(top: tenButton.bottomAnchor, leading: fiveButton.leadingAnchor, trailing: fiveButton.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        
+        confirmButton.anchor(top: customPaymentTextField.bottomAnchor, leading: fiveButton.leadingAnchor, trailing: fiveButton.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
     }
     
-    func helped(_ sender: UIButton) {
-        
+    func setupNavBar() {
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(cancel))
+        navigationItem.leftBarButtonItem = doneButton
     }
     
-    func notHelped(_ sender: UIButton) {
-        
-    }
-    
-    func addCard() {
-      
-//        self.paymentContext.pushPaymentMethodsViewController()
+    func cancel() {
+        dismiss(animated: true, completion: nil)
     }
     
     func submitCard() {
-        
-        self.paymentContext.requestPayment()
+        paymentContext.requestPayment()
     }
     
-
 }
 
 
@@ -167,14 +148,8 @@ extension ResolveChatViewController: STPPaymentContextDelegate {
     
 }
 
-extension ResolveChatViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 5
-    }
+extension ResolveChatViewController: UITextFieldDelegate {
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
     
 }

@@ -9,24 +9,25 @@
 import Foundation
 import Firebase
 
-class Chat: NSObject {
+class Chat {
     
-    var chatID: String?
+    let chatID: String
     var senderID: String?
     var name: String?
     var lastMessage: String?
     var timestamp: String?
     var profileImageURL: String?
-    var postID: String?
-    var helperID: String?
-    var posterID: String?
+    let postID: String
+    let helperID: String
+    let posterID: String
     
-    init(snapshot: FIRDataSnapshot) {
-        super.init()
+    init?(snapshot: FIRDataSnapshot) {
         
-        guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+        chatID = snapshot.key
+
+        guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return nil }
         
-        guard let userID = defaults.getUID(), let postID = dictionary["postID"] as? String, let helperID = dictionary["helperID"] as? String, let posterID = dictionary["posterID"] as? String else { return }
+        guard let userID = defaults.getUID(), let postID = dictionary["postID"] as? String, let helperID = dictionary["helperID"] as? String, let posterID = dictionary["posterID"] as? String else { return nil }
         // , let users = dictionary["users"] as? Dictionary<String, AnyObject>
 //        for user in users {
 //            // get the other user's information
@@ -39,8 +40,7 @@ class Chat: NSObject {
 //                
 //            }
 //        }
-        
-        self.chatID = snapshot.key
+
         self.postID = postID
         self.posterID = posterID
         self.helperID = helperID
@@ -63,6 +63,41 @@ class Chat: NSObject {
             
         }
 
+    }
+    
+    func getChatID() -> String {
+        return chatID
+    }
+    
+    func getPostID() -> String {
+        return postID
+    }
+    
+    func getPosterID() -> String {
+        return posterID
+    }
+    
+    func getHelperID() -> String {
+        return helperID
+    }
+    
+    func getFriendID() -> String {
+        
+        let userID = defaults.getUID()
+        if userID == posterID {
+            return helperID
+        }
+        else {
+            return posterID
+        }
+    }
+    
+    func getLastMessage() -> String {
+        return lastMessage ?? ""
+    }
+    
+    func getTimestamp() -> String? {
+        return timestamp
     }
     
 }

@@ -83,9 +83,9 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - Kingfisher (3.5.2)
+  - Kingfisher (3.6.1)
   - MIBadgeButton-Swift (0.5)
-  - NVActivityIndicatorView (3.5.1)
+  - NVActivityIndicatorView (3.6.0)
   - Protobuf (3.2.0)
   - SkyFloatingLabelTextField (3.0.0)
   - Stripe (10.0.1)
@@ -140,9 +140,9 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
-  Kingfisher: 9950e382c500b6834ce004c7c4131c444e90c3a1
+  Kingfisher: 2f31cb75f3e98d3d4c406cbdcd9b263e956cfa67
   MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
-  NVActivityIndicatorView: 075563b3547445ebcff840e3297ce9dd4a23731f
+  NVActivityIndicatorView: c7c1c4300b418bd9ed06459e78d4df859ddbe31f
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   SkyFloatingLabelTextField: 35bc0c2653ad73c5fd8b7a34cfedf09c94367a1a
   Stripe: dd6df0e2c6a8463e2f1ca9b15dc246e5ae1eee64

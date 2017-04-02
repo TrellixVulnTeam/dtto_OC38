@@ -286,13 +286,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
         case .about:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileInfoCell") as! ProfileInfoCell
-            cell.icon.image = #imageLiteral(resourceName: "education")
             cell.titleLabel.text = user.education[indexPath.row]
             return cell
             
         case .skills:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileInfoCell") as! ProfileInfoCell
-            cell.icon.image = #imageLiteral(resourceName: "suitcase")
             cell.titleLabel.text = user.profession[indexPath.row]
             return cell
             

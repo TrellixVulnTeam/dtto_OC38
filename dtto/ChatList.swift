@@ -26,7 +26,7 @@ class ChatList: BaseCollectionViewCell {
         tableView.dataSource = self
         
         tableView.register(ChatListCell.self, forCellReuseIdentifier: "ChatListCell")
-        tableView.register(RequestsCell.self, forCellReuseIdentifier: "RequestsCell")
+        tableView.register(RequestsPreviewCell.self, forCellReuseIdentifier: "RequestsPreviewCell")
         
         observeChatRequestsCount()
         
@@ -77,7 +77,7 @@ extension ChatList: UITableViewDelegate, UITableViewDataSource {
         switch section {
             
         case .requests:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "RequestsCell") as! RequestsCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "RequestsPreviewCell") as! RequestsPreviewCell
             cell.requestsCount = requestsCount
             return cell
 

@@ -13,7 +13,7 @@ class ProfileSectionHeader: UIView {
     let sectionLabel: UILabel = {
         let label = UILabel()
         label.textColor = Color.darkNavy
-        label.font = UIFont.boldSystemFont(ofSize: 11)
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         return label
     }()
     

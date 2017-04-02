@@ -67,7 +67,7 @@ class ChatListCell: BaseTableViewCell {
         addSubview(lastMessageLabel)
         addSubview(timestampLabel)
         
-        profileImage.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
+        profileImage.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 15, trailingConstant: 0, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
         
         nameLabel.anchor(top: profileImage.topAnchor, leading: profileImage.trailingAnchor, trailing: timestampLabel.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
@@ -83,9 +83,9 @@ class ChatListCell: BaseTableViewCell {
         let chatPartnerId: String?
         
         if chat?.posterID == FIRAuth.auth()?.currentUser?.uid {
-            chatPartnerId = chat?.helperID!
+            chatPartnerId = chat?.helperID
         } else {
-            chatPartnerId = chat?.posterID!
+            chatPartnerId = chat?.posterID
         }
         
         if let id = chatPartnerId {
