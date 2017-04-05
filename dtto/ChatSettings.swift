@@ -120,6 +120,10 @@ class ChatSettings: UIViewController {
         let userChatsRef = FIREBASE_REF.child("users").child(userID).child("chats").child(chatID)
         userChatsRef.removeValue()
         
+        // remove observer for this chat because user doesn't want to see it anymore.
+        let ref = FIREBASE_REF.child("chats").child(chatID)
+        ref.removeAllObservers()
+        
         // update chat room, indicating that this user has deleted. If both users delete, then delete the chat room.
         let chatRef = FIREBASE_REF.child("chats").child(chatID)
         chatRef.child("deleted").observeSingleEvent(of: .value, with: { snapshot in
