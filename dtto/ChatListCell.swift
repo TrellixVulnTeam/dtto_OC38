@@ -95,9 +95,9 @@ class ChatListCell: BaseTableViewCell {
                 if let dictionary = snapshot.value as? [String: AnyObject] {
                     self.lastMessageLabel.text = dictionary["name"] as? String
                     
-                    if let profileImageUrl = dictionary["profileImageUrl"] as? String {
+//                    if let profileImageUrl = dictionary["profileImageUrl"] as? String {
 //                        self.profileImage.loadImageUsingCacheWithUrlString(profileImageUrl)
-                    }
+//                    }
                 }
             })
         }

@@ -27,7 +27,7 @@ class Chat {
 
         guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return nil }
         
-        guard let userID = defaults.getUID(), let postID = dictionary["postID"] as? String, let helperID = dictionary["helperID"] as? String, let posterID = dictionary["posterID"] as? String else { return nil }
+        guard let postID = dictionary["postID"] as? String, let helperID = dictionary["helperID"] as? String, let posterID = dictionary["posterID"] as? String else { return nil }
         // , let users = dictionary["users"] as? Dictionary<String, AnyObject>
 //        for user in users {
 //            // get the other user's information
@@ -50,11 +50,11 @@ class Chat {
             self.senderID = senderID
             self.lastMessage = lastMessage
             
-            //                    let cal = Calendar(identifier: .gregorian)
-            //                    let c = Calendar.current
-            //                    let current = c.startOfDay(for: Date())
+//            let cal = Calendar(identifier: .gregorian)
+//            let c = Calendar.current
+//            let current = c.startOfDay(for: Date())
             let currentDate = Date()
-            let timestampDate = stringToDate(timestamp)
+//            let timestampDate = stringToDate(timestamp)
             
             
             // just show hours and minutes.

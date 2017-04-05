@@ -40,9 +40,9 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     init(chat: Chat) {
         self.chat = chat
         let chatID = chat.getChatID()
-        self.messagesRef = FIREBASE_REF.child("messages").child(chatID)
-        self.chatsRef = FIREBASE_REF.child("chats").child(chatID)
-        self.storageRef = STORAGE_REF.child("messages").child(chatID)
+        messagesRef = FIREBASE_REF.child("messages").child(chatID)
+        chatsRef = FIREBASE_REF.child("chats").child(chatID)
+        storageRef = STORAGE_REF.child("messages").child(chatID)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,19 +53,28 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
         getFriendName()
         setupNavBar()
         setupChat()
         getMessages()
-        view.backgroundColor = .white
         hideKeyboardWhenTappedAround()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.navigationBar.isHidden = false
+        tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
+    }
+    
+    func setupViews() {
+        
+        view.backgroundColor = .white
+        
+        collectionView.register(MessagesHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "MessagesHeaderView")
+//        collectionView.collectionViewLayout.headerReferenceSize = .init(width: SCREENWIDTH, height: 40)
+//        collectionView?.collectionViewLayout.sectionInset = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
     }
     
     private func setupNavBar() {
@@ -97,7 +106,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     func chatSettings() {
         
         if let friendID = friendID {
-            let vc = ChatSettings(chat: self.chat, friendID: friendID)
+            let vc = ChatSettings(chat: chat, friendID: friendID)
             navigationController?.pushViewController(vc, animated: true)
 
         }
@@ -367,7 +376,16 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         return readableDate
         
     }
-
+    
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: SCREENWIDTH, height: 40)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "MessagesHeaderView", for: indexPath) as! MessagesHeaderView
+        return headerView
+    }
 
     private func setupOutgoingBubble() -> JSQMessagesBubbleImage {
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
@@ -379,10 +397,6 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
     }
 
-}
-
-class AnimatedFlowLayout: JSQMessagesCollectionViewFlowLayout {
-    
 }
 
 // MARK: Image Picker Delegate

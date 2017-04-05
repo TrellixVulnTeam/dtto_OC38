@@ -204,19 +204,19 @@ class RequestsViewController: UIViewController, RequestsDelegate {
 //            chatsRef.updateChildValues([autoID : baseChat])
     
             // update chat list for both users, with the chat ID
-            dataRequest.startChat(ref: FIREBASE_REF.child("users/\(userID)/chats/\(autoID)"), postID: postID)
-            dataRequest.startChat(ref: FIREBASE_REF.child("users/\(friendID)/chats/\(autoID)"), postID: postID)
+            dataRequest.startChat(ref: FIREBASE_REF.child("users").child(userID).child("chats").child(autoID), postID: postID)
+            dataRequest.startChat(ref: FIREBASE_REF.child("users").child(friendID).child("chats").child(autoID), postID: postID)
         
             // increment number of ongoing chats for post.
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("posts/\(postID)/chatCount"))
+            dataRequest.incrementCount(ref: FIREBASE_REF.child("posts").child(postID).child("chatCount"))
             
             // increment user's and friend's number of ongoing chats.
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(userID)/ongoingChatCount"))
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(friendID)/ongoingChatCount"))
+            dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("ongoingChatCount"))
+            dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("ongoingChatCount"))
             
             // increment user's and friend's number of total chats.
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(userID)/totalChatCount"))
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(friendID)/totalChatCount"))
+            dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("totalChatCount"))
+            dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("totalChatCount"))
 
             
         case .decline:
@@ -229,7 +229,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         // remove this request. also change the friend's outgoingRequest to ongoingChat
         let requestID = FIREBASE_REF.child("requests").child(userID).child(postID).child(friendID)
         requestID.removeValue()
-        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(userID)/requestsCount"))
+        dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(userID).child("requestsCount"))
         
     }
 

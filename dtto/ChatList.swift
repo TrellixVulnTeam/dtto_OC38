@@ -113,5 +113,28 @@ extension ChatList: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        guard let section = Section(rawValue: indexPath.section) else { return false }
+        switch section {
+        case .requests:
+            return false
+        case .chats:
+            return true
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete", handler: { (action, indexPath) in
+            
+        })
+        
+        let mute = UITableViewRowAction(style: .destructive, title: "Mute", handler: { (action, indexPath) in
+            
+        })
+        return [delete, mute]
+    }
+    
 }
 

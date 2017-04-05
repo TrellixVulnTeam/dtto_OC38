@@ -42,6 +42,12 @@ class ChatSettings: UIViewController {
         super.viewDidLoad()
         setupViews()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let indexPath = tableView.indexPathsForSelectedRows?.first else { return }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
     func setupViews() {
         
@@ -216,9 +222,9 @@ extension ChatSettings: UITableViewDelegate, UITableViewDataSource {
         guard let section = Section(rawValue: indexPath.section) else { return true }
         
         switch section {
-        case .block:
+        case .profile, .block:
             return true
-        default:
+        case .notifications:
             return false
         }
     }

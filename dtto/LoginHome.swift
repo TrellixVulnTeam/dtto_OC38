@@ -178,6 +178,9 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
             print("Successfully logged into Firebase with Google", uid)
             defaults.setLogin(value: true)
             defaults.setUID(value: uid)
+            // test
+            defaults.setName(value: "jitae")
+            defaults.setUsername(value: "jk")
             self.changeRootVC(vc: .login)
         })
         

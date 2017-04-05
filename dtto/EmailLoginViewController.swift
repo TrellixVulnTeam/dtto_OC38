@@ -158,17 +158,20 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
                     guard let user = FIRAuth.auth()?.currentUser else { return }
                     defaults.setUID(value: user.uid)
                     defaults.setLogin(value: true)
-                    if let name = user.displayName {
-                        defaults.setName(value: name)
-                    }
-                    let usernameRef = FIREBASE_REF.child("users").child(user.uid).child("username")
-                    usernameRef.observeSingleEvent(of: .value, with: { snapshot in
-                        print(snapshot)
-                        
-                        if let username = snapshot.value as? String {
-                            defaults.setUsername(value: username)
-                        }
-                    })
+                    // test
+                    defaults.setName(value: "testname")
+                    defaults.setUsername(value: "testusername")
+//                    if let name = user.displayName {
+//                        defaults.setName(value: name)
+//                    }
+//                    let usernameRef = FIREBASE_REF.child("users").child(user.uid).child("username")
+//                    usernameRef.observeSingleEvent(of: .value, with: { snapshot in
+//                        print(snapshot)
+//                        
+//                        if let username = snapshot.value as? String {
+//                            defaults.setUsername(value: username)
+//                        }
+//                    })
                     
                     self.changeRootVC(vc: .login)
                     

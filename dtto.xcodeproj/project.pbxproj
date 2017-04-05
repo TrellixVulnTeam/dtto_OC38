@@ -50,6 +50,7 @@
 		04461A961E1F45BC008160A1 /* PostComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A951E1F45BC008160A1 /* PostComposeCell.swift */; };
 		045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045248061E08A1F5007D6C3E /* ChatSettings.swift */; };
 		0452480B1E08FB45007D6C3E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */; };
+		045332EC1E947F2300B2CD67 /* MessagesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045332EB1E947F2300B2CD67 /* MessagesHeaderView.swift */; };
 		0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0453572D1DE2E8BF006668BF /* FontAwesome.otf */; };
 		0457304D1E91A771001A2268 /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457304C1E91A771001A2268 /* ToggleCell.swift */; };
 		0457304F1E91A8B0001A2268 /* DestructiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457304E1E91A8B0001A2268 /* DestructiveCell.swift */; };
@@ -194,6 +195,7 @@
 		04461A951E1F45BC008160A1 /* PostComposeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostComposeCell.swift; sourceTree = "<group>"; };
 		045248061E08A1F5007D6C3E /* ChatSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSettings.swift; sourceTree = "<group>"; };
 		0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		045332EB1E947F2300B2CD67 /* MessagesHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesHeaderView.swift; sourceTree = "<group>"; };
 		0453572D1DE2E8BF006668BF /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
 		0457304C1E91A771001A2268 /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
 		0457304E1E91A8B0001A2268 /* DestructiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestructiveCell.swift; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 				049AB6B01DFE841F00B45DC3 /* ChatList.swift */,
 				049AB6B21DFE869700B45DC3 /* ChatListCell.swift */,
 				04A66B8F1DE68F0100D7EC91 /* MessagesViewController.swift */,
+				045332EB1E947F2300B2CD67 /* MessagesHeaderView.swift */,
 				0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */,
 				04D29D7D1E5416AA00F7264C /* CheckoutViewController.swift */,
 				04D29D7F1E54188200F7264C /* PaymentCell.swift */,
@@ -934,6 +937,7 @@
 				04AF68511DFF748600216652 /* Message.swift in Sources */,
 				041B39321E1DCA80003E130E /* PostProfileCell.swift in Sources */,
 				0413AB9C1E232AC500C7198C /* EmailViewController.swift in Sources */,
+				045332EC1E947F2300B2CD67 /* MessagesHeaderView.swift in Sources */,
 				0428F6E41E206617002093DB /* RelatersCell.swift in Sources */,
 				04D9949A1E19F6BF00A46700 /* TextWithHorizontalBars.swift in Sources */,
 				04DDD87D1E1F2DD00023EE70 /* BaseTableViewCell.swift in Sources */,

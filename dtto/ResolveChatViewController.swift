@@ -13,7 +13,7 @@ class ResolveChatViewController: UIViewController {
 
     let thanksLabel: UILabel = {
         let label = UILabel()
-        label.text = "Thank you for saying jae was helpful! Would you like to send a gift?"
+        label.text = "Thank you Jae, you just endorsed jitae for being helpful! Send a small gift to show your appreciation."
         label.textColor = .white
         label.numberOfLines = 0
         return label

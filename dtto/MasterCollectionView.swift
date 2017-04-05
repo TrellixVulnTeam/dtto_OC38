@@ -29,7 +29,6 @@ class MasterCollectionView: UIViewController {
     var initialLoad = true
     var numberOfMenuTabs = 0
     
-    
     init() {
         super.init(nibName: nil, bundle: nil)
         self.numberOfMenuTabs = 3
@@ -50,8 +49,8 @@ class MasterCollectionView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.view.backgroundColor = .white
+        automaticallyAdjustsScrollViewInsets = false
+        view.backgroundColor = .white
         
         setupNavBar()
         setupHorizontalBar()
@@ -64,7 +63,7 @@ class MasterCollectionView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.tabBar.isHidden = false
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,6 +75,7 @@ class MasterCollectionView: UIViewController {
         
         if initialLoad {
             collectionView.contentOffset.x = SCREENWIDTH
+            
             UIView.animate(withDuration: 0.2, animations: {
                 self.collectionView.alpha = 1
             })
@@ -133,8 +133,8 @@ class MasterCollectionView: UIViewController {
 
             chatRoomRef.observe(.value, with: { chatSnapshot in
                 
-                DispatchQueue.global().async {
-                    
+//                DispatchQueue.global().async {
+                
                     var contains = false
                     for (index, chat) in self.chats.enumerated() {
                         if chat.chatID == chatID {
@@ -158,7 +158,7 @@ class MasterCollectionView: UIViewController {
 
                         }
                     }
-                }
+//                }
             })
         })
         
@@ -169,8 +169,8 @@ class MasterCollectionView: UIViewController {
             for (index, chat) in self.chats.enumerated() {
                 if chatIDRemoved == chat.chatID {
                     
-                    self.chats.remove(at: index)
                     DispatchQueue.main.async {
+                        self.chats.remove(at: index)
                         self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
                     }
                 }
@@ -181,8 +181,7 @@ class MasterCollectionView: UIViewController {
     
     private func observeNotifications() {
         
-        guard let userID = defaults.getUID() else { return }
-        
+//        guard let userID = defaults.getUID() else { return }
 //        let notificationsRef = FIREBASE_REF.child("relatesNotifications").child(userID)
         let notificationsRef = FIREBASE_REF.child("relatesNotifications").child("uid1")
         notificationsRef.observe(.childAdded, with: { snapshot in
@@ -268,6 +267,7 @@ class MasterCollectionView: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
         collectionView.alpha = 0
+        collectionView.bounces = false
         
         view.addSubview(collectionView)
 
@@ -276,6 +276,7 @@ class MasterCollectionView: UIViewController {
         collectionView.register(NotificationsPage.self, forCellWithReuseIdentifier: "NotificationsPage")
         collectionView.register(HomePage.self, forCellWithReuseIdentifier: "HomePage")
         collectionView.register(ChatList.self, forCellWithReuseIdentifier: "ChatList")
+        
     }
     
     func scrollToMenuIndex(_ sender: AnyObject) {
@@ -295,7 +296,7 @@ class MasterCollectionView: UIViewController {
         
         let indexPath = IndexPath(item: Int(index), section: 0)
         
-//        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition())
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition())
         selectedIndex = Int(index)
     }
     
@@ -320,21 +321,19 @@ class MasterCollectionView: UIViewController {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollToIndex()
     }
+    
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         scrollToIndex()
     }
-    
 
-    
 }
 
 extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     private enum Section: Int {
-        
-        case Notifications
-        case Home
-        case Chat
+        case notifications
+        case home
+        case chat
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -342,7 +341,6 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
         
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return numberOfMenuTabs
     }
     
@@ -352,18 +350,18 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
         
         switch row {
             
-        case .Notifications:
+        case .notifications:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NotificationsPage", for: indexPath) as! NotificationsPage
             cell.relates = relates
             cell.masterViewDelegate = self
             return cell
             
-        case .Home:
+        case .home:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomePage", for: indexPath) as! HomePage
             cell.masterViewDelegate = self
             return cell
 
-        case .Chat:
+        case .chat:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatList", for: indexPath) as! ChatList
             cell.chats = chats
             cell.masterViewDelegate = self

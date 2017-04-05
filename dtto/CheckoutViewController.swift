@@ -210,7 +210,7 @@ extension CheckoutViewController: STPPaymentContextDelegate {
         
         switch status {
         case .error:
-            print(error)
+            print(error!)
             confirmPaymentButton.isUserInteractionEnabled = true
         case .success:
             print("Payment successful")

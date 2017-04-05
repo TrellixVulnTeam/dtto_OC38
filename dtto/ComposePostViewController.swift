@@ -140,25 +140,25 @@ class ComposePostViewController: UIViewController {
                 
                 let postID = postRef.childByAutoId().key
                 // TODO: at timestamp
-                let basePost: [String : Any] = ["postID": postID,
+                var post: [String : Any] = ["postID": postID,
                                                 "userID" : userID,
                                                 "text" : text,
                                                 "relatesCount" : 0,
                                                 "ongoingChatCount" : 0]
                 
-                postRef.child(postID).updateChildValues(basePost)
 
                 // Add user's names if post is public
                 if !postToolbar.anonymousToggle.isOn {
                     
                     if let name = defaults.getName(), let username = defaults.getUsername() {
-                        let publicPost: [String : Any] = ["name" : name,
-                                                          "username" : username]
-                        postRef.child(postID).updateChildValues(publicPost)
+                        post.updateValue(name, forKey: "name")
+                        post.updateValue(username, forKey: "username")
                     }
                     
                 }
                 
+                postRef.child(postID).updateChildValues(post)
+
                 // Update user stats
                 let userRef = FIREBASE_REF.child("users").child(userID)
                 let dataRequest = FirebaseService.dataRequest
