@@ -124,41 +124,39 @@ class MasterCollectionView: UIViewController {
         
         guard let userID = defaults.getUID() else { return }
 
-        let userChatsRef = FIREBASE_REF.child("users").child(userID).child("chats")
+        let userChatsRef = USERS_REF.child(userID).child(CHATS_CHILD)
         
         userChatsRef.observe(.childAdded, with: { snapshot in
         
             let chatID = snapshot.key
-            let chatRoomRef = FIREBASE_REF.child("chats").child(chatID)
+            let chatRoomRef = CHATS_REF.child(chatID)
 
             chatRoomRef.observe(.value, with: { chatSnapshot in
                 
-//                DispatchQueue.global().async {
-                
-                    var contains = false
-                    for (index, chat) in self.chats.enumerated() {
-                        if chat.chatID == chatID {
-                            if let chat = Chat(snapshot: chatSnapshot){
-                                self.chats[index] = chat
-                                DispatchQueue.main.async {
-                                    self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
-                                }
-                                contains = true
-
-                            }
-                            
-                        }
-                    }
-                    if !contains {
-                        if let chat = Chat(snapshot: chatSnapshot) {
-                            self.chats.insert(chat, at: 0)
+                var contains = false
+                for (index, chat) in self.chats.enumerated() {
+                    if chat.chatID == chatID {
+                        if let chat = Chat(snapshot: chatSnapshot){
+                            self.chats[index] = chat
                             DispatchQueue.main.async {
                                 self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
                             }
+                            contains = true
 
                         }
+                        
                     }
-//                }
+                }
+                if !contains {
+                    if let chat = Chat(snapshot: chatSnapshot) {
+                        self.chats.insert(chat, at: 0)
+                        DispatchQueue.main.async {
+                            self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+                        }
+
+                    }
+                }
+                
             })
         })
         
@@ -169,10 +167,9 @@ class MasterCollectionView: UIViewController {
             for (index, chat) in self.chats.enumerated() {
                 if chatIDRemoved == chat.chatID {
                     
-                    DispatchQueue.main.async {
-                        self.chats.remove(at: index)
-                        self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
-                    }
+                    self.chats.remove(at: index)
+                    self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+
                 }
             }
         })

@@ -181,6 +181,7 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
             // test
             defaults.setName(value: "jitae")
             defaults.setUsername(value: "jk")
+            
             self.changeRootVC(vc: .login)
         })
         

@@ -686,7 +686,7 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
             else {
                 if let username = post.getPostUsername() {
                     cell.profileImage.loadProfileImage(post.getUserID())
-                    cell.usernameLabel.text = "@" + username
+                    cell.usernameLabel.text = username
                 }
             }
             

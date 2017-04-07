@@ -107,7 +107,8 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         
         if let friendID = friendID {
             let vc = ChatSettings(chat: chat, friendID: friendID)
-            navigationController?.pushViewController(vc, animated: true)
+            vc.chatRoomDelegate = self
+            present(NavigationController(vc), animated: true, completion: nil)
 
         }
         else {
@@ -378,7 +379,15 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: SCREENWIDTH, height: 40)
+        
+        // TODO. Use actualy usernames and post keywords.
+        let approximateWidthOfTextView = collectionView.frame.width - 20
+        let size = CGSize(width: approximateWidthOfTextView, height: 500)
+        let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 13)]
+        
+        let estimatedFrame = NSString(string: "You are now connected with jae regarding your post about dtto").boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        
+        return CGSize(width: collectionView.frame.width, height: estimatedFrame.height + 25)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

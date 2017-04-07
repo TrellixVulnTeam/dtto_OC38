@@ -12,9 +12,16 @@ class MessagesHeaderView: UICollectionReusableView {
     
     let introLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.italicSystemFont(ofSize: 13)
+        label.textColor = .lightGray
         label.text = "You are now connected with jae regarding your post about dtto"
-        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.backgroundColor = Color.darkNavy
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 5
+        label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor.clear.cgColor
         return label
     }()
     
@@ -33,6 +40,6 @@ class MessagesHeaderView: UICollectionReusableView {
         
         addSubview(introLabel)
         
-        introLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        introLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 5, leadingConstant: 10, trailingConstant: 5, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
     }
 }

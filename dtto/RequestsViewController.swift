@@ -20,24 +20,10 @@ protocol RequestsDelegate : class {
 
 class RequestsViewController: UIViewController, RequestsDelegate {
 
-    var masterViewDelegate: MasterCollectionView? {
-        didSet {
-            print("Delegate")
-        }
-    }
+    weak var masterViewDelegate: MasterCollectionView?
     var requests = [UserNotification]()
-//    var requestsRef: FIRDatabaseReference! = FIREBASE_REF.child("requests/uid1") {
-//        didSet {
-//            // get requests
-//            getRequests()
-//        }
-//    }
-    lazy var viewChatsButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "chatSelected"), style: .plain, target: self, action: #selector(viewChats(_:)))
-        
-        return button
-    }()
-    
+    var initialLoad = true
+
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.backgroundColor = .white
@@ -47,16 +33,26 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
         tableView.rowHeight = 70
         tableView.allowsSelection = false
+        tableView.tableFooterView = UIView(frame: .zero)
+        tableView.alpha = 0
         
         tableView.register(RequestsViewCell.self, forCellReuseIdentifier: "RequestsViewCell")
 
         return tableView
     }()
     
+    let tipLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Color.textGray
+        label.textAlignment = .center
+        label.text = "You have no more chat requests."
+        label.alpha = 0
+        return label
+    }()
+    
     init(requests: [UserNotification]) {
         super.init(nibName: nil, bundle: nil)
         self.requests = requests
-        print(self.requests.count)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -73,21 +69,24 @@ class RequestsViewController: UIViewController, RequestsDelegate {
     private func setupViews() {
         
         navigationItem.title = "Chat Requests"
-        navigationItem.rightBarButtonItem = viewChatsButton
+        view.backgroundColor = .white
+        automaticallyAdjustsScrollViewInsets = false
         
         view.addSubview(tableView)
+        view.addSubview(tipLabel)
         
-        tableView.anchor(top: view.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        tipLabel.anchorCenterSuperview()
         
         
     }
     
     private func observeRequests() {
-        
+
         guard let userID = defaults.getUID() else { return }
 
-        let requestsRef = FIREBASE_REF.child("requests/\(userID)")
-
+        let requestsRef = REQUESTS_REF.child(userID)
+        
         requestsRef.observe(.childAdded, with: { postID in
 
             let postID = postID.key
@@ -106,8 +105,12 @@ class RequestsViewController: UIViewController, RequestsDelegate {
                         // process timestamp
                         notification.timestamp = timestamp
                         
-                        self.requests.append(notification)
+                        self.requests.insert(notification, at: 0)
                         self.tableView.reloadData()
+                        self.reloadView()
+//                        self.tableView.beginUpdates()
+//                        self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+//                        self.tableView.endUpdates()
                         
                     }
 
@@ -118,41 +121,44 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             requestsRef.child(postID).observe(.childRemoved, with: { snapshot in
                 
                 let removeRequestID = snapshot.key
-
+                
                 for (index, request) in self.requests.enumerated() {
-
+                    
                     if let requestPostID = request.postID, let requestUserID = request.userID {
                         if requestPostID == postID && requestUserID == removeRequestID {
                             self.requests.remove(at: index)
                             let indexPath = IndexPath(row: index, section: 0)
+                            self.tableView.beginUpdates()
                             self.tableView.deleteRows(at: [indexPath], with: .fade)
+                            self.tableView.endUpdates()
+                            self.reloadView()
                         }
                     }
                 }
-
                 
             })
-            
+
         })
         
+        requestsRef.observe(.value, with: { snapshot in
+            
+            if !snapshot.exists() {
+                self.reloadView()
+            }
+        })
         
-//        requestsRef.observe(.childRemoved, with: { postID in
-//            
-//            let postID = postID.key
-//            
-//            requestsRef.
-//            for (index, request) in self.requests.enumerated() {
-//                if let notificationID = request.notificationID {
-//                    if requestToRemove == notificationID {
-//                        self.requests.remove(at: index)
-//                        let indexPath = IndexPath(row: index, section: 0)
-//                        self.tableView.deleteRows(at: [indexPath], with: .fade)
-//                    }
-//                }
-//            }
-//
-//        })
+    }
+    
+    func reloadView() {
         
+        if requests.count == 0 {
+            tableView.fadeOut()
+            tipLabel.fadeIn()
+        }
+        else if tableView.alpha == 0 {
+            tipLabel.fadeOut()
+            tableView.fadeIn()
+        }
     }
 
     
@@ -248,6 +254,7 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(requests.count)
         return requests.count
     }
     

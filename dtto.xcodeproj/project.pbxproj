@@ -28,6 +28,7 @@
 		0413ABA11E23363B00C7198C /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413ABA01E23363B00C7198C /* FormViewController.swift */; };
 		0413ABA31E233C4D00C7198C /* UsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413ABA21E233C4D00C7198C /* UsernameViewController.swift */; };
 		0413CECD1E1C6D0800DF9E3C /* ProfileSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413CECC1E1C6D0800DF9E3C /* ProfileSectionHeader.swift */; };
+		0415FD311E97681B00345EBA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0415FD301E97681B00345EBA /* GoogleService-Info.plist */; };
 		041B39321E1DCA80003E130E /* PostProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39311E1DCA80003E130E /* PostProfileCell.swift */; };
 		041B39361E1DD24E003E130E /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39351E1DD24E003E130E /* UIViewConstraints.swift */; };
 		041B39381E1DD73C003E130E /* PostTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39371E1DD73C003E130E /* PostTextCell.swift */; };
@@ -49,7 +50,6 @@
 		04461A941E1F4244008160A1 /* PostNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A931E1F4244008160A1 /* PostNameCell.swift */; };
 		04461A961E1F45BC008160A1 /* PostComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04461A951E1F45BC008160A1 /* PostComposeCell.swift */; };
 		045248081E08A1F5007D6C3E /* ChatSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045248061E08A1F5007D6C3E /* ChatSettings.swift */; };
-		0452480B1E08FB45007D6C3E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */; };
 		045332EC1E947F2300B2CD67 /* MessagesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045332EB1E947F2300B2CD67 /* MessagesHeaderView.swift */; };
 		0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0453572D1DE2E8BF006668BF /* FontAwesome.otf */; };
 		0457304D1E91A771001A2268 /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457304C1E91A771001A2268 /* ToggleCell.swift */; };
@@ -97,6 +97,7 @@
 		04E3FA081E90BB4E008F552A /* PaymentAmountButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E3FA071E90BB4E008F552A /* PaymentAmountButton.swift */; };
 		04E459B91DE15AD5006003DF /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459B81DE15AD5006003DF /* EmailLoginViewController.swift */; };
 		04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E459BD1DE15C3D006003DF /* LoginHome.swift */; };
+		04E4A65C1E94C23A00CFE8CC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E4A65B1E94C23A00CFE8CC /* NavigationController.swift */; };
 		04E754611E0F6E5E00883B38 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E754601E0F6E5E00883B38 /* AccountViewController.swift */; };
 		04E9D9161E1B605F00B29986 /* HorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9D9151E1B605F00B29986 /* HorizontalBar.swift */; };
 		04EA04781E12078C00B0A984 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA04771E12078C00B0A984 /* ProfileViewController.swift */; };
@@ -173,6 +174,7 @@
 		0413ABA01E23363B00C7198C /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		0413ABA21E233C4D00C7198C /* UsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsernameViewController.swift; sourceTree = "<group>"; };
 		0413CECC1E1C6D0800DF9E3C /* ProfileSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSectionHeader.swift; sourceTree = "<group>"; };
+		0415FD301E97681B00345EBA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		041B39311E1DCA80003E130E /* PostProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProfileCell.swift; sourceTree = "<group>"; };
 		041B39351E1DD24E003E130E /* UIViewConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewConstraints.swift; sourceTree = "<group>"; };
 		041B39371E1DD73C003E130E /* PostTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTextCell.swift; sourceTree = "<group>"; };
@@ -194,7 +196,6 @@
 		04461A931E1F4244008160A1 /* PostNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostNameCell.swift; sourceTree = "<group>"; };
 		04461A951E1F45BC008160A1 /* PostComposeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostComposeCell.swift; sourceTree = "<group>"; };
 		045248061E08A1F5007D6C3E /* ChatSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSettings.swift; sourceTree = "<group>"; };
-		0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		045332EB1E947F2300B2CD67 /* MessagesHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesHeaderView.swift; sourceTree = "<group>"; };
 		0453572D1DE2E8BF006668BF /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
 		0457304C1E91A771001A2268 /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
@@ -245,6 +246,7 @@
 		04E3FA071E90BB4E008F552A /* PaymentAmountButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentAmountButton.swift; sourceTree = "<group>"; };
 		04E459B81DE15AD5006003DF /* EmailLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
 		04E459BD1DE15C3D006003DF /* LoginHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHome.swift; sourceTree = "<group>"; };
+		04E4A65B1E94C23A00CFE8CC /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		04E754601E0F6E5E00883B38 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		04E9D9151E1B605F00B29986 /* HorizontalBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalBar.swift; sourceTree = "<group>"; };
 		04EA04771E12078C00B0A984 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -344,8 +346,8 @@
 				045AB2901DFE70F2009D9394 /* Model */,
 				04045C2B1DDFA010002BBD07 /* Assets.xcassets */,
 				04045C2D1DDFA010002BBD07 /* LaunchScreen.storyboard */,
-				0452480A1E08FB45007D6C3E /* GoogleService-Info.plist */,
 				04045C301DDFA010002BBD07 /* Info.plist */,
+				0415FD301E97681B00345EBA /* GoogleService-Info.plist */,
 				0453572D1DE2E8BF006668BF /* FontAwesome.otf */,
 				04FAE7A11DE296650074CA39 /* dtto-Bridging-Header.h */,
 			);
@@ -381,6 +383,7 @@
 				04A97E6C1E20D02F008DA2A3 /* MenuBar.swift */,
 				046D567B1E34451B00409034 /* FormNavigationBar.swift */,
 				04E3FA071E90BB4E008F552A /* PaymentAmountButton.swift */,
+				04E4A65B1E94C23A00CFE8CC /* NavigationController.swift */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -725,8 +728,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0452480B1E08FB45007D6C3E /* GoogleService-Info.plist in Resources */,
 				04045C2F1DDFA010002BBD07 /* LaunchScreen.storyboard in Resources */,
+				0415FD311E97681B00345EBA /* GoogleService-Info.plist in Resources */,
 				04045C2C1DDFA010002BBD07 /* Assets.xcassets in Resources */,
 				0453572E1DE2E8DB006668BF /* FontAwesome.otf in Resources */,
 			);
@@ -964,6 +967,7 @@
 				04B8EC471E496A60004E45FC /* Relater.swift in Sources */,
 				04F18BC01E60FB6B00AF9FF5 /* UserInfoPickerViewController.swift in Sources */,
 				04DF310C1DE2EC160068E59B /* DismissKeyboard.swift in Sources */,
+				04E4A65C1E94C23A00CFE8CC /* NavigationController.swift in Sources */,
 				04F9BB201E358D6700724549 /* EditUserImageCell.swift in Sources */,
 				049AB6B11DFE841F00B45DC3 /* ChatList.swift in Sources */,
 				0442E0AD1E2AE9AC00B7BC4D /* ResolveChatViewController.swift in Sources */,

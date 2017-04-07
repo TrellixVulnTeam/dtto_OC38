@@ -12,6 +12,7 @@ class ChatSettings: UIViewController {
 
     let chat: Chat
     let friendID: String
+    weak var chatRoomDelegate: MessagesViewController?
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -41,6 +42,7 @@ class ChatSettings: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupNavBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -51,13 +53,25 @@ class ChatSettings: UIViewController {
 
     func setupViews() {
         
-        title = "Chat Settings"
+        automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = .white
         
         view.addSubview(tableView)
         
         tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
+    }
+    
+    func setupNavBar() {
+        
+        title = "Chat Settings"
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(done))
+        navigationItem.leftBarButtonItem = doneButton
+
+    }
+    
+    func done() {
+        dismiss(animated: true, completion: nil)
     }
     
     func confirmAlert(type: DestructiveRow) {
@@ -113,11 +127,11 @@ class ChatSettings: UIViewController {
     func deleteChat() {
         
         // present alert.
-        
         guard let userID = defaults.getUID() else { return }
+        
         let chatID = chat.getChatID()
         // remove from user's chat list
-        let userChatsRef = FIREBASE_REF.child("users").child(userID).child("chats").child(chatID)
+        let userChatsRef = USERS_REF.child(userID).child("chats").child(chatID)
         userChatsRef.removeValue()
         
         // remove observer for this chat because user doesn't want to see it anymore.
@@ -135,6 +149,10 @@ class ChatSettings: UIViewController {
             else {
                 chatRef.child("deleted").setValue(true)
             }
+        })
+        
+        dismiss(animated: true, completion: {
+            _ = self.chatRoomDelegate?.navigationController?.popViewController(animated: true)
         })
         
     }

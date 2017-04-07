@@ -10,8 +10,24 @@ import UIKit
 import Firebase
 let defaults = UserDefaults.standard
 
+// Firebase
 let FIREBASE_REF = FIRDatabase.database().reference()
 let STORAGE_REF = FIRStorage.storage().reference()
+let POSTS_REF = FIREBASE_REF.child("posts")
+let CHATS_REF = FIREBASE_REF.child("chats")
+let USERS_REF = FIREBASE_REF.child("users")
+let MESSAGES_REF = FIREBASE_REF.child("messages")
+let POSTRELATES_REF = FIREBASE_REF.child("postRelates")
+let REQUESTS_REF = FIREBASE_REF.child("requests")
+
+let POSTS_CHILD = "posts"
+let CHATS_CHILD = "chats"
+let USERS_CHILD = "users"
+let MESSAGES_CHILD = "messages"
+let FOLLOWERS_CHILD = "followers"
+
+
+// Screen Sizes
 var SCREENORIENTATION: UIInterfaceOrientation {
     return UIApplication.shared.statusBarOrientation
 }
@@ -31,7 +47,7 @@ var SCREENHEIGHT: CGFloat {
     }
 }
 
-
+// Colors
 enum Color {
     
     static let salmon = UIColor(red:0.92, green:0.65, blue:0.63, alpha:1.0) // #EBA5A0
