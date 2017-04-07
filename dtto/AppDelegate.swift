@@ -46,7 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
         
         // [END register_for_notifications]
-
         FIRApp.configure()
 //        FIRDatabase.database().persistenceEnabled = true
 
@@ -206,6 +205,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // [START connect_to_fcm]
     func connectToFcm() {
         // Won't connect since there is no token
+        print(FIRInstanceID.instanceID().token())
+        let userID = defaults.getUID()!
+        let userTokenRef = FIREBASE_REF.child("users").child(userID).child("notificationTokens")
+        userTokenRef.child(FIRInstanceID.instanceID().token()!).setValue(true)
+
         guard FIRInstanceID.instanceID().token() != nil else {
             return
         }
@@ -218,6 +222,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Unable to connect with FCM. \(error?.localizedDescription ?? "")")
             } else {
                 print("Connected to FCM.")
+                
             }
         }
     }
