@@ -98,7 +98,8 @@ extension ChatList: UITableViewDelegate, UITableViewDataSource {
         switch section {
             
         case .requests:
-            let requestsView = RequestsViewController(requests: requests)
+            let requestsView = RequestsViewController()
+//            let requestsView = RequestsViewController(requests: requests)
             if let vd = masterViewDelegate {
                 requestsView.masterViewDelegate? = vd
             }

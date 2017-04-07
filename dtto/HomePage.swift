@@ -201,7 +201,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                         "name": "Jae",
                         "postID" : postID,
                         "timestamp" : "11-11",
-                        "uid" : userID,
+                        "senderID" : userID,
                         "pending" : true
                     ]
                     

@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-        
         // [END register_for_notifications]
         FIRApp.configure()
 //        FIRDatabase.database().persistenceEnabled = true
@@ -154,37 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return facebookHandler || googleHandler
     }
-
-    // [START receive_message]
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
-        // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        
-        // Print full message.
-        print(userInfo)
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
-        // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        
-        // Print full message.
-        print(userInfo)
-        
-        completionHandler(UIBackgroundFetchResult.newData)
-    }
-    // [END receive_message]
     
     // [START refresh_token]
     func tokenRefreshNotification(_ notification: Notification) {
@@ -205,11 +173,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // [START connect_to_fcm]
     func connectToFcm() {
         // Won't connect since there is no token
-        print(FIRInstanceID.instanceID().token())
-        let userID = defaults.getUID()!
-        let userTokenRef = FIREBASE_REF.child("users").child(userID).child("notificationTokens")
-        userTokenRef.child(FIRInstanceID.instanceID().token()!).setValue(true)
-
+        print("FIRINSTANCE TOKEN IS :" + FIRInstanceID.instanceID().token()!)
         guard FIRInstanceID.instanceID().token() != nil else {
             return
         }
@@ -248,18 +212,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 @available(iOS 10, *)
 extension AppDelegate : UNUserNotificationCenterDelegate {
     
+    private enum NotificationType: String {
+        case request
+        case message
+    }
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("Notification in foreground")
         let userInfo = notification.request.content.userInfo
         // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
+        if let type = userInfo["type"] as? String {
+            print(type)
         }
-        
-        // Print full message.
-        print(userInfo)
         
         // Change this to your preferred presentation option
         completionHandler([])
@@ -268,14 +234,43 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("notification in background or closed.")
         let userInfo = response.notification.request.content.userInfo
         // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
+        if let type = userInfo["type"] as? String, let notificationType = NotificationType(rawValue: type) {
+            print(type)
+            switch notificationType {
+            case .request, .message:
+
+                // push requests VC
+                if let tabBarController = window?.rootViewController as? TabBarController {
+                    if let navVC = tabBarController.childViewControllers[0] as? UINavigationController, let cv = navVC.childViewControllers[0] as? MasterCollectionView {
+                        cv.scrollToMenuIndex(cv.chatButton)
+                        
+                        if notificationType == .request {
+                            let requestsVC = RequestsViewController()
+                            navVC.pushViewController(requestsVC, animated: true)
+                        }
+                        else if notificationType == .message {
+                            // find the chat and push it.
+                            if let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
+                                print("UNWRAPPED")
+                            }
+                            if let chatID = userInfo["chatID"] as? String, let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
+                                for (index, chat) in chatListVC.chats.enumerated() {
+                                    if chat.getChatID() == chatID {
+                                        chatListVC.tableView.selectRow(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .top)
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
         }
-        
-        // Print full message.
-        print(userInfo)
         
         completionHandler()
     }
@@ -290,3 +285,14 @@ extension AppDelegate : FIRMessagingDelegate {
 }
 // [END ios_10_data_message_handling]
 
+func getTopViewController()->UIViewController{
+    
+    if var topController = UIApplication.shared.keyWindow?.rootViewController {
+        while let presentedViewController = topController.presentedViewController {
+            topController = presentedViewController
+        }
+        return topController
+        // topController should now be your topmost view controller
+    }
+    return UIViewController()
+}

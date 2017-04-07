@@ -29,6 +29,12 @@ class MasterCollectionView: UIViewController {
     var initialLoad = true
     var numberOfMenuTabs = 0
     
+    lazy var chatButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "chatNormal"), style: .plain, target: self, action: #selector(scrollToMenuIndex(_:)))
+        button.tag = 2
+        return button
+    }()
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         self.numberOfMenuTabs = 3
@@ -232,9 +238,6 @@ class MasterCollectionView: UIViewController {
         let notificationsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "notification"), style: .plain, target: self, action: #selector(scrollToMenuIndex(_:)))
         notificationsButton.tag = 0
         
-        let chatButton = UIBarButtonItem(image: #imageLiteral(resourceName: "chatNormal"), style: .plain, target: self, action: #selector(scrollToMenuIndex(_:)))
-        chatButton.tag = 2
-        
         navigationItem.leftBarButtonItem = notificationsButton
         navigationItem.rightBarButtonItem = chatButton
         
@@ -263,6 +266,7 @@ class MasterCollectionView: UIViewController {
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
+        collectionView.backgroundView = nil
         collectionView.alpha = 0
         collectionView.bounces = false
         

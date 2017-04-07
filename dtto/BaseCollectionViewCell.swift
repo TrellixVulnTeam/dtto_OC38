@@ -22,6 +22,12 @@ class BaseCollectionViewCell: UICollectionViewCell {
         return tableView
     }()
     
+    override var isSelected: Bool {
+        didSet {
+            contentView.backgroundColor = isSelected ? .white: .white//change colors as per your requirements
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -33,10 +39,6 @@ class BaseCollectionViewCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        backgroundColor = .white
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = .clear
-        selectedBackgroundView = backgroundView
         
         addSubview(tableView)
         

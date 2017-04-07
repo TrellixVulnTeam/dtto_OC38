@@ -50,6 +50,10 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         return label
     }()
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
     init(requests: [UserNotification]) {
         super.init(nibName: nil, bundle: nil)
         self.requests = requests
@@ -95,7 +99,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
                 
                 if let userNotifications = snapshot.value as? Dictionary<String, AnyObject> {
                     
-                    if let uid = userNotifications["uid"] as? String, let name = userNotifications["name"] as? String,  let timestamp = userNotifications["timestamp"] as? String {
+                    if let uid = userNotifications["senderID"] as? String, let name = userNotifications["name"] as? String,  let timestamp = userNotifications["timestamp"] as? String {
                         
                         let notification = UserNotification()
                         
