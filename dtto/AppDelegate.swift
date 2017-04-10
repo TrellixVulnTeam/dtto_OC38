@@ -173,11 +173,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // [START connect_to_fcm]
     func connectToFcm() {
         // Won't connect since there is no token
-        print("FIRINSTANCE TOKEN IS :" + FIRInstanceID.instanceID().token()!)
         guard FIRInstanceID.instanceID().token() != nil else {
             return
         }
-        
+        print("FIRINSTANCE TOKEN IS :" + FIRInstanceID.instanceID().token()!)
+
         // Disconnect previous FCM connection if it exists.
         FIRMessaging.messaging().disconnect()
         
@@ -253,13 +253,15 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                         }
                         else if notificationType == .message {
                             // find the chat and push it.
+                            print(cv.collectionView.numberOfItems(inSection: 0))
                             if let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
                                 print("UNWRAPPED")
                             }
                             if let chatID = userInfo["chatID"] as? String, let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
                                 for (index, chat) in chatListVC.chats.enumerated() {
                                     if chat.getChatID() == chatID {
-                                        chatListVC.tableView.selectRow(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .top)
+//                                        chatListVC.tableView.selectRow(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .top)
+                                        chatListVC.tableView(chatListVC.tableView, didSelectRowAt: IndexPath(row: index, section: 1))
                                     }
                                 }
                             }

@@ -29,6 +29,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func setupTabBar() {
         
+//        let homeTab = UINavigationController(rootViewController: PageViewController())
         let homeTab = UINavigationController(rootViewController: MasterCollectionView())
         homeTab.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "home"), tag: 0)
         homeTab.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
