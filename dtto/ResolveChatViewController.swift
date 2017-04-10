@@ -45,11 +45,21 @@ class ResolveChatViewController: UIViewController {
         return textField
     }()
     
-    lazy var confirmButton: RoundButton = {
+    lazy var addCardButton: RoundButton = {
         let button = RoundButton()
-        button.setTitle("Confirm", for: .normal)
+        button.setTitle("Add Card", for: .normal)
         button.setTitleColor(Color.darkNavy, for: .normal)
         button.backgroundColor = .white
+        button.addTarget(self, action: #selector(addCard), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var submitPaymentButton: RoundButton = {
+        let button = RoundButton()
+        button.setTitle("Submit Payment", for: .normal)
+        button.setTitleColor(Color.darkNavy, for: .normal)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(submitCard), for: .touchUpInside)
         return button
     }()
 
@@ -85,7 +95,8 @@ class ResolveChatViewController: UIViewController {
         view.addSubview(fiveButton)
         view.addSubview(tenButton)
         view.addSubview(customPaymentTextField)
-        view.addSubview(confirmButton)
+        view.addSubview(addCardButton)
+        view.addSubview(submitPaymentButton)
         
         thanksLabel.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil, topConstant: 20, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
@@ -95,7 +106,9 @@ class ResolveChatViewController: UIViewController {
         
         customPaymentTextField.anchor(top: tenButton.bottomAnchor, leading: fiveButton.leadingAnchor, trailing: fiveButton.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
         
-        confirmButton.anchor(top: customPaymentTextField.bottomAnchor, leading: fiveButton.leadingAnchor, trailing: fiveButton.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        addCardButton.anchor(top: customPaymentTextField.bottomAnchor, leading: fiveButton.leadingAnchor, trailing: fiveButton.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        
+        submitPaymentButton.anchor(top: addCardButton.bottomAnchor, leading: fiveButton.leadingAnchor, trailing: fiveButton.trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
     }
     
     func setupNavBar() {
@@ -105,6 +118,10 @@ class ResolveChatViewController: UIViewController {
     
     func cancel() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func addCard() {
+        paymentContext.presentPaymentMethodsViewController()
     }
     
     func submitCard() {
@@ -117,13 +134,20 @@ class ResolveChatViewController: UIViewController {
 extension ResolveChatViewController: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
-//        
+        
+//        let token = paymentResult.source.stripeID
+        let token = "tok_visa"
+        print(token)
+    
+        FIREBASE_REF.child("users").child(defaults.getUID()!).child("cards").child(token).setValue(true)
+
 //        MyAPIClient.sharedClient.completeCharge(paymentResult, amount: self.paymentContext.paymentAmount, completion: completion)
+        
     }
     
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
         
-        print("payment changed")
+        print("payment context changed")
     }
     
     func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
