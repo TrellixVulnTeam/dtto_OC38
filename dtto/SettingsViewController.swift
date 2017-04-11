@@ -32,6 +32,7 @@ class SettingsViewController: UIViewController, SettingsProtocol {
         tv.showsVerticalScrollIndicator = true
         
         tv.register(SettingsToggleCell.self, forCellReuseIdentifier: "SettingsToggleCell")
+        tv.register(UITableViewCell.self, forCellReuseIdentifier: "SettingsCell")
 
         return tv
     }()
@@ -54,25 +55,39 @@ class SettingsViewController: UIViewController, SettingsProtocol {
     }
     
     func setupViews() {
+        
         automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = .white
+        title = "Settings"
+        
         view.addSubview(tableView)
         
         tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
     }
     
     func setupNavBar() {
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.done))
-        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(done))
         navigationItem.rightBarButtonItem = doneButton
-        
-        
-        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
-        navigationItem.leftBarButtonItem = logoutButton
     }
     
     func done() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func confirmLogout() {
+        let alertController = UIAlertController(title: "Logout",
+                                                message: "Do you want to logout?",
+                                                preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (alertAction) in
+            self.logout()
+        }
+        alertController.addAction(confirmAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     func logout() {
@@ -125,7 +140,7 @@ class SettingsViewController: UIViewController, SettingsProtocol {
     
     func toggleNotifications(cell: SettingsToggleCell) {
         
-        guard let indexPath = tableView.indexPath(for: cell), let row = Row(rawValue: indexPath.row), let userID = defaults.getUID() else { return }
+        guard let indexPath = tableView.indexPath(for: cell), let row = Notification(rawValue: indexPath.row), let userID = defaults.getUID() else { return }
         
         switch row {
         case .push:
@@ -153,34 +168,93 @@ class SettingsViewController: UIViewController, SettingsProtocol {
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
-    fileprivate enum Row: Int {
+    fileprivate enum Notification: Int {
         case push
         case email
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    private enum Section: Int {
+        case notifications
+        case account
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        guard let section = Section(rawValue: section) else { return 0 }
+        switch section {
+        case .notifications:
+            return 2
+        case .account:
+            return 1
+        }
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Notifications"
+        
+        guard let section = Section(rawValue: section) else { return nil }
+        switch section {
+        case .notifications:
+            return "Notifications"
+        case .account:
+            return "Account"
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let row = Row(rawValue: indexPath.row) else { return UITableViewCell() }
+        guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsToggleCell") as! SettingsToggleCell
-        cell.settingsDelegate = self
+        switch section {
+            
+        case .notifications:
+            guard let row = Notification(rawValue: indexPath.row) else { return UITableViewCell() }
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsToggleCell") as! SettingsToggleCell
+            cell.settingsDelegate = self
+            
+            switch row {
+            case .push:
+                cell.titleLabel.text = "Push"
+                cell.toggle.isOn = pushEnabled
+            case .email:
+                cell.titleLabel.text = "Email"
+            }
+            
+            return cell
+
+        case .account:
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath)
+            cell.textLabel?.text = "Logout"
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         
-        switch row {
-        case .push:
-            cell.titleLabel.text = "Push"
-            cell.toggle.isOn = pushEnabled
-        case .email:
-            cell.titleLabel.text = "Email"
+        guard let section = Section(rawValue: indexPath.section) else { return false }
+        
+        switch section {
+        case .notifications:
+            return false
+        case .account:
+            return true
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let section = Section(rawValue: indexPath.section) else { return }
+        
+        if section == .account {
+            confirmLogout()
         }
         
-        return cell
+        tableView.deselectRow(at: indexPath, animated: true)
     }
+    
 }
