@@ -130,12 +130,15 @@ class RequestsViewController: UIViewController, RequestsDelegate {
                     
                     if let requestPostID = request.postID, let requestUserID = request.userID {
                         if requestPostID == postID && requestUserID == removeRequestID {
-                            self.requests.remove(at: index)
-                            let indexPath = IndexPath(row: index, section: 0)
-                            self.tableView.beginUpdates()
-                            self.tableView.deleteRows(at: [indexPath], with: .fade)
-                            self.tableView.endUpdates()
-                            self.reloadView()
+                            if self.requests.count > index {
+                                self.requests.remove(at: index)
+                                let indexPath = IndexPath(row: index, section: 0)
+                                self.tableView.beginUpdates()
+                                self.tableView.deleteRows(at: [indexPath], with: .fade)
+                                self.tableView.endUpdates()
+                                self.reloadView()
+
+                            }
                         }
                     }
                 }

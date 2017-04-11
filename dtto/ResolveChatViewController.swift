@@ -11,6 +11,8 @@ import Stripe
 
 class ResolveChatViewController: UIViewController {
 
+    var amount: Int = 1000
+    
     let thanksLabel: UILabel = {
         let label = UILabel()
         label.text = "Thank you Jae, you just endorsed jitae for being helpful! Send a small gift to show your appreciation."
@@ -135,18 +137,23 @@ extension ResolveChatViewController: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
         
-//        let token = paymentResult.source.stripeID
-        let token = "tok_visa"
-        print(token)
-    
-        FIREBASE_REF.child("users").child(defaults.getUID()!).child("cards").child(token).setValue(true)
-
-//        MyAPIClient.sharedClient.completeCharge(paymentResult, amount: self.paymentContext.paymentAmount, completion: completion)
+        // check for user's default source.
+        // create a charge in /users/userID/charges
+        let autoID = USERS_REF.child(defaults.getUID()!).child("charges").childByAutoId().key
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        USERS_REF.child(userID).child("charges").child(autoID).child("amount").setValue(amount)
         
     }
     
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
+//        stripe_customers/{userID}/sources/{pushID}/token
+        guard let userID = defaults.getUID() else { return }
         
+        let token = "tok_visa"
+        let autoID = FIREBASE_REF.child("stripe_customers").child(userID).child("sources").childByAutoId()
+        autoID.child("token").setValue(token)
         print("payment context changed")
     }
     

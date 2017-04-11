@@ -9,32 +9,48 @@
 import UIKit
 import Firebase
 
-class SettingsViewController: UIViewController {
+protocol SettingsProtocol : class {
+    func toggleNotifications(cell: SettingsToggleCell)
+}
 
+class SettingsViewController: UIViewController, SettingsProtocol {
+
+    var pushEnabled = false {
+        didSet {
+            tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        }
+    }
+    
+    var initialLoad = true
+    
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.delegate = self
         tv.dataSource = self
-        tv.estimatedRowHeight = 50
-//        tv.separatorStyle = .none
+        tv.estimatedRowHeight = 90
+
         tv.showsVerticalScrollIndicator = true
         
-        tv.register(EditUserInfoBaseCell.self, forCellReuseIdentifier: "EditUserInfoBaseCell")
+        tv.register(SettingsToggleCell.self, forCellReuseIdentifier: "SettingsToggleCell")
 
         return tv
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupViews()
         setupNavBar()
+        NotificationCenter.default.addObserver(self, selector: #selector(checkNotificationSettings), name: .UIApplicationWillEnterForeground, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        if initialLoad {
+            initialLoad = false
+        }
         checkNotificationSettings()
-        
+
     }
     
     func setupViews() {
@@ -71,21 +87,18 @@ class SettingsViewController: UIViewController {
         
         defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
         
-        
-        self.changeRootVC(vc: .logout)
+        changeRootVC(vc: .logout)
     }
 
     func checkNotificationSettings() {
         
-        if let settings = UIApplication.shared.currentUserNotificationSettings {
-            if settings.types != UIUserNotificationType() {
-                print("is on!")
-            }else{
-                showNotificationsDisabledAlert()
-                print("is off!")
-            }
-        }else{
-            print("is off")
+        let notificationType = UIApplication.shared.currentUserNotificationSettings!.types
+        
+        if notificationType == [] {
+            pushEnabled = false
+        }
+        else {
+            pushEnabled = true
         }
     }
 
@@ -102,32 +115,72 @@ class SettingsViewController: UIViewController {
         }
         alertController.addAction(settingsAction)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            self.checkNotificationSettings()
+        }
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func toggleNotifications(cell: SettingsToggleCell) {
+        
+        guard let indexPath = tableView.indexPath(for: cell), let row = Row(rawValue: indexPath.row), let userID = defaults.getUID() else { return }
+        
+        switch row {
+        case .push:
+            
+            if cell.toggle.isOn {
+                showNotificationsDisabledAlert()
+            }
+            
+        case .email:
+            
+            let emailRef = USERS_REF.child(userID).child("receiveEmails")
+            if cell.toggle.isOn {
+                emailRef.setValue(true)
+            }
+            else {
+                emailRef.setValue(false)
+            }
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+    fileprivate enum Row: Int {
+        case push
+        case email
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Section"
+        return "Notifications"
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "OI")
-        cell.textLabel?.text = "Hello"
-        cell.accessoryView = UIImageView(image: #imageLiteral(resourceName: "check"))
+        
+        guard let row = Row(rawValue: indexPath.row) else { return UITableViewCell() }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsToggleCell") as! SettingsToggleCell
+        cell.settingsDelegate = self
+        
+        switch row {
+        case .push:
+            cell.titleLabel.text = "Push"
+            cell.toggle.isOn = pushEnabled
+        case .email:
+            cell.titleLabel.text = "Email"
+        }
+        
         return cell
     }
 }

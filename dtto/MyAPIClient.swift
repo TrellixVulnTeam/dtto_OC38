@@ -114,29 +114,11 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
     }
     
     @objc func selectDefaultCustomerSource(_ source: STPSourceProtocol, completion: @escaping STPErrorBlock) {
-        guard let baseURLString = baseURLString, let baseURL = URL(string: baseURLString) else {
-            if let token = source as? STPToken {
-                self.defaultSource = token.card
-            }
-            completion(nil)
-            return
+        
+        if let token = source as? STPToken {
+            self.defaultSource = token.card
         }
-        let path = "/customer/default_source"
-        let url = baseURL.appendingPathComponent(path)
-        let params: [String : Any] = [
-            "source": source.stripeID,
-        ]
-        let request = URLRequest.request(url, method: .POST, params: params as [String : AnyObject])
-        let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
-            DispatchQueue.main.async {
-                if let error = self.decodeResponse(urlResponse, error: error as NSError?) {
-                    completion(error)
-                    return
-                }
-                completion(nil)
-            }
-        }
-        task.resume()
+
     }
     
     @objc func attachSource(toCustomer source: STPSourceProtocol, completion: @escaping STPErrorBlock) {
