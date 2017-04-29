@@ -181,8 +181,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         guard let userID = defaults.getUID(), posterID != userID else { return }
         
         let dataRequest = FirebaseService.dataRequest
-        let chatRequestRef = FIREBASE_REF.child("requests").child(posterID).child(postID).child(userID)
-        
+        let autoID = FIREBASE_REF.child("requests").child(posterID).childByAutoId().key
+        let chatRequestRef = FIREBASE_REF.child("requests").child(posterID).child(autoID).child(userID)
         
         switch chatState {
             
@@ -194,11 +194,11 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 // if poster ignored this user, do nothing on server.
                 if !snapshot.exists() {
                     
-                    dataRequest.incrementCount(ref: FIREBASE_REF.child("users/\(posterID)/requestsCount"))
-                    dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("totalChatRequestsCount"))
+                    dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("requestsCount"))
+                    dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("totalChatRequestsCount"))
                     
                     let request: [String: Any] = [
-                        "name": "Jae",
+                        "senderName": "Jae",
                         "postID" : postID,
                         "timestamp" : "11-11",
                         "senderID" : userID,

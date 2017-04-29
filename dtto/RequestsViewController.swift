@@ -97,29 +97,14 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             
             requestsRef.child(postID).observe(.childAdded, with: { snapshot in
                 
-                if let userNotifications = snapshot.value as? Dictionary<String, AnyObject> {
-                    
-                    if let uid = userNotifications["senderID"] as? String, let name = userNotifications["name"] as? String,  let timestamp = userNotifications["timestamp"] as? String {
-                        
-                        let notification = UserNotification()
-                        
-                        notification.postID = postID
-                        notification.name = name
-                        notification.userID = uid
-                        // process timestamp
-                        notification.timestamp = timestamp
-                        
-                        self.requests.insert(notification, at: 0)
+                if let notification = UserNotification(snapshot: snapshot) {
+                    self.requests.insert(notification, at: 0)
+                    DispatchQueue.main.async {
                         self.tableView.reloadData()
                         self.reloadView()
-//                        self.tableView.beginUpdates()
-//                        self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-//                        self.tableView.endUpdates()
                         
                     }
-
                 }
-                
             })
             
             requestsRef.child(postID).observe(.childRemoved, with: { snapshot in
@@ -128,19 +113,20 @@ class RequestsViewController: UIViewController, RequestsDelegate {
                 
                 for (index, request) in self.requests.enumerated() {
                     
-                    if let requestPostID = request.postID, let requestUserID = request.userID {
-                        if requestPostID == postID && requestUserID == removeRequestID {
-                            if self.requests.count > index {
-                                self.requests.remove(at: index)
-                                let indexPath = IndexPath(row: index, section: 0)
-                                self.tableView.beginUpdates()
-                                self.tableView.deleteRows(at: [indexPath], with: .fade)
-                                self.tableView.endUpdates()
-                                self.reloadView()
-
-                            }
+                    if request.getPostID() == postID && request.getSenderID() == removeRequestID {
+                        print("INDEX IS \(index)")
+                        self.requests.remove(at: index)
+                        let indexPath = IndexPath(row: index, section: 0)
+                        DispatchQueue.main.async {
+                            self.tableView.beginUpdates()
+                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                            self.tableView.endUpdates()
+                            self.reloadView()
                         }
+                        
+                        
                     }
+
                 }
                 
             })
@@ -194,8 +180,10 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
         let request = requests[row]
         
-        guard let userID = defaults.getUID(), let friendID = request.userID, let friendName = request.name, let postID = request.postID else { return }
-        
+        guard let userID = defaults.getUID() else { return }
+        let friendID = request.getSenderID()
+        let friendName = request.getSenderName()
+        let postID = request.postID
         let userName = FIRAuth.auth()?.currentUser?.displayName ?? "Anonymous"
         
         let dataRequest = FirebaseService.dataRequest
@@ -247,9 +235,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
     }
 
     func viewChats(_ sender: UIBarButtonItem) {
-
         _ = self.masterViewDelegate?.navigationController?.popViewController(animated: true)
-
     }
 
 }
@@ -272,7 +258,7 @@ extension RequestsViewController: UITableViewDelegate, UITableViewDataSource {
         let request = requests[indexPath.row]
         
         cell.profileImageView.image = #imageLiteral(resourceName: "profile")
-        cell.usernameLabel.text = request.name
+        cell.usernameLabel.text = request.getSenderName()
         
         cell.requestsDelegate = self
         

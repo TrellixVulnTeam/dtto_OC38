@@ -189,7 +189,7 @@ extension CheckoutViewController: STPPaymentContextDelegate {
         ref.observeSingleEvent(of: .value, with: { snapshot in
             
             if let stripeID = snapshot.value as? String {
-                MyAPIClient.sharedClient.completeCharge(paymentResult, amount: self.paymentContext.paymentAmount, helperID: "tw2QiARnU7ZFZ7we4tmKs3HcSU42", stripeID: stripeID, completion: completion)
+                MyAPIClient.sharedClient.completeCharge(paymentResult, amount: self.paymentContext.paymentAmount, completion: completion)
             }
             
             else {

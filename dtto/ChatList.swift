@@ -10,6 +10,7 @@ import UIKit
 
 class ChatList: BaseCollectionViewCell {
 
+    var chatsDictionary = [String: Chat]()
     var chats = [Chat]() {
         didSet {
             tableView.reloadData()
@@ -39,7 +40,9 @@ class ChatList: BaseCollectionViewCell {
         chatRequestsCountRef.observe(.value, with: { snapshot in
             
             self.requestsCount = snapshot.value as? Int ?? 0
-            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            }
             
         })
         

@@ -123,6 +123,12 @@ class ResolveChatViewController: UIViewController {
     }
     
     func addCard() {
+//        let addCardViewController = STPAddCardViewController()
+//        addCardViewController.delegate = self
+//        // STPAddCardViewController must be shown inside a UINavigationController.
+//        let navigationController = UINavigationController(rootViewController: addCardViewController)
+//        present(navigationController, animated: true, completion: nil)
+        
         paymentContext.presentPaymentMethodsViewController()
     }
     
@@ -130,31 +136,51 @@ class ResolveChatViewController: UIViewController {
         paymentContext.requestPayment()
     }
     
+    func getUserSources() {
+        
+        let sourcesRef = FIREBASE_REF.child("stripe_customers").child(defaults.getUID()!)
+    }
 }
 
+extension ResolveChatViewController: STPAddCardViewControllerDelegate {
+    
+    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
+       
+        // upload the token to firebase.
+        guard let userID = defaults.getUID() else { return }
+        
+        let autoID = FIREBASE_REF.child("stripe_customers").child(userID).child("sources").childByAutoId()
+        autoID.child("token").setValue(token.tokenId, withCompletionBlock: { error, reference in
+            
+            if let error = error {
+                print("set value error")
+                print(error)
+                return
+            }
+            
+            self.dismiss(animated: true, completion: nil)
+            print("successfully added card to firebase")
+            
+        })
+    }
+    
+}
 
 extension ResolveChatViewController: STPPaymentContextDelegate {
     
     func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
         
-        // check for user's default source.
-        // create a charge in /users/userID/charges
-        let autoID = USERS_REF.child(defaults.getUID()!).child("charges").childByAutoId().key
-        
-        guard let userID = defaults.getUID() else { return }
-        
-        USERS_REF.child(userID).child("charges").child(autoID).child("amount").setValue(amount)
+        MyAPIClient.sharedClient.completeCharge(paymentResult, amount: 1000,
+                                                completion: completion)
         
     }
     
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
-//        stripe_customers/{userID}/sources/{pushID}/token
-        guard let userID = defaults.getUID() else { return }
-        
-        let token = "tok_visa"
-        let autoID = FIREBASE_REF.child("stripe_customers").child(userID).child("sources").childByAutoId()
-        autoID.child("token").setValue(token)
-        print("payment context changed")
+
     }
     
     func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {

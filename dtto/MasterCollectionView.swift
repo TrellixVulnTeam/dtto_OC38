@@ -173,9 +173,11 @@ class MasterCollectionView: UIViewController {
             for (index, chat) in self.chats.enumerated() {
                 if chatIDRemoved == chat.chatID {
                     
-                    self.chats.remove(at: index)
-                    self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
-
+                    DispatchQueue.main.async {
+                        self.chats.remove(at: index)
+                        self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+                    }
+                    
                 }
             }
         })
@@ -189,23 +191,12 @@ class MasterCollectionView: UIViewController {
         let notificationsRef = FIREBASE_REF.child("relatesNotifications").child("uid1")
         notificationsRef.observe(.childAdded, with: { snapshot in
             
-            guard let userNotifications = snapshot.value as? Dictionary<String, AnyObject> else { return }
-            
-            guard let uid = userNotifications["uid"] as? String, let notificationID = userNotifications["notificationID"] as? String, let name = userNotifications["name"] as? String, let postID = userNotifications["postID"] as? String, let timestamp = userNotifications["timestamp"] as? String else { return }
-            
-            let notification = UserNotification()
-            
-            notification.name = name
-            notification.postID = postID
-            notification.userID = uid
-            notification.notificationID = notificationID
-            // process timestamp
-            notification.timestamp = timestamp
-            if let profileImageURL = userNotifications["profileImageURL"] as? String {
-                notification.profileImageURL = profileImageURL
+            if let notification = UserNotification(snapshot: snapshot) {
+                DispatchQueue.main.async {
+                    self.relates.append(notification)
+                    self.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
+                }
             }
-
-            self.relates.append(notification)
 
         })
     }

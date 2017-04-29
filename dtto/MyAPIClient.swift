@@ -1,11 +1,3 @@
-//
-//  BackendAPIAdapter.swift
-//  Stripe iOS Example (Simple)
-//
-//  Created by Ben Guo on 4/15/16.
-//  Copyright © 2016 Stripe. All rights reserved.
-//
-
 import Foundation
 import Stripe
 import Firebase
@@ -14,7 +6,6 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
 
     static let sharedClient = MyAPIClient()
     let session: URLSession
-    var baseURLString: String? = "https://dtto.herokuapp.com"
     var defaultSource: STPCard? = nil
     var sources: [STPCard] = []
 
@@ -33,84 +24,59 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
         return error
     }
 
-    func completeCharge(_ result: STPPaymentResult, amount: Int, helperID: String, stripeID: String, completion: @escaping STPErrorBlock) {
-        guard let baseURLString = baseURLString, let baseURL = URL(string: baseURLString) else {
-            let error = NSError(domain: StripeDomain, code: 50, userInfo: [
-                NSLocalizedDescriptionKey: "Please set baseURLString to your Heroku URL in CheckoutViewController.swift"
-                ])
-            completion(error)
-            return
-        }
-        let path = "charge"
-        let url = baseURL.appendingPathComponent(path)
-        let params: [String: AnyObject] = [
-            "source": result.source.stripeID as AnyObject,  // creates a token from the card.
-            "amount": amount as AnyObject,
-            "destination" : stripeID as AnyObject,
-            "userID" : defaults.getUID()! as AnyObject,
-            "helperID" : helperID as AnyObject
-        ]
-        let request = URLRequest.request(url, method: .POST, params: params)
-        let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
-            DispatchQueue.main.async {
-                if let error = self.decodeResponse(urlResponse, error: error as NSError?) {
-                    completion(error)
-                    print(error.localizedDescription)
-                    return
-                }
-                completion(nil)
-            }
-        }
-        task.resume()
-    }
-    
-    @objc func retrieveCustomer(_ completion: @escaping STPCustomerCompletionBlock) {
-        guard let key = Stripe.defaultPublishableKey() , !key.contains("#") else {
-            let error = NSError(domain: StripeDomain, code: 50, userInfo: [
-                NSLocalizedDescriptionKey: "Please set stripePublishableKey to your account's test publishable key in CheckoutViewController.swift"
-            ])
-            completion(nil, error)
-            return
-        }
-        guard let baseURLString = baseURLString, let baseURL = URL(string: baseURLString) else {
-            // This code is just for demo purposes - in this case, if the example app isn't properly configured, we'll return a fake customer just so the app works.
-            let customer = STPCustomer(stripeID: "cus_test", defaultSource: self.defaultSource, sources: self.sources)
-            completion(customer, nil)
-            return
-        }
+    func completeCharge(_ result: STPPaymentResult, amount: Int, completion: @escaping STPErrorBlock) {
+
+        // upload charge to firebase.
         
         guard let userID = defaults.getUID() else { return }
-        
-        let ref = FIREBASE_REF.child("users").child(userID).child("stripeID")
-        ref.observeSingleEvent(of: .value, with: { snapshot in
+        let autoID = USERS_REF.child(userID).child("charges").childByAutoId().key
+        USERS_REF.child(userID).child("charges").child(autoID).child("amount").setValue(amount, withCompletionBlock: { error,_ in
             
-            let path = "/customer"
-            let url = baseURL.appendingPathComponent(path)
-            var params: [String : AnyObject] = [
-                "firebaseID" : userID as AnyObject
-            ]
+            if let _ = error {
+                completion(error)
+                return
+            }
             
-            // if user already has a stripeID, retrieve
-            if let _ = snapshot.value as? String {
-                params.updateValue(snapshot.value as AnyObject, forKey: "stripeID")
-            }
-
-            let request = URLRequest.request(url, method: .GET, params: params)
-            let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
-                DispatchQueue.main.async {
-                    let deserializer = STPCustomerDeserializer(data: data, urlResponse: urlResponse, error: error)
-                    if let error = deserializer.error {
-                        completion(nil, error)
-                        return
-                    } else if let customer = deserializer.customer {
-                        completion(customer, nil)
-                    }
-                }
-            }
-            task.resume()
+            completion(nil)
             
         })
         
+    }
+    
+    @objc func retrieveCustomer(_ completion: @escaping STPCustomerCompletionBlock) {
+        
+        // get the customer's info from firebase
+        guard let userID = defaults.getUID() else { return }
+        
+        let userStripeRef = FIREBASE_REF.child("stripe_customers").child(userID)
+        userStripeRef.observeSingleEvent(of: .value, with: { snapshot in
+            
+            // get the user's stripeID
+            guard let stripeDict = snapshot.value as? [String:AnyObject], let customerID = stripeDict["customerID"] as? String else { return }
+   
+            // get the user's list of sources
+            if let sourcesDict = stripeDict["sources"] as? [String:[String:AnyObject]] {
+                
+                // attach each existing source to the customer
+                for (_, source) in sourcesDict {
+
+                    if let id = source["id"] as? String, let brand = source["brand"] as? String, let last4 = source["last4"] as? String, let expMonth = source["exp_month"] as? UInt, let expYear = source["exp_year"] as? UInt, let funding = source["funding"] as? String {
+                        print("ADDING SOURCE")
+                        let card = STPCard(id: id, brand: .visa, last4: last4, expMonth: expMonth, expYear: expYear, funding: .credit)
+                        self.sources.append(card)
+                        
+                    }
+
+                }
+            }
+            
+            let customer = STPCustomer(stripeID: customerID, defaultSource: self.sources.first, sources: self.sources)
+            completion(customer, nil)
+            print(self.sources.count)
+            return
+            
+        })
+    
     }
     
     @objc func selectDefaultCustomerSource(_ source: STPSourceProtocol, completion: @escaping STPErrorBlock) {
@@ -122,30 +88,30 @@ class MyAPIClient: NSObject, STPBackendAPIAdapter {
     }
     
     @objc func attachSource(toCustomer source: STPSourceProtocol, completion: @escaping STPErrorBlock) {
-        guard let baseURLString = baseURLString, let baseURL = URL(string: baseURLString) else {
-            if let token = source as? STPToken, let card = token.card {
-                self.sources.append(card)
-                self.defaultSource = card
-            }
-            completion(nil)
-            return
-        }
-        let path = "/customer/sources"
-        let url = baseURL.appendingPathComponent(path)
-        let params: [String : Any] = [
-            "source": source.stripeID,
-            ]
-        let request = URLRequest.request(url, method: .POST, params: params as [String : AnyObject])
-        let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
-            DispatchQueue.main.async {
-                if let error = self.decodeResponse(urlResponse, error: error as NSError?) {
-                    completion(error)
+        
+        if let token = source as? STPToken, let card = token.card {
+            self.sources.append(card)
+            self.defaultSource = card
+            
+            //upload to firebase
+            guard let userID = defaults.getUID() else { return }
+            
+            let autoID = FIREBASE_REF.child("stripe_customers").child(userID).child("sources").childByAutoId()
+            autoID.child("token").setValue(token.tokenId, withCompletionBlock: { error, reference in
+                
+                if let error = error {
+                    print("set value error")
+                    print(error)
                     return
                 }
+                
+                print("successfully added card to firebase")
                 completion(nil)
-            }
+                
+            })
+
         }
-        task.resume()
+
     }
 
 }
