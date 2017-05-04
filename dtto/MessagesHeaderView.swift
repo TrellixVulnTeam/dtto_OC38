@@ -15,6 +15,7 @@ class MessagesHeaderView: UICollectionReusableView {
         label.font = UIFont.italicSystemFont(ofSize: 13)
         label.textColor = .lightGray
         label.text = "You are now connected with jae regarding your post about dtto"
+        label.alpha = 0
         label.textAlignment = .center
         label.numberOfLines = 0
         label.backgroundColor = Color.darkNavy
@@ -41,5 +42,7 @@ class MessagesHeaderView: UICollectionReusableView {
         addSubview(introLabel)
         
         introLabel.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 5, leadingConstant: 10, trailingConstant: 5, bottomConstant: 10, widthConstant: 0, heightConstant: 0)
+        
+        introLabel.fadeIn(withDuration: 2)
     }
 }

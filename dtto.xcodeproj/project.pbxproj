@@ -42,7 +42,9 @@
 		0428F6E41E206617002093DB /* RelatersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0428F6E31E206617002093DB /* RelatersCell.swift */; };
 		042CC99A1E4E7A9B00B6F501 /* MyAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CC9991E4E7A9B00B6F501 /* MyAPIClient.swift */; };
 		042CC99C1E4E7AE400B6F501 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CC99B1E4E7AE400B6F501 /* Networking.swift */; };
+		04344DA41EB59F59001FB2E2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04344DA31EB59F59001FB2E2 /* StoreKit.framework */; };
 		0434766D1E2F0B65008B1E9E /* EditUserInfoBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0434766C1E2F0B64008B1E9E /* EditUserInfoBaseCell.swift */; };
+		043CA73F1EBAC69800C8BF41 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CA73E1EBAC69800C8BF41 /* PostViewController.swift */; };
 		0442E0AB1E2AC28200B7BC4D /* PostAddTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */; };
 		0442E0AD1E2AE9AC00B7BC4D /* ResolveChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */; };
 		0442E0AF1E2B05DD00B7BC4D /* RegisterStripeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0442E0AE1E2B05DD00B7BC4D /* RegisterStripeViewController.swift */; };
@@ -194,7 +196,9 @@
 		0428F6E31E206617002093DB /* RelatersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatersCell.swift; sourceTree = "<group>"; };
 		042CC9991E4E7A9B00B6F501 /* MyAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAPIClient.swift; sourceTree = "<group>"; };
 		042CC99B1E4E7AE400B6F501 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		04344DA31EB59F59001FB2E2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0434766C1E2F0B64008B1E9E /* EditUserInfoBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserInfoBaseCell.swift; sourceTree = "<group>"; };
+		043CA73E1EBAC69800C8BF41 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		0442E0AA1E2AC28200B7BC4D /* PostAddTagsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAddTagsCell.swift; sourceTree = "<group>"; };
 		0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResolveChatViewController.swift; sourceTree = "<group>"; };
 		0442E0AE1E2B05DD00B7BC4D /* RegisterStripeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterStripeViewController.swift; sourceTree = "<group>"; };
@@ -297,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DAE27372C9348101770911C /* Pods_dtto.framework in Frameworks */,
+				04344DA41EB59F59001FB2E2 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +499,7 @@
 				041B39391E1DDAAA003E130E /* PostButtonsCell.swift */,
 				041B393B1E1DEA9C003E130E /* PostTagsCell.swift */,
 				04DF9D901E84CDD8001BBF10 /* FooterView.swift */,
+				043CA73E1EBAC69800C8BF41 /* PostViewController.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -603,6 +609,7 @@
 		D6EA4565AC045B0E0DB5D5E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04344DA31EB59F59001FB2E2 /* StoreKit.framework */,
 				04CFA17B1E0C634700ACD064 /* libz.tbd */,
 				04CFA1791E0C633E00ACD064 /* libsqlite3.tbd */,
 				064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */,
@@ -697,6 +704,9 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
 							com.apple.Keychain = {
@@ -942,6 +952,7 @@
 				04461A961E1F45BC008160A1 /* PostComposeCell.swift in Sources */,
 				041B393A1E1DDAAA003E130E /* PostButtonsCell.swift in Sources */,
 				0442E0AF1E2B05DD00B7BC4D /* RegisterStripeViewController.swift in Sources */,
+				043CA73F1EBAC69800C8BF41 /* PostViewController.swift in Sources */,
 				0475D2871E8E114400F0D03A /* EditProfileSectionHeader.swift in Sources */,
 				041B393C1E1DEA9C003E130E /* PostTagsCell.swift in Sources */,
 				045AB2941DFE777F009D9394 /* TabBarController.swift in Sources */,

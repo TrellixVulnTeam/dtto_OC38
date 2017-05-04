@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey("AIzaSyCnPwF0sigqf4nlHoIgu1QRos4nQYgwbH4")
         
         // Configure Stripe
-        STPPaymentConfiguration.shared().publishableKey = "pk_test_j23FETJXZSrnbjgBaT3SIeX9"
+//        STPPaymentConfiguration.shared().publishableKey = "pk_test_j23FETJXZSrnbjgBaT3SIeX9"
 //        FIRAuth.auth()?.signIn(withEmail: "test@gmail.com", password: "test123") { (user, error) in
 //            if error != nil {
 //                print("could not login")
@@ -215,6 +215,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     private enum NotificationType: String {
         case request
         case message
+        case endorse
     }
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -239,30 +240,26 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print message ID.
         if let type = userInfo["type"] as? String, let notificationType = NotificationType(rawValue: type) {
             print(type)
-            switch notificationType {
-            case .request, .message:
 
-                // push requests VC
-                if let tabBarController = window?.rootViewController as? TabBarController {
-                    if let navVC = tabBarController.childViewControllers[0] as? UINavigationController, let cv = navVC.childViewControllers[0] as? MasterCollectionView {
-                        cv.scrollToMenuIndex(cv.chatButton)
+            // push requests VC
+            if let tabBarController = window?.rootViewController as? TabBarController {
+                if let navVC = tabBarController.childViewControllers[0] as? UINavigationController, let cv = navVC.childViewControllers[0] as? MasterCollectionView {
+                    cv.scrollToMenuIndex(cv.chatButton)
+                    
+                    switch notificationType {
                         
-                        if notificationType == .request {
-                            let requestsVC = RequestsViewController()
-                            navVC.pushViewController(requestsVC, animated: true)
+                    case .request:
+                        let requestsVC = RequestsViewController()
+                        navVC.pushViewController(requestsVC, animated: true)
+                    case .message, .endorse:
+
+                        if let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
+                            print("UNWRAPPED")
                         }
-                        else if notificationType == .message {
-                            // find the chat and push it.
-                            print(cv.collectionView.numberOfItems(inSection: 0))
-                            if let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
-                                print("UNWRAPPED")
-                            }
-                            if let chatID = userInfo["chatID"] as? String, let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
-                                for (index, chat) in chatListVC.chats.enumerated() {
-                                    if chat.getChatID() == chatID {
-//                                        chatListVC.tableView.selectRow(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .top)
-                                        chatListVC.tableView(chatListVC.tableView, didSelectRowAt: IndexPath(row: index, section: 1))
-                                    }
+                        if let chatID = userInfo["chatID"] as? String, let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
+                            for (index, chat) in chatListVC.chats.enumerated() {
+                                if chat.getChatID() == chatID {
+                                    chatListVC.tableView(chatListVC.tableView, didSelectRowAt: IndexPath(row: index, section: 1))
                                 }
                             }
                         }
@@ -272,6 +269,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 }
                 
             }
+            
         }
         
         completionHandler()

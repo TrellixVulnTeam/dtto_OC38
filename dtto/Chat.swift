@@ -65,6 +65,13 @@ class Chat {
 
     }
     
+    init(chatID: String, postID: String, helperID: String, posterID: String) {
+        self.chatID = chatID
+        self.postID = postID
+        self.helperID = helperID
+        self.posterID = posterID
+    }
+    
     func getChatID() -> String {
         return chatID
     }

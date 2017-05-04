@@ -91,54 +91,46 @@ class RequestsViewController: UIViewController, RequestsDelegate {
 
         let requestsRef = REQUESTS_REF.child(userID)
         
-        requestsRef.observe(.childAdded, with: { postID in
-
-            let postID = postID.key
+        requestsRef.observe(.childAdded, with: { snapshot in
             
-            requestsRef.child(postID).observe(.childAdded, with: { snapshot in
-                
-                if let notification = UserNotification(snapshot: snapshot) {
+            if let notification = UserNotification(snapshot: snapshot) {
+                DispatchQueue.main.async {
                     self.requests.insert(notification, at: 0)
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.reloadView()
-                        
-                    }
+                    self.tableView.reloadData()
+                    self.reloadView()
                 }
-            })
-            
-            requestsRef.child(postID).observe(.childRemoved, with: { snapshot in
-                
-                let removeRequestID = snapshot.key
-                
-                for (index, request) in self.requests.enumerated() {
-                    
-                    if request.getPostID() == postID && request.getSenderID() == removeRequestID {
-                        print("INDEX IS \(index)")
-                        self.requests.remove(at: index)
-                        let indexPath = IndexPath(row: index, section: 0)
-                        DispatchQueue.main.async {
-                            self.tableView.beginUpdates()
-                            self.tableView.deleteRows(at: [indexPath], with: .fade)
-                            self.tableView.endUpdates()
-                            self.reloadView()
-                        }
-                        
-                        
-                    }
-
-                }
-                
-            })
-
+            }
+        
         })
         
-        requestsRef.observe(.value, with: { snapshot in
+        requestsRef.observe(.childRemoved, with: { snapshot in
             
-            if !snapshot.exists() {
-                self.reloadView()
+            let removeRequestID = snapshot.key
+            
+            for (index, request) in self.requests.enumerated() {
+                
+                if request.getAutoID() == removeRequestID {
+                    DispatchQueue.main.async {
+                        self.requests.remove(at: index)
+                        let indexPath = IndexPath(row: index, section: 0)
+                        self.tableView.beginUpdates()
+                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+                        self.tableView.endUpdates()
+                        self.reloadView()
+                    }
+                    
+                }
             }
+            
         })
+
+        
+//        requestsRef.observe(.value, with: { snapshot in
+//            
+//            if !snapshot.exists() {
+//                self.reloadView()
+//            }
+//        })
         
     }
     
@@ -183,7 +175,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         guard let userID = defaults.getUID() else { return }
         let friendID = request.getSenderID()
         let friendName = request.getSenderName()
-        let postID = request.postID
+        let postID = request.getPostID()
         let userName = FIRAuth.auth()?.currentUser?.displayName ?? "Anonymous"
         
         let dataRequest = FirebaseService.dataRequest
@@ -199,17 +191,33 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             let chatsRef = FIREBASE_REF.child("chats")
             let autoID = chatsRef.childByAutoId().key   // Update both userChats with this key.
             
-            chatsRef.child(autoID).updateChildValues(["posterID" : userID, "helperID" : friendID, "postID" : postID])
+            var chat = ["posterID" : userID, "helperID" : friendID]
+            if let postID = request.getPostID() {
+                chat.updateValue(postID, forKey: "postID")
+            }
+            chatsRef.child(autoID).updateChildValues(chat)
 //            let users = [userID : userName, friendID : friendName]
 //            let baseChat: [String : Any] = ["users" : users, "postID" : postID]
 //            chatsRef.updateChildValues([autoID : baseChat])
     
-            // update chat list for both users, with the chat ID
-            dataRequest.startChat(ref: FIREBASE_REF.child("users").child(userID).child("chats").child(autoID), postID: postID)
-            dataRequest.startChat(ref: FIREBASE_REF.child("users").child(friendID).child("chats").child(autoID), postID: postID)
-        
-            // increment number of ongoing chats for post.
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("posts").child(postID).child("chatCount"))
+            // check if user request chat through post, or through search
+            if let postID = request.getPostID() {
+                
+                // update chat list for both users, with the chat ID
+                dataRequest.startChat(userID: userID, chatID: autoID)
+                dataRequest.startChat(userID: friendID, chatID: autoID)
+//                dataRequest.startChat(ref: FIREBASE_REF.child("users").child(userID).child("chats").child(autoID), postID: postID)
+//                dataRequest.startChat(ref: FIREBASE_REF.child("users").child(friendID).child("chats").child(autoID), postID: postID)
+                
+                
+                // update posts with chats ongoing
+                dataRequest.addOngoingPostChat(userID: userID, postID: postID)
+                dataRequest.addOngoingPostChat(userID: friendID, postID: postID)
+                
+                // increment number of ongoing chats for post.
+                dataRequest.incrementCount(ref: FIREBASE_REF.child("posts").child(postID).child("chatCount"))
+            }
+
             
             // increment user's and friend's number of ongoing chats.
             dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("ongoingChatCount"))
@@ -223,14 +231,14 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         case .decline:
             print("declined chat request!")
 
-
             break
         }
         
-        // remove this request. also change the friend's outgoingRequest to ongoingChat
-        let requestID = FIREBASE_REF.child("requests").child(userID).child(postID).child(friendID)
+        // TODO: remove this request. also change the friend's outgoingRequest to ongoingChat. need to check if request was through post or search
+        let requestID = FIREBASE_REF.child("requests").child(userID).child(request.getAutoID())
         requestID.removeValue()
         dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(userID).child("requestsCount"))
+
         
     }
 

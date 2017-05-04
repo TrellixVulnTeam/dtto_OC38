@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 let defaults = UserDefaults.standard
 
+
 // Firebase
 let FIREBASE_REF = FIRDatabase.database().reference()
 let STORAGE_REF = FIRStorage.storage().reference()

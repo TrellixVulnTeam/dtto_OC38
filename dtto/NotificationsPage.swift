@@ -10,7 +10,7 @@ import UIKit
 
 class NotificationsPage: BaseCollectionViewCell {
     
-    var relates = [UserNotification]()
+    var notifications = [UserNotification]()
     var initialLoad = true
     
     override init(frame: CGRect) {
@@ -36,10 +36,12 @@ class NotificationsPage: BaseCollectionViewCell {
 extension NotificationsPage: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return relates.count
+        return notifications.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let notification = notifications[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell") as! NotificationsCell
         
@@ -47,13 +49,44 @@ extension NotificationsPage: UITableViewDelegate, UITableViewDataSource {
         let boldString = NSMutableAttributedString(string: "Jae", attributes:boldFont)
         
         let normalFont = [NSFontAttributeName : UIFont.systemFont(ofSize: 15)]
-        let suffixText = NSMutableAttributedString(string: " relates to your post", attributes: normalFont)
+        
+        let suffixText: NSMutableAttributedString
+        
+        switch notification.getNotificationType() {
+            
+        case .relate:
+            suffixText = NSMutableAttributedString(string: " relates to your post", attributes: normalFont)
+        case .resolve:
+            suffixText = NSMutableAttributedString(string: " endorsed you", attributes: normalFont)
+            
+        }
         
         boldString.append(suffixText)
         
         cell.notificationLabel.attributedText = boldString
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Look up the notification type, and push the correct view
+        let notification = notifications[indexPath.row]
+        switch notification.getNotificationType() {
+        case .relate:
+            // TODO: Push the specific post screen.
+            break
+        case .resolve:
+            // Create a chat object from the notification.
+            guard let userID = defaults.getUID(), let chatID = notification.getChatID(), let postID = notification.getPostID() else { return }
+            
+            let chat = Chat(chatID: chatID, postID: postID, helperID: userID, posterID: notification.getSenderID())
+            
+            let messagesViewController = MessagesViewController(chat: chat)
+            
+            masterViewDelegate?.navigationController?.pushViewController(messagesViewController, animated: true)
+            
+        }
     }
     
 }

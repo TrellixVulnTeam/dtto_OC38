@@ -17,7 +17,7 @@ class MasterCollectionView: UIViewController {
     
     var chats = [Chat]()
     var requests = [UserNotification]()
-    var relates = [UserNotification]() {
+    var notifications = [UserNotification]() {
         didSet {
             collectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
         }
@@ -186,14 +186,13 @@ class MasterCollectionView: UIViewController {
     
     private func observeNotifications() {
         
-//        guard let userID = defaults.getUID() else { return }
-//        let notificationsRef = FIREBASE_REF.child("relatesNotifications").child(userID)
-        let notificationsRef = FIREBASE_REF.child("relatesNotifications").child("uid1")
+        guard let userID = defaults.getUID() else { return }
+        let notificationsRef = USERS_REF.child(userID).child("notifications")
         notificationsRef.observe(.childAdded, with: { snapshot in
             
             if let notification = UserNotification(snapshot: snapshot) {
                 DispatchQueue.main.async {
-                    self.relates.append(notification)
+                    self.notifications.append(notification)
                     self.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
                 }
             }
@@ -344,7 +343,7 @@ extension MasterCollectionView: UICollectionViewDelegate, UICollectionViewDelega
             
         case .notifications:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NotificationsPage", for: indexPath) as! NotificationsPage
-            cell.relates = relates
+            cell.notifications = notifications
             cell.masterViewDelegate = self
             return cell
             

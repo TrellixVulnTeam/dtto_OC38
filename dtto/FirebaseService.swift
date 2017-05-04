@@ -50,12 +50,16 @@ class FirebaseService {
         
     }
     
-    func startChat(ref: FIRDatabaseReference, postID: String) {
-        
-        ref.setValue(postID)
-        
+    func startChat(userID: String, chatID: String) {
+        USERS_REF.child(userID).child(CHATS_CHILD).child(chatID).setValue(true)
     }
     
-
+    func addOngoingPostChat(userID: String, postID: String) {
+        USERS_REF.child(userID).child("ongoingPostChats").child(postID).setValue(true)
+    }
+    
+    func removeOngoingPostChat(userID: String, postID: String) {
+        USERS_REF.child(userID).child("ongoingPostChats").child(postID).removeValue()
+    }
 
 }

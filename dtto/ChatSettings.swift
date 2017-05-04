@@ -129,6 +129,8 @@ class ChatSettings: UIViewController {
         // present alert.
         guard let userID = defaults.getUID() else { return }
         
+        let dataRequest = FirebaseService.dataRequest
+        
         let chatID = chat.getChatID()
         // remove from user's chat list
         let userChatsRef = USERS_REF.child(userID).child("chats").child(chatID)
@@ -137,6 +139,9 @@ class ChatSettings: UIViewController {
         // remove observer for this chat because user doesn't want to see it anymore.
         let ref = FIREBASE_REF.child("chats").child(chatID)
         ref.removeAllObservers()
+        
+        // remove from ongoingPostChats
+        dataRequest.removeOngoingPostChat(userID: userID, postID: chat.getPostID())
         
         // update chat room, indicating that this user has deleted. If both users delete, then delete the chat room.
         let chatRef = FIREBASE_REF.child("chats").child(chatID)
@@ -159,10 +164,22 @@ class ChatSettings: UIViewController {
     
     func blockUser() {
         
+        guard let userID = defaults.getUID() else { return }
+        USERS_REF.child(userID).child("blockedUsers").child(friendID).setValue(true)
+        
     }
     
     func reportUser() {
         
+        let reportRef = FIREBASE_REF.child("reports").childByAutoId()
+        
+        let reportDict = [
+            "userID" : friendID,
+            "reason" : "Spamming"
+        ]
+        
+        reportRef.updateChildValues(reportDict)
+
     }
 }
 

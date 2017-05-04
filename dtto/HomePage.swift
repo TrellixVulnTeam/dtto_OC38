@@ -18,7 +18,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     var posts = [Post]()
     var fullPosts = [Post]()
-    var outgoingRequests: [String : Bool]?
+    var outgoingRequests = [String : Bool]()
     var relates: [String : Bool]?
 //    var relates: [String : Bool] = defaults.getRelates()
     var initialLoad = true
@@ -26,8 +26,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     override func setupViews() {
         super.setupViews()
         
+        checkOutgoingRequests()
         observePosts()
-//        checkOutgoingRequests()
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -47,24 +47,36 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         guard let userID = defaults.getUID() else { return }
         
-        outgoingRequests = defaults.getOutgoingRequests()
+        let ongoingPostChatsRef = USERS_REF.child(userID).child("ongoingPostChats")
         
-        // Check if the user has ongoing requests and update.
-        let ongoingChatsRef = FIREBASE_REF.child("users").child(userID).child("chats")
+        ongoingPostChatsRef.observe(.childAdded, with: { snapshot in
         
-        ongoingChatsRef.observe(.childAdded, with: { snapshot in
+            let postID = snapshot.key
             
-            if let postID = snapshot.value as? String {
-                _ = self.outgoingRequests?.updateValue(true, forKey: postID)
-
-                // find the cell to update and reload the indexpath.
-                DispatchQueue.global().async {
-                    for (index, post) in self.posts.enumerated() {
-                        if post.postID == postID {
-                            DispatchQueue.main.async {
-                                self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
-                            }
+            // find the cell to update and reload the indexpath.
+            DispatchQueue.global().async {
+                
+                for (index, post) in self.posts.enumerated() {
+                    if post.getPostID() == postID {
+                        DispatchQueue.main.async {
+                            self.outgoingRequests.updateValue(true, forKey: postID)
+                            self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
                         }
+                    }
+                }
+            }
+            
+        })
+        
+        ongoingPostChatsRef.observe(.childRemoved, with: { snapshot in
+            
+            let postID = snapshot.key
+            
+            for (index, post) in self.posts.enumerated() {
+                if post.getPostID() == postID {
+                    DispatchQueue.main.async {
+                        self.outgoingRequests.removeValue(forKey: postID)
+                        self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
                     }
                 }
             }
@@ -82,6 +94,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             if let postData = snapshot.value as? Dictionary<String, AnyObject> {
 
                 if let post = Post(dictionary: postData) {
+                    
+                    
                     self.posts.insert(post, at: 0)
                     self.fullPosts.insert(post, at: 0)
 
@@ -113,59 +127,6 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             self.initialLoad = false
             self.tableView.reloadData()
         })
-        /*
-        postsRef.observe(.childChanged, with: { snapshot in
-            
-            let uidToChange = snapshot.key
-            
-            if let postData = snapshot.value as? Dictionary<String, AnyObject> {
-                
-                for (index, post) in self.posts.enumerated() {
-                    if post.postID == uidToChange {
-                        
-                        if let post = Post(dictionary: postData) {
-                            self.posts[index] = post
-                            DispatchQueue.main.async(execute: {
-                                UIView.performWithoutAnimation {
-                                    self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
-                                }
-                            })
-                        }
-                        
-                    }
-                }
-            }
-            
-            
-        })
-        
-        postsRef.observe(.childRemoved, with: { snapshot in
-            
-            let uidToRemove = snapshot.key
-
-            for (index, post) in self.posts.enumerated() {
-                if post.postID == uidToRemove {
-                    self.posts.remove(at: index)
-                        DispatchQueue.main.async(execute: {
-                            self.tableView.beginUpdates()
-                            self.tableView.deleteSections(IndexSet(integer: index), with: .automatic)
-                            self.tableView.endUpdates()
-                        })
-                }
-            }
-            
-            // remove on background thread since user isn't viewing this.
-            DispatchQueue.global().async(execute: {
-                
-                for (index, post) in self.fullPosts.enumerated() {
-                    if post.postID == uidToRemove {
-                        self.fullPosts.remove(at: index)
-                    }
-                }
-            })
-            
-        })
-        */
         
         
         
@@ -182,53 +143,75 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         let dataRequest = FirebaseService.dataRequest
         let autoID = FIREBASE_REF.child("requests").child(posterID).childByAutoId().key
-        let chatRequestRef = FIREBASE_REF.child("requests").child(posterID).child(autoID).child(userID)
-        
+//        let chatRequestRef = FIREBASE_REF.child("requests").child(posterID).child(autoID).child(userID)
+        let chatRequestRef = FIREBASE_REF.child("requests").child(posterID).child(autoID)
+        let outgoingRequestsRef = FIREBASE_REF.child("outgoingRequests").child(userID).child(postID)
+
         switch chatState {
             
         case .normal:
 
             cell.chatState = .requested
-            chatRequestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
+            outgoingRequestsRef.observeSingleEvent(of: .value, with: { snapshot in
                 
-                // if poster ignored this user, do nothing on server.
+                // only request if this is the first request
                 if !snapshot.exists() {
                     
-                    dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("requestsCount"))
-                    dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("totalChatRequestsCount"))
-                    
-                    let request: [String: Any] = [
-                        "senderName": "Jae",
-                        "postID" : postID,
-                        "timestamp" : "11-11",
-                        "senderID" : userID,
-                        "pending" : true
-                    ]
-                    
-                    chatRequestRef.setValue(request)
-                }
+                    // check if this chat is already ongoing
+                    let ongoingPostChatsRef = USERS_REF.child(userID).child("ongoingPostChats").child(postID)
+                    ongoingPostChatsRef.observeSingleEvent(of: .value, with: { snapshot in
+                        
+                        if !snapshot.exists() {
+                            
+                            dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("requestsCount"))
+                            dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("totalChatRequestsCount"))
+                            
+                            let request: [String: Any] = [
+                                "senderName": "Jae",
+                                "postID" : postID,
+                                "timestamp" : "11-11",
+                                "senderID" : userID,
+                                "pending" : true
+                            ]
+                            
+                            chatRequestRef.updateChildValues(request)
+                            
+                            // need to also store the autoID in the sender's node to refer to this when deleting.
+                            outgoingRequestsRef.setValue(autoID)
 
+                        }
+                    })
+                }
             })
             
         case .requested:
 
             cell.chatState = .normal
-            chatRequestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
+            
+            // get the requestID.
+            outgoingRequestsRef.observeSingleEvent(of: .value, with: { snapshot in
                 
-                // if poster has not ignored yet, cancel the request.
-                if snapshot.exists() {
-                    guard let pending = snapshot.value as? Bool else { return }
-                    if pending {
-                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users/\(posterID)/requestsCount"))
-                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("totalChatRequestsCount"))
-                        chatRequestRef.removeValue()
-
-                    }
-                }
-                else {
+                if let autoID = snapshot.value as? String {
+                    let requestRef = FIREBASE_REF.child("requests").child(posterID).child(autoID)
+                    requestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
                     
-                }
+                        // if poster has not ignored yet, cancel the request.
+                        if let pending = snapshot.value as? Bool {
+                            if pending {
+                                dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("requestsCount"))
+                                dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("totalChatRequestsCount"))
+                                requestRef.removeValue()
+                                outgoingRequestsRef.removeValue()
+                                
+                            }
+                        }
+                        else {
+                            // could not unwrap the snapshot, which means snapshot doesn't exist.
+                        }
+                        
 
+                    })
+                }
                 
             })
 
@@ -434,209 +417,6 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
 }
 
-/*
-extension HomePage: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
-    private enum Row: Int {
-        case Profile
-        case Post
-        case Buttons
-        case Relates
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return posts.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // check if 0 relates
-        let post = posts[section]
-        if post.getRelatesCount() < 1 {
-            return 3
-        }
-        
-        return 4
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        switch kind {
-        case UICollectionElementKindSectionFooter:
-            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FooterView", for: indexPath) as! FooterView
-            return footerView
-        default:
-            assert(false, "Unexpected element kind")
-
-        }
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let row = Row(rawValue: indexPath.row) else { return UICollectionViewCell() }
-        
-        let post = posts[indexPath.section]
-        
-        switch row {
-            
-        case .Profile:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostProfileCell", for: indexPath) as! PostProfileCell
-            
-            cell.profileImage.image = nil
-            
-//            cell.nameLabel.text = post.name ?? "Anonymous"
-            
-            // Only load profile if the post is public
-            if let username = post.getPostUsername() {
-                cell.profileImage.loadProfileImage(post.getUserID())
-                cell.usernameLabel.text = "@" + username
-            }
-            else {
-                cell.profileImage.backgroundColor = Color.lightGray
-                cell.usernameLabel.text = "Anonymous"
-            }
-            
-            cell.postDelegate = self
-            return cell
-            
-        case .Post:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostTextCell", for: indexPath) as! PostTextCell
-            cell.postLabel.text = post.text!
-            return cell
-            
-        case .Buttons:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostButtonsCell", for: indexPath) as! PostButtonsCell
-            cell.requestChatDelegate = self
-            
-            if let _ = relates?[post.getPostID()] {
-                cell.relateButton.isSelected = true
-            }
-            else {
-                cell.relateButton.isSelected = false
-            }
-            
-            if post.getUserID() == defaults.getUID() {
-                cell.chatButton.isHidden = true
-            }
-            else {
-                cell.chatButton.isHidden = false
-                if let ongoing = outgoingRequests?[post.getPostID()] {
-                    if ongoing {
-                        cell.chatState = .ongoing
-                    }
-                    else {
-                        cell.chatState = .requested
-                    }
-                }
-                else {
-                    cell.chatState = .normal
-                }
-            }
-            
-            return cell
-            
-        case .Relates:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostTagsCell", for: indexPath) as! PostTagsCell
-            cell.relatesCount = post.getRelatesCount()
-            return cell
-        
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        
-        guard let row = Row(rawValue: indexPath.row) else { return true }
-        
-        switch row {
-        case .Profile:
-            // if post.isanonymous = false
-            let post = posts[indexPath.section]
-            if post.name == "Anonymous" {
-                return false
-            }
-            else {
-                return true
-            }
-        case .Post:
-            // double tap action
-            return false
-        case .Buttons:
-            return false
-        case .Relates:
-            return true
-        }
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let row = Row(rawValue: indexPath.row) else { return }
-        let post = posts[indexPath.section]
-        switch row {
-        case .Profile:
-            
-            if !post.isAnonymous {
-                showProfile(section: indexPath.section)
-            }
-            
-        case .Relates:
-            let vc = RelatersViewController(postID: post.getPostID())
-            masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
-
-        default:
-            break
-        }
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        
-        guard let row = Row(rawValue: indexPath.row) else { return false }
-        
-        switch row {
-        case .Buttons:
-            return false
-        default:
-            return true
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-//        let cell = collectionView.cellForItem(at: indexPath)
-//        let height = cell!.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-        guard let row = Row(rawValue: indexPath.row) else { return CGSize() }
-        
-        switch row {
-        case .Profile:
-            return CGSize(width: collectionView.frame.width, height: 70)
-        case .Post:
-            
-            let post = posts[indexPath.section]
-                
-            //let's get an estimation of the height of our cell based on user.bioText
-            
-            let approximateWidthOfTextView = collectionView.frame.width - 24
-            let size = CGSize(width: approximateWidthOfTextView, height: 1000)
-            let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
-            
-            let estimatedFrame = NSString(string: post.text!).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-            
-            return CGSize(width: collectionView.frame.width, height: estimatedFrame.height + 114)
-
-            
-//            return CGSize(width: collectionView.frame.width, height: 100)
-        case .Buttons:
-            return CGSize(width: collectionView.frame.width, height: 44)
-        case .Relates:
-            return CGSize(width: collectionView.frame.width, height: 44)
-            
-        }
-        
-    }
-
-}
-*/
 extension HomePage: UIGestureRecognizerDelegate {
     
 }
@@ -715,7 +495,7 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
             }
             else {
                 cell.chatButton.isHidden = false
-                if let ongoing = outgoingRequests?[post.getPostID()] {
+                if let ongoing = outgoingRequests[post.getPostID()] {
                     if ongoing {
                         cell.chatState = .ongoing
                     }

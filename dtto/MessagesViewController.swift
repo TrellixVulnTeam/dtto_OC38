@@ -118,7 +118,8 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     func resolveChat() {
         
-//        guard let userID = defaults.getUID(), let helperID = chat.helperID else { return }
+        guard let userID = defaults.getUID() else { return }
+        let helperID = chat.getHelperID()
         
         let vc = ResolveChatViewController()
         present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
@@ -134,18 +135,18 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
 //        let resolveChatVC = ResolveChatViewController()
 //        self.navigationController?.pushViewController(resolveChatVC, animated: true)
         
-        /*
-        let chatResolvedRef = FIREBASE_REF.child("chats").child("resolved")
+        
+        let chatResolvedRef = CHATS_REF.child(chat.getChatID()).child("resolved")
         chatResolvedRef.observeSingleEvent(of: .value, with: { snapshot in
             
-            if snapshot.exists() {
-                // chat is already resolved, alert user
-            }
-            else {
+            if !snapshot.exists() {
+                
+                // First time resolving chat.
+                
                 chatResolvedRef.setValue(true)
                 
-                let userRef = FIREBASE_REF.child("users").child(userID)
-                let helperRef = FIREBASE_REF.child("users").child(helperID)
+                let userRef = USERS_REF.child(userID)
+                let helperRef = USERS_REF.child(helperID)
                 
                 let dataRequest = FirebaseService.dataRequest
                 
@@ -158,10 +159,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
                 dataRequest.decrementCount(ref: helperRef.child("ongoingChatCount"))
 
             }
-            
         })
- */
-    
         
     }
     
@@ -405,6 +403,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
         return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
     }
+    
 
 }
 
