@@ -6,42 +6,48 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
   - DateTools (2.0.0)
-  - FBSDKCoreKit (4.20.2):
+  - FBSDKCoreKit (4.22.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.20.2):
+  - FBSDKLoginKit (4.22.0):
     - FBSDKCoreKit
-  - Firebase (3.15.0):
-    - Firebase/Core (= 3.15.0)
-  - Firebase/Auth (3.15.0):
+  - Firebase (3.17.0):
+    - Firebase/Core (= 3.17.0)
+  - Firebase/Auth (3.17.0):
     - Firebase/Core
     - FirebaseAuth (= 3.1.1)
-  - Firebase/Core (3.15.0):
-    - FirebaseAnalytics (= 3.7.0)
-    - FirebaseCore (= 3.5.2)
-  - Firebase/Database (3.15.0):
+  - Firebase/Core (3.17.0):
+    - FirebaseAnalytics (= 3.9.0)
+    - FirebaseCore (= 3.6.0)
+  - Firebase/Database (3.17.0):
     - Firebase/Core
     - FirebaseDatabase (= 3.1.2)
-  - Firebase/Messaging (3.15.0):
+  - Firebase/DynamicLinks (3.17.0):
     - Firebase/Core
-    - FirebaseMessaging (= 1.2.2)
-  - Firebase/Storage (3.15.0):
+    - FirebaseDynamicLinks (= 1.4.0)
+  - Firebase/Messaging (3.17.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 1.2.3)
+  - Firebase/Storage (3.17.0):
     - Firebase/Core
     - FirebaseStorage (= 1.1.0)
-  - FirebaseAnalytics (3.7.0):
-    - FirebaseCore (~> 3.5)
+  - FirebaseAnalytics (3.9.0):
+    - FirebaseCore (~> 3.6)
     - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseAuth (3.1.1):
     - FirebaseAnalytics (~> 3.7)
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (3.5.2):
+  - FirebaseCore (3.6.0):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseDatabase (3.1.2):
     - FirebaseAnalytics (~> 3.7)
-  - FirebaseInstanceID (1.0.9)
-  - FirebaseMessaging (1.2.2):
-    - FirebaseAnalytics (~> 3.7)
+  - FirebaseDynamicLinks (1.4.0):
+    - FirebaseAnalytics (~> 3.9)
+  - FirebaseInstanceID (1.0.10):
+    - FirebaseCore (~> 3.6)
+  - FirebaseMessaging (1.2.3):
+    - FirebaseAnalytics (~> 3.8)
     - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
@@ -83,11 +89,11 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - Kingfisher (3.6.1)
+  - Kingfisher (3.6.2)
   - MIBadgeButton-Swift (0.5)
-  - NVActivityIndicatorView (3.6.0)
-  - Protobuf (3.2.0)
-  - SkyFloatingLabelTextField (3.0.0)
+  - NVActivityIndicatorView (3.6.1)
+  - Protobuf (3.3.0)
+  - SkyFloatingLabelTextField (3.1.0)
   - Stripe (10.0.1)
 
 DEPENDENCIES:
@@ -97,6 +103,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
+  - Firebase/DynamicLinks
   - Firebase/Messaging
   - Firebase/Storage
   - Google/SignIn
@@ -115,21 +122,22 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MIBadgeButton-Swift:
-    :commit: 245fbf64b0a3afb8ac2f19c17552059383092c1d
+    :commit: 3c2638d2e6e46ec2e6dd978d8ada8863df3df5e6
     :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
-  FBSDKCoreKit: 82eac696eb6157da5f4266c3a241f00e9bd72471
-  FBSDKLoginKit: 2211bede07c83391349eacc1fd86cf6d9289ce38
-  Firebase: 2b1cdfba1cda8589f32904a697cc753322bff9d8
-  FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
+  FBSDKCoreKit: c693bad19feb225469eeff14452ba364522ee48b
+  FBSDKLoginKit: 1fa529fc622d7b32ebeaffbecd377180833c6d30
+  Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
+  FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseAuth: cc8a1824170adbd351edb7f994490a3fb5c18be6
-  FirebaseCore: a024587e43778508700af8c6b1209f7c4516ba02
+  FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
   FirebaseDatabase: 05c96d7b43a7368dc91c07791adb49683e1738d1
-  FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
-  FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
+  FirebaseDynamicLinks: 0dbfd974f560dd1bda7498afc24697adb5cce72f
+  FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
+  FirebaseMessaging: 753d05a925e9eb8eadd09a0ffc9b808578b72fac
   FirebaseStorage: a5c55b23741a49a72af8f30f95b3bb5ddbeda12d
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
@@ -140,13 +148,13 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
-  Kingfisher: 2f31cb75f3e98d3d4c406cbdcd9b263e956cfa67
+  Kingfisher: 2c94e72c6830622c71d06adf4ea024c37d316830
   MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
-  NVActivityIndicatorView: c7c1c4300b418bd9ed06459e78d4df859ddbe31f
-  Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
-  SkyFloatingLabelTextField: 35bc0c2653ad73c5fd8b7a34cfedf09c94367a1a
+  NVActivityIndicatorView: 9f52a7f84bf5c6a798722c450fe3c198e01c56ed
+  Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
+  SkyFloatingLabelTextField: 26a92ad407044dd5a7c3e4e348738ff0991514fe
   Stripe: dd6df0e2c6a8463e2f1ca9b15dc246e5ae1eee64
 
-PODFILE CHECKSUM: 3bca42f312b0db926a6ad537cf44d3206d05c112
+PODFILE CHECKSUM: 5711a669e4e50fcba8c2e2992666a513aff2d272
 
 COCOAPODS: 1.2.0

@@ -196,6 +196,10 @@ class PostsViewController: BaseTableViewController, PostProtocol {
         
     }
     
+    func sharePost(cell: PostButtonsCell) {
+        
+    }
+    
     func showMore(cell: PostProfileCell, sender: AnyObject) {
         
         guard let button = sender as? UIView, let section = tableView.indexPath(for: cell)?.section else { return }

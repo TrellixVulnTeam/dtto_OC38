@@ -59,9 +59,10 @@ class PostButtonsCell: BaseTableViewCell {
         return button
     }()
     
-    let shareButton: UIButton = {
+    lazy var shareButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "share"), for: .normal)
+        button.addTarget(self, action: #selector(sharePost(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -90,6 +91,10 @@ class PostButtonsCell: BaseTableViewCell {
         sender.bounceAnimate()
         requestChatDelegate?.requestChat(cell: self, chatState: chatState)
         
+    }
+    
+    func sharePost(_ sender: UIButton) {
+        requestChatDelegate?.sharePost(cell: self)
     }
 
 }

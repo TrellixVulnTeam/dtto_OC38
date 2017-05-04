@@ -11,6 +11,7 @@ import UIKit
 protocol PostProtocol : class {
     func requestChat(cell: PostButtonsCell, chatState: ChatState)
     func relatePost(cell: PostButtonsCell)
+    func sharePost(cell: PostButtonsCell)
     func showMore(cell: PostProfileCell, sender: AnyObject)
 }
 
@@ -267,6 +268,18 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             
         })
         
+    }
+    
+    func sharePost(cell: PostButtonsCell) {
+        
+        // create a URL
+        guard let section = tableView.indexPath(for: cell)?.section else { return }
+        
+        let post = posts[section]
+        let postID = post.getPostID()
+                
+        let vc = UIActivityViewController(activityItems: ["Help out a colleague. https://dtto.com/posts/\(postID)"], applicationActivities: nil)
+        masterViewDelegate?.present(vc, animated: true, completion: nil)
     }
     
     func showMore(cell: PostProfileCell, sender: AnyObject) {

@@ -19,7 +19,7 @@ class UserNotification {
     var postID: String?
     var senderName: String
     var profileImageURL: String?
-    var timestamp: String?
+    var timestamp: String
     var notificationID: String
     var autoID: String
     var chatID: String?
@@ -31,7 +31,7 @@ class UserNotification {
         
         guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return nil }
         
-        guard let senderID = dictionary["senderID"] as? String, let senderName = dictionary["senderName"] as? String, let timestamp = dictionary["timestamp"] as? String else { return nil }
+        guard let senderID = dictionary["senderID"] as? String, let senderName = dictionary["senderName"] as? String, let timestamp = dictionary["timestamp"] as? TimeInterval else { return nil }
         
         if let postID = dictionary["postID"] as? String {
             self.postID = postID
@@ -43,7 +43,8 @@ class UserNotification {
         
         self.senderID = senderID
         self.senderName = senderName
-        self.timestamp = timestamp
+        self.timestamp = Date(timeIntervalSince1970: timestamp/1000).timeAgoSinceDate(numericDates: true)
+        print(self.timestamp)
         self.notificationID = snapshot.key
         self.notificationType = NotificationType(rawValue: dictionary["type"] as? String ?? "relate") ?? .relate
     }
@@ -74,5 +75,9 @@ class UserNotification {
     
     func getNotificationType() -> NotificationType {
         return notificationType
+    }
+    
+    func getTime() -> String {
+        return timestamp
     }
 }
