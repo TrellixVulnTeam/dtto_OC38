@@ -10,7 +10,6 @@
 import UIKit
 import Firebase
 import FBSDKLoginKit
-import Stripe
 import GooglePlaces
 import UserNotifications
 
@@ -62,18 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configure Google Places
         GMSPlacesClient.provideAPIKey("AIzaSyCnPwF0sigqf4nlHoIgu1QRos4nQYgwbH4")
-        
-        // Configure Stripe
-//        STPPaymentConfiguration.shared().publishableKey = "pk_test_j23FETJXZSrnbjgBaT3SIeX9"
-//        FIRAuth.auth()?.signIn(withEmail: "test@gmail.com", password: "test123") { (user, error) in
-//            if error != nil {
-//                print("could not login")
-//            }
-//            else {
-//                print("logged in!")
-//                
-//            }
-//        }
         
         // Navigation Bar Setup
         

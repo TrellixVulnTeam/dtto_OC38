@@ -57,17 +57,14 @@ class PostsViewController: BaseTableViewController, PostProtocol {
         
         postsRef.observe(.childAdded, with: { snapshot in
             
-            if let postData = snapshot.value as? Dictionary<String, AnyObject> {
+            if let post = Post(snapshot: snapshot) {
+                self.posts.insert(post, at: 0)
+                self.fullPosts.insert(post, at: 0)
                 
-                if let post = Post(dictionary: postData) {
-                    self.posts.insert(post, at: 0)
-                    self.fullPosts.insert(post, at: 0)
-                    
-                    if self.initialLoad == false {
-                        self.tableView.beginUpdates()
-                        self.tableView.insertSections(IndexSet(integer: 0), with: .automatic)
-                        self.tableView.endUpdates()
-                    }
+                if self.initialLoad == false {
+                    self.tableView.beginUpdates()
+                    self.tableView.insertSections(IndexSet(integer: 0), with: .automatic)
+                    self.tableView.endUpdates()
                 }
             }
             

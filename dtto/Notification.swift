@@ -44,7 +44,6 @@ class UserNotification {
         self.senderID = senderID
         self.senderName = senderName
         self.timestamp = Date(timeIntervalSince1970: timestamp/1000).timeAgoSinceDate(numericDates: true)
-        print(self.timestamp)
         self.notificationID = snapshot.key
         self.notificationType = NotificationType(rawValue: dictionary["type"] as? String ?? "relate") ?? .relate
     }

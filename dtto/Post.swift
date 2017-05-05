@@ -21,8 +21,9 @@ class Post {
     var tags: String?
     var isAnonymous: Bool = true
     
-    init?(dictionary: [String: AnyObject]) {
+    init?(snapshot: FIRDataSnapshot) {
         
+        guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return nil }
         guard let postID = dictionary["postID"] as? String, let userID = dictionary["userID"] as? String else { return nil }
         self.postID = postID
         self.userID = userID

@@ -10,23 +10,24 @@ import UIKit
 
 class ToggleCell: BaseTableViewCell {
     
+    weak var chatSettingsDelegate: ChatSettings?
+    
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Mute Notifications"
+        label.text = "Allow Notifications"
         return label
     }()
     
     lazy var notificationsToggle: UISwitch = {
         let toggle = UISwitch()
         toggle.onTintColor = Color.lightGreen
+        toggle.isOn = true
         toggle.addTarget(self, action: #selector(toggleNotifications), for: .valueChanged)
         return toggle
     }()
     
     func toggleNotifications() {
-        // do firebase stuff here.
-        
-        
+        chatSettingsDelegate?.toggleNotifications(notificationsToggle.isOn)
     }
     
     override func setupViews() {

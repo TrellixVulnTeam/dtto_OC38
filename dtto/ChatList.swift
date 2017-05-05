@@ -28,6 +28,7 @@ class ChatList: BaseCollectionViewCell {
         
         tableView.register(ChatListCell.self, forCellReuseIdentifier: "ChatListCell")
         tableView.register(RequestsPreviewCell.self, forCellReuseIdentifier: "RequestsPreviewCell")
+        tableView.separatorStyle = .singleLine
         
         observeChatRequestsCount()
         
@@ -87,7 +88,8 @@ extension ChatList: UITableViewDelegate, UITableViewDataSource {
             
         case .chats:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ChatListCell") as! ChatListCell
-            cell.lastMessageLabel.text = chats[indexPath.row].lastMessage
+            cell.lastMessageLabel.text = chats[indexPath.row].getLastMessage()
+            cell.timestampLabel.text = chats[indexPath.row].getTimestamp()
             
             return cell
 

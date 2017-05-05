@@ -46,7 +46,7 @@ extension NotificationsPage: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell") as! NotificationsCell
         
         let boldFont = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 15)]
-        let boldString = NSMutableAttributedString(string: "Jae", attributes:boldFont)
+        let boldString = NSMutableAttributedString(string: notification.getSenderName(), attributes:boldFont)
         
         let normalFont = [NSFontAttributeName : UIFont.systemFont(ofSize: 15)]
         
@@ -55,9 +55,9 @@ extension NotificationsPage: UITableViewDelegate, UITableViewDataSource {
         switch notification.getNotificationType() {
             
         case .relate:
-            suffixText = NSMutableAttributedString(string: " relates to your post", attributes: normalFont)
+            suffixText = NSMutableAttributedString(string: " relates to your post.", attributes: normalFont)
         case .resolve:
-            suffixText = NSMutableAttributedString(string: " endorsed you", attributes: normalFont)
+            suffixText = NSMutableAttributedString(string: " endorsed you.", attributes: normalFont)
             
         }
         

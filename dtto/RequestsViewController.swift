@@ -188,57 +188,67 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             
             // Create the chat room with these two users. This path will later be updated to show the last message of this chat room.
             
-            let chatsRef = FIREBASE_REF.child("chats")
-            let autoID = chatsRef.childByAutoId().key   // Update both userChats with this key.
+            let autoID = CHATS_REF.childByAutoId().key   // Update both userChats with this key.
             
-            var chat = ["posterID" : userID, "helperID" : friendID]
+            var chat: [String:Any] = ["posterID" : userID,
+                                      "helperID" : friendID,
+                                      "timestamp": [".sv" : "timestamp"]]
             if let postID = request.getPostID() {
                 chat.updateValue(postID, forKey: "postID")
             }
-            chatsRef.child(autoID).updateChildValues(chat)
-//            let users = [userID : userName, friendID : friendName]
-//            let baseChat: [String : Any] = ["users" : users, "postID" : postID]
-//            chatsRef.updateChildValues([autoID : baseChat])
-    
-            // check if user request chat through post, or through search
+            CHATS_REF.child(autoID).updateChildValues(chat)
+            
+            // update chat list for both users
+            dataRequest.startChat(userID: userID, chatID: autoID)
+            dataRequest.startChat(userID: friendID, chatID: autoID)
+            
+            // increment number of ongoing chats for post.
             if let postID = request.getPostID() {
-                
-                // update chat list for both users, with the chat ID
-                dataRequest.startChat(userID: userID, chatID: autoID)
-                dataRequest.startChat(userID: friendID, chatID: autoID)
-//                dataRequest.startChat(ref: FIREBASE_REF.child("users").child(userID).child("chats").child(autoID), postID: postID)
-//                dataRequest.startChat(ref: FIREBASE_REF.child("users").child(friendID).child("chats").child(autoID), postID: postID)
-                
-                
-                // update posts with chats ongoing
-                dataRequest.addOngoingPostChat(userID: userID, postID: postID)
-                dataRequest.addOngoingPostChat(userID: friendID, postID: postID)
-                
-                // increment number of ongoing chats for post.
-                dataRequest.incrementCount(ref: FIREBASE_REF.child("posts").child(postID).child("chatCount"))
+                dataRequest.incrementCount(ref: POSTS_REF.child(postID).child("ongoingChatCount"))
+            }
+            else {
+                // TODO: Number of times a person received requests through search
             }
 
-            
             // increment user's and friend's number of ongoing chats.
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("ongoingChatCount"))
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("ongoingChatCount"))
+            dataRequest.incrementCount(ref: USERS_REF.child(userID).child("ongoingChatCount"))
+            dataRequest.incrementCount(ref: USERS_REF.child(friendID).child("ongoingChatCount"))
             
             // increment user's and friend's number of total chats.
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("totalChatCount"))
-            dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("totalChatCount"))
+            dataRequest.incrementCount(ref: USERS_REF.child(userID).child("totalChatCount"))
+            dataRequest.incrementCount(ref: USERS_REF.child(friendID).child("totalChatCount"))
+            
+            // Remove this request now.
+            let requestRef = REQUESTS_REF.child(userID).child(request.getAutoID())
+            requestRef.removeValue()
 
             
         case .decline:
             print("declined chat request!")
+            
+            // user ignored. To save data usage, remove the whole request except for the pending status (set to false) so that when the other user checks this request, user can't request again.
 
+            let requestRef = REQUESTS_REF.child(userID).child(request.getAutoID())
+            requestRef.setValue(["pending" : false])
+//            requestRef.updateChildValues(["pending" : false,
+//                                          "senderName" : nil,
+//                                          "postID" : nil,
+//                                          "timestamp" : nil,
+//                                          "senderID" : nil
+//                ])
+//            
             break
         }
         
         // TODO: remove this request. also change the friend's outgoingRequest to ongoingChat. need to check if request was through post or search
-        let requestID = FIREBASE_REF.child("requests").child(userID).child(request.getAutoID())
-        requestID.removeValue()
-        dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(userID).child("requestsCount"))
-
+//        let requestID = REQUESTS_REF.child(userID).child(request.getAutoID())
+//        requestID.removeValue()
+        dataRequest.decrementCount(ref: USERS_REF.child(userID).child("requestsCount"))
+//
+//        if let postID = request.getPostID() {
+//            let friendOutgoingRequestsRef = FIREBASE_REF.child("outgoingRequests").child(friendID).child(postID)
+//            friendOutgoingRequestsRef.removeValue()
+//        }
         
     }
 

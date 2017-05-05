@@ -14,6 +14,7 @@ class NotificationsCell: BaseTableViewCell {
     
     let notificationLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 3
         return label
     }()
     

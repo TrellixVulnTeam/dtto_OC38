@@ -40,27 +40,20 @@ class Chat {
 //                
 //            }
 //        }
-
+        
         self.postID = postID
         self.posterID = posterID
         self.helperID = helperID
         
-        if let senderID = dictionary["senderID"] as? String, let lastMessage = dictionary["text"] as? String!, let timestamp = dictionary["timestamp"] as? String {
+        if let senderID = dictionary["senderID"] as? String, let lastMessage = dictionary["text"] as? String! {
             
             self.senderID = senderID
             self.lastMessage = lastMessage
             
-//            let cal = Calendar(identifier: .gregorian)
-//            let c = Calendar.current
-//            let current = c.startOfDay(for: Date())
-            let currentDate = Date()
-//            let timestampDate = stringToDate(timestamp)
-            
-            
-            // just show hours and minutes.
-            
-            self.timestamp = timestamp
-            
+        }
+        
+        if let timestamp = dictionary["timestamp"] as? TimeInterval {
+            self.timestamp = Date(timeIntervalSince1970: timestamp/1000).timeAgoSinceDate(numericDates: true)
         }
 
     }

@@ -40,8 +40,6 @@
 		04245FBD1E2A3DB000611DA0 /* PostAnonymousCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04245FBC1E2A3DB000611DA0 /* PostAnonymousCell.swift */; };
 		0428F6E21E206496002093DB /* RelatersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0428F6E11E206496002093DB /* RelatersViewController.swift */; };
 		0428F6E41E206617002093DB /* RelatersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0428F6E31E206617002093DB /* RelatersCell.swift */; };
-		042CC99A1E4E7A9B00B6F501 /* MyAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CC9991E4E7A9B00B6F501 /* MyAPIClient.swift */; };
-		042CC99C1E4E7AE400B6F501 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CC99B1E4E7AE400B6F501 /* Networking.swift */; };
 		04344DA41EB59F59001FB2E2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04344DA31EB59F59001FB2E2 /* StoreKit.framework */; };
 		0434766D1E2F0B65008B1E9E /* EditUserInfoBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0434766C1E2F0B64008B1E9E /* EditUserInfoBaseCell.swift */; };
 		043CA73F1EBAC69800C8BF41 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CA73E1EBAC69800C8BF41 /* PostViewController.swift */; };
@@ -92,8 +90,6 @@
 		04BBE56D1E13698800D4559E /* ProfileInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBE56B1E13698800D4559E /* ProfileInfoCell.swift */; };
 		04BBE5711E13706D00D4559E /* ProfileImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBE56F1E13706D00D4559E /* ProfileImageCell.swift */; };
 		04BD6EC01E0C986C00036DC7 /* RequestsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */; };
-		04D29D7E1E5416AA00F7264C /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D29D7D1E5416AA00F7264C /* CheckoutViewController.swift */; };
-		04D29D801E54188200F7264C /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D29D7F1E54188200F7264C /* PaymentCell.swift */; };
 		04D45AB71DE2C6FD00A6B317 /* ChangeRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */; };
 		04D9949A1E19F6BF00A46700 /* TextWithHorizontalBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */; };
 		04DDD87B1E1F286E0023EE70 /* SortDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DDD87A1E1F286E0023EE70 /* SortDictionary.swift */; };
@@ -194,8 +190,6 @@
 		04245FBC1E2A3DB000611DA0 /* PostAnonymousCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAnonymousCell.swift; sourceTree = "<group>"; };
 		0428F6E11E206496002093DB /* RelatersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatersViewController.swift; sourceTree = "<group>"; };
 		0428F6E31E206617002093DB /* RelatersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatersCell.swift; sourceTree = "<group>"; };
-		042CC9991E4E7A9B00B6F501 /* MyAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAPIClient.swift; sourceTree = "<group>"; };
-		042CC99B1E4E7AE400B6F501 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		04344DA31EB59F59001FB2E2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0434766C1E2F0B64008B1E9E /* EditUserInfoBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserInfoBaseCell.swift; sourceTree = "<group>"; };
 		043CA73E1EBAC69800C8BF41 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -248,8 +242,6 @@
 		04BD6EBF1E0C986C00036DC7 /* RequestsPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsPreview.swift; sourceTree = "<group>"; };
 		04CFA1791E0C633E00ACD064 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		04CFA17B1E0C634700ACD064 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		04D29D7D1E5416AA00F7264C /* CheckoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
-		04D29D7F1E54188200F7264C /* PaymentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
 		04D45AB61DE2C6FD00A6B317 /* ChangeRootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeRootVC.swift; sourceTree = "<group>"; };
 		04D45ABC1DE2DA1F00A6B317 /* dtto.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dtto.entitlements; sourceTree = "<group>"; };
 		04D994991E19F6BF00A46700 /* TextWithHorizontalBars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextWithHorizontalBars.swift; sourceTree = "<group>"; };
@@ -513,8 +505,6 @@
 				04A66B8F1DE68F0100D7EC91 /* MessagesViewController.swift */,
 				045332EB1E947F2300B2CD67 /* MessagesHeaderView.swift */,
 				0442E0AC1E2AE9AC00B7BC4D /* ResolveChatViewController.swift */,
-				04D29D7D1E5416AA00F7264C /* CheckoutViewController.swift */,
-				04D29D7F1E54188200F7264C /* PaymentCell.swift */,
 				045248061E08A1F5007D6C3E /* ChatSettings.swift */,
 				0457304C1E91A771001A2268 /* ToggleCell.swift */,
 				0457304E1E91A8B0001A2268 /* DestructiveCell.swift */,
@@ -538,8 +528,6 @@
 				04DF310D1DE2EE4B0068E59B /* UserDefaultsHelper.swift */,
 				041B39351E1DD24E003E130E /* UIViewConstraints.swift */,
 				04DDD87A1E1F286E0023EE70 /* SortDictionary.swift */,
-				042CC9991E4E7A9B00B6F501 /* MyAPIClient.swift */,
-				042CC99B1E4E7AE400B6F501 /* Networking.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -987,13 +975,11 @@
 				04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */,
 				04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */,
 				0442E0AB1E2AC28200B7BC4D /* PostAddTagsCell.swift in Sources */,
-				04D29D801E54188200F7264C /* PaymentCell.swift in Sources */,
 				04A97E6B1E20CE57008DA2A3 /* ProfileStatsHeaderView.swift in Sources */,
 				049AB6B41DFE869700B45DC3 /* ChatListCell.swift in Sources */,
 				0413AB9F1E23357600C7198C /* NameViewController.swift in Sources */,
 				04F9BB221E3594FC00724549 /* EditUserSummaryCell.swift in Sources */,
 				041032AC1E03B7CC00B6BDE8 /* BaseCollectionViewCell.swift in Sources */,
-				04D29D7E1E5416AA00F7264C /* CheckoutViewController.swift in Sources */,
 				041B39381E1DD73C003E130E /* PostTextCell.swift in Sources */,
 				0470790A1E060BA10059C360 /* RequestsPreviewCell.swift in Sources */,
 				04B29A5F1E35B57000347821 /* SettingsViewController.swift in Sources */,
@@ -1007,7 +993,6 @@
 				0442E0AD1E2AE9AC00B7BC4D /* ResolveChatViewController.swift in Sources */,
 				045AB2921DFE71B1009D9394 /* Post.swift in Sources */,
 				0413ABA11E23363B00C7198C /* FormViewController.swift in Sources */,
-				042CC99A1E4E7A9B00B6F501 /* MyAPIClient.swift in Sources */,
 				04045C251DDFA010002BBD07 /* AppDelegate.swift in Sources */,
 				0470790C1E0612E90059C360 /* NotificationsCell.swift in Sources */,
 				04F4EFA31E0A5DE700F1DDFA /* Date.swift in Sources */,
@@ -1022,7 +1007,6 @@
 				0443FA9D1E98668B00F6CD4E /* PostsViewController.swift in Sources */,
 				0410DF821E2DB89A00592920 /* ProfileEditViewController.swift in Sources */,
 				0457304F1E91A8B0001A2268 /* DestructiveCell.swift in Sources */,
-				042CC99C1E4E7AE400B6F501 /* Networking.swift in Sources */,
 				040FA9A01E85F61E00C315CD /* PostKeywordCell.swift in Sources */,
 				04FC41131E30559C00F59132 /* EditUserInfoSearchCell.swift in Sources */,
 			);

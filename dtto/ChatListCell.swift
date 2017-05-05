@@ -15,15 +15,8 @@ class ChatListCell: BaseTableViewCell {
         didSet {
             setupNameAndProfileImage()
             
-            lastMessageLabel.text = chat?.lastMessage
+//            lastMessageLabel.text = chat?.lastMessage
             
-//            if let seconds = chat?.timestamp.doubleValue {
-//                let timestampDate = NSDate(timeIntervalSince1970: seconds)
-//                
-//                let dateFormatter = DateFormatter()
-//                dateFormatter.dateFormat = "hh:mm:ss a"
-//                timestampLabel.text = dateFormatter.stringFromDate(timestampDate)
-//            }
 
         }
     }
@@ -53,7 +46,6 @@ class ChatListCell: BaseTableViewCell {
     
     let timestampLabel: UILabel = {
         let label = UILabel()
-        label.text = "Nov 11"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .lightGray
         return label

@@ -74,6 +74,21 @@ class ChatSettings: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    func toggleNotifications(_ isOn: Bool) {
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        let chatRef = USERS_REF.child(userID).child("chats").child(chat.getChatID())
+        
+        if isOn {
+            chatRef.setValue(true)
+        }
+        else {
+            chatRef.setValue(false)
+        }
+        
+    }
+    
     func confirmAlert(type: DestructiveRow) {
         
         var title = ""
@@ -238,6 +253,7 @@ extension ChatSettings: UITableViewDelegate, UITableViewDataSource {
             return cell
         case .notifications:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ToggleCell") as! ToggleCell
+            cell.chatSettingsDelegate = self
             return cell
         case .block:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DestructiveCell") as! DestructiveCell

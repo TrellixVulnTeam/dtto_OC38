@@ -14,7 +14,6 @@ target 'dtto' do
   pod 'Firebase/Messaging'
   pod 'Firebase/DynamicLinks'
 
-  pod 'Stripe'
   pod 'GooglePlaces'
   # Social Login
   pod 'Google/SignIn'

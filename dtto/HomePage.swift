@@ -19,8 +19,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     var posts = [Post]()
     var fullPosts = [Post]()
-    var outgoingRequests = [String : Bool]()
-    var relates: [String : Bool]?
+    var outgoingRequests = [String : Bool]()    // true means request is pending. false means chat is ongoing.
+    var relates = [String : Bool]()
 //    var relates: [String : Bool] = defaults.getRelates()
     var initialLoad = true
     
@@ -48,35 +48,53 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         guard let userID = defaults.getUID() else { return }
         
-        let ongoingPostChatsRef = USERS_REF.child(userID).child("ongoingPostChats")
+        let outgoingRequestsRef = USERS_REF.child(userID).child("outgoingRequests")
         
-        ongoingPostChatsRef.observe(.childAdded, with: { snapshot in
+        outgoingRequestsRef.observe(.childAdded, with: { snapshot in
         
             let postID = snapshot.key
             
-            // find the cell to update and reload the indexpath.
-            DispatchQueue.global().async {
+            if let requestDict = snapshot.value as? [String:String], let requestID = requestDict["requestID"], let posterID = requestDict["receiverID"] {
                 
-                for (index, post) in self.posts.enumerated() {
-                    if post.getPostID() == postID {
-                        DispatchQueue.main.async {
-                            self.outgoingRequests.updateValue(true, forKey: postID)
-                            self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
+                let friendRequestsRef = REQUESTS_REF.child(posterID).child(requestID)
+                friendRequestsRef.child("pending").observe(.value, with: { snapshot in
+                    
+                    // find the post to update
+                    DispatchQueue.global().async {
+                        
+                        for (index, post) in self.posts.enumerated() {
+                            if post.getPostID() == postID {
+                                DispatchQueue.main.async {
+                                    
+                                    if snapshot.exists() {
+                                        // regardless of whether it is pending, or ignored, post should have requested chat state.
+                                        self.outgoingRequests.updateValue(true, forKey: postID)
+                                    }
+                                    else {
+                                        // if snapshot doesn't exist, the other user already accepted this request, so this post should have ongoing chat state.
+                                        self.outgoingRequests.updateValue(false, forKey: postID)
+                                    }
+                                    
+                                    self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
+                                }
+                            }
                         }
                     }
-                }
+                    
+                })
             }
             
         })
         
-        ongoingPostChatsRef.observe(.childRemoved, with: { snapshot in
+        // child will be removed when the user deletes chat
+        outgoingRequestsRef.observe(.childRemoved, with: { snapshot in
             
             let postID = snapshot.key
+            self.outgoingRequests.removeValue(forKey: postID)
             
             for (index, post) in self.posts.enumerated() {
                 if post.getPostID() == postID {
                     DispatchQueue.main.async {
-                        self.outgoingRequests.removeValue(forKey: postID)
                         self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
                     }
                 }
@@ -92,44 +110,68 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         postsRef.observe(.childAdded, with: { snapshot in
             
-            if let postData = snapshot.value as? Dictionary<String, AnyObject> {
-
-                if let post = Post(dictionary: postData) {
-                    
+            if let post = Post(snapshot: snapshot) {
+    
+                DispatchQueue.main.async {
                     
                     self.posts.insert(post, at: 0)
                     self.fullPosts.insert(post, at: 0)
-
+                    
                     if self.initialLoad == false {
                         self.tableView.beginUpdates()
-                        self.tableView.insertSections(IndexSet(integer: 0), with: .automatic)
+                        self.tableView.insertSections(IndexSet(integer: 0), with: .top)
                         self.tableView.endUpdates()
                     }
-
-                    
                 }
-                
-                //                
-//                let hiddenPosts = defaults.getHiddenPosts()
-//                if hiddenPosts.count == 0 || hiddenPosts[postID] == nil {
-//                    print("post is not hidden")
-//                    self.posts.insert(post, at: 0)
-//
-//                }
-
-                
-                
             }
-            
             
         })
         
         postsRef.observeSingleEvent(of: .value, with: { snapshot in
-            self.initialLoad = false
-            self.tableView.reloadData()
+            
+            DispatchQueue.main.async {
+                self.initialLoad = false
+                self.tableView.reloadData()
+            }
         })
         
+        postsRef.observe(.childChanged, with: { snapshot in
+            
+            let postID = snapshot.key
+            
+            for (index, post) in self.posts.enumerated() {
+                if post.getPostID() == postID {
+                    
+                    if let post = Post(snapshot: snapshot) {
+                        DispatchQueue.main.async {
+                            self.posts[index] = post
+                            self.tableView.beginUpdates()
+                            self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
+                            self.tableView.endUpdates()
+                        }
+                    }
+                }
+            }
+            
+        })
         
+        postsRef.observe(.childRemoved, with: { snapshot in
+            
+            let postID = snapshot.key
+            
+            for (index, post) in self.posts.enumerated() {
+                
+                if post.getPostID() == postID {
+                    DispatchQueue.main.async {
+                        self.posts.remove(at: index)
+                        self.tableView.beginUpdates()
+                        self.tableView.deleteSections(IndexSet(integer: index), with: .automatic)
+                        self.tableView.endUpdates()
+                    }
+                }
+                
+            }
+        })
         
     }
     
@@ -144,45 +186,62 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         let dataRequest = FirebaseService.dataRequest
         let autoID = FIREBASE_REF.child("requests").child(posterID).childByAutoId().key
-//        let chatRequestRef = FIREBASE_REF.child("requests").child(posterID).child(autoID).child(userID)
+
+        // The other user is listening for changes at chatRequestRef
         let chatRequestRef = FIREBASE_REF.child("requests").child(posterID).child(autoID)
-        let outgoingRequestsRef = FIREBASE_REF.child("outgoingRequests").child(userID).child(postID)
+        
+        // Keep track of this user's sent requests, so we can update the requestChat button in HomePage.
+        let outgoingRequestsRef = USERS_REF.child(userID).child("outgoingRequests").child(postID)
 
         switch chatState {
             
         case .normal:
 
             cell.chatState = .requested
-            outgoingRequestsRef.observeSingleEvent(of: .value, with: { snapshot in
+            outgoingRequestsRef.child("requestID").observeSingleEvent(of: .value, with: { snapshot in
                 
-                // only request if this is the first request
-                if !snapshot.exists() {
+                if let requestID = snapshot.value as? String {
                     
-                    // check if this chat is already ongoing
-                    let ongoingPostChatsRef = USERS_REF.child(userID).child("ongoingPostChats").child(postID)
-                    ongoingPostChatsRef.observeSingleEvent(of: .value, with: { snapshot in
+                    // user requested chat before, check if it is pending, or was accepted.
+                    let requestRef = FIREBASE_REF.child("requests").child(posterID).child(requestID)
+                    requestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
                         
-                        if !snapshot.exists() {
-                            
-                            dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("requestsCount"))
-                            dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("totalChatRequestsCount"))
-                            
-                            let request: [String: Any] = [
-                                "senderName": "Jae",
-                                "postID" : postID,
-                                "timestamp" : "11-11",
-                                "senderID" : userID,
-                                "pending" : true
-                            ]
-                            
-                            chatRequestRef.updateChildValues(request)
-                            
-                            // need to also store the autoID in the sender's node to refer to this when deleting.
-                            outgoingRequestsRef.setValue(autoID)
-
-                        }
+                        // if poster has not ignored yet, cancel the request.
+                        guard let pending = snapshot.value as? Bool, pending == true else { return }
+                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("requestsCount"))
+                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("totalChatRequestsCount"))
+                        requestRef.removeValue()
+                        outgoingRequestsRef.removeValue()
+                        
                     })
+                    
                 }
+                else {
+                    
+                    // no snapshot found, so request chat
+                    dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("requestsCount"))
+                    dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("totalChatRequestsCount"))
+                    
+                    let request: [String: Any] = [
+                        "senderName": "Jae",
+                        "postID" : postID,
+                        "timestamp" : [".sv" : "timestamp"],
+                        "senderID" : userID,
+                        "pending" : true
+                    ]
+                    
+                    chatRequestRef.updateChildValues(request)
+                    
+                    // Setting to true, which means request is pending. Later when the other user accepts, it will be changed to false so that we can indicate that a post chat is ongoing. TODO: when chat is deleted.
+                    let outgoingRequest: [String:Any] = [
+                        "requestID" : autoID,
+                        "receiverID" : posterID
+                    ]
+                    
+                    outgoingRequestsRef.updateChildValues(outgoingRequest)
+        
+                }
+
             })
             
         case .requested:
@@ -192,28 +251,25 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             // get the requestID.
             outgoingRequestsRef.observeSingleEvent(of: .value, with: { snapshot in
                 
-                if let autoID = snapshot.value as? String {
-                    let requestRef = FIREBASE_REF.child("requests").child(posterID).child(autoID)
-                    requestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
-                    
-                        // if poster has not ignored yet, cancel the request.
-                        if let pending = snapshot.value as? Bool {
-                            if pending {
-                                dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("requestsCount"))
-                                dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("totalChatRequestsCount"))
-                                requestRef.removeValue()
-                                outgoingRequestsRef.removeValue()
-                                
-                            }
-                        }
-                        else {
-                            // could not unwrap the snapshot, which means snapshot doesn't exist.
-                        }
-                        
-
-                    })
-                }
+//                let postID = snapshot.key
                 
+                if let requestDict = snapshot.value as? [String:String], let requestID = requestDict["requestID"], let posterID = requestDict["receiverID"] {
+                    
+                    // user requested chat before, check if it is pending, or was accepted.
+                    let requestRef = REQUESTS_REF.child(posterID).child(requestID)
+                    requestRef.child("pending").observeSingleEvent(of: .value, with: { snapshot in
+                        
+                        // if poster has not ignored yet, cancel the request.
+                        guard let pending = snapshot.value as? Bool, pending == true else { return }
+                        dataRequest.decrementCount(ref: USERS_REF.child(posterID).child("requestsCount"))
+                        dataRequest.decrementCount(ref: USERS_REF.child(posterID).child("totalChatRequestsCount"))
+                        requestRef.removeValue()
+                        outgoingRequestsRef.removeValue()
+                        
+                    })
+                    
+                }
+
             })
 
         case .ongoing:
@@ -226,17 +282,27 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
     func relatePost(cell: PostButtonsCell) {
         
-        guard let section = tableView.indexPath(for: cell)?.section else { return }
-        
+        guard let section = tableView.indexPath(for: cell)?.section,
+            let userID = defaults.getUID(),
+            let username = defaults.getUsername(),
+            let name = defaults.getName() else { return }
+
         let post = posts[section]
-        let postID = post.getPostID()
         let friendID = post.getUserID()
-        guard let userID = defaults.getUID(), let username = defaults.getUsername(), let name = defaults.getName() else { return }
+
+        // User should not be able to relate to own post.
+        if friendID == userID {
+            return
+        }
+
+        let postID = post.getPostID()
+        
+        cell.relateButton.isSelected = !cell.relateButton.isSelected
         
         let dataRequest = FirebaseService.dataRequest
         let postRelatesRef = FIREBASE_REF.child("postRelates").child(postID).child(userID)
         
-        let userRelatesRef = FIREBASE_REF.child("users/\(userID)/relatedPosts").child(postID)
+        let userRelatesRef = USERS_REF.child(userID).child("relatedPosts").child(postID)
         userRelatesRef.observeSingleEvent(of: .value, with: { snapshot in
             
             if snapshot.exists() {
@@ -247,7 +313,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 
                 // remove this user from the post's list of related users
                 postRelatesRef.removeValue()
-                _ = self.relates?.removeValue(forKey: postID)
+                _ = self.relates.removeValue(forKey: postID)
             }
             else {
                 userRelatesRef.setValue(true)
@@ -259,12 +325,10 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 let timestamp = Date()
                 let relaterData: [String : Any] = ["name" : name, "username" : username, "timestamp" : "\(timestamp)"]
                 postRelatesRef.setValue(relaterData)
-                _ = self.relates?.updateValue(true, forKey: postID)
+                _ = self.relates.updateValue(true, forKey: postID)
             }
             
-            if let relates = self.relates {
-                defaults.setRelates(value: relates)
-            }
+            defaults.setRelates(value: self.relates)
             
         })
         
@@ -496,7 +560,7 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
             
             cell.requestChatDelegate = self
             
-            if let _ = relates?[post.getPostID()] {
+            if let _ = relates[post.getPostID()] {
                 cell.relateButton.isSelected = true
             }
             else {
@@ -508,12 +572,12 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
             }
             else {
                 cell.chatButton.isHidden = false
-                if let ongoing = outgoingRequests[post.getPostID()] {
-                    if ongoing {
-                        cell.chatState = .ongoing
+                if let pending = outgoingRequests[post.getPostID()] {
+                    if pending {
+                        cell.chatState = .requested
                     }
                     else {
-                        cell.chatState = .requested
+                        cell.chatState = .ongoing
                     }
                 }
                 else {

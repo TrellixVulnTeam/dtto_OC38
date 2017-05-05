@@ -196,15 +196,11 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
             
             guard let messageData = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
-            if let senderID = messageData["senderID"] as? String, let name = messageData["name"] as? String, let text = messageData["text"] as? String, let timestamp = messageData["timestamp"] as? String {
+            if let senderID = messageData["senderID"] as? String, let name = messageData["name"] as? String, let text = messageData["text"] as? String, let timestamp = messageData["timestamp"] as? TimeInterval {
                 
-                var messageDate: Date?
+                let messageDate = Date(timeIntervalSince1970: timestamp/1000)
                 
-                if let date = stringToDate(timestamp) {
-                    messageDate = date
-                }
-                
-                self.addMessage(withId: senderID, name: name, text: text, date: messageDate!)
+                self.addMessage(withId: senderID, name: name, text: text, date: messageDate)
                 self.finishReceivingMessage()
             }
             
@@ -258,11 +254,11 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
 
         let messagesRef = FIREBASE_REF.child("messages").child(chat.getChatID())
-        let messageItem = [
+        let messageItem: [String: Any] = [
             "senderID": senderId!,
             "name": senderDisplayName!,
             "text": text!,
-            "timestamp": "\(date!)",
+            "timestamp": [".sv" : "timestamp"]
             ]
         
         messagesRef.childByAutoId().setValue(messageItem)
@@ -367,9 +363,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         var readableDate = NSAttributedString()
         
         if let messageDate = messages[indexPath.item].date {
-            
             readableDate = NSAttributedString(string: messageDate.timeAgoSinceDate(numericDates: true))
-            
         }
         
         return readableDate
