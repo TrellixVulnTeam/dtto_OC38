@@ -124,18 +124,6 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         let vc = ResolveChatViewController()
         present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
         
-//        let checkoutVC = CheckoutViewController(helperID: "tw2QiARnU7ZFZ7we4tmKs3HcSU42", helperName: "Jitae")
-//        checkoutVC.paymentConfirmationDelegate = self
-//        
-//        present(UINavigationController(rootViewController: checkoutVC), animated: true, completion: nil)
-        
-        // prompt user with screen that reviews that helper.
-        // depending on the prompt, go to the payment selection screen. 
-        
-//        let resolveChatVC = ResolveChatViewController()
-//        self.navigationController?.pushViewController(resolveChatVC, animated: true)
-        
-        
         let chatResolvedRef = CHATS_REF.child(chat.getChatID()).child("resolved")
         chatResolvedRef.observeSingleEvent(of: .value, with: { snapshot in
             
@@ -149,7 +137,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
                 let helperRef = USERS_REF.child(helperID)
                 
                 let dataRequest = FirebaseService.dataRequest
-                
+
                 // Update this user's stats
                 dataRequest.incrementCount(ref: userRef.child("helpsReceivedCount"))
                 dataRequest.decrementCount(ref: userRef.child("ongoingChatCount"))
@@ -157,7 +145,9 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
                 // Update the helper's stats
                 dataRequest.incrementCount(ref: helperRef.child("helpsGivenCount"))
                 dataRequest.decrementCount(ref: helperRef.child("ongoingChatCount"))
-
+                
+                // Decrement the number of ongoing chats for this post. TODO: Check if chat was initiated thru post.
+                dataRequest.decrementCount(ref: POSTS_REF.child(self.chat.getPostID()).child("ongoingChatCount"))
             }
         })
         

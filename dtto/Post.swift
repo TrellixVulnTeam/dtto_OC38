@@ -18,6 +18,7 @@ class Post {
     var category: String?
     var chatCount: Int
     let relatesCount: Int
+    var commentCount: Int
     var tags: String?
     var isAnonymous: Bool = true
     
@@ -41,6 +42,7 @@ class Post {
         
         chatCount = dictionary["chatCount"] as? Int ?? 0
         relatesCount = dictionary["relatesCount"] as? Int ?? 0
+        commentCount = dictionary["commentCount"] as? Int ?? 0
 
         
         if let tags = dictionary["tags"] as? Dictionary<String, AnyObject> {
@@ -61,6 +63,10 @@ class Post {
     
     func getRelatesCount() -> Int {
         return relatesCount
+    }
+    
+    func getCommentCount() -> Int {
+        return commentCount
     }
     
     func getPostUsername() -> String? {

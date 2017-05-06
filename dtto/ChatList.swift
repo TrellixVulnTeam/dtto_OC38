@@ -89,7 +89,7 @@ extension ChatList: UITableViewDelegate, UITableViewDataSource {
         case .chats:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ChatListCell") as! ChatListCell
             cell.lastMessageLabel.text = chats[indexPath.row].getLastMessage()
-            cell.timestampLabel.text = chats[indexPath.row].getTimestamp()
+            cell.timestampLabel.text = chats[indexPath.row].getTimestamp()?.timeAgoSinceDate(numericDates: true)
             
             return cell
 
@@ -118,29 +118,7 @@ extension ChatList: UITableViewDelegate, UITableViewDataSource {
             masterViewDelegate?.navigationController?.pushViewController(messagesViewController, animated: true)
         }
     }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        
-        guard let section = Section(rawValue: indexPath.section) else { return false }
-        switch section {
-        case .requests:
-            return false
-        case .chats:
-            return true
-        }
-        
-    }
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete", handler: { (action, indexPath) in
-            
-        })
-        
-        let mute = UITableViewRowAction(style: .destructive, title: "Mute", handler: { (action, indexPath) in
-            
-        })
-        return [delete, mute]
-    }
+
     
 }
 

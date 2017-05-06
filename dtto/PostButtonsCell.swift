@@ -17,6 +17,7 @@ enum ChatState {
 class PostButtonsCell: BaseTableViewCell {
 
     weak var requestChatDelegate: PostProtocol?
+    
     var chatState: ChatState = .normal {
         didSet {
             switch chatState {

@@ -144,7 +144,9 @@ class ComposePostViewController: UIViewController {
                                                 "userID" : userID,
                                                 "text" : text,
                                                 "relatesCount" : 0,
-                                                "ongoingChatCount" : 0]
+                                                "ongoingChatCount" : 0,
+                                                "commentCount" : 0
+                                                ]
                 
 
                 // Add user's names if post is public

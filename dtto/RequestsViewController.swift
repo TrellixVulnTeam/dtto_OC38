@@ -89,6 +89,8 @@ class RequestsViewController: UIViewController, RequestsDelegate {
 
         guard let userID = defaults.getUID() else { return }
 
+        var initialLoad = true
+        
         let requestsRef = REQUESTS_REF.child(userID)
         
         requestsRef.observe(.childAdded, with: { snapshot in
@@ -96,11 +98,24 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             if let notification = UserNotification(snapshot: snapshot) {
                 DispatchQueue.main.async {
                     self.requests.insert(notification, at: 0)
-                    self.tableView.reloadData()
-                    self.reloadView()
+                    
+                    if !initialLoad {
+                        self.tableView.reloadData()
+                        self.reloadView()
+                    }
                 }
             }
         
+        })
+        
+        requestsRef.observeSingleEvent(of: .value, with: { snapshot in
+            
+            initialLoad = false
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.reloadView()
+            }
+            
         })
         
         requestsRef.observe(.childRemoved, with: { snapshot in
@@ -114,7 +129,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
                         self.requests.remove(at: index)
                         let indexPath = IndexPath(row: index, section: 0)
                         self.tableView.beginUpdates()
-                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+                        self.tableView.deleteRows(at: [indexPath], with: .automatic)
                         self.tableView.endUpdates()
                         self.reloadView()
                     }
@@ -124,14 +139,6 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             
         })
 
-        
-//        requestsRef.observe(.value, with: { snapshot in
-//            
-//            if !snapshot.exists() {
-//                self.reloadView()
-//            }
-//        })
-        
     }
     
     func reloadView() {
@@ -144,28 +151,6 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             tipLabel.fadeOut()
             tableView.fadeIn()
         }
-    }
-
-    
-    func chatToDictionary(chat: Chat) -> [String : String]? {
-        
-        var chatDictionary = [String : String]()
-        
-        guard let name = chat.name, let uid = chat.senderID else {
-            print("User dictionary is nil. something went wrong")
-            return nil
-        }
-        let postID = chat.postID
-        chatDictionary.updateValue(name, forKey: "name")
-        chatDictionary.updateValue(uid, forKey: "senderID")
-        chatDictionary.updateValue(postID, forKey: "postID")
-        
-        if let profile = chat.profileImageURL {
-            chatDictionary.updateValue(profile, forKey: "profileImageURL")
-        }
-        
-        return chatDictionary
-        
     }
     
     func handleRequest(row: Int, action: RequestAction) {
@@ -183,6 +168,8 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         switch action {
             
         case .accept:
+            // check if user has subscription. Limit to 2 chats if they dont.
+            // TODO: UI for showing 2 chats limit.
             
             print("accepted chat request!")
             

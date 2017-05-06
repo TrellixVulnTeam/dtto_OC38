@@ -6,4 +6,18 @@
 //  Copyright © 2017 Jitae Kim. All rights reserved.
 //
 
-import Foundation
+extension UITableView {
+    
+    func insertIndexPathAt(index: Int) {
+        beginUpdates()
+        insertSections(IndexSet(integer: index), with: .automatic)
+        endUpdates()
+    }
+
+    func deleteIndexPathAt(index: Int) {
+        beginUpdates()
+        deleteSections(IndexSet(integer: index), with: .automatic)
+        endUpdates()
+    }
+    
+}

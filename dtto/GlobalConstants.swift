@@ -20,6 +20,7 @@ let USERS_REF = FIREBASE_REF.child("users")
 let MESSAGES_REF = FIREBASE_REF.child("messages")
 let POSTRELATES_REF = FIREBASE_REF.child("postRelates")
 let REQUESTS_REF = FIREBASE_REF.child("requests")
+let COMMENTS_REF = FIREBASE_REF.child("comments")
 
 let POSTS_CHILD = "posts"
 let CHATS_CHILD = "chats"

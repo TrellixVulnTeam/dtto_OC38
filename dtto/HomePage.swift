@@ -20,14 +20,14 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     var posts = [Post]()
     var fullPosts = [Post]()
     var outgoingRequests = [String : Bool]()    // true means request is pending. false means chat is ongoing.
-    var relates = [String : Bool]()
-//    var relates: [String : Bool] = defaults.getRelates()
+    var outgoingRelates = [String : Bool]()
     var initialLoad = true
     
     override func setupViews() {
         super.setupViews()
         
-        checkOutgoingRequests()
+        observeOutgoingRequests()
+        observeOutgoingRelates()
         observePosts()
         tableView.delegate = self
         tableView.dataSource = self
@@ -44,12 +44,15 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
     }
     
-    private func checkOutgoingRequests() {
+    
+    private func observeOutgoingRequests() {
         
         guard let userID = defaults.getUID() else { return }
         
-        let outgoingRequestsRef = USERS_REF.child(userID).child("outgoingRequests")
+        var initialLoad = true
         
+        let outgoingRequestsRef = USERS_REF.child(userID).child("outgoingRequests")
+
         outgoingRequestsRef.observe(.childAdded, with: { snapshot in
         
             let postID = snapshot.key
@@ -60,41 +63,99 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 friendRequestsRef.child("pending").observe(.value, with: { snapshot in
                     
                     // find the post to update
-                    DispatchQueue.global().async {
-                        
-                        for (index, post) in self.posts.enumerated() {
-                            if post.getPostID() == postID {
-                                DispatchQueue.main.async {
-                                    
-                                    if snapshot.exists() {
-                                        // regardless of whether it is pending, or ignored, post should have requested chat state.
-                                        self.outgoingRequests.updateValue(true, forKey: postID)
-                                    }
-                                    else {
-                                        // if snapshot doesn't exist, the other user already accepted this request, so this post should have ongoing chat state.
-                                        self.outgoingRequests.updateValue(false, forKey: postID)
-                                    }
-                                    
+                    for (index, post) in self.posts.enumerated() {
+                        if post.getPostID() == postID {
+                            DispatchQueue.main.async {
+                                
+                                if snapshot.exists() {
+                                    // regardless of whether it is pending, or ignored, post should have requested chat state.
+                                    self.outgoingRequests.updateValue(true, forKey: postID)
+                                }
+                                else {
+                                    // if snapshot doesn't exist, the other user already accepted this request, so this post should have ongoing chat state.
+                                    self.outgoingRequests.updateValue(false, forKey: postID)
+                                }
+                                
+                                if !initialLoad {
                                     self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
                                 }
                             }
                         }
                     }
-                    
+                
                 })
             }
             
+        })
+        
+        outgoingRequestsRef.observeSingleEvent(of: .value, with: { snapshot in
+            
+            initialLoad = false
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                print("found all outGoingRequests. reloading tableview.")
+            }
+
         })
         
         // child will be removed when the user deletes chat
         outgoingRequestsRef.observe(.childRemoved, with: { snapshot in
             
             let postID = snapshot.key
-            self.outgoingRequests.removeValue(forKey: postID)
             
             for (index, post) in self.posts.enumerated() {
                 if post.getPostID() == postID {
                     DispatchQueue.main.async {
+                        self.outgoingRequests.removeValue(forKey: postID)
+                        self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
+                    }
+                }
+            }
+        })
+        
+    }
+    
+    private func observeOutgoingRelates() {
+        
+        guard let userID = defaults.getUID() else { return }
+        
+        var initialLoad = true
+        
+        let relatedPostsRef = USERS_REF.child(userID).child("relatedPosts")
+        relatedPostsRef.observe(.childAdded, with: { snapshot in
+            
+            DispatchQueue.main.async {
+                self.outgoingRelates.updateValue(true, forKey: snapshot.key)
+                if !initialLoad {
+                    // reload tableview at index.
+                    for (index, post) in self.posts.enumerated() {
+                        if post.getPostID() == snapshot.key {
+                            self.tableView.reloadSections(IndexSet(integer: index), with: .none)
+                        }
+                    }
+                }
+            }
+            
+            
+        })
+        
+        relatedPostsRef.observeSingleEvent(of: .value, with: { snapshot in
+            
+            initialLoad = false
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                print("found all related posts. reloading tableview.")
+            }
+            
+        })
+        
+        relatedPostsRef.observe(.childRemoved, with: { snapshot in
+            
+            DispatchQueue.main.async {
+                self.outgoingRelates.removeValue(forKey: snapshot.key)
+                // reload tableview at index.
+                for (index, post) in self.posts.enumerated() {
+                    if post.getPostID() == snapshot.key {
                         self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
                     }
                 }
@@ -114,13 +175,11 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
     
                 DispatchQueue.main.async {
                     
-                    self.posts.insert(post, at: 0)
                     self.fullPosts.insert(post, at: 0)
-                    
+                    self.posts.insert(post, at: 0)
+
                     if self.initialLoad == false {
-                        self.tableView.beginUpdates()
-                        self.tableView.insertSections(IndexSet(integer: 0), with: .top)
-                        self.tableView.endUpdates()
+                        self.tableView.insertIndexPathAt(index: 0)
                     }
                 }
             }
@@ -132,6 +191,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             DispatchQueue.main.async {
                 self.initialLoad = false
                 self.tableView.reloadData()
+                print("found all posts. reloading tableview.")
             }
         })
         
@@ -145,9 +205,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                     if let post = Post(snapshot: snapshot) {
                         DispatchQueue.main.async {
                             self.posts[index] = post
-                            self.tableView.beginUpdates()
                             self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
-                            self.tableView.endUpdates()
                         }
                     }
                 }
@@ -164,9 +222,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 if post.getPostID() == postID {
                     DispatchQueue.main.async {
                         self.posts.remove(at: index)
-                        self.tableView.beginUpdates()
-                        self.tableView.deleteSections(IndexSet(integer: index), with: .automatic)
-                        self.tableView.endUpdates()
+                        self.fullPosts.remove(at: index)
+                        self.tableView.deleteIndexPathAt(index: index)
                     }
                 }
                 
@@ -306,14 +363,20 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         userRelatesRef.observeSingleEvent(of: .value, with: { snapshot in
             
             if snapshot.exists() {
-                userRelatesRef.removeValue()
+                if let notificationID = snapshot.value as? String {
+                    // remove the notification that was sent to the other user.
+                    let notificationRef = USERS_REF.child(friendID).child("notifications").child(notificationID)
+                    notificationRef.removeValue()
+                }
                 dataRequest.decrementCount(ref: FIREBASE_REF.child("posts").child(postID).child("relatesCount"))
                 dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(friendID).child("relatesReceivedCount"))
                 dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(userID).child("relatesGivenCount"))
                 
                 // remove this user from the post's list of related users
                 postRelatesRef.removeValue()
-                _ = self.relates.removeValue(forKey: postID)
+                
+                // remove this post from the user's relatedPosts
+                userRelatesRef.removeValue()
             }
             else {
                 userRelatesRef.setValue(true)
@@ -322,13 +385,13 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("relatesGivenCount"))
                 
                 // add this user to the post's list of related users
-                let timestamp = Date()
-                let relaterData: [String : Any] = ["name" : name, "username" : username, "timestamp" : "\(timestamp)"]
+                let relaterData: [String : Any] = ["name" : name, "username" : username, "timestamp" : [".sv" : "timestamp"]]
                 postRelatesRef.setValue(relaterData)
-                _ = self.relates.updateValue(true, forKey: postID)
+
+                // add this post to the user's relatedPosts
+                userRelatesRef.setValue(true)
+                
             }
-            
-            defaults.setRelates(value: self.relates)
             
         })
         
@@ -560,7 +623,7 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
             
             cell.requestChatDelegate = self
             
-            if let _ = relates[post.getPostID()] {
+            if let _ = outgoingRelates[post.getPostID()] {
                 cell.relateButton.isSelected = true
             }
             else {

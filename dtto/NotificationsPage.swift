@@ -75,6 +75,9 @@ extension NotificationsPage: UITableViewDelegate, UITableViewDataSource {
         switch notification.getNotificationType() {
         case .relate:
             // TODO: Push the specific post screen.
+            guard let postID = notification.getPostID() else { return }
+            let vc = PostViewController(postID: postID)
+            masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
             break
         case .resolve:
             // Create a chat object from the notification.

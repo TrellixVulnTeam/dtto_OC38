@@ -15,7 +15,7 @@ class Chat {
     var senderID: String?
     var name: String?
     var lastMessage: String?
-    var timestamp: String?
+    var timestamp: Date?
     var profileImageURL: String?
     let postID: String
     let helperID: String
@@ -53,7 +53,7 @@ class Chat {
         }
         
         if let timestamp = dictionary["timestamp"] as? TimeInterval {
-            self.timestamp = Date(timeIntervalSince1970: timestamp/1000).timeAgoSinceDate(numericDates: true)
+            self.timestamp = Date(timeIntervalSince1970: timestamp/1000)
         }
 
     }
@@ -96,7 +96,7 @@ class Chat {
         return lastMessage ?? ""
     }
     
-    func getTimestamp() -> String? {
+    func getTimestamp() -> Date? {
         return timestamp
     }
     

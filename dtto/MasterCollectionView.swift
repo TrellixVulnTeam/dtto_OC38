@@ -16,6 +16,7 @@ class MasterCollectionView: UIViewController {
 //    private lazy var userRef: FIRDatabaseReference = FIRDatabase.database().reference().child("users")
     
     var chats = [Chat]()
+    var chatsDictionary = [String:Chat]()
     var requests = [UserNotification]()
     var notifications = [UserNotification]() {
         didSet {
@@ -123,6 +124,35 @@ class MasterCollectionView: UIViewController {
             initialLoad = false
         }
     }
+    
+    var timer: Timer?
+    
+    func attemptReloadOfChats() {
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(handleReloadChats), userInfo: nil, repeats: false)
+    }
+    
+    func handleReloadChats() {
+        
+        chats = Array(chatsDictionary.values)
+        
+        chats.sort(by: { (chat1, chat2) -> Bool in
+            
+            if let timestamp1 = chat1.getTimestamp(), let timestamp2 = chat2.getTimestamp() {
+                return timestamp1 > timestamp2
+            }
+            else {
+                return true
+            }
+        })
+        
+        //this will crash because of background thread, so lets call this on dispatch_async main thread
+        DispatchQueue.main.async {
+            print("reloaded chats")
+            self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+        }
+    }
 
     func observeChats() {
         
@@ -139,28 +169,9 @@ class MasterCollectionView: UIViewController {
 
             chatRoomRef.observe(.value, with: { chatSnapshot in
                 
-                var contains = false
-                for (index, chat) in self.chats.enumerated() {
-                    if chat.chatID == chatID {
-                        if let chat = Chat(snapshot: chatSnapshot){
-                            self.chats[index] = chat
-                            DispatchQueue.main.async {
-                                self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
-                            }
-                            contains = true
-
-                        }
-                        
-                    }
-                }
-                if !contains {
-                    if let chat = Chat(snapshot: chatSnapshot) {
-                        self.chats.insert(chat, at: 0)
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
-                        }
-
-                    }
+                if let chat = Chat(snapshot: chatSnapshot){
+                    self.chatsDictionary.updateValue(chat, forKey: chat.getChatID())
+                    self.attemptReloadOfChats()
                 }
                 
             })
@@ -170,16 +181,9 @@ class MasterCollectionView: UIViewController {
             
             let chatIDRemoved = snapshot.key
             
-            for (index, chat) in self.chats.enumerated() {
-                if chatIDRemoved == chat.chatID {
-                    
-                    DispatchQueue.main.async {
-                        self.chats.remove(at: index)
-                        self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
-                    }
-                    
-                }
-            }
+            self.chatsDictionary.removeValue(forKey: chatIDRemoved)
+            self.attemptReloadOfChats()
+
         })
         
     }
@@ -192,11 +196,26 @@ class MasterCollectionView: UIViewController {
             
             if let notification = UserNotification(snapshot: snapshot) {
                 DispatchQueue.main.async {
-                    self.notifications.append(notification)
+                    self.notifications.insert(notification, at: 0)
                     self.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
                 }
             }
 
+        })
+        
+        notificationsRef.observe(.childRemoved, with: { snapshot in
+            
+            let notificationID = snapshot.key
+            
+            for (index, notification) in self.notifications.enumerated() {
+                if notification.getNotificationID() == notificationID {
+                    DispatchQueue.main.async {
+                        self.notifications.remove(at: index)
+                        self.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
+                    }
+                }
+            }
+            
         })
     }
 
@@ -256,9 +275,9 @@ class MasterCollectionView: UIViewController {
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
-        collectionView.backgroundView = nil
         collectionView.alpha = 0
         collectionView.bounces = false
+        collectionView.allowsSelection = false
         
         view.addSubview(collectionView)
 

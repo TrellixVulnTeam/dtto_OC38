@@ -15,13 +15,15 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         let notificationsVC = NotificationsViewController()
         notificationsVC.masterViewDelegate = self
         
-        let postsVC = PostsViewController()
-        postsVC.masterViewDelegate = self
+//        let postsVC = PostViewController()
+//        postsVC.masterViewDelegate = self
         
         let chatsVC = ChatListViewController()
         chatsVC.masterViewDelegate = self
         
-        return [notificationsVC, postsVC, chatsVC]
+//        return [notificationsVC, postsVC, chatsVC]
+        return [notificationsVC, chatsVC]
+        
     }()
     
     var horizontalBarView = UIView()
