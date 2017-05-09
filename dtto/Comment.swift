@@ -20,10 +20,12 @@ class Comment {
     var profileImageURL: String?
     var replies: [Comment]?
     
+    var postRef: FIRDatabaseReference
     
     init?(snapshot: FIRDataSnapshot) {
         
         self.commentID = snapshot.key
+        postRef = snapshot.ref
         
         guard let dictionary = snapshot.value as? [String:AnyObject] else { return nil }
         guard let userID = dictionary["userID"] as? String, let username = dictionary["username"] as? String, let text = dictionary["text"] as? String, let timestamp = dictionary["timestamp"] as? TimeInterval else { return nil }
@@ -57,12 +59,16 @@ class Comment {
         return text
     }
     
-    func getTimeStamp() -> Date {
+    func getTimestamp() -> Date {
         return timestamp
     }
     
     func getReplies() -> [Comment]? {
         return replies
+    }
+    
+    func getPostRef() -> FIRDatabaseReference {
+        return postRef
     }
 
     

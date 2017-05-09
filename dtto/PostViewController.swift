@@ -8,7 +8,11 @@
 
 import UIKit
 
-class PostViewController: UIViewController {
+protocol CommentProtocol : class {
+    func postComment(textView: UITextView)
+}
+
+class PostViewController: UIViewController, CommentProtocol {
     
     let postID: String
     var post: Post?
@@ -70,6 +74,7 @@ class PostViewController: UIViewController {
         checkRelate()
         checkChat()
         observeComments()
+        setupTapGesture()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -80,6 +85,20 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        becomeFirstResponder()
+    }
+
+    func setupTapGesture() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    override func dismissKeyboard() {
+        _ = commentInputContainerView.textView.resignFirstResponder()
     }
     
     func setupViews() {
@@ -209,7 +228,7 @@ class PostViewController: UIViewController {
         
         let comment: [String:Any] = [
             "userID": userID,
-            "username": "commentor1",
+            "username": "commenter1",
             "text" : textView.text,
             "timestamp" : [".sv" : "timestamp"]
         
@@ -332,12 +351,13 @@ extension PostViewController: UITableViewDelegate, UITableViewDataSource {
             
         case .relates:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostTagsCell") as! PostTagsCell
-            
             cell.relatesCount = post.getRelatesCount()
             return cell
             
         case .comments:
             let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableView") as! CommentsTableView
+            cell.postDelegate = self
+            cell.post = post
             cell.comments = self.comments
             return cell
             

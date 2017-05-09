@@ -10,7 +10,8 @@ import UIKit
 
 class CommentsTableView: UITableViewCell {
 
-    var postID: String?
+    weak var postDelegate: PostViewController?
+    var post: Post?
     var comments = [Comment]() {
         didSet {
             tableView.reloadData()
@@ -34,9 +35,10 @@ class CommentsTableView: UITableViewCell {
     }()
 
     lazy var viewAllCommentsButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.setTitle("View All Comments", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.addTarget(self, action: #selector(viewAllComments), for: .touchUpInside)
         return button
 
@@ -61,16 +63,20 @@ class CommentsTableView: UITableViewCell {
     
     func setupFooterView() {
         
-        let footerView = UIView()
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
         footerView.addSubview(viewAllCommentsButton)
         
         viewAllCommentsButton.anchor(top: footerView.topAnchor, leading: footerView.leadingAnchor, trailing: nil, bottom: footerView.bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 50)
-        
+        tableView.tableFooterView?.isUserInteractionEnabled = true
         tableView.tableFooterView = footerView
     }
 
     func viewAllComments() {
         
+        guard let post = post else { return }
+        
+        let vc = CommentsViewController(post: post)
+        postDelegate?.navigationController?.pushViewController(vc, animated: true)
     }
 
 }
@@ -99,7 +105,7 @@ extension CommentsTableView: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell") as! CommentCell
         
         cell.usernameLabel.text = comment.getUsername()
-        cell.timestampLabel.text = comment.getTimeStamp().timeAgoSinceDate(numericDates: true)
+        cell.timestampLabel.text = comment.getTimestamp().timeAgoSinceDate(numericDates: true)
         cell.commentLabel.text = comment.getText()
         
         if let _ = comments[indexPath.section].getReplies() {

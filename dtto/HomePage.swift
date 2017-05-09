@@ -29,6 +29,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         observeOutgoingRequests()
         observeOutgoingRelates()
         observePosts()
+//        observeComments()
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -498,6 +499,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             let userRef = FIREBASE_REF.child("users").child(userID)
             let dataRequest = FirebaseService.dataRequest
             dataRequest.decrementCount(ref: userRef.child("postCount"))
+            
+            // delete comments attached to this post.
         }
         
         
@@ -623,18 +626,20 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
             
             cell.requestChatDelegate = self
             
-            if let _ = outgoingRelates[post.getPostID()] {
-                cell.relateButton.isSelected = true
-            }
-            else {
-                cell.relateButton.isSelected = false
-            }
-            
-            if post.getUserID() == defaults.getUID() {
-                cell.chatButton.isHidden = true
-            }
-            else {
-                cell.chatButton.isHidden = false
+//            if post.getUserID() == defaults.getUID() {
+//                // disable components for a user's own post.
+//
+//                
+//            }
+//            else {
+
+                if let _ = outgoingRelates[post.getPostID()] {
+                    cell.relateButton.isSelected = true
+                }
+                else {
+                    cell.relateButton.isSelected = false
+                }
+                
                 if let pending = outgoingRequests[post.getPostID()] {
                     if pending {
                         cell.chatState = .requested
@@ -646,7 +651,36 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
                 else {
                     cell.chatState = .normal
                 }
-            }
+
+                
+//            }
+//            if post.getUserID() == defaults.getUID() {
+//                cell.chatButton.isHidden = true
+//                cell.relateButton.isHidden = true
+//            }
+//            else {
+//                
+//                cell.relateButton.isHidden = false
+//                if let _ = outgoingRelates[post.getPostID()] {
+//                    cell.relateButton.isSelected = true
+//                }
+//                else {
+//                    cell.relateButton.isSelected = false
+//                }
+//                
+//                cell.chatButton.isHidden = false
+//                if let pending = outgoingRequests[post.getPostID()] {
+//                    if pending {
+//                        cell.chatState = .requested
+//                    }
+//                    else {
+//                        cell.chatState = .ongoing
+//                    }
+//                }
+//                else {
+//                    cell.chatState = .normal
+//                }
+//            }
             
             return cell
             

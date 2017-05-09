@@ -10,7 +10,7 @@ import UIKit
 
 class CommentInputContainerView: UIView, UITextViewDelegate {
 
-    weak var commentDelegate: PostViewController?
+    weak var commentDelegate: CommentProtocol?
     
     let topBorder: UIView = {
         let view = UIView()

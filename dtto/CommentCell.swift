@@ -29,8 +29,7 @@ class CommentCell: BaseTableViewCell {
     
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.text = "Jitae"
+        label.font = UIFont.boldSystemFont(ofSize: 13)
         return label
     }()
     
@@ -43,13 +42,14 @@ class CommentCell: BaseTableViewCell {
     
     let commentLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 3
-//        label.text = "Wow, that is great!"
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.numberOfLines = 0
         return label
     }()
     
     override func setupViews() {
-        super.setupViews()
+        
+        selectionStyle = .none
         
         addSubview(profileImageView)
         addSubview(usernameLabel)

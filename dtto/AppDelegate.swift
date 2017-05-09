@@ -80,8 +80,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        defaults.setName(value: "Jitae")
 //        defaults.setUsername(value: "jk")
         if defaults.isLoggedIn() {
-//            let initialViewController = TabBarController()
-            let initialViewController = NavigationController(PostViewController(postID: "-KjKPM6BjTJm4resxqNe"))
+            let initialViewController = TabBarController()
+//            let initialViewController = NavigationController(PostViewController(postID: "-KjKPM6BjTJm4resxqNe"))
 //            UIView.transition(with: self.window!, duration: 0.5, options: .transitionCurlUp, animations: {() -> Void in
                 self.window!.rootViewController = initialViewController
 //            }, completion: nil)
