@@ -102,6 +102,8 @@ class PostButtonsCell: BaseTableViewCell {
     
     override func setupViews() {
         super.setupViews()
+        
+        backgroundColor = .red
 
         addSubview(relateButton)
         addSubview(relatesCountLabel)
@@ -128,7 +130,8 @@ class PostButtonsCell: BaseTableViewCell {
         
         addSubview(stackView)
         
-        stackView.anchor(top: nil, leading: leadingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        stackView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        
         
 //        relateButton.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 15, trailingConstant: 0, bottomConstant: 0, widthConstant: 30, heightConstant: 30)
 //        relateButton.anchorCenterYToSuperview()
