@@ -11,6 +11,7 @@ import Firebase
 
 class ComposePostViewController: UIViewController {
 
+    weak var postDelegate: MasterCollectionView?
     var post: Post?
 
     lazy var closeButton: UIBarButtonItem = {
@@ -166,6 +167,17 @@ class ComposePostViewController: UIViewController {
                 let dataRequest = FirebaseService.dataRequest
                 dataRequest.incrementCount(ref: userRef.child("postCount"))
                 
+                
+                dismiss(animated: true, completion: {
+                    
+                    // if this was the first post, ask user for push notifications.
+                    if defaults.getShowedNotification() {
+                        defaults.setShowedNotification(value: true)
+                    }
+                    
+                    self.postDelegate!.askNotifications()
+
+                })
             }
                 
             else {
@@ -173,7 +185,7 @@ class ComposePostViewController: UIViewController {
                 // show some error
             }
             
-            dismiss(animated: true, completion: nil)
+
 
         }
         

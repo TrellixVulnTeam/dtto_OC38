@@ -64,7 +64,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         // TODO: Find better way of identifying tab
         if viewController.childViewControllers[0] is ComposePostViewController {
-            let navController = UINavigationController(rootViewController: ComposePostViewController())
+            guard let homeVC = viewControllers?[0].childViewControllers[0] as? MasterCollectionView else { return false }
+            let composeVC = ComposePostViewController()
+            composeVC.postDelegate = homeVC
+            let navController = NavigationController(composeVC)
             tabBarController.present(navController, animated: true)
             return false
         }

@@ -51,13 +51,6 @@ class UsernameViewController: FormViewController {
                 self.updateUser()
                 
                 self.changeRootVC(vc: .login)
-//                let cardVC = CardRegistrationViewController()
-//                cardVC.user = self.user
-//                self.present(cardVC, animated: true, completion: {
-//                    self.navigationController?.viewControllers.removeAll()
-//                })
-//                
-                
 
             }
             
@@ -81,8 +74,6 @@ class UsernameViewController: FormViewController {
         }
         
         
-        
-        
     }
     
     // Create initial user data
@@ -97,14 +88,6 @@ class UsernameViewController: FormViewController {
                 print("could not set user's name")
             } else {
                 print("user's name updated")
-                user.sendEmailVerification(completion: { (error) in
-                    
-                    if error != nil {
-                        
-                    }
-                    print("Sent email")
-                    // ...
-                })
             }
         }
         
@@ -117,13 +100,6 @@ class UsernameViewController: FormViewController {
             userData.updateValue(name, forKey: "name")
             userData.updateValue(email, forKey: "email")
             userData.updateValue(username, forKey: "username")
-        }
-        
-        // Setup stats for future use
-        let userStats = ["answerCount", "ongoingChatAcceptedCount", "ongoingChatCount", "ongoingChatRequestedCount", "postCount", "helpsReceivedCount", "helpsGivenCount", "relatesGivenCount", "relatesReceivedCount", "requestsCount", "shareCount", "totalChatCount", "totalChatRequestsCount", "tipsGivenCount", "tipsReceivedCount", "totalTipGiven", "totalTipReceived"]
-        
-        for key in userStats {
-            userData.updateValue(0, forKey: key)
         }
         
         userRef.updateChildValues(userData)

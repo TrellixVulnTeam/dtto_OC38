@@ -23,32 +23,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Configure Firebase
         
-        // [START register_for_notifications]
-        if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {_, _ in })
-            
-            // For iOS 10 data message (sent via FCM)
-            FIRMessaging.messaging().remoteMessageDelegate = self
-            
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-        }
-        
-        application.registerForRemoteNotifications()
-        // [END register_for_notifications]
         FIRApp.configure()
 //        FIRDatabase.database().persistenceEnabled = true
 
+        FIRMessaging.messaging().remoteMessageDelegate = self
+        
         // [START add_token_refresh_observer]
         // Add observer for InstanceID token refresh callback.
+        
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.tokenRefreshNotification),
                                                name: .firInstanceIDTokenRefresh,
@@ -79,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        defaults.setUID(value: "dueyYrZnhZTYRlAXfL0U9ErcOj02")
 //        defaults.setName(value: "Jitae")
 //        defaults.setUsername(value: "jk")
-        if defaults.isLoggedIn() {
+        if let _ = defaults.getUID() {
             let initialViewController = TabBarController()
 //            let initialViewController = NavigationController(PostViewController(postID: "-KjKPM6BjTJm4resxqNe"))
 //            UIView.transition(with: self.window!, duration: 0.5, options: .transitionCurlUp, animations: {() -> Void in
@@ -289,4 +272,54 @@ func getTopViewController()->UIViewController{
         // topController should now be your topmost view controller
     }
     return UIViewController()
+}
+
+
+extension AppDelegate {
+    
+    func requestNotifications() {
+        
+        // [START register_for_notifications]
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+            
+            // For iOS 10 data message (sent via FCM)
+//            FIRMessaging.messaging().remoteMessageDelegate = self
+            
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+        
+        UIApplication.shared.registerForRemoteNotifications()
+        
+        if #available(iOS 10.0, *) {
+            
+            UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+                
+                if settings.authorizationStatus != .authorized {
+                    print("Push not authorized")
+                    getTopViewController().promptSettings()
+                }
+            }
+
+        } else {
+            // Fallback on earlier versions
+            
+            let notificationType = UIApplication.shared.currentUserNotificationSettings!.types
+            if notificationType == [] {
+                print("notifications are NOT enabled")
+                getTopViewController().promptSettings()
+            }
+        }
+        
+        // [END register_for_notifications]
+    }
 }

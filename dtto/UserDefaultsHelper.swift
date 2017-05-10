@@ -93,6 +93,15 @@ extension UserDefaults {
     }
 
     
+    // NOTIFICATION ALERTS
+    func setShowedNotification(value: Bool) {
+        set(value, forKey: "showedNotification")
+    }
+    
+    func getShowedNotification() -> Bool {
+        return bool(forKey: "showedNotification")
+    }
+    
     func updateVersion() {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             set(version, forKey: "version")
