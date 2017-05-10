@@ -93,7 +93,7 @@ extension UserDefaults {
     }
 
     
-    // NOTIFICATION ALERTS
+    // NOTIFICATION ALERTS    
     func setShowedNotification(value: Bool) {
         set(value, forKey: "showedNotification")
     }

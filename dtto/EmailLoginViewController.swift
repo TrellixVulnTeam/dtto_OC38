@@ -159,8 +159,8 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
                     defaults.setUID(value: user.uid)
                     defaults.setLogin(value: true)
                     // test
-                    defaults.setName(value: "testname")
-                    defaults.setUsername(value: "testusername")
+//                    defaults.setName(value: "testname")
+//                    defaults.setUsername(value: "testusername")
 //                    if let name = user.displayName {
 //                        defaults.setName(value: name)
 //                    }

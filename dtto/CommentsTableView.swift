@@ -71,7 +71,7 @@ class CommentsTableView: UITableViewCell {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
         footerView.addSubview(viewAllCommentsButton)
         
-        viewAllCommentsButton.anchor(top: footerView.topAnchor, leading: footerView.leadingAnchor, trailing: nil, bottom: footerView.bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 50)
+        viewAllCommentsButton.anchor(top: footerView.topAnchor, leading: footerView.leadingAnchor, trailing: nil, bottom: footerView.bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
         tableView.tableFooterView?.isUserInteractionEnabled = true
         tableView.tableFooterView = footerView
     }

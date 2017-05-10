@@ -127,6 +127,9 @@ class PasswordViewController: FormViewController {
                         
                         defaults.setUID(value: user.uid)
                         
+                        if let token = FIRInstanceID.instanceID().token() {
+                            USERS_REF.child(user.uid).child("notificationTokens").child(token).setValue(true)
+                        }
 //                        self.user.email = email
                         let usernameVC = UsernameViewController()
                         usernameVC.user = self.user

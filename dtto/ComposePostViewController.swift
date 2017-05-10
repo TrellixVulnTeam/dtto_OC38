@@ -171,11 +171,10 @@ class ComposePostViewController: UIViewController {
                 dismiss(animated: true, completion: {
                     
                     // if this was the first post, ask user for push notifications.
-                    if defaults.getShowedNotification() {
-                        defaults.setShowedNotification(value: true)
+                    if !defaults.getShowedNotification() {
+                        self.postDelegate?.askNotifications()
                     }
                     
-                    self.postDelegate!.askNotifications()
 
                 })
             }

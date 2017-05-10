@@ -25,12 +25,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FIRApp.configure()
 //        FIRDatabase.database().persistenceEnabled = true
-
-        FIRMessaging.messaging().remoteMessageDelegate = self
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+            
+            // For iOS 10 data message (sent via FCM)
+            FIRMessaging.messaging().remoteMessageDelegate = self
+            
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
         
+        application.registerForRemoteNotifications()
         // [START add_token_refresh_observer]
         // Add observer for InstanceID token refresh callback.
-        
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.tokenRefreshNotification),
@@ -131,8 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("InstanceID token: \(refreshedToken)")
             
             // upload the token to user's firebase path
-            let userTokenRef = FIREBASE_REF.child("users").child(userID).child("notificationTokens")
-            userTokenRef.child(refreshedToken).setValue(true)
+            USERS_REF.child(userID).child("notificationTokens").child(refreshedToken).setValue(true)
             
         }
         
@@ -147,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard FIRInstanceID.instanceID().token() != nil else {
             return
         }
-        print("FIRINSTANCE TOKEN IS :" + FIRInstanceID.instanceID().token()!)
+        print("FIRINSTANCE TOKEN IS " + FIRInstanceID.instanceID().token()!)
 
         // Disconnect previous FCM connection if it exists.
         FIRMessaging.messaging().disconnect()
@@ -262,7 +276,7 @@ extension AppDelegate : FIRMessagingDelegate {
 }
 // [END ios_10_data_message_handling]
 
-func getTopViewController()->UIViewController{
+func getTopViewController() -> UIViewController{
     
     if var topController = UIApplication.shared.keyWindow?.rootViewController {
         while let presentedViewController = topController.presentedViewController {
@@ -290,7 +304,7 @@ extension AppDelegate {
                 completionHandler: {_, _ in })
             
             // For iOS 10 data message (sent via FCM)
-//            FIRMessaging.messaging().remoteMessageDelegate = self
+            FIRMessaging.messaging().remoteMessageDelegate = self
             
         } else {
             let settings: UIUserNotificationSettings =
@@ -304,22 +318,29 @@ extension AppDelegate {
             
             UNUserNotificationCenter.current().getNotificationSettings { (settings) in
                 
-                if settings.authorizationStatus != .authorized {
+                if settings.authorizationStatus != .authorized && defaults.getShowedNotification() {
                     print("Push not authorized")
                     getTopViewController().promptSettings()
                 }
+                
+                defaults.setShowedNotification(value: true)
+
             }
 
         } else {
             // Fallback on earlier versions
             
             let notificationType = UIApplication.shared.currentUserNotificationSettings!.types
-            if notificationType == [] {
+            if notificationType == [] && defaults.getShowedNotification() {
                 print("notifications are NOT enabled")
                 getTopViewController().promptSettings()
             }
+            
+            defaults.setShowedNotification(value: true)
+
         }
         
+
         // [END register_for_notifications]
     }
 }

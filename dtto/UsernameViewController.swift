@@ -47,6 +47,7 @@ class UsernameViewController: FormViewController {
                 self.user.username = username
                 defaults.setName(value: self.user.name!)
                 defaults.setUsername(value: username)
+                
                 self.addUniqueUser()
                 self.updateUser()
                 
@@ -91,7 +92,7 @@ class UsernameViewController: FormViewController {
             }
         }
         
-        let userRef = FIREBASE_REF.child("users").child(user.uid)
+        let userRef = USERS_REF.child(user.uid)
         
         var userData = [String : Any]()
         
