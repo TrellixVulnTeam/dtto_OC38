@@ -28,6 +28,8 @@ class NotificationsPage: BaseCollectionViewCell {
         tableView.delegate = self
         tableView.dataSource = self
         
+        tableView.separatorStyle = .singleLine
+        
         tableView.register(NotificationsCell.self, forCellReuseIdentifier: "NotificationsCell")
 
     }
@@ -76,7 +78,7 @@ extension NotificationsPage: UITableViewDelegate, UITableViewDataSource {
         case .relate:
             // TODO: Push the specific post screen.
             guard let postID = notification.getPostID() else { return }
-            let vc = PostViewController(postID: postID)
+            let vc = PostViewController(postID)
             masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
             break
         case .resolve:

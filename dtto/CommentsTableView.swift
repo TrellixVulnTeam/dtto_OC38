@@ -10,7 +10,9 @@ import UIKit
 
 class CommentsTableView: UITableViewCell {
 
-    weak var postDelegate: PostViewController?
+//    weak var postDelegate: PostViewController?
+    weak var navigationDelegate: UINavigationController?
+    
     var post: Post?
     var comments = [Comment]() {
         didSet {
@@ -24,6 +26,7 @@ class CommentsTableView: UITableViewCell {
         
         tableView.backgroundColor = .white
         tableView.estimatedRowHeight = 90
+        tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView(frame: .zero)
         
         tableView.delegate = self
@@ -47,6 +50,8 @@ class CommentsTableView: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
+        setupFooterView()
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -76,7 +81,8 @@ class CommentsTableView: UITableViewCell {
         guard let post = post else { return }
         
         let vc = CommentsViewController(post: post)
-        postDelegate?.navigationController?.pushViewController(vc, animated: true)
+        navigationDelegate?.pushViewController(vc, animated: true)
+//        postDelegate?.navigationController?.pushViewController(vc, animated: true)
     }
 
 }
@@ -119,5 +125,4 @@ extension CommentsTableView: UITableViewDelegate, UITableViewDataSource {
         
     }
 
-    
 }

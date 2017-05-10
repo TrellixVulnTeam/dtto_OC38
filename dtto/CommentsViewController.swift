@@ -32,11 +32,21 @@ class CommentsViewController: UIViewController, CommentProtocol {
         return true
     }
     
+    let tipLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Color.textGray
+        label.textAlignment = .center
+        label.text = "Be the first to comment!"
+        label.alpha = 0
+        return label
+    }()
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         
         tableView.backgroundColor = .white
         tableView.estimatedRowHeight = 100
+        
         tableView.keyboardDismissMode = .interactive
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
@@ -83,10 +93,10 @@ class CommentsViewController: UIViewController, CommentProtocol {
         setupTapGesture()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        becomeFirstResponder()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+////        becomeFirstResponder()
+//    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -98,9 +108,13 @@ class CommentsViewController: UIViewController, CommentProtocol {
         view.backgroundColor = .white
         title = "Comments"
         automaticallyAdjustsScrollViewInsets = false
+        
         view.addSubview(tableView)
+        view.addSubview(tipLabel)
         
         tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+        tipLabel.anchorCenterSuperview()
         
     }
     
@@ -168,7 +182,7 @@ class CommentsViewController: UIViewController, CommentProtocol {
             
             initialLoad = false
             DispatchQueue.main.async {
-                if self.comments.count < self.commentsTotalCount {
+                if self.commentsDictionary.count < self.commentsTotalCount {
                     self.setupHeaderView()
                 }
                 self.attemptReloadOfChats()
@@ -179,19 +193,12 @@ class CommentsViewController: UIViewController, CommentProtocol {
         postCommentsRef.queryLimited(toLast: 10).observe(.childChanged, with: { snapshot in
             
             let commentID = snapshot.key
-            
-            DispatchQueue.main.async {
-                for (index, comment) in self.comments.enumerated() {
-                    if comment.getCommentID() == commentID {
-                        
-                        if let comment = Comment(snapshot: snapshot) {
-                            self.comments[index] = comment
-                            self.tableView.reloadSections(IndexSet(integer: index), with: .automatic)
-                        }
-                        
-                    }
-                }
+
+            if let comment = Comment(snapshot: snapshot) {
+                self.commentsDictionary.updateValue(comment, forKey: comment.getCommentID())
+                self.attemptReloadOfChats()
             }
+
             
         })
         
@@ -199,16 +206,8 @@ class CommentsViewController: UIViewController, CommentProtocol {
             
             let commentID = snapshot.key
             
-            for (index, comment) in self.comments.enumerated() {
-                if comment.getCommentID() == commentID {
-                    
-                    DispatchQueue.main.async {
-                        self.comments.remove(at: index)
-                        self.tableView.deleteIndexPathAt(index: index)
-                    }
-                    
-                }
-            }
+            self.commentsDictionary.removeValue(forKey: commentID)
+            self.attemptReloadOfChats()
             
         })
         
@@ -218,7 +217,7 @@ class CommentsViewController: UIViewController, CommentProtocol {
         
         guard let lastCommentKey = comments.first?.getCommentID() else { return }
         print(lastCommentKey)
-        if comments.count < commentsTotalCount {
+        if commentsDictionary.count < commentsTotalCount {
             let postCommentsRef = COMMENTS_REF.child(post.getPostID())
             
             postCommentsRef.queryOrderedByKey().queryEnding(atValue: lastCommentKey).queryLimited(toLast: 11).observe(.childAdded, with: { snapshot in
@@ -270,12 +269,22 @@ class CommentsViewController: UIViewController, CommentProtocol {
         let dataRequest = FirebaseService.dataRequest
         dataRequest.incrementCount(ref: POSTS_REF.child(post.getPostID()).child("commentCount"))
         
-        textView.text = ""
-        textView.resignFirstResponder()
+        commentInputContainerView.resetTextView()
         
-        // TODO: in functions, send notification
+        // update user's comments. /comments/postID/commentID
+        USERS_REF.child(userID).child("comments").child(post.getPostID()).child(autoID).setValue(true)
         
+    }
+    
+    func viewProfile(cell: CommentCell) {
         
+        guard let section = tableView.indexPath(for: cell)?.section else { return }
+        let comment = comments[section]
+        
+        let userID = comment.getUserID()
+        
+        let vc = ProfileViewController(userID: userID)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func setupKeyboardObservers() {
@@ -324,19 +333,31 @@ class CommentsViewController: UIViewController, CommentProtocol {
     
     func handleReloadComments() {
         
-        comments = Array(commentsDictionary.values)
-        
-        comments.sort(by: { (comment1, comment2) -> Bool in
-            return comment1.getTimestamp() < comment2.getTimestamp()
-        })
-        
         DispatchQueue.main.async {
+
+            if self.commentsDictionary.count > 0 {
+                self.comments = Array(self.commentsDictionary.values)
+            
+                self.comments.sort(by: { (comment1, comment2) -> Bool in
+                    return comment1.getTimestamp() < comment2.getTimestamp()
+                })
+                
+                self.tipLabel.alpha = 0
+                self.tableView.fadeIn()
+                
+            }
+            else {
+                self.tableView.alpha = 0
+                self.tipLabel.fadeIn()
+            }
+        
             self.tableView.reloadData()
         }
     }
     
     func deleteComment(_ comment: Comment) {
         
+        guard let userID = defaults.getUID() else { return }
         let alertController = UIAlertController(title: "Delete comment?", message: "", preferredStyle: .alert)
         alertController.view.tintColor = Color.darkNavy
         alertController.view.backgroundColor = .white
@@ -350,6 +371,15 @@ class CommentsViewController: UIViewController, CommentProtocol {
 //                ])
             let commentRef = COMMENTS_REF.child(self.post.getPostID()).child(comment.getCommentID())
             commentRef.removeValue()
+            
+            if let postRef = comment.getCommentRef().parent?.key {
+                let dataRequest = FirebaseService.dataRequest
+                dataRequest.decrementCount(ref: POSTS_REF.child(postRef).child("commentCount"))
+            }
+            
+            
+            // delete at /user/comments/
+            USERS_REF.child(userID).child("comments").child(self.post.getPostID()).child(comment.getCommentID()).removeValue()
             
             // TODO: Decrement user commentsCount and post commentsCount
         })
@@ -435,9 +465,15 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource {
         let comment = comments[indexPath.section]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell") as! CommentCell
-        
+        cell.navigationDelegate = self
         cell.usernameLabel.text = comment.getUsername()
         cell.timestampLabel.text = comment.getTimestamp().timeAgoSinceDate(numericDates: true)
+        if let editTimestamp = comment.getEditTimestamp() {
+            cell.editTimestampLabel.text = "Edited \(editTimestamp.timeAgoSinceDate(numericDates: true))"
+        }
+        else {
+            cell.editTimestampLabel.text = ""
+        }
         cell.commentLabel.text = comment.getText()
         
         if let _ = comments[indexPath.section].getReplies() {

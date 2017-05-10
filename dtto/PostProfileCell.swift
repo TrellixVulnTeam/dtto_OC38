@@ -59,7 +59,7 @@ class PostProfileCell: BaseTableViewCell {
         usernameLabel.anchor(top: nil, leading: profileImage.trailingAnchor, trailing: moreButton.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         usernameLabel.anchorCenterYToSuperview()
         
-        moreButton.anchor(top: nil, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        moreButton.anchor(top: nil, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
         moreButton.anchorCenterYToSuperview()
         moreButton.setImage(#imageLiteral(resourceName: "more-black"), for: .normal)
         

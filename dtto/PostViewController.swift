@@ -10,6 +10,7 @@ import UIKit
 
 protocol CommentProtocol : class {
     func postComment(textView: UITextView)
+    func viewProfile(cell: CommentCell)
 }
 
 class PostViewController: UIViewController, CommentProtocol {
@@ -67,7 +68,7 @@ class PostViewController: UIViewController, CommentProtocol {
         return tableView
     }()
     
-    init(postID: String) {
+    init(_ postID: String) {
         self.postID = postID
         super.init(nibName: nil, bundle: nil)
         observePost()
@@ -206,6 +207,24 @@ class PostViewController: UIViewController, CommentProtocol {
                 for (index, comment) in self.comments.enumerated() {
                     if comment.getCommentID() == commentID {
                         
+                        self.comments.remove(at: index)
+                        self.tableView.reloadData()
+                        
+                    }
+                }
+                
+            }
+            
+        })
+        
+        postCommentsRef.queryLimited(toLast: 2).observe(.childRemoved, with: { snapshot in
+            
+            let commentID = snapshot.key
+            
+            DispatchQueue.main.async {
+                for (index, comment) in self.comments.enumerated() {
+                    if comment.getCommentID() == commentID {
+                        
                         if let comment = Comment(snapshot: snapshot) {
                             self.comments[index] = comment
                             self.tableView.reloadData()
@@ -241,11 +260,16 @@ class PostViewController: UIViewController, CommentProtocol {
         let dataRequest = FirebaseService.dataRequest
         dataRequest.incrementCount(ref: POSTS_REF.child(post.getPostID()).child("commentCount"))
         
-        textView.text = ""
-        textView.resignFirstResponder()
+        commentInputContainerView.resetTextView()
         
-        // TODO: in functions, send notification
+        // update user's comments. /comments/postID/commentID
+        USERS_REF.child(userID).child("comments").child(post.getPostID()).child(autoID).setValue(true)
 
+        
+    }
+    
+    func viewProfile(cell: CommentCell) {
+        
         
     }
 
@@ -356,7 +380,7 @@ extension PostViewController: UITableViewDelegate, UITableViewDataSource {
             
         case .comments:
             let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableView") as! CommentsTableView
-            cell.postDelegate = self
+            cell.navigationDelegate = navigationController
             cell.post = post
             cell.comments = self.comments
             return cell
@@ -368,6 +392,10 @@ extension PostViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension PostViewController: PostProtocol {
+    
+    func viewComments(cell: PostButtonsCell) {
+        
+    }
     
     func requestChat(cell: PostButtonsCell, chatState: ChatState) {
         

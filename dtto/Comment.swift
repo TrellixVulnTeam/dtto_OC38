@@ -16,16 +16,17 @@ class Comment {
     var username: String
     var text: String
     var timestamp: Date
+    var editTimestamp: Date?
     
     var profileImageURL: String?
     var replies: [Comment]?
     
-    var postRef: FIRDatabaseReference
+    var commentRef: FIRDatabaseReference
     
     init?(snapshot: FIRDataSnapshot) {
         
         self.commentID = snapshot.key
-        postRef = snapshot.ref
+        commentRef = snapshot.ref
         
         guard let dictionary = snapshot.value as? [String:AnyObject] else { return nil }
         guard let userID = dictionary["userID"] as? String, let username = dictionary["username"] as? String, let text = dictionary["text"] as? String, let timestamp = dictionary["timestamp"] as? TimeInterval else { return nil }
@@ -35,6 +36,10 @@ class Comment {
         self.text = text
         self.timestamp = Date(timeIntervalSince1970: timestamp/1000)
         
+        // check if this was edited
+        if let editTimestamp = dictionary["editTimestamp"] as? TimeInterval {
+            self.editTimestamp = Date(timeIntervalSince1970: editTimestamp/1000)
+        }
         // check if there are replies to this comment
         
         if let replies = dictionary["replies"] as? [String: AnyObject] {
@@ -63,12 +68,16 @@ class Comment {
         return timestamp
     }
     
+    func getEditTimestamp() -> Date? {
+        return editTimestamp
+    }
+    
     func getReplies() -> [Comment]? {
         return replies
     }
     
-    func getPostRef() -> FIRDatabaseReference {
-        return postRef
+    func getCommentRef() -> FIRDatabaseReference {
+        return commentRef
     }
 
     

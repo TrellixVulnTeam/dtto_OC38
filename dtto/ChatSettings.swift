@@ -188,12 +188,12 @@ class ChatSettings: UIViewController {
         
         let reportRef = FIREBASE_REF.child("reports").childByAutoId()
         
-        let reportDict = [
+        let report = [
             "userID" : friendID,
             "reason" : "Spamming"
         ]
         
-        reportRef.updateChildValues(reportDict)
+        reportRef.updateChildValues(report)
 
     }
 }

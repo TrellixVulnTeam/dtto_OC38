@@ -14,8 +14,7 @@ class RoundButton: UIButton {
         super.layoutSubviews()
         layer.cornerRadius = 5
         layer.borderWidth = 1
-        layer.borderColor = UIColor.clear.cgColor
-        
+        layer.borderColor = UIColor.clear.cgColor        
     }
 
 }

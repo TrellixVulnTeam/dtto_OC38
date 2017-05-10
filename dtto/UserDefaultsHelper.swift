@@ -58,7 +58,7 @@ extension UserDefaults {
         return object(forKey: "outgoingRequests") as? [String : Bool] ?? [String : Bool]()
     }
     
-    func hidePost(postID: String) {
+    func hidePost(_ postID: String) {
         var hiddenPosts = getHiddenPosts()
         hiddenPosts.updateValue(true, forKey: postID)
         set(hiddenPosts, forKey: "hiddenPosts")

@@ -21,6 +21,7 @@ target 'dtto' do
 
   # Useful Libraries
   pod 'DateTools'
+  pod 'ActiveLabel'
 
   # UI Tweaks
   pod 'NVActivityIndicatorView'

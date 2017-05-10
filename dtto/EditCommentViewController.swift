@@ -13,7 +13,7 @@ class EditCommentViewController: UIViewController, CommentProtocol {
     let comment: Comment
     
     let textView: UITextView = {
-        let textView = UITextView()
+        let textView = UITextView(frame: .zero)
         textView.font = UIFont.systemFont(ofSize: 15)
         return textView
     }()
@@ -22,6 +22,7 @@ class EditCommentViewController: UIViewController, CommentProtocol {
         let view = CommentInputContainerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
         view.commentDelegate = self
         view.textView.isUserInteractionEnabled = false
+        view.textView.text = ""
         return view
     }()
     
@@ -59,6 +60,7 @@ class EditCommentViewController: UIViewController, CommentProtocol {
         
         title = "Edit Comment"
         view.backgroundColor = .white
+        automaticallyAdjustsScrollViewInsets = false
         
         view.addSubview(textView)
         textView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
@@ -79,12 +81,11 @@ class EditCommentViewController: UIViewController, CommentProtocol {
         // editing comment. use the textview of this vc, and not the one inside the containerVIew.
         guard let userID = defaults.getUID(), self.textView.text.characters.count > 0 else { return }
         
-        let commentRef = self.comment.getPostRef()
+        let commentRef = self.comment.getCommentRef()
     
         let comment: [String:Any] = [
             "text" : self.textView.text,
-            "timestamp" : [".sv" : "timestamp"],
-            "edited" : true
+            "editTimestamp" : [".sv" : "timestamp"]
         ]
         
         commentRef.updateChildValues(comment)
@@ -97,6 +98,10 @@ class EditCommentViewController: UIViewController, CommentProtocol {
         
         // TODO: in functions, send notification
         
+        
+    }
+    
+    func viewProfile(cell: CommentCell) {
         
     }
 

@@ -9,11 +9,13 @@
 import UIKit
 
 protocol PostProtocol : class {
+    func viewComments(cell: PostButtonsCell)
     func requestChat(cell: PostButtonsCell, chatState: ChatState)
     func relatePost(cell: PostButtonsCell)
     func sharePost(cell: PostButtonsCell)
     func showMore(cell: PostProfileCell, sender: AnyObject)
 }
+
 
 class HomePage: BaseCollectionViewCell, PostProtocol {
     
@@ -36,7 +38,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         tableView.register(PostProfileCell.self, forCellReuseIdentifier: "PostProfileCell")
         tableView.register(PostTextCell.self, forCellReuseIdentifier: "PostTextCell")
         tableView.register(PostButtonsCell.self, forCellReuseIdentifier: "PostButtonsCell")
-        tableView.register(PostTagsCell.self, forCellReuseIdentifier: "PostTagsCell")
+        tableView.register(PostRelatesCell.self, forCellReuseIdentifier: "PostRelatesCell")
+        tableView.register(CommentsTableView.self, forCellReuseIdentifier: "CommentsTableView")
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
@@ -233,6 +236,39 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
     }
     
+    func observeRecentComments() {
+        
+        
+    }
+    
+    var timer: Timer?
+    
+    func attemptReloadOfChats() {
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(handleReloadPosts), userInfo: nil, repeats: false)
+    }
+    
+    func handleReloadPosts() {
+        
+        DispatchQueue.main.async {
+            print("successfully reloaded posts.")
+            self.tableView.reloadData()
+        }
+    }
+    
+    func viewComments(cell: PostButtonsCell) {
+        
+        guard let section = tableView.indexPath(for: cell)?.section else { return }
+        
+        let post = posts[section]
+        
+        let vc = CommentsViewController(post: post)
+        masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
+        
+        
+    }
+    
     func requestChat(cell: PostButtonsCell, chatState: ChatState) {
         
         guard let indexPath = tableView.indexPath(for: cell) else { return }
@@ -423,15 +459,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             
             if userID == posterID {
                 
-                let delete = UIAlertAction(title: "Delete", style: .default, handler: { [unowned self] (action:UIAlertAction) in
-                    
-                    self.deletePost(section: section)
-                    
-                })
-                
-                ac.addAction(delete)
-                
-                let edit = UIAlertAction(title: "Edit", style: .default, handler: { [unowned self] (action:UIAlertAction) in
+                let edit = UIAlertAction(title: "Edit", style: .default, handler: { action in
                     
                     self.editPost(section: section)
                     
@@ -439,18 +467,25 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 
                 ac.addAction(edit)
 
+                let delete = UIAlertAction(title: "Delete", style: .destructive, handler: { action in
+                    
+                    self.deletePost(section: section)
+                    
+                })
+                
+                ac.addAction(delete)
             }
             else {
-                let report = UIAlertAction(title: "Report", style: .destructive, handler: { [unowned self] (action:UIAlertAction) in
+                let report = UIAlertAction(title: "Report", style: .destructive, handler: { action in
                     
-                    self.reportPost(postID: post.postID)
+                    self.reportPost(post)
                     
                 })
                 ac.addAction(report)
             }
         }
 
-        let hide = UIAlertAction(title: "Hide", style: .default, handler: { [unowned self] (action:UIAlertAction) in
+        let hide = UIAlertAction(title: "Hide", style: .default, handler: { action in
             
             self.hidePost(section: section, postID: post.postID)
             
@@ -459,7 +494,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {
-            (alertAction: UIAlertAction!) in
+            action in
             ac.dismiss(animated: true, completion: nil)
         }))
         
@@ -491,27 +526,27 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         guard let userID = defaults.getUID() else { return }
         if posterID == userID {
-            let postRef = FIREBASE_REF.child("posts").child(postID)
-            postRef.removeValue()
+            
+            POSTS_REF.child(postID).removeValue()
             print("Removed post.")
             
             // Update user stats
-            let userRef = FIREBASE_REF.child("users").child(userID)
+            let userRef = USERS_REF.child(userID)
             let dataRequest = FirebaseService.dataRequest
             dataRequest.decrementCount(ref: userRef.child("postCount"))
             
             // delete comments attached to this post.
+//            COMMENTS_REF.child(postID).
         }
         
         
     }
     
-    func hidePost(section: Int, postID: String?) {
+    func hidePost(section: Int, postID: String) {
         
-        if let postID = postID {
-            
-            defaults.hidePost(postID: postID)
-            
+        defaults.hidePost(postID)
+        
+        DispatchQueue.main.async {
             self.tableView.beginUpdates()
             self.posts.remove(at: section)
             self.tableView.deleteSections(IndexSet(integer: section), with: .automatic)
@@ -520,15 +555,18 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
     }
     
-    func reportPost(postID: String?) {
+    func reportPost(_ post: Post) {
         
-        if let postID = postID {
-            
-            let dataRequest = FirebaseService.dataRequest
-            let reportsRef = FIREBASE_REF.child("reports").child(postID)
-            dataRequest.incrementCount(ref: reportsRef.child("reportsCount"))
- 
-        }
+        guard let userID = defaults.getUID() else { return }
+        
+        let report = [
+            "userID" : post.getUserID(),
+            "reporterID" : userID,
+            "reason" : "inappropriate"
+        ]
+        
+        REPORTS_REF.child(post.getPostID()).childByAutoId().updateChildValues(report)
+
     }
     
     func doubleTapped(_ gestureReconizer: UITapGestureRecognizer) {
@@ -571,6 +609,7 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
         case post
         case buttons
         case relates
+        case comments
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -578,11 +617,35 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let post = posts[section]
-        if post.getRelatesCount() < 1 {
-            return 3
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        guard let row = Row(rawValue: indexPath.row) else { return 0 }
+        
+        let post = posts[indexPath.section]
+        
+        switch row {
+        case .relates:
+            if post.getRelatesCount() == 0 {
+                return 0
+            }
+        case .comments:
+            // TODO: Check # of comments
+            if post.getCommentCount() == 0 {
+                return 0
+            }
+            return 50
+        default:
+            return UITableViewAutomaticDimension
         }
-        return 4
+        
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -596,10 +659,8 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
         case .profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostProfileCell") as! PostProfileCell
             
-            cell.profileImage.image = nil
-            
-            //            cell.nameLabel.text = post.name ?? "Anonymous"
-            
+//            cell.profileImage.image = nil
+            cell.profileImage.image = #imageLiteral(resourceName: "profile")
             // Only load profile if the post is public
     
             if post.isAnonymous {
@@ -608,7 +669,7 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
             }
             else {
                 if let username = post.getPostUsername() {
-                    cell.profileImage.loadProfileImage(post.getUserID())
+//                    cell.profileImage.loadProfileImage(post.getUserID())
                     cell.usernameLabel.text = username
                 }
             }
@@ -626,68 +687,48 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
             
             cell.requestChatDelegate = self
             
-//            if post.getUserID() == defaults.getUID() {
-//                // disable components for a user's own post.
-//
-//                
-//            }
-//            else {
+            if post.getUserID() == defaults.getUID() {
+                // disable components for a user's own post.
+                cell.chatButton.isHidden = true
+                cell.relateButton.isEnabled = false
+            }
+            else {
+                cell.chatButton.isHidden = false
+                cell.relateButton.isEnabled = true
+            }
 
-                if let _ = outgoingRelates[post.getPostID()] {
-                    cell.relateButton.isSelected = true
-                }
-                else {
-                    cell.relateButton.isSelected = false
-                }
-                
-                if let pending = outgoingRequests[post.getPostID()] {
-                    if pending {
-                        cell.chatState = .requested
-                    }
-                    else {
-                        cell.chatState = .ongoing
-                    }
-                }
-                else {
-                    cell.chatState = .normal
-                }
-
-                
-//            }
-//            if post.getUserID() == defaults.getUID() {
-//                cell.chatButton.isHidden = true
-//                cell.relateButton.isHidden = true
-//            }
-//            else {
-//                
-//                cell.relateButton.isHidden = false
-//                if let _ = outgoingRelates[post.getPostID()] {
-//                    cell.relateButton.isSelected = true
-//                }
-//                else {
-//                    cell.relateButton.isSelected = false
-//                }
-//                
-//                cell.chatButton.isHidden = false
-//                if let pending = outgoingRequests[post.getPostID()] {
-//                    if pending {
-//                        cell.chatState = .requested
-//                    }
-//                    else {
-//                        cell.chatState = .ongoing
-//                    }
-//                }
-//                else {
-//                    cell.chatState = .normal
-//                }
-//            }
+            if let _ = outgoingRelates[post.getPostID()] {
+                cell.relateButton.isSelected = true
+            }
+            else {
+                cell.relateButton.isSelected = false
+            }
             
+            if let pending = outgoingRequests[post.getPostID()] {
+                if pending {
+                    cell.chatState = .requested
+                }
+                else {
+                    cell.chatState = .ongoing
+                }
+            }
+            else {
+                cell.chatState = .normal
+            }
+
             return cell
             
         case .relates:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PostTagsCell") as! PostTagsCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostRelatesCell") as! PostRelatesCell
             
             cell.relatesCount = post.getRelatesCount()
+            return cell
+            
+        case .comments:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableView") as! CommentsTableView
+            cell.post = post
+//            cell.comments = self.comments
+            cell.navigationDelegate = masterViewDelegate?.navigationController
             return cell
             
         }
@@ -714,6 +755,9 @@ extension HomePage: UITableViewDelegate, UITableViewDataSource {
         case .buttons:
             return nil
         case .relates:
+            return indexPath
+        case .comments:
+            // TODO: Push Comments VC
             return indexPath
         }
 

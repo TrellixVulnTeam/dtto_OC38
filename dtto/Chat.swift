@@ -13,7 +13,7 @@ class Chat {
     
     let chatID: String
     var senderID: String?
-    var name: String?
+    var senderName: String?
     var lastMessage: String?
     var timestamp: Date?
     var profileImageURL: String?
@@ -28,29 +28,14 @@ class Chat {
         guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return nil }
         
         guard let postID = dictionary["postID"] as? String, let helperID = dictionary["helperID"] as? String, let posterID = dictionary["posterID"] as? String else { return nil }
-        // , let users = dictionary["users"] as? Dictionary<String, AnyObject>
-//        for user in users {
-//            // get the other user's information
-//            if user.key != userID {
-//                
-//                if let friendName = user.value as? String {
-//                    name = friendName
-//                    friendID = user.key
-//                }
-//                
-//            }
-//        }
         
         self.postID = postID
         self.posterID = posterID
         self.helperID = helperID
         
-        if let senderID = dictionary["senderID"] as? String, let lastMessage = dictionary["text"] as? String! {
-            
-            self.senderID = senderID
-            self.lastMessage = lastMessage
-            
-        }
+        self.senderName = dictionary["senderName"] as? String
+        self.senderID = dictionary["senderID"] as? String
+        self.lastMessage = dictionary["text"] as? String
         
         if let timestamp = dictionary["timestamp"] as? TimeInterval {
             self.timestamp = Date(timeIntervalSince1970: timestamp/1000)
@@ -90,6 +75,10 @@ class Chat {
         else {
             return posterID
         }
+    }
+    
+    func getSenderName() -> String {
+        return senderName ?? ""
     }
     
     func getLastMessage() -> String {

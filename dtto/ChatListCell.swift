@@ -28,7 +28,7 @@ class ChatListCell: BaseTableViewCell {
         return imageView
     }()
     
-    let nameLabel: UILabel = {
+    let usernameLabel: UILabel = {
         let label = UILabel()
         label.text = "Jitae"
         label.font = UIFont.boldSystemFont(ofSize: 17)
@@ -55,15 +55,15 @@ class ChatListCell: BaseTableViewCell {
         super.setupViews()
         
         addSubview(profileImage)
-        addSubview(nameLabel)
+        addSubview(usernameLabel)
         addSubview(lastMessageLabel)
         addSubview(timestampLabel)
         
         profileImage.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 10, leadingConstant: 15, trailingConstant: 0, bottomConstant: 10, widthConstant: 50, heightConstant: 50)
         
-        nameLabel.anchor(top: profileImage.topAnchor, leading: profileImage.trailingAnchor, trailing: timestampLabel.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        usernameLabel.anchor(top: profileImage.topAnchor, leading: profileImage.trailingAnchor, trailing: timestampLabel.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        lastMessageLabel.anchor(top: nameLabel.bottomAnchor, leading: profileImage.trailingAnchor, trailing: timestampLabel.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        lastMessageLabel.anchor(top: usernameLabel.bottomAnchor, leading: profileImage.trailingAnchor, trailing: timestampLabel.leadingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
         timestampLabel.anchor(top: topAnchor, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 10, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         timestampLabel.setContentHuggingPriority(.greatestFiniteMagnitude, for: .horizontal)

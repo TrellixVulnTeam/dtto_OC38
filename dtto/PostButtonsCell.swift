@@ -74,7 +74,7 @@ class PostButtonsCell: BaseTableViewCell {
         button.titleEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: -10)
         button.setImage(#imageLiteral(resourceName: "comments"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        button.addTarget(self, action: #selector(requestChat(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(viewComments), for: .touchUpInside)
         return button
     }()
     
@@ -103,37 +103,21 @@ class PostButtonsCell: BaseTableViewCell {
     override func setupViews() {
         super.setupViews()
         
-        backgroundColor = .red
-
+//        backgroundColor = .red
+        
         addSubview(relateButton)
-        addSubview(relatesCountLabel)
         addSubview(commentsButton)
         addSubview(chatButton)
-        addSubview(chatCountsLabel)
         addSubview(shareButton)
         
-        let relatesStackView = UIStackView(arrangedSubviews: [relateButton])
-        addSubview(relatesStackView)
-        
-        let commentsStackView = UIStackView(arrangedSubviews: [commentsButton])
-        addSubview(commentsStackView)
-        
-        let chatStackView = UIStackView(arrangedSubviews: [chatButton, chatCountsLabel])
-        addSubview(chatStackView)
-        
-        let shareStackView = UIStackView(arrangedSubviews: [shareButton])
-        addSubview(shareStackView)
-        
-        let stackView = UIStackView(arrangedSubviews: [relatesStackView, commentsStackView, chatStackView, shareStackView])
-        stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        
+        let stackView = UIStackView(arrangedSubviews: [relateButton, commentsButton, chatButton])
         addSubview(stackView)
         
-        stackView.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
+        stackView.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
         
+        shareButton.anchor(top: topAnchor, leading: nil, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant:  0, bottomConstant: 0, widthConstant: 50, heightConstant: 50)
         
-//        relateButton.anchor(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 15, trailingConstant: 0, bottomConstant: 0, widthConstant: 30, heightConstant: 30)
+//        relateButton.anchor(top: top, leading: leadingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 15, trailingConstant: 0, bottomConstant: 0, widthConstant: 30, heightConstant: 30)
 //        relateButton.anchorCenterYToSuperview()
 //
 //        relatesCountLabel.anchor(top: nil, leading: relateButton.trailingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
@@ -142,7 +126,7 @@ class PostButtonsCell: BaseTableViewCell {
 //        chatButton.anchorCenterYToSuperview()
 //        shareButton.anchor(top: nil, leading: nil, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 15, bottomConstant: 0, widthConstant: 30, heightConstant: 30)
 //        shareButton.anchorCenterYToSuperview()
-        
+//        
     }
     
     func relate(_ sender: UIButton) {
@@ -150,10 +134,13 @@ class PostButtonsCell: BaseTableViewCell {
         requestChatDelegate?.relatePost(cell: self)
     }
     
+    func viewComments() {
+        requestChatDelegate?.viewComments(cell: self)
+    }
+    
     func requestChat(_ sender: UIButton) {
         sender.bounceAnimate()
         requestChatDelegate?.requestChat(cell: self, chatState: chatState)
-        
     }
     
     func sharePost(_ sender: UIButton) {

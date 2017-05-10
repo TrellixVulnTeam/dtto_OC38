@@ -204,6 +204,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         case request
         case message
         case endorse
+        case relate
     }
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -236,6 +237,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     
                     switch notificationType {
                         
+                    case .relate:
+                        if let postID = userInfo["postID"] as? String {
+                            let vc = PostViewController(postID)
+                            navVC.pushViewController(vc, animated: true)
+                        }
                     case .request:
                         let requestsVC = RequestsViewController()
                         navVC.pushViewController(requestsVC, animated: true)

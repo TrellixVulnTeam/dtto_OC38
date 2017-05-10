@@ -88,8 +88,12 @@ extension ChatList: UITableViewDelegate, UITableViewDataSource {
             
         case .chats:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ChatListCell") as! ChatListCell
-            cell.lastMessageLabel.text = chats[indexPath.row].getLastMessage()
-            cell.timestampLabel.text = chats[indexPath.row].getTimestamp()?.timeAgoSinceDate(numericDates: true)
+            
+            let chat = chats[indexPath.row]
+
+            cell.usernameLabel.text = chat.getSenderName()
+            cell.lastMessageLabel.text = chat.getLastMessage()
+            cell.timestampLabel.text = chat.getTimestamp()?.timeAgoSinceDate(numericDates: true)
             
             return cell
 

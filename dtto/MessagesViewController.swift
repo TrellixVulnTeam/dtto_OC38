@@ -186,7 +186,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
             
             guard let messageData = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
-            if let senderID = messageData["senderID"] as? String, let name = messageData["name"] as? String, let text = messageData["text"] as? String, let timestamp = messageData["timestamp"] as? TimeInterval {
+            if let senderID = messageData["senderID"] as? String, let name = messageData["senderName"] as? String, let text = messageData["text"] as? String, let timestamp = messageData["timestamp"] as? TimeInterval {
                 
                 let messageDate = Date(timeIntervalSince1970: timestamp/1000)
                 
@@ -246,7 +246,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         let messagesRef = FIREBASE_REF.child("messages").child(chat.getChatID())
         let messageItem: [String: Any] = [
             "senderID": senderId!,
-            "name": senderDisplayName!,
+            "senderName": senderDisplayName!,
             "text": text!,
             "timestamp": [".sv" : "timestamp"]
             ]
