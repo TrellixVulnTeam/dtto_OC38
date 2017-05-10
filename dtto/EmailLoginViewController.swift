@@ -158,6 +158,10 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
                     guard let user = FIRAuth.auth()?.currentUser else { return }
                     defaults.setUID(value: user.uid)
                     defaults.setLogin(value: true)
+                    if let refreshedToken = FIRInstanceID.instanceID().token() {
+                        USERS_REF.child(user.uid).child("notificationTokens").child(refreshedToken).setValue(true)
+
+                    }
                     // test
 //                    defaults.setName(value: "testname")
 //                    defaults.setUsername(value: "testusername")
