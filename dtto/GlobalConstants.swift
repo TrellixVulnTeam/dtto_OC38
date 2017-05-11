@@ -29,6 +29,7 @@ let USERS_CHILD = "users"
 let MESSAGES_CHILD = "messages"
 let FOLLOWERS_CHILD = "followers"
 
+let FIREBASE_TIMESTAMP = [".sv" : "timestamp"]
 
 // Screen Sizes
 var SCREENORIENTATION: UIInterfaceOrientation {

@@ -80,6 +80,7 @@ class CommentsTableView: UITableViewCell {
         
         guard let post = post else { return }
         
+//        let vc = CommentsViewController(post: post)
         let vc = CommentsViewController(post: post)
         navigationDelegate?.pushViewController(vc, animated: true)
 //        postDelegate?.navigationController?.pushViewController(vc, animated: true)

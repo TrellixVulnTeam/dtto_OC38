@@ -136,6 +136,10 @@ exports.sendChatAcceptedNotification = functions.database.ref('/chats/{chatID}/p
     return
   }
 
+  // Log the chat's creation date.
+  admin.database().ref(`/chats/${chatID}/created`).set(admin.database.ServerValue.TIMESTAMP);
+
+  // Notification
   const chatID = event.params.chatID;
   const posterID = event.data.val();
   admin.database().ref(`/chats/${chatID}`).once('value').then(snapshot => {
@@ -160,6 +164,57 @@ exports.sendChatAcceptedNotification = functions.database.ref('/chats/{chatID}/p
       sendNotification(receiverID, posterID, chatAcceptedPayload);
 
     });
+
+  });
+
+});
+
+// Sends a chat message notification to the partner.
+exports.sendChatNotification = functions.database.ref('/chats/{chatID}').onWrite(event => {
+
+  const snapshot = event.data;
+
+  // Only send a notification when the chat has been resolved.
+  if (!snapshot.val()) {
+    return;
+  }
+
+  const senderID = snapshot.val().senderID;
+  const posterID = snapshot.val().posterID;
+  const helperID = snapshot.val().helperID;
+  const chatID = snapshot.key;
+  const senderName = snapshot.val().senderName;
+  const text = snapshot.val().text;
+
+  var receiverID;
+
+  if (senderID == posterID) {
+    receiverID = helperID;
+  }
+  else {
+    receiverID = posterID;
+  }
+
+  admin.database().ref(`/users/${receiverID}/chats/${chatID}`).once('value').then(snapshot => {
+
+    // Check if the receiver muted this chat.
+    if (!snapshot.val()) {
+      return
+    }
+
+    // Notification details.
+    const payload = {
+      notification: {
+        title: `${senderName} sent you ${text ? 'a message' : 'an image'}`,
+        body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : ''      
+      },
+      data: {
+        "type" : "message",
+        "chatID" : chatID
+      }
+    };
+    
+    sendNotification(receiverID, senderID, payload);
 
   });
 
@@ -218,57 +273,6 @@ exports.sendRelateNotification = functions.database.ref('/postRelates/{postID}/{
   });
   
 });
-
-// Sends a chat message notification to the partner.
-exports.sendChatNotification = functions.database.ref('/chats/{chatID}').onWrite(event => {
-
-  const snapshot = event.data;
-
-  // Only send a notification when the chat has been resolved.
-  if (!snapshot.val()) {
-    return;
-  }
-
-  const senderID = snapshot.val().senderID;
-  const posterID = snapshot.val().posterID;
-  const helperID = snapshot.val().helperID;
-  const chatID = snapshot.key;
-  const text = snapshot.val().text;
-
-  var receiverID;
-
-  if (senderID == posterID) {
-    receiverID = helperID;
-  }
-  else {
-    receiverID = posterID;
-  }
-
-  admin.database().ref(`/users/${receiverID}/chats/${chatID}`).once('value').then(snapshot => {
-
-    // Check if the receiver muted this chat.
-    if (!snapshot.val()) {
-      return
-    }
-
-    // Notification details.
-    const payload = {
-      notification: {
-        title: `${snapshot.val().name} posted ${text ? 'a message' : 'an image'}`,
-        body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : ''      
-      },
-      data: {
-        "type" : "message",
-        "chatID" : chatID
-      }
-    };
-    
-    sendNotification(receiverID, senderID, payload);
-
-  });
-
-});
-
 
 // send all comment notifications to the poster.
 exports.sendCommentNotification = functions.database.ref('/comments/{postID}/{commentID}').onWrite(event => {

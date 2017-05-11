@@ -95,6 +95,7 @@ PODS:
   - NVActivityIndicatorView (3.6.1)
   - Protobuf (3.3.0)
   - SkyFloatingLabelTextField (3.1.0)
+  - SlackTextViewController (1.9.5)
 
 DEPENDENCIES:
   - ActiveLabel
@@ -114,6 +115,7 @@ DEPENDENCIES:
   - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
   - NVActivityIndicatorView
   - SkyFloatingLabelTextField
+  - SlackTextViewController
 
 EXTERNAL SOURCES:
   MIBadgeButton-Swift:
@@ -154,7 +156,8 @@ SPEC CHECKSUMS:
   NVActivityIndicatorView: 9f52a7f84bf5c6a798722c450fe3c198e01c56ed
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   SkyFloatingLabelTextField: 26a92ad407044dd5a7c3e4e348738ff0991514fe
+  SlackTextViewController: fbcdadbb8090673f604484ff5b6eb8d77baed42a
 
-PODFILE CHECKSUM: 16449d197a7b609d540c2992c5ff34f586eb6f72
+PODFILE CHECKSUM: d5104bd5fd388c1d1a683c921eef524c855aaf8c
 
 COCOAPODS: 1.2.0

@@ -47,7 +47,6 @@ class CommentCell: BaseTableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .lightGray
-        label.text = "Edited"
         label.textAlignment = .left
         return label
     }()

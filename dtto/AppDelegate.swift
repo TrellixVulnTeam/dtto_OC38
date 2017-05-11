@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FIRApp.configure()
 //        FIRDatabase.database().persistenceEnabled = true
+        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -68,15 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-//        let initialViewController = TabBarController()
-//        UIView.transition(with: self.window!, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
-//            self.window!.rootViewController = initialViewController
-//        }, completion: nil)
-//        defaults.setUID(value: "tw2QiARnU7ZFZ7we4tmKs3HcSU42")
-//        defaults.setLogin(value: true)
-//        defaults.setUID(value: "dueyYrZnhZTYRlAXfL0U9ErcOj02")
-//        defaults.setName(value: "Jitae")
-//        defaults.setUsername(value: "jk")
+
         if let _ = defaults.getUID() {
             let initialViewController = TabBarController()
 //            let initialViewController = NavigationController(PostViewController(postID: "-KjKPM6BjTJm4resxqNe"))
@@ -102,18 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        FIRMessaging.messaging().disconnect()
-        print("Disconnected from FCM.")
-    }
-
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        connectToFcm()
-        print("Connected to FCM.")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -142,6 +125,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // [START refresh_token]
     func tokenRefreshNotification(_ notification: Notification) {
+        
         if let refreshedToken = FIRInstanceID.instanceID().token(), let userID = defaults.getUID() {
             print("InstanceID token: \(refreshedToken)")
             
@@ -149,46 +133,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             USERS_REF.child(userID).child("notificationTokens").child(refreshedToken).setValue(true)
             
         }
-        
-        // Connect to FCM since connection may have failed when attempted before having a token.
-        connectToFcm()
-    }
     
-    
-    // [START connect_to_fcm]
-    func connectToFcm() {
-        // Won't connect since there is no token
-        guard FIRInstanceID.instanceID().token() != nil else {
-            return
-        }
-        print("FIRINSTANCE TOKEN IS " + FIRInstanceID.instanceID().token()!)
-
-        // Disconnect previous FCM connection if it exists.
-        FIRMessaging.messaging().disconnect()
-        
-        FIRMessaging.messaging().connect { (error) in
-            if error != nil {
-                print("Unable to connect with FCM. \(error?.localizedDescription ?? "")")
-            } else {
-                print("Connected to FCM.")
-                
-            }
-        }
     }
-    // [END connect_to_fcm]
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Unable to register for remote notifications: \(error.localizedDescription)")
-    }
-    
-    // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
-    // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
-    // the InstanceID token.
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("APNs token retrieved: \(deviceToken)")
-        
-        // With swizzling disabled you must set the APNs token here.
-        // FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.sandbox)
     }
     
 }
@@ -202,6 +151,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         case message
         case endorse
         case relate
+        case comment
     }
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -234,16 +184,17 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     
                     switch notificationType {
                         
-                    case .relate:
+                    case .relate, .comment:
                         if let postID = userInfo["postID"] as? String {
                             let vc = PostViewController(postID)
                             navVC.pushViewController(vc, animated: true)
                         }
+                        
                     case .request:
                         let requestsVC = RequestsViewController()
                         navVC.pushViewController(requestsVC, animated: true)
                     case .message, .endorse:
-
+                        // check if user was already in 
                         if let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
                             print("UNWRAPPED")
                         }

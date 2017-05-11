@@ -22,7 +22,7 @@ target 'dtto' do
   # Useful Libraries
   pod 'DateTools'
   pod 'ActiveLabel'
-
+  pod "SlackTextViewController"
   # UI Tweaks
   pod 'NVActivityIndicatorView'
   pod 'SkyFloatingLabelTextField'

@@ -29,6 +29,7 @@
 		0413ABA31E233C4D00C7198C /* UsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413ABA21E233C4D00C7198C /* UsernameViewController.swift */; };
 		0413CECD1E1C6D0800DF9E3C /* ProfileSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413CECC1E1C6D0800DF9E3C /* ProfileSectionHeader.swift */; };
 		0415FD311E97681B00345EBA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0415FD301E97681B00345EBA /* GoogleService-Info.plist */; };
+		041AAEC11EC4263800F39496 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041AAEC01EC4263800F39496 /* CommentsViewController.swift */; };
 		041B39321E1DCA80003E130E /* PostProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39311E1DCA80003E130E /* PostProfileCell.swift */; };
 		041B39361E1DD24E003E130E /* UIViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39351E1DD24E003E130E /* UIViewConstraints.swift */; };
 		041B39381E1DD73C003E130E /* PostTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B39371E1DD73C003E130E /* PostTextCell.swift */; };
@@ -90,8 +91,6 @@
 		04AFA7001EBD862D00037AAA /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA6FF1EBD862D00037AAA /* CommentCell.swift */; };
 		04AFA7021EBD8D2A00037AAA /* CommentInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA7011EBD8D2A00037AAA /* CommentInputContainerView.swift */; };
 		04AFA7041EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA7031EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift */; };
-		04AFA7061EBDB48D00037AAA /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA7051EBDB48D00037AAA /* CommentsViewController.swift */; };
-		04AFA7081EBE6C5600037AAA /* EditCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA7071EBE6C5600037AAA /* EditCommentViewController.swift */; };
 		04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B159E81DDFFBE200B6C74C /* FirebaseService.swift */; };
 		04B29A5F1E35B57000347821 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B29A5E1E35B57000347821 /* SettingsViewController.swift */; };
 		04B3CDE81EC1744A00A92417 /* LoadPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CDE71EC1744A00A92417 /* LoadPostViewController.swift */; };
@@ -189,6 +188,7 @@
 		0413ABA21E233C4D00C7198C /* UsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsernameViewController.swift; sourceTree = "<group>"; };
 		0413CECC1E1C6D0800DF9E3C /* ProfileSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSectionHeader.swift; sourceTree = "<group>"; };
 		0415FD301E97681B00345EBA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		041AAEC01EC4263800F39496 /* CommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		041B39311E1DCA80003E130E /* PostProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProfileCell.swift; sourceTree = "<group>"; };
 		041B39351E1DD24E003E130E /* UIViewConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewConstraints.swift; sourceTree = "<group>"; };
 		041B39371E1DD73C003E130E /* PostTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTextCell.swift; sourceTree = "<group>"; };
@@ -250,8 +250,6 @@
 		04AFA6FF1EBD862D00037AAA /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		04AFA7011EBD8D2A00037AAA /* CommentInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentInputContainerView.swift; sourceTree = "<group>"; };
 		04AFA7031EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewMoreCommentsFooterView.swift; sourceTree = "<group>"; };
-		04AFA7051EBDB48D00037AAA /* CommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
-		04AFA7071EBE6C5600037AAA /* EditCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCommentViewController.swift; sourceTree = "<group>"; };
 		04B159E81DDFFBE200B6C74C /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		04B29A5E1E35B57000347821 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		04B3CDE71EC1744A00A92417 /* LoadPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadPostViewController.swift; sourceTree = "<group>"; };
@@ -517,8 +515,7 @@
 				04AFA6FF1EBD862D00037AAA /* CommentCell.swift */,
 				04AFA7031EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift */,
 				04AFA7011EBD8D2A00037AAA /* CommentInputContainerView.swift */,
-				04AFA7051EBDB48D00037AAA /* CommentsViewController.swift */,
-				04AFA7071EBE6C5600037AAA /* EditCommentViewController.swift */,
+				041AAEC01EC4263800F39496 /* CommentsViewController.swift */,
 				04B3CDE71EC1744A00A92417 /* LoadPostViewController.swift */,
 			);
 			name = Home;
@@ -964,7 +961,7 @@
 				0443FA991E98632400F6CD4E /* PageViewController.swift in Sources */,
 				0474C1DA1E2379B900F20704 /* PasswordViewController.swift in Sources */,
 				041E5BF71E0CAF5D002533EF /* RequestsViewController.swift in Sources */,
-				04AFA7061EBDB48D00037AAA /* CommentsViewController.swift in Sources */,
+				041AAEC11EC4263800F39496 /* CommentsViewController.swift in Sources */,
 				04B3CDE81EC1744A00A92417 /* LoadPostViewController.swift in Sources */,
 				046D567C1E34451B00409034 /* FormNavigationBar.swift in Sources */,
 				04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */,
@@ -1023,7 +1020,6 @@
 				0470790A1E060BA10059C360 /* RequestsPreviewCell.swift in Sources */,
 				04B29A5F1E35B57000347821 /* SettingsViewController.swift in Sources */,
 				041F54301E050FE600D1C767 /* NotificationsPage.swift in Sources */,
-				04AFA7081EBE6C5600037AAA /* EditCommentViewController.swift in Sources */,
 				04AFA7001EBD862D00037AAA /* CommentCell.swift in Sources */,
 				04B8EC471E496A60004E45FC /* Relater.swift in Sources */,
 				04F18BC01E60FB6B00AF9FF5 /* UserInfoPickerViewController.swift in Sources */,
@@ -1209,7 +1205,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1234,7 +1230,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jk.dtto.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

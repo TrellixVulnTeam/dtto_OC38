@@ -9,11 +9,11 @@
 import UIKit
 
 protocol CommentProtocol : class {
-    func postComment(textView: UITextView)
+    func postComment()
     func viewProfile(cell: CommentCell)
 }
 
-class PostViewController: UIViewController, CommentProtocol {
+class PostViewController: UIViewController {
     
     let postID: String
     var post: Post?
@@ -35,7 +35,6 @@ class PostViewController: UIViewController, CommentProtocol {
     
     lazy var commentInputContainerView: CommentInputContainerView = {
         let view = CommentInputContainerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-        view.commentDelegate = self
         return view
     }()
     

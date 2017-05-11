@@ -26,6 +26,7 @@ class CommentInputContainerView: UIView, UITextViewDelegate {
         textView.delegate = self
         textView.text = PLACEHOLDERTEXT
         textView.textColor = .lightGray
+        textView.textContainerInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         return textView
     }()
     
@@ -51,12 +52,12 @@ class CommentInputContainerView: UIView, UITextViewDelegate {
         
         backgroundColor = .white
         
-        addSubview(topBorder)
         addSubview(textView)
+        addSubview(topBorder)
         addSubview(postButton)
         
         topBorder.anchor(top: topAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 1.0/UIScreen.main.scale)
-        textView.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 50)
+        textView.anchor(top: topAnchor, leading: leadingAnchor, trailing: nil, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         postButton.anchor(top: nil, leading: textView.trailingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 10, widthConstant: 50, heightConstant: 30)
         
     }
@@ -64,7 +65,7 @@ class CommentInputContainerView: UIView, UITextViewDelegate {
     func postComment() {
         textView.resignFirstResponder()
         if textView.text != PLACEHOLDERTEXT {
-            commentDelegate?.postComment(textView: textView)
+//            commentDelegate?.postComment(textView: textView)
         }
     }
     

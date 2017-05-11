@@ -1,36 +1,25 @@
 //
-//  CommentsViewController.swift
+//  CommentTextViewController.swift
 //  dtto
 //
-//  Created by Jitae Kim on 5/6/17.
+//  Created by Jitae Kim on 5/10/17.
 //  Copyright © 2017 Jitae Kim. All rights reserved.
 //
 
 import UIKit
+import SlackTextViewController
 import Firebase
 
-class CommentsViewController: UIViewController, CommentProtocol {
+private let TEXTVIEW_PLACEHOLDER = "Add a comment..."
+
+class CommentsViewController: SLKTextViewController, CommentProtocol {
 
     let post: Post
     var comments = [Comment]()
     var commentsDictionary = [String:Comment]()
     var commentsTotalCount = 0
-    
-    lazy var commentInputContainerView: CommentInputContainerView = {
-        let view = CommentInputContainerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-        view.commentDelegate = self
-        return view
-    }()
-    
-    override var inputAccessoryView: UIView? {
-        get {
-            return commentInputContainerView
-        }
-    }
-    
-    override var canBecomeFirstResponder : Bool {
-        return true
-    }
+    var commentText = ""
+    var editingComment: Comment?
     
     let tipLabel: UILabel = {
         let label = UILabel()
@@ -39,24 +28,6 @@ class CommentsViewController: UIViewController, CommentProtocol {
         label.text = "Be the first to comment!"
         label.alpha = 0
         return label
-    }()
-    
-    lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        
-        tableView.backgroundColor = .white
-        tableView.estimatedRowHeight = 100
-        
-        tableView.keyboardDismissMode = .interactive
-        tableView.tableFooterView = UIView(frame: .zero)
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        tableView.register(CommentCell.self, forCellReuseIdentifier: "CommentCell")
-        
-        return tableView
     }()
     
     lazy var viewMoreCommentsButton: UIButton = {
@@ -72,16 +43,13 @@ class CommentsViewController: UIViewController, CommentProtocol {
     init(post: Post) {
         self.post = post
         self.commentsTotalCount = post.getCommentCount()
-        super.init(nibName: nil, bundle: nil)
+        super.init(tableViewStyle: .plain)
+        hidesBottomBarWhenPushed = true
+
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        COMMENTS_REF.child(post.getPostID()).removeAllObservers()
-        POSTS_REF.child(post.getPostID()).child("commentCount").removeAllObservers()
     }
     
     override func viewDidLoad() {
@@ -89,54 +57,59 @@ class CommentsViewController: UIViewController, CommentProtocol {
         setupViews()
         observeCommentsCount()
         observeComments()
-        setupKeyboardObservers()
-        setupTapGesture()
-    }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-////        becomeFirstResponder()
-//    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
 
+    // Customize Slack VC.
+    
     func setupViews() {
         
-        view.backgroundColor = .white
+        // UI
         title = "Comments"
-        automaticallyAdjustsScrollViewInsets = false
+        view.backgroundColor = .white
+        resetTextView()
         
-        view.addSubview(tableView)
+        // Slack Methods
+        shouldScrollToBottomAfterKeyboardShows = true
+        isInverted = false
+        rightButton.setTitle("Post", for: .normal)
+        rightButton.addTarget(self, action: #selector(postComment), for: .touchUpInside)
+        
+        // TableView
+        guard let tableView = tableView else { return }
+        tableView.estimatedRowHeight = 90
+        tableView.register(CommentCell.self, forCellReuseIdentifier: "CommentCell")
+        tableView.tableFooterView = UIView(frame: .zero)
+        
         view.addSubview(tipLabel)
-        
-        tableView.anchor(top: topLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: bottomLayoutGuide.topAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
-        
         tipLabel.anchorCenterSuperview()
-        
+    }
+    
+    override func textViewDidBeginEditing(_ textView: UITextView) {
+        super.textViewDidBeginEditing(textView)
+        tipLabel.fadeOut()
+        if textView.text == TEXTVIEW_PLACEHOLDER {
+            textView.text = ""
+            textView.textColor = .black
+        }
+    }
+    
+    override func didPressRightButton(_ sender: Any?) {
+        commentText = textView.text
+        super.didPressRightButton(sender)
+        resetTextView()
+ 
     }
     
     func setupHeaderView() {
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView!.frame.width, height: 50))
         headerView.addSubview(viewMoreCommentsButton)
         
         viewMoreCommentsButton.anchor(top: headerView.topAnchor, leading: headerView.leadingAnchor, trailing: nil, bottom: headerView.bottomAnchor, topConstant: 10, leadingConstant: 10, trailingConstant: 0, bottomConstant: 10, widthConstant: 0, heightConstant: 50)
-        tableView.tableHeaderView = headerView
+        tableView?.tableHeaderView = headerView
     }
     
-    func setupTapGesture() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    override func dismissKeyboard() {
-        _ = commentInputContainerView.textView.resignFirstResponder()
-    }
-    
+    // Observe comments
     func observeCommentsCount() {
         
         let postCommentsCountRef = POSTS_REF.child(post.getPostID()).child("commentCount")
@@ -170,7 +143,7 @@ class CommentsViewController: UIViewController, CommentProtocol {
                             self.setupHeaderView()
                         }
                         else {
-                            self.tableView.tableHeaderView = nil
+                            self.tableView?.tableHeaderView = nil
                         }
                     }
                 }
@@ -191,14 +164,12 @@ class CommentsViewController: UIViewController, CommentProtocol {
         })
         
         postCommentsRef.queryLimited(toLast: 10).observe(.childChanged, with: { snapshot in
-            
-            let commentID = snapshot.key
-
+                        
             if let comment = Comment(snapshot: snapshot) {
                 self.commentsDictionary.updateValue(comment, forKey: comment.getCommentID())
                 self.attemptReloadOfChats()
             }
-
+            
             
         })
         
@@ -234,7 +205,7 @@ class CommentsViewController: UIViewController, CommentProtocol {
                                 self.setupHeaderView()
                             }
                             else {
-                                self.tableView.tableHeaderView = nil
+                                self.tableView?.tableHeaderView = nil
                             }
                             self.attemptReloadOfChats()
                         }
@@ -245,12 +216,12 @@ class CommentsViewController: UIViewController, CommentProtocol {
             })
             
         }
-    
+        
     }
     
-    func postComment(textView: UITextView) {
-        
-        guard let userID = defaults.getUID(), textView.text.characters.count > 0 else { return }
+    func postComment() {
+
+        guard let userID = defaults.getUID(), commentText.characters.count > 0, commentText != TEXTVIEW_PLACEHOLDER else { return }
         
         let autoID = COMMENTS_REF.child(post.getPostID()).childByAutoId().key
         let postCommentsRef = COMMENTS_REF.child(post.getPostID()).child(autoID)
@@ -258,69 +229,37 @@ class CommentsViewController: UIViewController, CommentProtocol {
         let comment: [String:Any] = [
             "userID": userID,
             "username": "commenter1",
-            "text" : textView.text,
+            "text" : commentText,
             "timestamp" : [".sv" : "timestamp"]
         ]
         
         postCommentsRef.updateChildValues(comment)
         
-        
         // increment the comment count for this post
         let dataRequest = FirebaseService.dataRequest
         dataRequest.incrementCount(ref: POSTS_REF.child(post.getPostID()).child("commentCount"))
         
-        commentInputContainerView.resetTextView()
-        
         // update user's comments. /comments/postID/commentID
         USERS_REF.child(userID).child("comments").child(post.getPostID()).child(autoID).setValue(true)
         
+        
+    }
+
+    func resetTextView() {
+        textView.resignFirstResponder()
+        textView.text = TEXTVIEW_PLACEHOLDER
+        textView.textColor = .lightGray
     }
     
     func viewProfile(cell: CommentCell) {
         
-        guard let section = tableView.indexPath(for: cell)?.section else { return }
+        guard let section = tableView?.indexPath(for: cell)?.section else { return }
         let comment = comments[section]
         
         let userID = comment.getUserID()
         
         let vc = ProfileViewController(userID: userID)
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func setupKeyboardObservers() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-
-    }
-    
-    func handleKeyboardDidShow() {
-        if comments.count > 0 {
-            let indexPath = IndexPath(row: 0, section: comments.count - 1)
-            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-        }
-    }
-    
-    var containerViewBottomAnchor: NSLayoutConstraint?
-    
-    func handleKeyboardWillShow(_ notification: Notification) {
-        let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-        let keyboardDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
-        
-        containerViewBottomAnchor?.constant = -keyboardFrame!.height
-        UIView.animate(withDuration: keyboardDuration!, animations: {
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    func handleKeyboardWillHide(_ notification: Notification) {
-        let keyboardDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
-        
-        containerViewBottomAnchor?.constant = 0
-        UIView.animate(withDuration: keyboardDuration!, animations: {
-            self.view.layoutIfNeeded()
-        })
     }
 
     var timer: Timer?
@@ -334,24 +273,24 @@ class CommentsViewController: UIViewController, CommentProtocol {
     func handleReloadComments() {
         
         DispatchQueue.main.async {
-
+            
             if self.commentsDictionary.count > 0 {
                 self.comments = Array(self.commentsDictionary.values)
-            
+                
                 self.comments.sort(by: { (comment1, comment2) -> Bool in
                     return comment1.getTimestamp() < comment2.getTimestamp()
                 })
                 
                 self.tipLabel.alpha = 0
-                self.tableView.fadeIn()
+                self.tableView?.fadeIn()
                 
             }
             else {
-                self.tableView.alpha = 0
+                self.tableView?.alpha = 0
                 self.tipLabel.fadeIn()
             }
-        
-            self.tableView.reloadData()
+            
+            self.tableView?.reloadData()
         }
     }
     
@@ -392,14 +331,30 @@ class CommentsViewController: UIViewController, CommentProtocol {
         present(alertController, animated: true) {
             alertController.view.tintColor = Color.darkNavy
         }
-
+        
     }
     
     func editComment(_ comment: Comment) {
+        editingComment = comment
+        textView.textColor = .black
+        editText(comment.getText())
+    }
+    
+    override func didCommitTextEditing(_ sender: Any) {
         
-        let vc = EditCommentViewController(comment)
-        present(NavigationController(vc), animated: true, completion: nil)
-        
+        if self.textView.text.characters.count > 0, let comment = editingComment {
+            let commentRef = comment.getCommentRef()
+            
+            let comment: [String:Any] = [
+                "text" : self.textView.text,
+                "editTimestamp" : FIREBASE_TIMESTAMP
+            ]
+            
+            commentRef.updateChildValues(comment)
+        }
+            
+        super.didCommitTextEditing(sender)
+        resetTextView()
     }
     
     func reportComment(_ comment: Comment) {
@@ -441,15 +396,13 @@ class CommentsViewController: UIViewController, CommentProtocol {
         
     }
 
-}
-
-extension CommentsViewController: UITableViewDelegate, UITableViewDataSource {
+    // UITableView Delegate and Datasource
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return comments.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if let repliesCount = comments[section].getReplies()?.count {
             return repliesCount + 1
@@ -460,7 +413,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let comment = comments[indexPath.section]
         
@@ -487,10 +440,10 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let comment = comments[indexPath.section]
-
+        
         guard let userID = defaults.getUID() else { return }
         
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -498,7 +451,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource {
         
         if comment.getUserID() == userID {
             // User's own post. edit or delete
-
+            
             let edit = UIAlertAction(title: "Edit", style: .default, handler: { action in
                 self.editComment(comment)
             })
@@ -510,7 +463,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource {
             })
             
             ac.addAction(delete)
-
+            
         }
         else {
             // other user's comment. reply, report, block.
@@ -519,7 +472,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource {
             })
             
             ac.addAction(report)
-
+            
         }
         
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
@@ -536,5 +489,8 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource {
         })
 
     }
-    
+
 }
+
+    
+

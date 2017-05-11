@@ -266,7 +266,6 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         let vc = CommentsViewController(post: post)
         masterViewDelegate?.navigationController?.pushViewController(vc, animated: true)
         
-        
     }
     
     func requestChat(cell: PostButtonsCell, chatState: ChatState) {
