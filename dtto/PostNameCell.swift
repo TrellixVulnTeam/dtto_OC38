@@ -16,9 +16,8 @@ class PostNameCell: BaseTableViewCell {
         return imageView
     }()
     
-    let nameLabel: UILabel = {
+    let usernameLabel: UILabel = {
         let label = UILabel()
-        label.text = "@jk"
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .black
         return label
@@ -37,7 +36,7 @@ class PostNameCell: BaseTableViewCell {
         super.setupViews()
         
         addSubview(profileImageView)
-        addSubview(nameLabel)
+        addSubview(usernameLabel)
         addSubview(postKeywordImage)
         addSubview(keywordTextField)
         
@@ -45,7 +44,7 @@ class PostNameCell: BaseTableViewCell {
         profileImageView.anchorCenterYToSuperview()
         profileImageView.setContentHuggingPriority(.greatestFiniteMagnitude, for: .horizontal)
 
-        nameLabel.anchor(top: profileImageView.topAnchor, leading: profileImageView.trailingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
+        usernameLabel.anchor(top: profileImageView.topAnchor, leading: profileImageView.trailingAnchor, trailing: nil, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 0, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         
 //        let stackView = UIStackView(arrangedSubviews: [nameLabel, postKeyword])
 //        stackView.axis = .vertical
@@ -53,7 +52,7 @@ class PostNameCell: BaseTableViewCell {
 //        stackView.distribution = .equalSpacing
 //        stackView.spacing = 5
         
-        postKeywordImage.anchor(top: nil, leading: nameLabel.leadingAnchor, trailing: nil, bottom: profileImageView.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 20, heightConstant: 20)
+        postKeywordImage.anchor(top: nil, leading: usernameLabel.leadingAnchor, trailing: nil, bottom: profileImageView.bottomAnchor, topConstant: 0, leadingConstant: 0, trailingConstant: 10, bottomConstant: 0, widthConstant: 20, heightConstant: 20)
         
         keywordTextField.anchor(top: nil, leading: postKeywordImage.trailingAnchor, trailing: trailingAnchor, bottom: nil, topConstant: 0, leadingConstant: 10, trailingConstant: 10, bottomConstant: 0, widthConstant: 0, heightConstant: 0)
         keywordTextField.centerYAnchor.constraint(equalTo: postKeywordImage.centerYAnchor).isActive = true

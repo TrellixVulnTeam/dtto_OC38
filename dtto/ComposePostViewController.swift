@@ -76,6 +76,7 @@ class ComposePostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkName()
         setupNavBar()
         setupViews()
         hideKeyboardWhenTappedAround()
@@ -128,6 +129,29 @@ class ComposePostViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    func checkName() {
+        
+        guard let userID = defaults.getUID() else { return }
+        // make sure user names are synced before posting.
+        if defaults.getName() == nil || defaults.getUsername() == nil {
+            // check firebase
+            PROFILES_REF.child(userID).child("name").observeSingleEvent(of: .value, with: { snapshot in
+                
+                if let name = snapshot.value as? String {
+                    defaults.setName(value: name)
+                }
+            })
+            
+            PROFILES_REF.child(userID).child("username").observeSingleEvent(of: .value, with: { snapshot in
+                
+                if let username = snapshot.value as? String {
+                    defaults.setUsername(value: username)
+                }
+            })
+
+        }
+    }
+    
     func post(_ sender: UIButton) {
 
         // Edit the post if this was inited with a postID
@@ -146,7 +170,8 @@ class ComposePostViewController: UIViewController {
                                                 "text" : text,
                                                 "relatesCount" : 0,
                                                 "ongoingChatCount" : 0,
-                                                "commentCount" : 0
+                                                "commentCount" : 0,
+                                                "created" : FIREBASE_TIMESTAMP
                                                 ]
                 
 
@@ -157,16 +182,14 @@ class ComposePostViewController: UIViewController {
                         post.updateValue(name, forKey: "name")
                         post.updateValue(username, forKey: "username")
                     }
-                    
                 }
                 
                 postRef.child(postID).updateChildValues(post)
 
                 // Update user stats
-                let userRef = FIREBASE_REF.child("users").child(userID)
+                let userProfileRef = PROFILES_REF.child(userID)
                 let dataRequest = FirebaseService.dataRequest
-                dataRequest.incrementCount(ref: userRef.child("postCount"))
-                
+                dataRequest.incrementCount(ref: userProfileRef.child("postCount"))
                 
                 dismiss(animated: true, completion: {
                     
@@ -174,7 +197,6 @@ class ComposePostViewController: UIViewController {
                     if !defaults.getShowedNotification() {
                         self.postDelegate?.askNotifications()
                     }
-                    
 
                 })
             }
@@ -183,11 +205,8 @@ class ComposePostViewController: UIViewController {
                 print("Could not post")
                 // show some error
             }
-            
-
-
-        }
         
+        }
         
     }
     
@@ -314,6 +333,7 @@ extension ComposePostViewController: UITableViewDelegate, UITableViewDataSource 
         switch row {
         case .Profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostNameCell") as! PostNameCell
+            cell.usernameLabel.text = defaults.getUsername()
 //            cell.selectionStyle = .none
             return cell
         case .Text:

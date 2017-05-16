@@ -19,21 +19,19 @@ class ProfileImageCell: BaseTableViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Jae"
         label.font = UIFont.boldSystemFont(ofSize: 17)
         return label
     }()
     
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.text = "@jae"
         label.font = UIFont.systemFont(ofSize: 17)
         return label
     }()
     
     let postsHeaderLabel: UILabel = {
         let label = UILabel()
-        label.text = "Post"
+        label.text = "Posts"
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 14)
         return label
@@ -41,7 +39,6 @@ class ProfileImageCell: BaseTableViewCell {
     
     let postsCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "15"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
@@ -57,7 +54,6 @@ class ProfileImageCell: BaseTableViewCell {
     
     let relatableCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "11"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
@@ -73,7 +69,6 @@ class ProfileImageCell: BaseTableViewCell {
     
     let helpsGivenCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "30"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
@@ -81,7 +76,6 @@ class ProfileImageCell: BaseTableViewCell {
     
     let summaryLabel: UILabel = {
         let label = UILabel()
-        label.text = "Some summary extending several lines here"
         label.font = UIFont.systemFont(ofSize: 15)
         label.numberOfLines = 0
         return label

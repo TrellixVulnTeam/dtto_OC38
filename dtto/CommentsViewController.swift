@@ -221,16 +221,16 @@ class CommentsViewController: SLKTextViewController, CommentProtocol {
     
     func postComment() {
 
-        guard let userID = defaults.getUID(), commentText.characters.count > 0, commentText != TEXTVIEW_PLACEHOLDER else { return }
+        guard let userID = defaults.getUID(), let username = defaults.getUsername(), commentText.characters.count > 0, commentText != TEXTVIEW_PLACEHOLDER else { return }
         
         let autoID = COMMENTS_REF.child(post.getPostID()).childByAutoId().key
         let postCommentsRef = COMMENTS_REF.child(post.getPostID()).child(autoID)
         
         let comment: [String:Any] = [
             "userID": userID,
-            "username": "commenter1",
+            "username": username,
             "text" : commentText,
-            "timestamp" : [".sv" : "timestamp"]
+            "timestamp" : FIREBASE_TIMESTAMP
         ]
         
         postCommentsRef.updateChildValues(comment)

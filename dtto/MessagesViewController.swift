@@ -27,7 +27,8 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     var friendName: String? {
         didSet {
-            title = friendName!
+            title = friendName
+            self.collectionView.reloadData()
         }
     }
     var messages = [JSQMessage]()
@@ -135,19 +136,20 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
                 
                 let userRef = USERS_REF.child(userID)
                 let helperRef = USERS_REF.child(helperID)
+                let helperProfileRef = PROFILES_REF.child(helperID)
                 
                 let dataRequest = FirebaseService.dataRequest
 
                 // Update this user's stats
                 dataRequest.incrementCount(ref: userRef.child("helpsReceivedCount"))
-                dataRequest.decrementCount(ref: userRef.child("ongoingChatCount"))
+//                dataRequest.decrementCount(ref: userRef.child("ongoingChatCount"))
                 
                 // Update the helper's stats
-                dataRequest.incrementCount(ref: helperRef.child("helpsGivenCount"))
-                dataRequest.decrementCount(ref: helperRef.child("ongoingChatCount"))
+                dataRequest.incrementCount(ref: helperProfileRef.child("helpfulCount"))
+//                dataRequest.decrementCount(ref: helperRef.child("ongoingChatCount"))
                 
                 // Decrement the number of ongoing chats for this post. TODO: Check if chat was initiated thru post.
-                dataRequest.decrementCount(ref: POSTS_REF.child(self.chat.getPostID()).child("ongoingChatCount"))
+//                dataRequest.decrementCount(ref: POSTS_REF.child(self.chat.getPostID()).child("ongoingChatCount"))
             }
         })
         
@@ -162,17 +164,13 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         
         if userID == helperID {
             // Get the poster's name. Check if poster was anonymous
-            let friendNameRef = FIREBASE_REF.child("posts").child(postID).child("name")
-            friendNameRef.observeSingleEvent(of: .value, with: { snapshot in
-                
+            POSTS_REF.child(postID).child("name").observeSingleEvent(of: .value, with: { snapshot in
                 self.friendName = snapshot.value as? String ?? "Anonymous"
-                
             })
         }
         else {
             // Get the helper's name.
-            FIREBASE_REF.child("users").child(helperID).child("name").observeSingleEvent(of: .value, with: { snapshot in
-                                
+            PROFILES_REF.child(helperID).child("name").observeSingleEvent(of: .value, with: { snapshot in
                 self.friendName = snapshot.value as? String ?? "Anonymous"
             })
         }
@@ -180,7 +178,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     private func getMessages() {
         
-        let ref = FIREBASE_REF.child("messages").child(chat.getChatID())
+        let ref = MESSAGES_REF.child(chat.getChatID())
         
         ref.observe(.childAdded, with: { snapshot in
             
@@ -243,12 +241,12 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
 
-        let messagesRef = FIREBASE_REF.child("messages").child(chat.getChatID())
+        let messagesRef = MESSAGES_REF.child(chat.getChatID())
         let messageItem: [String: Any] = [
             "senderID": senderId!,
             "senderName": senderDisplayName!,
             "text": text!,
-            "timestamp": [".sv" : "timestamp"]
+            "timestamp": FIREBASE_TIMESTAMP
             ]
         
         messagesRef.childByAutoId().setValue(messageItem)
@@ -367,7 +365,9 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         let size = CGSize(width: approximateWidthOfTextView, height: 500)
         let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 13)]
         
-        let estimatedFrame = NSString(string: "You are now connected with jae regarding your post about dtto").boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        let username = friendName ?? "Anonymous"
+        
+        let estimatedFrame = NSString(string: "You are now connected with \(username) regarding your post about dtto").boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         
         return CGSize(width: collectionView.frame.width, height: estimatedFrame.height + 25)
     }
@@ -375,6 +375,8 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "MessagesHeaderView", for: indexPath) as! MessagesHeaderView
+        let friendName = self.friendName ?? "Anonymous"
+        headerView.introLabel.text = "You are now connected with \(friendName) regarding your post about dtto"
         return headerView
     }
 

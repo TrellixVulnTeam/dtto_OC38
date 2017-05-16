@@ -20,23 +20,37 @@ exports.createUser = functions.auth.user().onCreate(event => {
   const email = user.email; // The email of the user.
   const displayName = user.displayName; // The display name of the user.
   
+  // Make sure emails are unique
+
+  const escapedEmail = email.replace(/\./g, ',');
+  console.log(escapedEmail);
+  admin.database().ref(`/userEmails/${escapedEmail}`).set(true);
+
   // Set up initial user data.
   const userID = user.uid;
   console.log(userID);
 
-  admin.database().ref(`/users/${userID}`).set({
+  // Public Profile data. Readable by everyone.
+  admin.database().ref(`/profiles/${userID}`).set({
 
-    answerCount: 0,
-    ongoingChatAcceptedCount: 0,
-    ongoingChatCount: 0,
-    ongoingChatRequestedCount: 0,
-    postCount: 0,
-    relatesGivenCount: 0,
+    email: email,
+    helpfulCount: 0,
     relatesReceivedCount: 0,
+    postCount: 0,
+    profileViewCount: 0,
+    joined: admin.database.ServerValue.TIMESTAMP
+
+  });
+
+  // Private user data. User sees detailed stats when viewing their own profile.
+  admin.database().ref(`/users/${userID}`).set({
+    
+    ongoingChatRequestedCount: 0, // this can be replaced by /users/outgoingRequests
+    totalChatRequestsCount: 0,
+    relatesGivenCount: 0,
     requestsCount: 0,
     shareCount: 0,
-    totalChatCount: 0,
-    totalChatRequestsCount: 0,
+    totalChatCount: 0
 
   });
 
@@ -136,12 +150,9 @@ exports.sendChatAcceptedNotification = functions.database.ref('/chats/{chatID}/p
     return
   }
 
-  // Log the chat's creation date.
-  admin.database().ref(`/chats/${chatID}/created`).set(admin.database.ServerValue.TIMESTAMP);
-
-  // Notification
   const chatID = event.params.chatID;
   const posterID = event.data.val();
+
   admin.database().ref(`/chats/${chatID}`).once('value').then(snapshot => {
 
     // receiver is the helper, because the helper is waiting for the chat to start.
@@ -289,6 +300,7 @@ exports.sendCommentNotification = functions.database.ref('/comments/{postID}/{co
   const senderID = snapshot.val().userID;
   const senderName = snapshot.val().username;
   const text = snapshot.val().text;
+  const timestamp = snapshot.val().timestamp;
 
   // get the poster's userID.
   admin.database().ref(`/posts/${postID}/userID`).once('value').then(snapshot => {
@@ -299,6 +311,19 @@ exports.sendCommentNotification = functions.database.ref('/comments/{postID}/{co
       console.log('poster commented on own post.');
       return;
     }
+    
+    // post to /user/notifications
+    var notificationsRef = admin.database().ref(`/users/${receiverID}/notifications`);
+    var newNotificationRef = notificationsRef.push();
+    newNotificationRef.set({
+
+      type: "comment",
+      senderID: senderID,
+      senderName: senderName,
+      postID: postID,
+      timestamp: timestamp
+
+    });
 
     // Notification details.
     const payload = {
@@ -412,3 +437,39 @@ function sendNotification(receiverID, senderID, payload) {
 }
 
 
+// Counters
+
+// Post relates.
+
+// Keeps track of the length of the 'likes' child list in a separate property.
+// exports.postRelatesChange = functions.database.ref('/postRelates/{postID}/{userID}').onWrite(event => {
+  
+//   const postID = event.params.postID;
+//   const relatesCountRef = admin.database().ref(`posts/${postID}/relatesCount`);
+
+//   // Return the promise from countRef.transaction() so our function 
+//   // waits for this async event to complete before it exits.
+//   return relatesCountRef.transaction(current => {
+//     if (event.data.exists() && !event.data.previous.exists()) {
+//       return (current || 0) + 1;
+//     }
+//     else if (!event.data.exists() && event.data.previous.exists()) {
+//       return (current || 0) - 1;
+//     }
+//   }).then(() => {
+//     console.log('Counter updated.');
+//   });
+// });
+
+// // If the number of relates gets deleted, recount the number of relates
+// exports.recountRelates = functions.database.ref('/posts/{postid}/relatesCount').onWrite(event => {
+//   if (!event.data.exists()) {
+
+//     const collectionRef = functions.database().ref(`/postRelates/${postID}/{userID}`);
+    
+//     // Return the promise from counterRef.set() so our function 
+//     // waits for this async event to complete before it exits.
+//     return collectionRef.once('value')
+//         .then(messagesData => counterRef.set(messagesData.numChildren()));
+//   }
+// });

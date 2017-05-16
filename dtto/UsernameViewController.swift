@@ -48,7 +48,7 @@ class UsernameViewController: FormViewController {
                 defaults.setName(value: self.user.name!)
                 defaults.setUsername(value: username)
                 
-                self.addUniqueUser()
+//                self.addUniqueUser()
                 self.updateUser()
                 
                 self.changeRootVC(vc: .login)
@@ -58,7 +58,7 @@ class UsernameViewController: FormViewController {
         })
     }
     
-    // This adds the username and email so that no one else can claim it.
+    // This adds the username and email so that no one else can claim it. Moved to functions.
     func addUniqueUser() {
         
         guard let username = self.user.username, let email = self.user.email else { return }

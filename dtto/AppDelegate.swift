@@ -165,40 +165,49 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         // Change this to your preferred presentation option
-        completionHandler([])
+        completionHandler([.alert])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("notification in background or closed.")
-        let userInfo = response.notification.request.content.userInfo
-        // Print message ID.
-        if let type = userInfo["type"] as? String, let notificationType = NotificationType(rawValue: type) {
-            print(type)
 
-            // push requests VC
-            if let tabBarController = window?.rootViewController as? TabBarController {
-                if let navVC = tabBarController.childViewControllers[0] as? UINavigationController, let cv = navVC.childViewControllers[0] as? MasterCollectionView {
-                    cv.scrollToMenuIndex(cv.chatButton)
-                    
+        
+        // for each notification, check if the user was already in the proper screen.
+        let userInfo = response.notification.request.content.userInfo
+        if let type = userInfo["type"] as? String, let notificationType = NotificationType(rawValue: type) {
+
+            if let tabBarController = window?.rootViewController as? TabBarController, let navVC = tabBarController.childViewControllers[0] as? UINavigationController, let cv = navVC.childViewControllers[0] as? MasterCollectionView {
+                
                     switch notificationType {
                         
                     case .relate, .comment:
-                        if let postID = userInfo["postID"] as? String {
-                            let vc = PostViewController(postID)
-                            navVC.pushViewController(vc, animated: true)
+                        guard let postID = userInfo["postID"] as? String else { return }
+                        if let postVC = UIApplication.topViewController() as? CommentsViewController {
+                            if postVC.post.getPostID() == postID {
+                                return
+                            }
                         }
+                        let vc = PostViewController(postID)
+                        navVC.pushViewController(vc, animated: true)
                         
                     case .request:
-                        let requestsVC = RequestsViewController()
-                        navVC.pushViewController(requestsVC, animated: true)
-                    case .message, .endorse:
-                        // check if user was already in 
-                        if let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
-                            print("UNWRAPPED")
+                        if UIApplication.topViewController() as? RequestsViewController == nil {
+                            let requestsVC = RequestsViewController()
+                            navVC.pushViewController(requestsVC, animated: true)
                         }
-                        if let chatID = userInfo["chatID"] as? String, let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
+                        
+                    case .message, .endorse:
+                        cv.scrollToMenuIndex(cv.chatButton)
+                        
+                        guard let chatID = userInfo["chatID"] as? String else { return }
+                        
+                        if let chatVC = UIApplication.topViewController() as? MessagesViewController {
+                            if chatVC.chat.getChatID() == chatID {
+                                return
+                            }
+                        }
+                        else if let chatListVC = cv.collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? ChatList {
                             for (index, chat) in chatListVC.chats.enumerated() {
                                 if chat.getChatID() == chatID {
                                     chatListVC.tableView(chatListVC.tableView, didSelectRowAt: IndexPath(row: index, section: 1))
@@ -209,9 +218,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     }
                     
                 }
-                
-            }
-            
         }
         
         completionHandler()
@@ -227,7 +233,7 @@ extension AppDelegate : FIRMessagingDelegate {
 }
 // [END ios_10_data_message_handling]
 
-func getTopViewController() -> UIViewController{
+func getTopViewController() -> UIViewController {
     
     if var topController = UIApplication.shared.keyWindow?.rootViewController {
         while let presentedViewController = topController.presentedViewController {
@@ -293,5 +299,33 @@ extension AppDelegate {
         
 
         // [END register_for_notifications]
+    }
+}
+
+extension UIApplication
+{
+    class func topViewController(_ base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController?
+    {
+        if let nav = base as? UINavigationController
+        {
+            let top = topViewController(nav.visibleViewController)
+            return top
+        }
+        
+        if let tab = base as? UITabBarController
+        {
+            if let selected = tab.selectedViewController
+            {
+                let top = topViewController(selected)
+                return top
+            }
+        }
+        
+        if let presented = base?.presentedViewController
+        {
+            let top = topViewController(presented)
+            return top
+        }
+        return base
     }
 }

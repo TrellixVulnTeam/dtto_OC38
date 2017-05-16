@@ -12,8 +12,12 @@ import NVActivityIndicatorView
 
 class ProfileViewController: UIViewController {
 
-    let user = User()
-    var userRef: FIRDatabaseReference!
+    var user: User? {
+        didSet {
+            navigationItem.title = user?.getName()
+        }
+    }
+    var userID: String?
     
     lazy var tableView: UITableView = {
 
@@ -39,31 +43,31 @@ class ProfileViewController: UIViewController {
    
     // Init with current user, or pass another user's ID
     init() {
-        userRef = FIREBASE_REF.child("users").child(defaults.getUID()!)
+        userID = defaults.getUID()
         super.init(nibName: nil, bundle: nil)
         setupNavBar()
     }
     
     init(userID: String) {
-        userRef = FIREBASE_REF.child("users").child(userID)
-        self.user.uid = userID
+        self.userID = userID
         super.init(nibName: nil, bundle: nil)
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        animateSpinner(true)
-        observeUser()
         setupViews()
+        observeUser()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        userRef.removeAllObservers()
+        guard let userID = userID else { return }
+        USERS_REF.child(userID).removeAllObservers()
+        PROFILES_REF.child(userID).removeAllObservers()
     }
     
     private func setupNavBar() {
@@ -71,21 +75,21 @@ class ProfileViewController: UIViewController {
         let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(edit))
         let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settings))
         
-        //        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+//        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
         
         self.navigationItem.leftBarButtonItem = editButton
         self.navigationItem.rightBarButtonItem = settingsButton
-        //        self.navigationItem.rightBarButtonItem = logoutButton
+//        self.navigationItem.rightBarButtonItem = logoutButton
         
     }
     
     func edit() {
-        
-        present(UINavigationController(rootViewController: ProfileEditViewController(user: self.user)), animated: true, completion: nil)
+        guard let user = user else { return }
+        present(NavigationController(ProfileEditViewController(user: user)), animated: true, completion: nil)
     }
     
     func settings() {
-        present(UINavigationController(rootViewController: SettingsViewController()), animated: true, completion: nil)
+        present(NavigationController(SettingsViewController()), animated: true, completion: nil)
     }
     
     func logout() {
@@ -138,55 +142,24 @@ class ProfileViewController: UIViewController {
     
     func observeUser() {
         
-//        guard let user = user else { return }
-//        guard let userID = user.uid else { return }
+        guard let userID = userID else { return }
         
-        userRef.observe(.value, with: { snapshot in
-            // get all user attributes, then add to tableview
-            guard let userSnapshot = snapshot.value as? Dictionary<String, AnyObject> else { return }
+        animateSpinner(true)
+        
+        PROFILES_REF.child(userID).observe(.value, with: { snapshot in
             
-            guard let name = userSnapshot["name"] as? String, let username = userSnapshot["username"] as? String else { return }
+            // get the public user profile.
+            self.user = User(snapshot: snapshot)
             
-            self.user.name = name
-            self.user.username = username
-            self.navigationItem.title = username
-            
-            if let birthday = userSnapshot["birthday"] as? String {
-                self.user.birthday = birthday
+            DispatchQueue.main.async {
+                self.animateSpinner(false)
+                self.tableView.alpha = 1
+                self.tableView.reloadData()
             }
-            
-            if let education = userSnapshot["education"] as? Dictionary<String, Int> {
-                
-                self.user.education = sortByValue(dict: education)
-                
-            }
-            
-            if let profession = userSnapshot["profession"] as? Dictionary<String, Int> {
-                
-                self.user.profession = sortByValue(dict: profession)
-                
-            }
-            
-            if let expertise = userSnapshot["expertise"] as? Dictionary<String, Int> {
-
-                self.user.expertise = sortByValue(dict: expertise)
-                
-            }
-            
-            if let summary = userSnapshot["summary"] as? String {
-                self.user.summary = summary
-            }
-            
-            if let relatesReceivedCount = userSnapshot["relatesReceivedCount"] as? Int {
-                self.user.relatesReceivedCount = relatesReceivedCount
-            }
-            
-            
-            self.animateSpinner(false)
-            self.tableView.alpha = 1
-            self.tableView.reloadData()
             
         })
+        
+        // do stuff if this is the user viewing his own
     }
 
 }
@@ -207,7 +180,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let section = Section(rawValue: section) else { return 0 }
+        guard let section = Section(rawValue: section), let user = user else { return 0 }
         
         switch section {
             
@@ -273,15 +246,18 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
+        guard let section = Section(rawValue: indexPath.section), let user = user else { return UITableViewCell() }
         
         switch section {
         case .profile:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell") as! ProfileImageCell
-
-            if let userID = user.uid {
-                cell.profileImageView.loadProfileImage(userID)
-            }
+            cell.usernameLabel.text = user.getUsername()
+            cell.nameLabel.text = user.getName()
+            cell.postsCountLabel.text = String(user.getPostCount())
+            cell.relatableCountLabel.text = String(user.getRelatesReceivedCount())
+            cell.helpsGivenCountLabel.text = String(user.getHelpfulCount())
+            cell.summaryLabel.text = user.getSummary()
+            cell.profileImageView.loadProfileImage(user.getUserID())
             return cell
             
         case .about:

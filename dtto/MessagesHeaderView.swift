@@ -14,7 +14,6 @@ class MessagesHeaderView: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont.italicSystemFont(ofSize: 13)
         label.textColor = .lightGray
-        label.text = "You are now connected with jae regarding your post about dtto"
         label.alpha = 0
         label.textAlignment = .center
         label.numberOfLines = 0

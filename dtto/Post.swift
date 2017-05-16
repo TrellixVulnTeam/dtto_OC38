@@ -17,7 +17,7 @@ class Post {
     var profileImageURL: String?
     var category: String?
     var chatCount: Int
-    let relatesCount: Int
+    var relatesCount: Int
     var commentCount: Int
     var tags: String?
     var isAnonymous: Bool = true

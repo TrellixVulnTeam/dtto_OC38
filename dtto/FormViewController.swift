@@ -11,7 +11,7 @@ import NVActivityIndicatorView
 
 class FormViewController: UIViewController {
     
-    var user = User()
+    var user = NewUser()
     
     let formLabel: UILabel = {
         let label = UILabel()

@@ -143,23 +143,12 @@ class ChatSettings: UIViewController {
         
         // present alert.
         guard let userID = defaults.getUID() else { return }
-        
-        let dataRequest = FirebaseService.dataRequest
-        
         let chatID = chat.getChatID()
-        // remove from user's chat list
-        let userChatsRef = USERS_REF.child(userID).child("chats").child(chatID)
-        userChatsRef.removeValue()
-        
-        // remove observer for this chat because user doesn't want to see it anymore.
-        let ref = FIREBASE_REF.child("chats").child(chatID)
-        ref.removeAllObservers()
-        
-        // remove from ongoingPostChats
-        dataRequest.removeOngoingPostChat(userID: userID, postID: chat.getPostID())
-        
+        let dataRequest = FirebaseService.dataRequest
+    
         // update chat room, indicating that this user has deleted. If both users delete, then delete the chat room.
-        let chatRef = FIREBASE_REF.child("chats").child(chatID)
+        // Upon completion, remove from /users/chats
+        let chatRef = CHATS_REF.child(chatID)
         chatRef.child("deleted").observeSingleEvent(of: .value, with: { snapshot in
             
             if snapshot.exists() {
@@ -169,7 +158,18 @@ class ChatSettings: UIViewController {
             else {
                 chatRef.child("deleted").setValue(true)
             }
+            
+            // remove from user's chat list
+            let userChatsRef = USERS_REF.child(userID).child("chats").child(chatID)
+            userChatsRef.removeValue()
+            
         })
+        
+        // remove from ongoingPostChats
+        dataRequest.removeOngoingPostChat(userID: userID, postID: chat.getPostID())
+        
+        // remove observer for this chat because user doesn't want to see it anymore.
+        CHATS_REF.child(chatID).removeAllObservers()
         
         dismiss(animated: true, completion: {
             _ = self.chatRoomDelegate?.navigationController?.popViewController(animated: true)

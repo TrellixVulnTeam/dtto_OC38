@@ -181,6 +181,9 @@ class MasterCollectionView: UIViewController {
             
             let chatIDRemoved = snapshot.key
             
+            // remove observer
+            MESSAGES_REF.child(chatIDRemoved).removeAllObservers()
+            
             self.chatsDictionary.removeValue(forKey: chatIDRemoved)
             self.attemptReloadOfChats()
 

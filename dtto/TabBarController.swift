@@ -29,16 +29,16 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func setupTabBar() {
         
-//        let homeTab = UINavigationController(rootViewController: PageViewController())
-        let homeTab = UINavigationController(rootViewController: MasterCollectionView())
+//        let homeTab = NavigationController(PageViewController())
+        let homeTab = NavigationController(MasterCollectionView())
         homeTab.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "home"), tag: 0)
         homeTab.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
 
-        let postTab = UINavigationController(rootViewController: ComposePostViewController())
+        let postTab = NavigationController(ComposePostViewController())
         postTab.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "plus"), tag: 1)
         postTab.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
         
-        let profileTab = UINavigationController(rootViewController: ProfileViewController())
+        let profileTab = NavigationController(ProfileViewController())
         profileTab.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "userTab"), tag: 2)
         profileTab.tabBarItem.imageInsets = .init(top: 6, left: 0, bottom: -6, right: 0)
         
@@ -80,7 +80,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         if toVC.childViewControllers[0] is ComposePostViewController {
-            let navController = UINavigationController(rootViewController: ComposePostViewController())
+            let navController = NavigationController(ComposePostViewController())
             tabBarController.present(navController, animated: true)
             return nil
         }

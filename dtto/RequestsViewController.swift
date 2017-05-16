@@ -159,9 +159,6 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         
         guard let userID = defaults.getUID() else { return }
         let friendID = request.getSenderID()
-        let friendName = request.getSenderName()
-        let postID = request.getPostID()
-        let userName = FIRAuth.auth()?.currentUser?.displayName ?? "Anonymous"
         
         let dataRequest = FirebaseService.dataRequest
         
@@ -179,7 +176,9 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             
             var chat: [String:Any] = ["posterID" : userID,
                                       "helperID" : friendID,
-                                      "timestamp": [".sv" : "timestamp"]]
+                                      "timestamp": FIREBASE_TIMESTAMP,
+                                      "created" : FIREBASE_TIMESTAMP
+                                      ]
             if let postID = request.getPostID() {
                 chat.updateValue(postID, forKey: "postID")
             }
@@ -198,8 +197,8 @@ class RequestsViewController: UIViewController, RequestsDelegate {
             }
 
             // increment user's and friend's number of ongoing chats.
-            dataRequest.incrementCount(ref: USERS_REF.child(userID).child("ongoingChatCount"))
-            dataRequest.incrementCount(ref: USERS_REF.child(friendID).child("ongoingChatCount"))
+//            dataRequest.incrementCount(ref: USERS_REF.child(userID).child("ongoingChatCount"))
+//            dataRequest.incrementCount(ref: USERS_REF.child(friendID).child("ongoingChatCount"))
             
             // increment user's and friend's number of total chats.
             dataRequest.incrementCount(ref: USERS_REF.child(userID).child("totalChatCount"))

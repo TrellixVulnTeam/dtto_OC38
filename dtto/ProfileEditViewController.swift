@@ -103,10 +103,10 @@ class ProfileEditViewController: UIViewController, FormNavigationBar {
         
         guard let userID = defaults.getName(), let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? EditUserInfoBaseCell else { return }
 
-        guard let nameField = cell.userInfoTextView.text, let name = user.name, name != nameField else { return }
+        guard let nameField = cell.userInfoTextView.text, user.name != nameField else { return }
         
         let nameRef = FIREBASE_REF.child("users").child(userID).child("name")
-        nameRef.setValue(name)
+        nameRef.setValue(user.name)
 
     }
     
@@ -270,14 +270,9 @@ extension ProfileEditViewController: UITableViewDelegate, UITableViewDataSource 
             switch section {
                 
             case .name:
-                cell.userInfoTextView.text = user.name ?? "What's your name?"
+                cell.userInfoTextView.text = user.name
             case .username:
-                if let username = user.username {
-                    cell.userInfoTextView.text = "@" + username
-                }
-                else {
-                    cell.userInfoTextView.text = "Enter your username"
-                }
+                cell.userInfoTextView.text = "@" + user.getUsername()
             case .email:
                 cell.userInfoTextView.text = "Enter your email"
             case .summary:

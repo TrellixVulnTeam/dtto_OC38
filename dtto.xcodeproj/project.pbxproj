@@ -71,7 +71,6 @@
 		0470790C1E0612E90059C360 /* NotificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470790B1E0612E90059C360 /* NotificationsCell.swift */; };
 		0474C1DA1E2379B900F20704 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474C1D91E2379B900F20704 /* PasswordViewController.swift */; };
 		0475D2871E8E114400F0D03A /* EditProfileSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475D2861E8E114400F0D03A /* EditProfileSectionHeader.swift */; };
-		0483C1E11E285356003508F2 /* CardRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483C1E01E285356003508F2 /* CardRegistrationViewController.swift */; };
 		048A20931E9C63390032FEE1 /* SettingsToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048A20921E9C63390032FEE1 /* SettingsToggleCell.swift */; };
 		048E8C631EC154E8005D90B0 /* PostRelatesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E8C621EC154E8005D90B0 /* PostRelatesCell.swift */; };
 		049AB6B11DFE841F00B45DC3 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB6B01DFE841F00B45DC3 /* ChatList.swift */; };
@@ -230,7 +229,6 @@
 		0470790B1E0612E90059C360 /* NotificationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsCell.swift; sourceTree = "<group>"; };
 		0474C1D91E2379B900F20704 /* PasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		0475D2861E8E114400F0D03A /* EditProfileSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileSectionHeader.swift; sourceTree = "<group>"; };
-		0483C1E01E285356003508F2 /* CardRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardRegistrationViewController.swift; sourceTree = "<group>"; };
 		048A20921E9C63390032FEE1 /* SettingsToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsToggleCell.swift; sourceTree = "<group>"; };
 		048E8C621EC154E8005D90B0 /* PostRelatesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRelatesCell.swift; sourceTree = "<group>"; };
 		049AB6B01DFE841F00B45DC3 /* ChatList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
@@ -423,7 +421,6 @@
 				0413AB9B1E232AC500C7198C /* EmailViewController.swift */,
 				0474C1D91E2379B900F20704 /* PasswordViewController.swift */,
 				0413ABA21E233C4D00C7198C /* UsernameViewController.swift */,
-				0483C1E01E285356003508F2 /* CardRegistrationViewController.swift */,
 			);
 			name = RegisterForm;
 			sourceTree = "<group>";
@@ -1005,7 +1002,6 @@
 				0457304D1E91A771001A2268 /* ToggleCell.swift in Sources */,
 				04AFA7041EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift in Sources */,
 				0413AB9A1E22C40B00C7198C /* LoginHeaderView.swift in Sources */,
-				0483C1E11E285356003508F2 /* CardRegistrationViewController.swift in Sources */,
 				04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */,
 				04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */,
 				0442E0AB1E2AC28200B7BC4D /* PostAddTagsCell.swift in Sources */,

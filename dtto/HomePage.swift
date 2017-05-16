@@ -301,8 +301,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                         
                         // if poster has not ignored yet, cancel the request.
                         guard let pending = snapshot.value as? Bool, pending == true else { return }
-                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("requestsCount"))
-                        dataRequest.decrementCount(ref: FIREBASE_REF.child("users").child(posterID).child("totalChatRequestsCount"))
+                        dataRequest.decrementCount(ref: USERS_REF.child(posterID).child("requestsCount"))
+                        dataRequest.decrementCount(ref: USERS_REF.child(posterID).child("totalChatRequestsReceivedCount"))
                         requestRef.removeValue()
                         outgoingRequestsRef.removeValue()
                         
@@ -313,12 +313,12 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                     
                     // no snapshot found, so request chat
                     dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("requestsCount"))
-                    dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("totalChatRequestsCount"))
+                    dataRequest.incrementCount(ref: USERS_REF.child(posterID).child("totalChatRequestsReceivedCount"))
                     
                     let request: [String: Any] = [
                         "senderName": "Jae",
                         "postID" : postID,
-                        "timestamp" : [".sv" : "timestamp"],
+                        "timestamp" : FIREBASE_TIMESTAMP,
                         "senderID" : userID,
                         "pending" : true
                     ]
@@ -425,7 +425,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
                 dataRequest.incrementCount(ref: FIREBASE_REF.child("users").child(userID).child("relatesGivenCount"))
                 
                 // add this user to the post's list of related users
-                let relaterData: [String : Any] = ["name" : name, "username" : username, "timestamp" : [".sv" : "timestamp"]]
+                let relaterData: [String : Any] = ["name" : name, "username" : username, "timestamp" : FIREBASE_TIMESTAMP]
                 postRelatesRef.setValue(relaterData)
 
                 // add this post to the user's relatedPosts
