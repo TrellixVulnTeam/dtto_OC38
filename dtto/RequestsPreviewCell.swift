@@ -84,10 +84,8 @@ class RequestsPreviewCell: BaseTableViewCell {
         let requestsCountRef = FIREBASE_REF.child("users/\(userID)/requestsCount")
         requestsCountRef.observe(.value, with: { snapshot in
             self.requestsCount = snapshot.value as? Int ?? 0
-
         })
         
     }
-
     
 }

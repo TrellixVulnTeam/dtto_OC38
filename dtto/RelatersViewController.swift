@@ -47,6 +47,14 @@ class RelatersViewController: UIViewController {
         observeRelaters()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard let indexPath = tableView.indexPathsForSelectedRows?.first else { return }
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         relatersRef.removeAllObservers()
@@ -90,6 +98,7 @@ extension RelatersViewController: UITableViewDelegate, UITableViewDataSource {
         let relater = relaters[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "RelatersCell") as! RelatersCell
+        cell.nameLabel.text = relater.getName()
         cell.usernameLabel.text = relater.getUsername()
         cell.profileImage.loadProfileImage(relater.getUserID())
         

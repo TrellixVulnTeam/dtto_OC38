@@ -361,38 +361,39 @@ class CommentsViewController: SLKTextViewController, CommentProtocol {
         
         guard let userID = defaults.getUID() else { return }
         
-        let alertController = UIAlertController(title: "Report this comment?", message: "", preferredStyle: .alert)
-        alertController.view.tintColor = Color.darkNavy
-        alertController.view.backgroundColor = .white
-        alertController.view.layer.cornerRadius = 10
-        
-        let report = UIAlertAction(title: "Report", style: .destructive, handler: { action in
+        func createReport(_ reportReason: ReportReason) {
             
-            FIRAnalytics.logEvent(withName: "ReportComment", parameters: [
-                "userID": comment.getUserID() as NSObject,
-                "reporterID": userID as NSObject
-                ])
-            let reportRef = REPORTS_REF.childByAutoId()
-            
-            let report: [String:Any] = [
+            let report = [
                 "userID" : comment.getUserID(),
-                "text" : comment.getText(),
-                "reporterID" : userID
+                "reporterID" : userID,
+                "type" : "comment",
+                "reason" : reportReason.rawValue
             ]
             
-            reportRef.updateChildValues(report)
+            REPORTS_REF.child(comment.getUserID()).childByAutoId().updateChildValues(report)
             
-            // TODO: Increment report count for the user?
+            // TODO: Automatically hide comment?
+        }
+
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let spamAction = UIAlertAction(title: "It's spam", style: .destructive, handler: { action in
+            createReport(.spam)
         })
         
-        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        ac.addAction(spamAction)
         
-        alertController.addAction(report)
-        alertController.addAction(cancel)
+        let inappropriateAction = UIAlertAction(title: "It's inappropriate", style: .destructive, handler: { action in
+            createReport(.inappropriate)
+        })
         
-        present(alertController, animated: true) {
-            alertController.view.tintColor = Color.darkNavy
-        }
+        ac.addAction(inappropriateAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ac.addAction(cancelAction)
+        cancelAction.setValue(UIColor.blue, forKey: "titleTextColor")
+        
+        present(ac, animated: true, completion: nil)
         
     }
 

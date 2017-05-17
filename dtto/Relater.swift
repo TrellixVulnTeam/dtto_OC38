@@ -37,6 +37,10 @@ class Relater {
         return username
     }
     
+    func getName() -> String {
+        return name
+    }
+    
     func getTimestamp() -> Date {
         return timestamp
     }

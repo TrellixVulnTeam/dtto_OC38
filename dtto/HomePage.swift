@@ -560,21 +560,45 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         
         guard let userID = defaults.getUID() else { return }
         
-        let report = [
-            "userID" : post.getUserID(),
-            "reporterID" : userID,
-            "reason" : "inappropriate"
-        ]
-        
-        REPORTS_REF.child(post.getPostID()).childByAutoId().updateChildValues(report)
-        
-        // Automatically hide this for the user.
-        for (index, p) in posts.enumerated() {
-            if p.getPostID() == post.getPostID() {
-                hidePost(section: index, postID: p.getPostID())
+        func createReport(_ reportReason: ReportReason) {
+            
+            let report = [
+                "userID" : post.getUserID(),
+                "reporterID" : userID,
+                "type" : "post",
+                "reason" : reportReason.rawValue
+            ]
+            
+            REPORTS_REF.child(post.getUserID()).childByAutoId().updateChildValues(report)
+            
+            // Automatically hide this for the user.
+            for (index, p) in posts.enumerated() {
+                if p.getPostID() == post.getPostID() {
+                    hidePost(section: index, postID: p.getPostID())
+                }
             }
         }
-
+        
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let spamAction = UIAlertAction(title: "It's spam", style: .destructive, handler: { action in
+            createReport(.spam)
+        })
+    
+        ac.addAction(spamAction)
+        
+        let inappropriateAction = UIAlertAction(title: "It's inappropriate", style: .destructive, handler: { action in
+            createReport(.inappropriate)
+        })
+        
+        ac.addAction(inappropriateAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ac.addAction(cancelAction)
+        cancelAction.setValue(UIColor.blue, forKey: "titleTextColor")
+        
+        masterViewDelegate?.present(ac, animated: true, completion: nil)
+    
     }
     
     func doubleTapped(_ gestureReconizer: UITapGestureRecognizer) {

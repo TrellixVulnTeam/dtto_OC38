@@ -186,14 +186,42 @@ class ChatSettings: UIViewController {
     
     func reportUser() {
         
-        let reportRef = FIREBASE_REF.child("reports").childByAutoId()
+        guard let userID = defaults.getUID() else { return }
         
-        let report = [
-            "userID" : friendID,
-            "reason" : "Spamming"
-        ]
+        func createReport(_ reportReason: ReportReason) {
+            
+            let report = [
+                "userID" : chat.getFriendID(),
+                "reporterID" : userID,
+                "type" : "chat",
+                "reason" : reportReason.rawValue
+            ]
+            
+            REPORTS_REF.child(chat.getFriendID()).childByAutoId().updateChildValues(report)
+            
+            // TODO: Automatically hide comment?
+        }
         
-        reportRef.updateChildValues(report)
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let spamAction = UIAlertAction(title: "It's spam", style: .destructive, handler: { action in
+            createReport(.spam)
+        })
+        
+        ac.addAction(spamAction)
+        
+        let inappropriateAction = UIAlertAction(title: "It's inappropriate", style: .destructive, handler: { action in
+            createReport(.inappropriate)
+        })
+        
+        ac.addAction(inappropriateAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ac.addAction(cancelAction)
+        cancelAction.setValue(UIColor.blue, forKey: "titleTextColor")
+        
+        present(ac, animated: true, completion: nil)
+
 
     }
 }

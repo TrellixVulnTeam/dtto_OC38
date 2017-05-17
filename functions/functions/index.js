@@ -33,6 +33,8 @@ exports.createUser = functions.auth.user().onCreate(event => {
   // Private user data. User sees detailed stats when viewing their own profile.
   admin.database().ref(`/users/${userID}`).set({
 
+    helpsGivenCount: 0,
+    resolvedChatsCount: 0,
     totalChatRequestsReceivedCount: 0,
     relatesGivenCount: 0,
     requestsCount: 0,

@@ -81,10 +81,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
         print("opening url...")
-        let path = url.absoluteString
-        
-        if path == "dtto://hi" {
-            print("success")
+        if url.scheme == "dtto" {
+            // TODO: Handle different types of URLS. For now, only posts will be linked.
+            
             return true
         }
 

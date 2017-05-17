@@ -11,10 +11,6 @@ import Firebase
 
 class MasterCollectionView: UIViewController {
     
-//    private var chatRefHandle: FIRDatabaseHandle?
-//    private lazy var chatRef: FIRDatabaseReference = FIRDatabase.database().reference().child("chats")
-//    private lazy var userRef: FIRDatabaseReference = FIRDatabase.database().reference().child("users")
-    
     var chats = [Chat]()
     var chatsDictionary = [String:Chat]()
     var requests = [UserNotification]()
@@ -25,7 +21,7 @@ class MasterCollectionView: UIViewController {
     }
     
     var horizontalBarView = UIView()
-    var selectedIndex: Int = 0
+    var selectedIndex: Int = 1
     var collectionView: UICollectionView!
     var initialLoad = true
     var numberOfMenuTabs = 0
@@ -102,8 +98,10 @@ class MasterCollectionView: UIViewController {
         }
         
         if let cv = collectionView.cellForItem(at: selectedCV) as? HomePage {
-            guard let selectedIndexPath = cv.tableView.indexPathsForSelectedRows?.first else { return }
-            cv.tableView.deselectRow(at: selectedIndexPath, animated: true)
+            if let selectedIndexPath = cv.tableView.indexPathForSelectedRow {
+                cv.tableView.deselectRow(at: selectedIndexPath, animated: true)
+
+            }
         }
     }
     

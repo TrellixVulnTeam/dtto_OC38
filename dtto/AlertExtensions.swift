@@ -14,6 +14,18 @@ private let PREVIOUSLYDECLINED_MESSAGE = "It seems that you previously declined 
 
 import Firebase
 
+enum ReportReason: String {
+    case spam
+    case inappropriate
+}
+
+enum ReportType: String {
+    case comment
+    case post
+    case chat
+}
+
+// Push notifications
 extension UIViewController {
     
     func askNotifications() {
@@ -69,3 +81,4 @@ extension UIViewController {
     }
     
 }
+

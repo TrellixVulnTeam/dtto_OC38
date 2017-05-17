@@ -57,6 +57,12 @@ class ProfileViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    deinit {
+        guard let userID = userID else { return }
+        USERS_REF.child(userID).removeAllObservers()
+        PROFILES_REF.child(userID).removeAllObservers()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,9 +72,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        guard let userID = userID else { return }
-        USERS_REF.child(userID).removeAllObservers()
-        PROFILES_REF.child(userID).removeAllObservers()
     }
     
     private func setupNavBar() {

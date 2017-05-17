@@ -38,7 +38,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate {
         return button
     }()
     
-    var loginButton: UIButton = {
+    lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
