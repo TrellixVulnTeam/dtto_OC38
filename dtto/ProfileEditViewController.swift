@@ -452,7 +452,7 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
             return
         }
         
-        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditUserImageCell else { return }
+//        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditUserImageCell else { return }
         
 //        cell.profileImage.setBackgroundImage(newImage, for: UIControlState())
         downloadImageToDisk(newImage)
@@ -489,7 +489,7 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
             storageRef.put(uploadData, metadata: nil, completion: { (metadata, error) in
                 
                 if error != nil {
-                    print(error)
+//                    print(error)
                     return
                 }
 

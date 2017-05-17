@@ -10,6 +10,9 @@ import UIKit
 import Firebase
 import NVActivityIndicatorView
 
+let FORGOTPASSWORD_TITLE = "Enter you email."
+let FORGOTPASSWORD_MESSAGE = "You will be sent a password reset email."
+
 class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
 
     lazy var dismissButton: UIBarButtonItem = {
@@ -65,7 +68,7 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         button.backgroundColor = .white
         button.tintColor = .lightGray
-        button.addTarget(self, action: #selector(forgotPassword(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(forgotPassword), for: .touchUpInside)
         return button
     }()
     
@@ -185,22 +188,33 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
-    func forgotPassword(_ sender: UIButton) {
+    func forgotPassword() {
         
-        if let email = emailTextField.text {
-            
-            if email.isEmail {
-                FIRAuth.auth()?.sendPasswordReset(withEmail: email) { (error) in
-                    
+        let ac = UIAlertController(title: FORGOTPASSWORD_TITLE, message: FORGOTPASSWORD_MESSAGE, preferredStyle: .alert)
+        ac.view.tintColor = Color.darkNavy
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        cancelAction.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        ac.addAction(cancelAction)
+        
+        let confirmAction = UIAlertAction(title: "Confirm", style: .default, handler: { action in
+            let textField = ac.textFields![0] as UITextField
+            if let email = textField.text {
+                if email.isEmail {
+                    FIRAuth.auth()?.sendPasswordReset(withEmail: email, completion: nil)
                 }
-                
             }
-            else {
-                print("enter email")
-                // TODO: ux for entering email.
-            }
-        }
+        })
         
+        ac.addAction(confirmAction)
+        
+        ac.addTextField(configurationHandler: {(textField : UITextField!) -> Void in
+            textField.placeholder = "Email"
+        })
+        
+        present(ac, animated: true, completion: nil)
         
     }
 

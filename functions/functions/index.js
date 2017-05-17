@@ -18,7 +18,7 @@ exports.createUser = functions.auth.user().onCreate(event => {
 
   const user = event.data; // The Firebase user.
   const email = user.email; // The email of the user.
-  const displayName = user.displayName; // The display name of the user.
+  const name = user.displayName; // The user's real name. Set automatically with login providers.
   
   // Make sure emails are unique
 
@@ -30,9 +30,21 @@ exports.createUser = functions.auth.user().onCreate(event => {
   const userID = user.uid;
   console.log(userID);
 
+  // Private user data. User sees detailed stats when viewing their own profile.
+  admin.database().ref(`/users/${userID}`).set({
+
+    totalChatRequestsReceivedCount: 0,
+    relatesGivenCount: 0,
+    requestsCount: 0,
+    shareCount: 0,
+    totalChatCount: 0
+
+  });
+
   // Public Profile data. Readable by everyone.
   admin.database().ref(`/profiles/${userID}`).set({
 
+    name: name,
     email: email,
     helpfulCount: 0,
     relatesReceivedCount: 0,
@@ -42,19 +54,7 @@ exports.createUser = functions.auth.user().onCreate(event => {
 
   });
 
-  // Private user data. User sees detailed stats when viewing their own profile.
-  admin.database().ref(`/users/${userID}`).set({
-    
-    ongoingChatRequestedCount: 0, // this can be replaced by /users/outgoingRequests
-    totalChatRequestsCount: 0,
-    relatesGivenCount: 0,
-    requestsCount: 0,
-    shareCount: 0,
-    totalChatCount: 0
-
-  });
-
-  // sendWelcomeEmail(email, displayName);
+  // sendWelcomeEmail(email, name);
   
 });
 
@@ -77,15 +77,16 @@ exports.deleteUser = functions.auth.user().onDelete(event => {
   const user = event.data;
   const userID = user.uid;
   const email = user.email;
-  const username = user.displayName;  // TODO: name vs username.
+  const escapedEmail = email.replace(/\./g, ',');
+  const name = user.displayName;  // TODO: name vs username.
 
   admin.database().ref(`/users/${userID}`).remove();
-  admin.database().ref(`/userEmails/${email}`).remove();
-  admin.database().ref(`/usernames/${username}`).remove();
+  admin.database().ref(`/profiles/${userID}`).remove();
+  admin.database().ref(`/userEmails/${escapedEmail}`).remove();
 
   // TODO: Handle posts + comments
 
-  sendGoodbyEmail(email, displayName);
+  sendGoodbyEmail(email, name);
 
 });
 

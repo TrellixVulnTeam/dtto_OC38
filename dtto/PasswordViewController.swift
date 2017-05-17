@@ -89,7 +89,7 @@ class PasswordViewController: FormViewController {
             
             if password == "" || password.characters.count < 6 {
                 errorText = "Enter at least 6 characters."
-//                self.displayBanner(desc: errorText)
+                print(errorText)
             }
             
             else {

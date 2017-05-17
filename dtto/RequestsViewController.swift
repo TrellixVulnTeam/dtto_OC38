@@ -9,6 +9,8 @@
 import UIKit
 import Firebase
 
+private let NOCHATREQUESTS_TEXT = "You have no more chat requests."
+
 enum RequestAction {
     case accept
     case decline
@@ -45,7 +47,7 @@ class RequestsViewController: UIViewController, RequestsDelegate {
         let label = UILabel()
         label.textColor = Color.textGray
         label.textAlignment = .center
-        label.text = "You have no more chat requests."
+        label.text = NOCHATREQUESTS_TEXT
         label.alpha = 0
         return label
     }()

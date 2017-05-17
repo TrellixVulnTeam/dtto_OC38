@@ -15,7 +15,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         
-        tableView.backgroundColor = Color.gray247
+        tableView.backgroundColor = .white
         tableView.estimatedRowHeight = 90
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView(frame: .zero)

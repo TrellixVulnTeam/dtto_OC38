@@ -79,7 +79,7 @@ class User: NSObject {
     
     func createUserDict() -> [String : Any] {
         
-        var userUpdates = [String : Any]()
+        let userUpdates = [String : Any]()
         
 //        if let uid = uid {
 //            userUpdates.updateValue(uid, forKey: "uid")

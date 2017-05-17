@@ -23,7 +23,9 @@ class RelatersViewController: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
-//        tv.separatorStyle = .none
+
+        tableView.tableFooterView = UIView(frame: .zero)
+        
         tableView.register(RelatersCell.self, forCellReuseIdentifier: "RelatersCell")
 
         return tableView
@@ -31,7 +33,7 @@ class RelatersViewController: UIViewController {
     
     init(postID: String) {
         self.postID = postID
-        self.relatersRef = FIREBASE_REF.child("postRelates").child(postID)
+        self.relatersRef = POSTRELATES_REF.child(postID)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -65,10 +67,9 @@ class RelatersViewController: UIViewController {
         
         relatersRef.queryOrdered(byChild: "timestamp").observe(.childAdded, with: { snapshot in
             
-            if let relaterData = snapshot.value as? Dictionary<String, AnyObject> {
-                let relater = Relater(dictionary: relaterData)
-                self.relaters.insert(relater, at: 0)
+            if let relater = Relater(snapshot: snapshot) {
                 DispatchQueue.main.async {
+                    self.relaters.insert(relater, at: 0)
                     self.tableView.reloadData()
                 }
             }
@@ -89,9 +90,8 @@ extension RelatersViewController: UITableViewDelegate, UITableViewDataSource {
         let relater = relaters[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "RelatersCell") as! RelatersCell
-        cell.nameLabel.text = relater.name ?? ""
-        cell.usernameLabel.text = relater.username ?? ""
-        cell.profileImage.loadProfileImage(relater.userID!)
+        cell.usernameLabel.text = relater.getUsername()
+        cell.profileImage.loadProfileImage(relater.getUserID())
         
         return cell
     }
@@ -106,7 +106,7 @@ extension RelatersViewController: UITableViewDelegate, UITableViewDataSource {
         
         let relater = relaters[indexPath.row]
         
-        let vc = ProfileViewController(userID: relater.userID!)
+        let vc = ProfileViewController(userID: relater.getUserID())
         self.navigationController?.pushViewController(vc, animated: true)
         
     }

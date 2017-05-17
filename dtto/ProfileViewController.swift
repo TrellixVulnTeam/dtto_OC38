@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.dataSource = self
         tv.delegate = self
+        tv.backgroundColor = .white
         tv.alpha = 0
         
         tv.estimatedRowHeight = 200

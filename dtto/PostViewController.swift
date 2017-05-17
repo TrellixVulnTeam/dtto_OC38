@@ -32,21 +32,6 @@ class PostViewController: UIViewController {
     }
     
     var comments = [Comment]()
-    
-    lazy var commentInputContainerView: CommentInputContainerView = {
-        let view = CommentInputContainerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-        return view
-    }()
-    
-    override var inputAccessoryView: UIView? {
-        get {
-            return commentInputContainerView
-        }
-    }
-    
-    override var canBecomeFirstResponder : Bool {
-        return true
-    }
 
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -74,7 +59,6 @@ class PostViewController: UIViewController {
         checkRelate()
         checkChat()
         observeComments()
-        setupTapGesture()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -84,23 +68,8 @@ class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        hideKeyboardWhenTappedAround()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        becomeFirstResponder()
     }
 
-    func setupTapGesture() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    override func dismissKeyboard() {
-        _ = commentInputContainerView.textView.resignFirstResponder()
-    }
-    
     func setupViews() {
         
         view.backgroundColor = .white
@@ -237,36 +206,6 @@ class PostViewController: UIViewController {
         })
     }
     
-    func postComment(textView: UITextView) {
-        
-        guard let post = post, let userID = defaults.getUID(), textView.text.characters.count > 0 else { return }
-        
-        let autoID = COMMENTS_REF.child(post.getPostID()).childByAutoId().key
-        let postCommentsRef = COMMENTS_REF.child(post.getPostID()).child(autoID)
-        
-        let comment: [String:Any] = [
-            "userID": userID,
-            "username": "commenter1",
-            "text" : textView.text,
-            "timestamp" : [".sv" : "timestamp"]
-        
-        ]
-        
-        postCommentsRef.updateChildValues(comment)
-        
-        
-        // increment the comment count for this post
-        let dataRequest = FirebaseService.dataRequest
-        dataRequest.incrementCount(ref: POSTS_REF.child(post.getPostID()).child("commentCount"))
-        
-        commentInputContainerView.resetTextView()
-        
-        // update user's comments. /comments/postID/commentID
-        USERS_REF.child(userID).child("comments").child(post.getPostID()).child(autoID).setValue(true)
-
-        
-    }
-    
     func viewProfile(cell: CommentCell) {
         
         
@@ -286,7 +225,7 @@ extension PostViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let post = post else { return 0 }
+        guard let _ = post else { return 0 }
 //        if post.getRelatesCount() < 1 {
 //            return 4
 //        }
@@ -502,7 +441,7 @@ extension PostViewController: PostProtocol {
     
     func relatePost(cell: PostButtonsCell) {
         
-        guard let section = tableView.indexPath(for: cell)?.section,
+        guard let _ = tableView.indexPath(for: cell)?.section,
             let post = post,
             let userID = defaults.getUID(),
             let username = defaults.getUsername(),

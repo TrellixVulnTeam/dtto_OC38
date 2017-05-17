@@ -480,9 +480,7 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
             }
             else {
                 let report = UIAlertAction(title: "Report", style: .destructive, handler: { action in
-                    
                     self.reportPost(post)
-                    
                 })
                 ac.addAction(report)
             }
@@ -550,8 +548,8 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         defaults.hidePost(postID)
         
         DispatchQueue.main.async {
-            self.tableView.beginUpdates()
             self.posts.remove(at: section)
+            self.tableView.beginUpdates()
             self.tableView.deleteSections(IndexSet(integer: section), with: .automatic)
             self.tableView.endUpdates()
         }
@@ -569,6 +567,13 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
         ]
         
         REPORTS_REF.child(post.getPostID()).childByAutoId().updateChildValues(report)
+        
+        // Automatically hide this for the user.
+        for (index, p) in posts.enumerated() {
+            if p.getPostID() == post.getPostID() {
+                hidePost(section: index, postID: p.getPostID())
+            }
+        }
 
     }
     

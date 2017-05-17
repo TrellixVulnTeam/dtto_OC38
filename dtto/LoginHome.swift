@@ -52,13 +52,13 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate {
     }()
     
     func registerUser(_ sender: UIButton) {
-        let registerVC = UINavigationController(rootViewController: NameViewController())
+        let registerVC = NavigationController(NameViewController())
         present(registerVC, animated: true, completion: nil)
         
     }
     
     func emailLogin(_ sender: UIButton) {
-        let emailLoginVC = UINavigationController(rootViewController: EmailLoginViewController())
+        let emailLoginVC = NavigationController( EmailLoginViewController())
         present(emailLoginVC, animated: true, completion: nil)
     }
     
@@ -174,15 +174,16 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
                 return
             }
             
-            guard let uid = user?.uid else { return }
-            print("Successfully logged into Firebase with Google", uid)
-            defaults.setLogin(value: true)
-            defaults.setUID(value: uid)
-            // test
-            defaults.setName(value: "jitae")
-            defaults.setUsername(value: "jk")
+            if let userID = user?.uid, let name = user?.displayName {
+
+                defaults.setUID(value: userID)
+                defaults.setName(value: name)
+                
+            }
             
+            // TODO: Prompt username screen, not home screen.
             self.changeRootVC(vc: .login)
+            
         })
         
         googleLoginButton.isUserInteractionEnabled = true
@@ -199,7 +200,6 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
 extension LoginHome: FBSDKLoginButtonDelegate {
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
         
         let accessToken = FBSDKAccessToken.current()
         guard let accessTokenString = accessToken?.tokenString else { return }
@@ -225,13 +225,14 @@ extension LoginHome: FBSDKLoginButtonDelegate {
                 return
             }
             
-            print("Successfully logged in with our user: ", user ?? "")
-            guard let user = user else {
-                return
+            if let userID = user?.uid, let name = user?.displayName {
+                
+                defaults.setUID(value: userID)
+                defaults.setName(value: name)
+                
             }
             
-            defaults.setLogin(value: true)
-            defaults.setUID(value: user.uid)
+            // TODO: Prompt username screen, not home screen.
             self.changeRootVC(vc: .login)
             
         })
@@ -249,7 +250,6 @@ extension LoginHome: FBSDKLoginButtonDelegate {
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         print("Logged out of Facebook")
-        
     }
     
 }

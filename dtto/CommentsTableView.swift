@@ -17,7 +17,9 @@ class CommentsTableView: UITableViewCell {
     var comments = [Comment]() {
         didSet {
             tableView.reloadData()
-            setupFooterView()
+            if comments.count > 2 {
+                setupFooterView()
+            }
         }
     }
     
@@ -50,8 +52,6 @@ class CommentsTableView: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
-        setupFooterView()
-
     }
     
     required init?(coder aDecoder: NSCoder) {

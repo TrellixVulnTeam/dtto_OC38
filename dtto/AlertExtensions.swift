@@ -12,6 +12,8 @@ private let NOTIFICATIONS_MESSAGE = "You will be notified when someone wants to 
 private let PREVIOUSLYDECLINED_TITLE = "Wait!"
 private let PREVIOUSLYDECLINED_MESSAGE = "It seems that you previously declined notifications. To allow them, you need to go to your settings and enable notifications for dtto."
 
+import Firebase
+
 extension UIViewController {
     
     func askNotifications() {
@@ -20,7 +22,13 @@ extension UIViewController {
         let ac = UIAlertController(title: NOTIFICATIONS_TITLE, message: NOTIFICATIONS_MESSAGE, preferredStyle: .alert)
         ac.view.tintColor = Color.darkNavy
         
-        let cancelAction = UIAlertAction(title: "No", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action in
+            
+            FIRAnalytics.logEvent(withName: "PushNotificationPrompt", parameters: [
+                    kFIRParameterItemName: "Declined" as NSObject,
+                ])
+        })
+
         cancelAction.setValue(UIColor.red, forKey: "titleTextColor")
         
         ac.addAction(cancelAction)
@@ -28,6 +36,9 @@ extension UIViewController {
         let allowAction = UIAlertAction(title: "Yes", style: .default, handler: { action in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             appDelegate.requestNotifications()
+            FIRAnalytics.logEvent(withName: "PushNotificationPrompt", parameters: [
+                    kFIRParameterItemName: "Accepted" as NSObject,
+                ])
         })
         
         ac.addAction(allowAction)

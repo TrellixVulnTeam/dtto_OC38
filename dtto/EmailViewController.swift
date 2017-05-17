@@ -50,14 +50,13 @@ class EmailViewController: FormViewController {
         spinner.startAnimating()
         if let email = textField.text {
             
-            let escapedEmail = email.lowercased().addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!.replacingOccurrences(of: ".", with: "%2E")
-            print(email)
-            print(escapedEmail)
-//            email = email.lowercased().replacingOccurrences(of: ".", with: ",")
-            let ref = FIREBASE_REF.child("userEmails")
+            let escapedEmail = email.lowercased().replacingOccurrences(of: ".", with: ",")
 
-            ref.child(escapedEmail).observeSingleEvent(of: .value, with: { snapshot in
-//            ref.queryEqual(toValue: email).queryOrderedByValue().observeSingleEvent(of: .value, with: { snapshot in
+            FIREBASE_REF.child("userEmails").child("OI").observe(.value, with: { snapshot in
+                print("WEFWEF")
+            })
+            
+            FIREBASE_REF.child("userEmails").child(escapedEmail).observeSingleEvent(of: .value, with: { snapshot in
 
                 if snapshot.exists() {
                     print("email already exists.")

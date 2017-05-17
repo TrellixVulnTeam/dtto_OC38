@@ -10,8 +10,30 @@ import UIKit
 
 class NotificationsPage: BaseCollectionViewCell {
     
-    var notifications = [UserNotification]()
+    var notifications = [UserNotification]() {
+        didSet {
+            if notifications.count > 0 {
+                tipLabel.alpha = 0
+                tableView.fadeIn()
+            }
+            else {
+                tableView.fadeOut()
+                tipLabel.fadeIn()
+            }
+        }
+    }
     var initialLoad = true
+    
+    let tipLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Color.textGray
+        label.textAlignment = .center
+        label.text = "Start posting to receive notifications."
+        label.minimumScaleFactor = 0.7
+        label.numberOfLines = 0
+        label.alpha = 0
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,6 +53,10 @@ class NotificationsPage: BaseCollectionViewCell {
         tableView.separatorStyle = .singleLine
         
         tableView.register(NotificationsCell.self, forCellReuseIdentifier: "NotificationsCell")
+        
+        addSubview(tipLabel)
+        
+        tipLabel.anchorCenterSuperview()
 
     }
     
@@ -47,23 +73,28 @@ extension NotificationsPage: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell") as! NotificationsCell
         
-        let boldFont = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 15)]
+        let boldFont = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 14)]
         let boldString = NSMutableAttributedString(string: notification.getSenderName(), attributes:boldFont)
         
-        let normalFont = [NSFontAttributeName : UIFont.systemFont(ofSize: 15)]
+        let normalFont = [NSFontAttributeName : UIFont.systemFont(ofSize: 14)]
         
-        let suffixText: NSMutableAttributedString
+        let notificationText: NSMutableAttributedString
         
         switch notification.getNotificationType() {
             
         case .relate:
-            suffixText = NSMutableAttributedString(string: " relates to your post.", attributes: normalFont)
+            notificationText = NSMutableAttributedString(string: " relates to your post. ", attributes: normalFont)
+        case .comment:
+            notificationText = NSMutableAttributedString(string: " commented on your post. ", attributes: normalFont)
         case .resolve:
-            suffixText = NSMutableAttributedString(string: " endorsed you.", attributes: normalFont)
+            notificationText = NSMutableAttributedString(string: " endorsed you. ", attributes: normalFont)
             
         }
         
-        boldString.append(suffixText)
+        let timestampText = NSMutableAttributedString(string: (notification.getTimestamp()?.timeAgoSinceDate(numericDates: true))!, attributes: [NSFontAttributeName : UIFont.systemFont(ofSize: 13), NSForegroundColorAttributeName : UIColor.lightGray])
+
+        boldString.append(notificationText)
+        boldString.append(timestampText)
         
         cell.notificationLabel.attributedText = boldString
         
@@ -75,7 +106,7 @@ extension NotificationsPage: UITableViewDelegate, UITableViewDataSource {
         // Look up the notification type, and push the correct view
         let notification = notifications[indexPath.row]
         switch notification.getNotificationType() {
-        case .relate:
+        case .relate, .comment:
             // TODO: Push the specific post screen.
             guard let postID = notification.getPostID() else { return }
             let vc = PostViewController(postID)

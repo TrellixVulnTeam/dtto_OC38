@@ -92,14 +92,13 @@ class UsernameViewController: FormViewController {
             }
         }
         
-        let userRef = USERS_REF.child(user.uid)
+        let userRef = PROFILES_REF.child(user.uid)
         
         var userData = [String : Any]()
         
         // Setup user's personal info
-        if let name = self.user.name, let email = self.user.email, let username = self.user.username {
+        if let name = self.user.name, let username = self.user.username {
             userData.updateValue(name, forKey: "name")
-            userData.updateValue(email, forKey: "email")
             userData.updateValue(username, forKey: "username")
         }
         

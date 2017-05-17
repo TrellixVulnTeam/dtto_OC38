@@ -24,15 +24,12 @@ class PostButtonsCell: BaseTableViewCell {
             case .normal:
                 chatButton.setTitle("Request Chat", for: .normal)
                 chatButton.setImage(#imageLiteral(resourceName: "chatNormal"), for: .normal)
-                print("NORMAL")
             case .requested:
                 chatButton.setTitle("Chat Requested!", for: .normal)
                 chatButton.setImage(#imageLiteral(resourceName: "chatSelected"), for: .normal)
-                print("REQUESTED")
             case .ongoing:
                 chatButton.setTitle("Chat Ongoing", for: .normal)
                 chatButton.setImage(#imageLiteral(resourceName: "chatSelected"), for: .normal)
-                print("ONGOING")
             }
         }
     }

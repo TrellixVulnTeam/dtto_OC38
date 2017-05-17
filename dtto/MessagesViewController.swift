@@ -135,7 +135,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
                 chatResolvedRef.setValue(true)
                 
                 let userRef = USERS_REF.child(userID)
-                let helperRef = USERS_REF.child(helperID)
+//                let helperRef = USERS_REF.child(helperID)
                 let helperProfileRef = PROFILES_REF.child(helperID)
                 
                 let dataRequest = FirebaseService.dataRequest
