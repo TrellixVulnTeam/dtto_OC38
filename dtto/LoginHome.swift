@@ -177,30 +177,42 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
                 return
             }
             
-            if let userID = user?.uid {
+            if let user = user {
+                
+                let userID = user.uid
                 defaults.setUID(value: userID)
                 
                 // upload token.
                 if let fcmToken = InstanceID.instanceID().token() {
                     USERS_REF.child(userID).child("notificationTokens").child(fcmToken).setValue(true)
                 }
+                
+                if let name = user.displayName {
+                    defaults.setName(value: name)
+                }
+                
+                // TODO: Check if new or returning user.
+                // see if user created username.
+                
+                PROFILES_REF.child(userID).child("username").observeSingleEvent(of: .value, with: { snapshot in
+                    
+                    if snapshot.exists() {
+                        self.changeRootVC(vc: .login)
+                    }
+                    else {
+                        // TODO: Prompt username screen, not home screen.
+
+                    }
+                    
+                })
+                
             }
-            
-            // Check if new or returning user.
-            if let name = user?.displayName {
-                defaults.setName(value: name)
-            }
-          
-            
-            // TODO: Prompt username screen, not home screen.
-            self.changeRootVC(vc: .login)
             
         })
         
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        
         self.changeRootVC(vc: .logout)
     }
 
@@ -235,12 +247,69 @@ extension LoginHome: FBSDKLoginButtonDelegate {
                 return
             }
             
-            if let userID = user?.uid, let name = user?.displayName {
+            if let user = user {
                 
-                defaults.setUID(value: userID)
-                defaults.setName(value: name)
+                defaults.setUID(value: user.uid)
+                if let name = user.displayName {
+                    defaults.setName(value: name)
+                }
                 
+                // upload token.
+                if let fcmToken = InstanceID.instanceID().token() {
+                    USERS_REF.child(user.uid).child("notificationTokens").child(fcmToken).setValue(true)
+                }
+                
+                let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture.type(large)"])
+                
+                let _ = request?.start(completionHandler: { (connection, result, error) in
+                    
+                    guard let userInfo = result as? [String: Any] else { return } //handle the error
+                    
+                    if let imageURL = ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String, let url = URL(string: imageURL) {
+                        
+                        //Download image from imageURL
+                        let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+                            if error != nil {
+                            }
+                            
+                            if let data = data {
+                                // upload to firebase storage.
+                                
+                                let profileImageRef = STORAGE_REF.child("users").child(user.uid).child("profile.jpg")
+                                
+                                profileImageRef.putData(NSData(data: data) as Data, metadata: nil) { metadata, error in
+                                    if (error != nil) {
+                                        
+                                    } else {
+                                        // successfully uploaded to user/profile.jpg
+                                        profileImageRef.downloadURL { url, error in
+                                            if let _ = error {
+                                                // Handle any errors
+                                            } else {
+                                                let changeRequest = user.createProfileChangeRequest()
+                                                changeRequest.photoURL = url
+                                                changeRequest.commitChanges { error in
+                                                    if let _ = error {
+                                                        print("could not set user's profile")
+                                                    } else {
+                                                        print("user's profile updated")
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                                
+                            }
+                            
+                        })
+                        task.resume()
+                    }
+                })
             }
+                
             
             // TODO: Prompt username screen, not home screen.
             self.changeRootVC(vc: .login)
