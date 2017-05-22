@@ -13,7 +13,8 @@ target 'dtto' do
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
   pod 'Firebase/DynamicLinks'
-
+  pod 'Firebase/Performance'
+  pod 'Firebase/Crash'
   pod 'GooglePlaces'
   # Social Login
   pod 'Google/SignIn'

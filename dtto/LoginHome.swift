@@ -225,6 +225,16 @@ extension LoginHome: FBSDKLoginButtonDelegate {
                 return
             }
             
+            let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture.type(large)"])
+            let _ = request?.start(completionHandler: { (connection, result, error) in
+                guard let userInfo = result as? [String: Any] else { return } //handle the error
+                
+                //The url is nested 3 layers deep into the result so it's pretty messy
+                if let imageURL = ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String {
+                    //Download image from imageURL
+                }
+            })
+            
             if let userID = user?.uid, let name = user?.displayName {
                 
                 defaults.setUID(value: userID)

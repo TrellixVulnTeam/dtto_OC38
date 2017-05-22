@@ -187,7 +187,7 @@ class CommentsViewController: SLKTextViewController, CommentProtocol {
     func fetchMoreComments() {
         
         guard let lastCommentKey = comments.first?.getCommentID() else { return }
-        print(lastCommentKey)
+
         if commentsDictionary.count < commentsTotalCount {
             let postCommentsRef = COMMENTS_REF.child(post.getPostID())
             

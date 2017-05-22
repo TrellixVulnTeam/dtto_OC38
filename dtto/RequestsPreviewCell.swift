@@ -50,7 +50,9 @@ class RequestsPreviewCell: BaseTableViewCell {
     
     override func setupViews() {
         super.setupViews()
+        
         getRequestsCount()
+        
         backgroundColor = .white
         badge.badgeBackgroundColor = .red
         badge.badgeTextColor = .white
