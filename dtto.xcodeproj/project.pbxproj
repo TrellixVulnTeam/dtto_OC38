@@ -89,7 +89,6 @@
 		04AFA6FE1EBD84DE00037AAA /* CommentsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA6FD1EBD84DE00037AAA /* CommentsTableView.swift */; };
 		04AFA7001EBD862D00037AAA /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA6FF1EBD862D00037AAA /* CommentCell.swift */; };
 		04AFA7021EBD8D2A00037AAA /* CommentInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA7011EBD8D2A00037AAA /* CommentInputContainerView.swift */; };
-		04AFA7041EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AFA7031EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift */; };
 		04B159E91DDFFBE200B6C74C /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B159E81DDFFBE200B6C74C /* FirebaseService.swift */; };
 		04B29A5F1E35B57000347821 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B29A5E1E35B57000347821 /* SettingsViewController.swift */; };
 		04B3CDE81EC1744A00A92417 /* LoadPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CDE71EC1744A00A92417 /* LoadPostViewController.swift */; };
@@ -247,7 +246,6 @@
 		04AFA6FD1EBD84DE00037AAA /* CommentsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsTableView.swift; sourceTree = "<group>"; };
 		04AFA6FF1EBD862D00037AAA /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		04AFA7011EBD8D2A00037AAA /* CommentInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentInputContainerView.swift; sourceTree = "<group>"; };
-		04AFA7031EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewMoreCommentsFooterView.swift; sourceTree = "<group>"; };
 		04B159E81DDFFBE200B6C74C /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		04B29A5E1E35B57000347821 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		04B3CDE71EC1744A00A92417 /* LoadPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadPostViewController.swift; sourceTree = "<group>"; };
@@ -281,7 +279,6 @@
 		04F6EFBD1E0B6C1D0055015F /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		04F9BB1F1E358D6700724549 /* EditUserImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserImageCell.swift; sourceTree = "<group>"; };
 		04F9BB211E3594FC00724549 /* EditUserSummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserSummaryCell.swift; sourceTree = "<group>"; };
-		04FAE7A11DE296650074CA39 /* dtto-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dtto-Bridging-Header.h"; sourceTree = "<group>"; };
 		04FC41121E30559C00F59132 /* EditUserInfoSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserInfoSearchCell.swift; sourceTree = "<group>"; };
 		064C333CAB0646AC1F08ED66 /* Pods_Bounce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bounce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C26BB6A592EA727E6A2DC6D /* Pods-dttoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dttoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-dttoTests/Pods-dttoTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -374,7 +371,6 @@
 				04045C301DDFA010002BBD07 /* Info.plist */,
 				0415FD301E97681B00345EBA /* GoogleService-Info.plist */,
 				0453572D1DE2E8BF006668BF /* FontAwesome.otf */,
-				04FAE7A11DE296650074CA39 /* dtto-Bridging-Header.h */,
 			);
 			path = dtto;
 			sourceTree = "<group>";
@@ -510,7 +506,6 @@
 				043CA73E1EBAC69800C8BF41 /* PostViewController.swift */,
 				04AFA6FD1EBD84DE00037AAA /* CommentsTableView.swift */,
 				04AFA6FF1EBD862D00037AAA /* CommentCell.swift */,
-				04AFA7031EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift */,
 				04AFA7011EBD8D2A00037AAA /* CommentInputContainerView.swift */,
 				041AAEC01EC4263800F39496 /* CommentsViewController.swift */,
 				04B3CDE71EC1744A00A92417 /* LoadPostViewController.swift */,
@@ -1000,7 +995,6 @@
 				04BBE56D1E13698800D4559E /* ProfileInfoCell.swift in Sources */,
 				04EA04841E121D3600B0A984 /* ProfileSummaryCell.swift in Sources */,
 				0457304D1E91A771001A2268 /* ToggleCell.swift in Sources */,
-				04AFA7041EBDAAC900037AAA /* ViewMoreCommentsFooterView.swift in Sources */,
 				0413AB9A1E22C40B00C7198C /* LoginHeaderView.swift in Sources */,
 				04E459BF1DE15C3D006003DF /* LoginHome.swift in Sources */,
 				04A6C7D71DDFB154004EFE14 /* GlobalConstants.swift in Sources */,
@@ -1205,7 +1199,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "dtto/dtto-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1230,7 +1224,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "dtto/dtto-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

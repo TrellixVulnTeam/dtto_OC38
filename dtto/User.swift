@@ -28,7 +28,7 @@ class User: NSObject {
     var relatesReceivedCount: Int
     
     
-    init?(snapshot: FIRDataSnapshot) {
+    init?(snapshot: DataSnapshot) {
     
         self.uid = snapshot.key
         guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return nil }

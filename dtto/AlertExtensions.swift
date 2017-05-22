@@ -36,8 +36,8 @@ extension UIViewController {
         
         let cancelAction = UIAlertAction(title: "No", style: .default, handler: { action in
             
-            FIRAnalytics.logEvent(withName: "PushNotificationPrompt", parameters: [
-                    kFIRParameterItemName: "Declined" as NSObject,
+            Analytics.logEvent("PushNotificationPrompt", parameters: [
+                    AnalyticsParameterItemName: "Declined" as NSObject,
                 ])
         })
 
@@ -48,8 +48,8 @@ extension UIViewController {
         let allowAction = UIAlertAction(title: "Yes", style: .default, handler: { action in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             appDelegate.requestNotifications()
-            FIRAnalytics.logEvent(withName: "PushNotificationPrompt", parameters: [
-                    kFIRParameterItemName: "Accepted" as NSObject,
+            Analytics.logEvent("PushNotificationPrompt", parameters: [
+                    AnalyticsParameterItemName: "Accepted" as NSObject,
                 ])
         })
         

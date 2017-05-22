@@ -13,7 +13,7 @@ class RelatersViewController: UIViewController {
 
     var postID: String
     var relaters = [Relater]()
-    var relatersRef: FIRDatabaseReference
+    var relatersRef: DatabaseReference
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)

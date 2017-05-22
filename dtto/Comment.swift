@@ -21,9 +21,9 @@ class Comment {
     var profileImageURL: String?
     var replies: [Comment]?
     
-    var commentRef: FIRDatabaseReference
+    var commentRef: DatabaseReference
     
-    init?(snapshot: FIRDataSnapshot) {
+    init?(snapshot: DataSnapshot) {
         
         self.commentID = snapshot.key
         commentRef = snapshot.ref
@@ -42,9 +42,9 @@ class Comment {
         }
         // check if there are replies to this comment
         
-        if let replies = dictionary["replies"] as? [String: AnyObject] {
-            // append each reply to this array.
-        }
+//        if let replies = dictionary["replies"] as? [String: AnyObject] {
+//            // append each reply to this array.
+//        }
 
     }
     
@@ -76,7 +76,7 @@ class Comment {
         return replies
     }
     
-    func getCommentRef() -> FIRDatabaseReference {
+    func getCommentRef() -> DatabaseReference {
         return commentRef
     }
 

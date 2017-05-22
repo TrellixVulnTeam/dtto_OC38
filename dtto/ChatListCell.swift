@@ -74,14 +74,14 @@ class ChatListCell: BaseTableViewCell {
     private func setupNameAndProfileImage() {
         let chatPartnerId: String?
         
-        if chat?.posterID == FIRAuth.auth()?.currentUser?.uid {
+        if chat?.posterID == Auth.auth().currentUser?.uid {
             chatPartnerId = chat?.helperID
         } else {
             chatPartnerId = chat?.posterID
         }
         
         if let id = chatPartnerId {
-            let ref = FIRDatabase.database().reference().child("users").child(id)
+            let ref = Database.database().reference().child("users").child(id)
             
             ref.observeSingleEvent(of: .value, with: { snapshot in
                 if let dictionary = snapshot.value as? [String: AnyObject] {

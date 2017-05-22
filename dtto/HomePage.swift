@@ -337,9 +337,9 @@ class HomePage: BaseCollectionViewCell, PostProtocol {
 
             })
             
-            if !defaults.getShowedNotification() {
-                masterViewDelegate?.askNotifications()
-            }
+//            if !defaults.getShowedNotification() {
+//                masterViewDelegate?.askNotifications()
+//            }
             
         case .requested:
 

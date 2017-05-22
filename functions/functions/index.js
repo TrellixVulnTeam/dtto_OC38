@@ -123,10 +123,7 @@ exports.sendChatRequestNotification = functions.database.ref('/requests/{posterI
   const posterID = event.params.posterID;
   const senderID = snapshot.val().senderID;
 
-  console.log(`${senderID} sent a chat request to ${posterID}.`);
 // only send notification if this is the first request and poster did not ignore this user.
-console.log(snapshot.val().pending);
-console.log(snapshot.val().senderName);
 
   if (snapshot.val().pending) {
 
@@ -139,7 +136,6 @@ console.log(snapshot.val().senderName);
           "type" : "request"
         }
       };
-      console.log(payload);
       sendNotification(posterID, senderID, payload);
     }
 

@@ -63,7 +63,7 @@ class AccountViewController: UIViewController, UITableViewDelegate {
     private func observeUser() {
         print("GETTING USER INFO...")
         
-        guard let userID = FIRAuth.auth()?.currentUser?.uid else { return }
+        guard let userID = Auth.auth().currentUser?.uid else { return }
         let userRef = FIREBASE_REF.child("users/\(userID)")
         userRef.observeSingleEvent(of: .value, with: { snapshot in
             

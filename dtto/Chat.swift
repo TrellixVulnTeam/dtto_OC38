@@ -21,7 +21,7 @@ class Chat {
     let helperID: String
     let posterID: String
     
-    init?(snapshot: FIRDataSnapshot) {
+    init?(snapshot: DataSnapshot) {
         
         chatID = snapshot.key
 

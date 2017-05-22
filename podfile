@@ -17,7 +17,7 @@ target 'dtto' do
   pod 'Firebase/Crash'
   pod 'GooglePlaces'
   # Social Login
-  pod 'Google/SignIn'
+  pod 'GoogleSignIn'
   pod 'FBSDKLoginKit'
 
   # Useful Libraries

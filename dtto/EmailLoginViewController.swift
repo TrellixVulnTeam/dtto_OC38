@@ -128,23 +128,23 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
             
             self.animateUserLogin()
             
-            FIRAuth.auth()?.signIn(withEmail: email, password: password) { (user, error) in
+            Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
                 
                 if error != nil {
                     
-                    if let errorCode = FIRAuthErrorCode(rawValue: error!._code) {
+                    if let errorCode = AuthErrorCode(rawValue: error!._code) {
                         
                         var errorText = ""
                         
                         switch errorCode {
                             
-                        case .errorCodeUserNotFound:
+                        case .userNotFound:
                             errorText = "Sorry, we couldn't find an account with that email."
                             
-                        case .errorCodeInvalidEmail:
+                        case .invalidEmail:
                             errorText = "Please enter a valid email"
                             
-                        case .errorCodeWrongPassword:
+                        case .wrongPassword:
                             errorText = "The password you've entered is incorrect."
                             
                         default:
@@ -158,10 +158,10 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
                 else {
-                    guard let user = FIRAuth.auth()?.currentUser else { return }
+                    guard let user = Auth.auth().currentUser else { return }
                     defaults.setUID(value: user.uid)
                     defaults.setLogin(value: true)
-                    if let refreshedToken = FIRInstanceID.instanceID().token() {
+                    if let refreshedToken = InstanceID.instanceID().token() {
                         USERS_REF.child(user.uid).child("notificationTokens").child(refreshedToken).setValue(true)
 
                     }
@@ -203,7 +203,7 @@ class EmailLoginViewController: UIViewController, UIGestureRecognizerDelegate {
             let textField = ac.textFields![0] as UITextField
             if let email = textField.text {
                 if email.isEmail {
-                    FIRAuth.auth()?.sendPasswordReset(withEmail: email, completion: nil)
+                    Auth.auth().sendPasswordReset(withEmail: email, completion: nil)
                 }
             }
         })

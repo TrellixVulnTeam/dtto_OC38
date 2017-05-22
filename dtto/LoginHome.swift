@@ -8,6 +8,7 @@
 
 import UIKit
 import SkyFloatingLabelTextField
+import GoogleSignIn
 import FBSDKLoginKit
 import Firebase
 import NVActivityIndicatorView
@@ -100,6 +101,7 @@ class LoginHome: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
         facebookLoginButton.delegate = self
@@ -164,29 +166,37 @@ extension LoginHome: GIDSignInDelegate, GIDSignInUIDelegate {
         animateUserLogin()
         print("Successfully logged into Google", user)
         
-        guard let idToken = user.authentication.idToken else { return }
-        guard let accessToken = user.authentication.accessToken else { return }
-        let credentials = FIRGoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+        guard let idToken = user.authentication.idToken, let accessToken = user.authentication.accessToken else { return }
+
+        let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
         
-        FIRAuth.auth()?.signIn(with: credentials, completion: { (user, error) in
+        Auth.auth().signIn(with: credentials, completion: { (user, error) in
+            
             if let err = error {
                 print("Failed to create a Firebase User with Google account: ", err)
                 return
             }
             
-            if let userID = user?.uid, let name = user?.displayName {
-
+            if let userID = user?.uid {
                 defaults.setUID(value: userID)
-                defaults.setName(value: name)
                 
+                // upload token.
+                if let fcmToken = InstanceID.instanceID().token() {
+                    USERS_REF.child(userID).child("notificationTokens").child(fcmToken).setValue(true)
+                }
             }
+            
+            // Check if new or returning user.
+            if let name = user?.displayName {
+                defaults.setName(value: name)
+            }
+          
             
             // TODO: Prompt username screen, not home screen.
             self.changeRootVC(vc: .login)
             
         })
         
-        googleLoginButton.isUserInteractionEnabled = true
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
@@ -204,18 +214,18 @@ extension LoginHome: FBSDKLoginButtonDelegate {
         let accessToken = FBSDKAccessToken.current()
         guard let accessTokenString = accessToken?.tokenString else { return }
         
-        let credentials = FIRFacebookAuthProvider.credential(withAccessToken: accessTokenString)
+        let credentials = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
         
         // check if user logged in with another provider
         
         
-        FIRAuth.auth()?.signIn(with: credentials, completion: { (user, error) in
+        Auth.auth().signIn(with: credentials, completion: { (user, error) in
             if error != nil {
                 print("Something went wrong with our FB user: ", error ?? "")
-                if let errorCode = FIRAuthErrorCode(rawValue: error!._code) {
+                if let errorCode = AuthErrorCode(rawValue: error!._code) {
                     
                     switch errorCode {
-                    case .errorCodeEmailAlreadyInUse:
+                    case .emailAlreadyInUse:
                         break
                     default:
                         print("this error needs to be fixed")
@@ -224,16 +234,6 @@ extension LoginHome: FBSDKLoginButtonDelegate {
                 }
                 return
             }
-            
-            let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture.type(large)"])
-            let _ = request?.start(completionHandler: { (connection, result, error) in
-                guard let userInfo = result as? [String: Any] else { return } //handle the error
-                
-                //The url is nested 3 layers deep into the result so it's pretty messy
-                if let imageURL = ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String {
-                    //Download image from imageURL
-                }
-            })
             
             if let userID = user?.uid, let name = user?.displayName {
                 

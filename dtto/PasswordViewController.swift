@@ -95,21 +95,21 @@ class PasswordViewController: FormViewController {
             else {
                 spinner.startAnimating()
                 nextButton.setTitle("", for: UIControlState())
-                FIRAuth.auth()?.createUser(withEmail: email, password: password) { (user, error) in
+                Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
                     
                     if error != nil {
                         
                         
-                        if let errorCode = FIRAuthErrorCode(rawValue: error!._code) {
+                        if let errorCode = AuthErrorCode(rawValue: error!._code) {
                             switch errorCode {
                                 
-                            case .errorCodeEmailAlreadyInUse:
+                            case .emailAlreadyInUse:
                                 errorText = "Email is already in use."
                                 
-                            case .errorCodeInvalidEmail:
+                            case .invalidEmail:
                                 errorText = "Email is invalid."
                                 
-                            case .errorCodeWeakPassword:
+                            case .weakPassword:
                                 errorText = "Password is too weak."
                                 
                             default:
@@ -127,7 +127,7 @@ class PasswordViewController: FormViewController {
                         
                         defaults.setUID(value: user.uid)
                         
-                        if let token = FIRInstanceID.instanceID().token() {
+                        if let token = InstanceID.instanceID().token() {
                             USERS_REF.child(user.uid).child("notificationTokens").child(token).setValue(true)
                         }
 //                        self.user.email = email

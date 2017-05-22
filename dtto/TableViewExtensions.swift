@@ -6,6 +6,8 @@
 //  Copyright © 2017 Jitae Kim. All rights reserved.
 //
 
+import UIKit
+
 extension UITableView {
     
     func insertIndexPathAt(index: Int) {

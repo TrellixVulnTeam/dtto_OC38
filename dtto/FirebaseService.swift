@@ -15,29 +15,29 @@ class FirebaseService {
     
     static let dataRequest = FirebaseService()
 
-    func incrementCount(ref: FIRDatabaseReference) {
+    func incrementCount(ref: DatabaseReference) {
         
-        ref.runTransactionBlock({ data -> FIRTransactionResult in
+        ref.runTransactionBlock({ data -> TransactionResult in
             
             if let chatCount = data.value as? Int {
                 data.value = chatCount + 1
             }
-            return FIRTransactionResult.success(withValue: data)
+            return TransactionResult.success(withValue: data)
             
         })
         
     }
     
-    func decrementCount(ref: FIRDatabaseReference) {
-        
-        ref.runTransactionBlock({ data -> FIRTransactionResult in
+    func decrementCount(ref: DatabaseReference) {
+    
+        ref.runTransactionBlock({ data -> TransactionResult in
             
             if let chatCount = data.value as? Int {
                 if chatCount > 0 {
                     data.value = chatCount - 1
                 }
             }
-            return FIRTransactionResult.success(withValue: data)
+            return TransactionResult.success(withValue: data)
             
         })
         

@@ -80,9 +80,9 @@ class UsernameViewController: FormViewController {
     // Create initial user data
     func updateUser() {
         
-        guard let user = FIRAuth.auth()?.currentUser else { return }
+        guard let user = Auth.auth().currentUser else { return }
         
-        let changeRequest = user.profileChangeRequest()
+        let changeRequest = user.createProfileChangeRequest()
         changeRequest.displayName = self.user.name!
         changeRequest.commitChanges { error in
             if let _ = error {

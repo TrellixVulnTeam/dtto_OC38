@@ -26,7 +26,7 @@ class UserNotification {
     var chatID: String?
     var notificationType: NotificationType
     
-    init?(snapshot: FIRDataSnapshot) {
+    init?(snapshot: DataSnapshot) {
         
         autoID = snapshot.key
         

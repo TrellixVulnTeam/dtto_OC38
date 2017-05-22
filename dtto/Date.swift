@@ -6,6 +6,8 @@
 //  Copyright © 2016 Jitae Kim. All rights reserved.
 //
 
+import Foundation
+
 extension Date {
     /// Returns the amount of years from another date
     func stringToDate(date: String) -> Date? {

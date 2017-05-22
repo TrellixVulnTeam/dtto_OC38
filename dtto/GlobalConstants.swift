@@ -12,8 +12,8 @@ let defaults = UserDefaults.standard
 
 
 // Firebase
-let FIREBASE_REF = FIRDatabase.database().reference()
-let STORAGE_REF = FIRStorage.storage().reference()
+let FIREBASE_REF = Database.database().reference()
+let STORAGE_REF = Storage.storage().reference()
 let POSTS_REF = FIREBASE_REF.child("posts")
 let CHATS_REF = FIREBASE_REF.child("chats")
 let USERS_REF = FIREBASE_REF.child("users")

@@ -59,7 +59,7 @@ class RegisterStripeViewController: UIViewController {
 
     func accept() {
         // open webview
-        if let email = FIRAuth.auth()?.currentUser?.email {
+        if let email = Auth.auth().currentUser?.email {
             
             if let url = URL(string: "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_9v7wtoubqFxBizTVcgtjD52ByeOsUzuQ&scope=read_write&stripe_user[email]=\(email)") {
                 let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)

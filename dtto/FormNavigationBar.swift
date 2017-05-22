@@ -6,6 +6,9 @@
 //  Copyright © 2017 Jitae Kim. All rights reserved.
 //
 
+import UIKit
+import Foundation
+
 @objc protocol FormNavigationBar: class {
     
     func save()

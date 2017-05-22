@@ -16,7 +16,7 @@ class Relater {
     let name: String
     let timestamp: Date
     
-    init?(snapshot: FIRDataSnapshot) {
+    init?(snapshot: DataSnapshot) {
         
         guard let dictionary = snapshot.value as? [String:Any] else { return nil }
         

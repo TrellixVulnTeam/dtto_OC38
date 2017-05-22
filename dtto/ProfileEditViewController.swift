@@ -486,7 +486,7 @@ extension ProfileEditViewController: UINavigationControllerDelegate, UIImagePick
         
         if let uploadData = UIImageJPEGRepresentation(image, 0.1) {
             
-            storageRef.put(uploadData, metadata: nil, completion: { (metadata, error) in
+            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
                 
                 if error != nil {
 //                    print(error)
@@ -554,8 +554,6 @@ extension ProfileEditViewController: GMSAutocompleteViewControllerDelegate {
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         print("Place name: \(place.name)")
-        print("Place address: \(place.formattedAddress)")
-        print("Place attributions: \(place.attributions)")
         
         addTableViewCell(infoType: .education, placeName: place.name)
         

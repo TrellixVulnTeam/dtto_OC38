@@ -19,9 +19,9 @@ protocol PaymentConfirmationProtocol : class {
 final class MessagesViewController: JSQMessagesViewController, PaymentConfirmationProtocol {
 
     var chat: Chat
-    var messagesRef: FIRDatabaseReference
-    var chatsRef: FIRDatabaseReference
-    var storageRef: FIRStorageReference
+    var messagesRef: DatabaseReference
+    var chatsRef: DatabaseReference
+    var storageRef: StorageReference
     var profileImage: UIImage?
     var friendID: String?
     
@@ -36,7 +36,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
     
-    private var newMessageRefHandle: FIRDatabaseHandle?
+    private var newMessageRefHandle: DatabaseHandle?
 
     init(chat: Chat) {
         self.chat = chat
@@ -200,7 +200,7 @@ final class MessagesViewController: JSQMessagesViewController, PaymentConfirmati
         guard let userID = defaults.getUID() else { return }
         senderId = userID
         
-        senderDisplayName = FIRAuth.auth()?.currentUser?.displayName ?? "Me"
+        senderDisplayName = Auth.auth().currentUser?.displayName ?? "Me"
         
         let posterID = chat.getPosterID()
         let helperID = chat.getHelperID()
@@ -414,10 +414,10 @@ extension MessagesViewController: UIImagePickerControllerDelegate, UINavigationC
                     let imageFileURL = contentEditingInput?.fullSizeImageURL
                     
                     // 5
-                    let path = "\(FIRAuth.auth()?.currentUser?.uid)/\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(photoReferenceUrl.lastPathComponent)"
+                    let path = "\(String(describing: Auth.auth().currentUser?.uid))/\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(photoReferenceUrl.lastPathComponent)"
                     
                     // 6
-                    self.storageRef.child(path).putFile(imageFileURL!, metadata: nil) { (metadata, error) in
+                    self.storageRef.child(path).putFile(from: imageFileURL!, metadata: nil) { (metadata, error) in
                         if let error = error {
                             print("Error uploading photo: \(error.localizedDescription)")
                             return
@@ -436,12 +436,12 @@ extension MessagesViewController: UIImagePickerControllerDelegate, UINavigationC
                 // 3
                 let imageData = UIImageJPEGRepresentation(image, 1.0)
                 // 4
-                let imagePath = FIRAuth.auth()!.currentUser!.uid + "/\(Int(Date.timeIntervalSinceReferenceDate * 1000)).jpg"
+                let imagePath = Auth.auth().currentUser!.uid + "/\(Int(Date.timeIntervalSinceReferenceDate * 1000)).jpg"
                 // 5
-                let metadata = FIRStorageMetadata()
+                let metadata = StorageMetadata()
                 metadata.contentType = "image/jpeg"
                 // 6
-                storageRef.child(imagePath).put(imageData!, metadata: metadata) { (metadata, error) in
+                storageRef.child(imagePath).putData(imageData!, metadata: metadata) { (metadata, error) in
                     if let error = error {
                         print("Error uploading photo: \(error)")
                         return

@@ -99,9 +99,9 @@ class ProfileViewController: UIViewController {
     func logout() {
         defaults.setValue(nil, forKey: "uid")
         
-        let firebaseAuth = FIRAuth.auth()
+        let firebaseAuth = Auth.auth()
         do {
-            try firebaseAuth?.signOut()
+            try firebaseAuth.signOut()
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }

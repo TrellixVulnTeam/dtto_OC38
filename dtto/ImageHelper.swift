@@ -17,7 +17,7 @@ extension UIImageView {
         let reference = STORAGE_REF.child("users").child(userID).child("profile.jpg")
         
         reference.downloadURL(completion: { url, error in
-            if let error = error {
+            if let _ = error {
                 // Handle any errors
             }
             else {
